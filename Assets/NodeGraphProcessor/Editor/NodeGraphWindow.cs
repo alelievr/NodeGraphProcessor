@@ -28,9 +28,9 @@ public class NodeGraphWindow : EditorWindow
 		var graphProcessorView = new GraphProcessorView();
 
 		graphProcessorView.AddManipulator(new ContentDragger());
+		graphProcessorView.AddManipulator(new SelectionDragger());
 		graphProcessorView.AddManipulator(new RectangleSelector());
 		graphProcessorView.AddManipulator(new ClickSelector());
-		graphProcessorView.AddManipulator(new SelectionDragger());
 
 		for (int i = 0; i < 100; i++)
 		{
@@ -42,7 +42,7 @@ public class NodeGraphWindow : EditorWindow
 			graphProcessorView.AddElement(node);
 		}
 
-		graphProcessorView.SetupZoom(0.1f, 5);
+		graphProcessorView.SetupZoom(0.1f, ContentZoomer.DefaultMaxScale);
 
 		graphProcessorView.StretchToParentSize();
 

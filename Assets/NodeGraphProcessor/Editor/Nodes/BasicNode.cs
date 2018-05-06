@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 public class BasicNode : Node
 {
-	public void Enabled()
+	public void OnEnable()
 	{
 		Debug.Log("INIT !");
 	}

@@ -1,0 +1,3 @@
+[submodule "Assets/ShaderGraph"]
+	path = Assets/ShaderGraph
+	url = https://github.com/Unity-Technologies/ShaderGraph

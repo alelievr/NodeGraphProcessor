@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine.Rendering;
 
-public class BasicNode : Node
+using NodeView = UnityEditor.Experimental.UIElements.GraphView.Node;
+
+public class BasicNodeView : NodeView
 {
-	public void OnEnable()
+	public void Initialize()
 	{
-		Debug.Log("INIT !");
+		SetSize(new Vector2(200, 100));
 	}
 }

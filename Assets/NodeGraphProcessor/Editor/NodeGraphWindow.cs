@@ -7,11 +7,12 @@ using UnityEngine.Experimental.UIElements;
 using UnityEditor.Experimental.UIElements;
 using UnityEditor.Experimental.UIElements.GraphView;
 
+using UnityEditor.ShaderGraph;
+using UnityEditor.ShaderGraph.Drawing;
+
 public class NodeGraphWindow : EditorWindow
 {
 	VisualElement		root;
-
-	BasicNode			node;
 
 	[MenuItem("Window/NodeGraphProcessor")]
 	public static void Open()
@@ -34,19 +35,18 @@ public class NodeGraphWindow : EditorWindow
 
 		for (int i = 0; i < 100; i++)
 		{
-			node = new BasicNode();
-			node.SetSize(new Vector2(200, 100));
-			node.AddManipulator(new Dragger());
-			node.title = "TEST !";
+			var node = new BasicNodeView();
+
+			node.Initialize();
 
 			graphProcessorView.AddElement(node);
+
+			graphProcessorView.zoomerMaxElementCountWithPixelCacheRegen = 10;
 		}
 
-		graphProcessorView.SetupZoom(0.1f, ContentZoomer.DefaultMaxScale);
+		graphProcessorView.SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
 
 		graphProcessorView.StretchToParentSize();
-
-		node.SavePersistentData();
 		
 		root.Add(graphProcessorView);
 	}

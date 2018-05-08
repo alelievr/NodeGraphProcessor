@@ -26,7 +26,7 @@ namespace GraphProcessor
 		{
 			root = this.GetRootVisualContainer();
 	
-			root.AddStyleSheetPath("Styles/Test");
+			root.AddStyleSheetPath("Styles/Graph");
 	
 			var graphProcessorView = new GraphProcessorView();
 	
@@ -36,6 +36,9 @@ namespace GraphProcessor
 			graphProcessorView.AddManipulator(new ClickSelector());
 
             var connectorListener = new EdgeConnectorListener(graphProcessorView);
+
+			var type = NodeProvider.GetNodeViewTypeFromType(typeof(IntNode));
+			Debug.Log("viewType: " + type);
 	
 			for (int i = 0; i < 10; i++)
 			{

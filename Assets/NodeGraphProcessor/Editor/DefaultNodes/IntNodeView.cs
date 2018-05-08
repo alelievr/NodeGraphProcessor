@@ -6,7 +6,7 @@ using UnityEditor.Experimental.UIElements;
 
 namespace GraphProcessor
 {
-	[CustomEditor(typeof(IntNode))]
+	[NodeCustomEditor(typeof(IntNode))]
 	public class IntNodeView : BaseNodeView
 	{
 		public override void Enable()
@@ -17,6 +17,7 @@ namespace GraphProcessor
 
 			intField.value = intNode.output;
 
+
 			intField.OnValueChanged((v) => {
 				Debug.Log("Value: " + v.newValue);
 				Debug.Log("IntNode value: " + intNode.output);
@@ -24,7 +25,10 @@ namespace GraphProcessor
 				Undo.RegisterCompleteObjectUndo(intNode, "Updated IntNode output");
 			});
 
-			contentContainer.Add(intField);
+			Debug.Log("mainContainerName: " + mainContainer.name);
+			Debug.Log("extentionContainerName: " + extensionContainer.name);
+
+			controlsContainer.Add(intField);
 		}
 	}
 }

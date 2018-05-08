@@ -1,0 +1,10 @@
+IntNodeView {
+}
+
+#node {
+    background-color: rgba(63, 63, 63, 0.8);
+}
+
+IntNodeView #controls {
+    background-color: rgba(63, 63, 63, 0.8);
+}

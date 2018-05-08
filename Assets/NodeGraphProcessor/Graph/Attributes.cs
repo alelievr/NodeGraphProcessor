@@ -10,7 +10,7 @@ namespace GraphProcessor
 	{
 		public string		name;
 
-		public InputAttribute(string name = "")
+		public InputAttribute(string name = null)
 		{
 			this.name = name;
 		}
@@ -21,9 +21,20 @@ namespace GraphProcessor
 	{
 		public string		name;
 
-		public OutputAttribute(string name = "")
+		public OutputAttribute(string name = null)
 		{
 			this.name = name;
+		}
+	}
+	
+	[AttributeUsage(AttributeTargets.Class)]
+	public class NodeMenuItemAttribute : Attribute
+	{
+		public string	menuTitle;
+
+		public NodeMenuItemAttribute(string menuTitle = null)
+		{
+			this.menuTitle = menuTitle;
 		}
 	}
 }

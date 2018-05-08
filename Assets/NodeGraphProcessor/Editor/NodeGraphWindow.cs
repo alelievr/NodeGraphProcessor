@@ -39,21 +39,20 @@ namespace GraphProcessor
 	
 			for (int i = 0; i < 10; i++)
 			{
-				var node = new BasicNodeView();
-
-				var slot = new ColorRGBAMaterialSlot();
+				var node = new IntNode();
+				var nodeView = new IntNodeView();
 
 				var inputPort = new PortView(Orientation.Horizontal, Direction.Input, typeof(int), connectorListener);
 				var outputPort = new PortView(Orientation.Horizontal, Direction.Output, typeof(int), connectorListener);
 	
-				node.inputContainer.Add(inputPort);
-				node.outputContainer.Add(outputPort);
+				nodeView.inputContainer.Add(inputPort);
+				nodeView.outputContainer.Add(outputPort);
 	
-				node.Initialize();
+				nodeView.Initialize(node);
 
-				node.SetPosition(new Rect(0, 0, i * 100, 0));
+				nodeView.SetPosition(new Rect(0, 0, i * 100, 0));
 	
-				graphProcessorView.AddElement(node);
+				graphProcessorView.AddElement(nodeView);
 			}
 	
 			graphProcessorView.SetupZoom(0.05f, ContentZoomer.DefaultMaxScale);

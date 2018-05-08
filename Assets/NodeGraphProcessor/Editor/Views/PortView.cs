@@ -23,5 +23,6 @@ namespace GraphProcessor
 
 			//TODO: set the visualClass using the field data type
 		}
+
 	}
 }

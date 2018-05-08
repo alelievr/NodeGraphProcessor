@@ -8,11 +8,11 @@ namespace GraphProcessor
 {
     sealed class EdgeConnectorListener : IEdgeConnectorListener
     {
-        readonly GraphProcessorView m_Graph;
+        // readonly GraphProcessorView m_Graph;
 
         public EdgeConnectorListener(GraphProcessorView graph)
         {
-            m_Graph = graph;
+            // m_Graph = graph;
         }
 
         public void OnDropOutsidePort(Edge edge, Vector2 position)

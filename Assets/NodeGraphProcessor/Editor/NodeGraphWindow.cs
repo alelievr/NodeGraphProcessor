@@ -42,13 +42,16 @@ namespace GraphProcessor
 				var node = new BasicNodeView();
 
 				var slot = new ColorRGBAMaterialSlot();
-	
-				// node.Add(new PortView(Orientation.Horizontal, Direction.Input, typeof(int)));
-				node.Add(ShaderPort.Create(slot, connectorListener));
 
-				node.SetPosition(new Rect(0, 0, i * 100, 0));
+				var inputPort = new PortView(Orientation.Horizontal, Direction.Input, typeof(int), connectorListener);
+				var outputPort = new PortView(Orientation.Horizontal, Direction.Output, typeof(int), connectorListener);
+	
+				node.inputContainer.Add(inputPort);
+				node.outputContainer.Add(outputPort);
 	
 				node.Initialize();
+
+				node.SetPosition(new Rect(0, 0, i * 100, 0));
 	
 				graphProcessorView.AddElement(node);
 			}

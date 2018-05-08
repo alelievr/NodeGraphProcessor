@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Experimental.UIElements.GraphView;
+using UnityEngine.Experimental.UIElements;
 using UnityEngine.Rendering;
 
 using NodeView = UnityEditor.Experimental.UIElements.GraphView.Node;
@@ -10,6 +11,7 @@ public class BasicNodeView : NodeView
 {
 	public void Initialize()
 	{
-		SetSize(new Vector2(200, 100));
+		AddStyleSheetPath("Styles/MaterialNodeView");
+		AddToClassList("MaterialNode");
 	}
 }

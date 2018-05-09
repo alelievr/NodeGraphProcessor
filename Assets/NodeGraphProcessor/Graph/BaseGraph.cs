@@ -32,6 +32,7 @@ namespace GraphProcessor
 
 		public void RegisterCompleteObjectUndo(string name)
 		{
+			Debug.Log("TODO !");
 		}
 
 		public void OnBeforeSerialize()
@@ -45,7 +46,7 @@ namespace GraphProcessor
 		{
 			nodes = JsonUtility.FromJson(serializedNodes, typeof(List< BaseNode >)) as List< BaseNode >;
 
-			Debug.Log("Deserialized nodes: " + nodes);
+			Debug.Log("Deserialized nodes: " + nodes.Count);
 		}
 	}
 }

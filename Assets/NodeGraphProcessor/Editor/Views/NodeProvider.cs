@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
+using UnityEngine.Experimental.UIElements;
 using System.Linq;
 
 namespace GraphProcessor
@@ -49,10 +50,7 @@ namespace GraphProcessor
 			var attrs = type.GetCustomAttributes(typeof(NodeMenuItemAttribute), false) as NodeMenuItemAttribute[];
 
 			if (attrs != null && attrs.Length > 0)
-			{
-				Debug.Log("Node found: " + type);
 				nodePerMenuTitle[attrs.First().menuTitle] = type;
-            }
 		}
 
 		static void	AddNodeViewType(Type type)
@@ -60,10 +58,7 @@ namespace GraphProcessor
 			var attrs = type.GetCustomAttributes(typeof(NodeCustomEditor), false) as NodeCustomEditor[];
 
 			if (attrs != null && attrs.Length > 0)
-			{
-				Debug.Log("Detected custom node editor: " + type);
 				nodeViewPerType[attrs.First().nodeType] = type;
-            }
 		}
 
 		public static Type GetNodeViewTypeFromType(Type nodeType)
@@ -73,6 +68,11 @@ namespace GraphProcessor
 			nodeViewPerType.TryGetValue(nodeType, out view);
 
 			return view;
+		}
+
+		public static Dictionary< string, Type >	GetNodeMenuEntries()
+		{
+			return nodePerMenuTitle;
 		}
 	}
 }

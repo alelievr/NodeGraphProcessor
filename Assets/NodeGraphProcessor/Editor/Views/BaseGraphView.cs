@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Experimental.UIElements;
+using UnityEngine.Experimental.UIElements;
 using UnityEditor.Experimental.UIElements.GraphView;
 using System.Linq;
 using System;
@@ -20,6 +21,12 @@ namespace GraphProcessor
 			serializeGraphElements = SerializeGraphElementsImplementation;
 			canPasteSerializedData = CanPasteSerializedDataImplementation;
 			unserializeAndPaste = UnserializeAndPasteImplementation;
+			
+			InitializeManipulators();
+			
+			SetupZoom(0.05f, ContentZoomer.DefaultMaxScale);
+	
+			this.StretchToParentSize();
 		}
 	
 		protected override bool canCopySelection
@@ -57,22 +64,44 @@ namespace GraphProcessor
 			
             connectorListener = new EdgeConnectorListener(this);
 
+			nodeCreationRequest = CreateNode;
+
 			InitializeNodeViews();
+		}
+
+		void CreateNode(NodeCreationContext context)
+		{
+			Debug.Log("TODO !");
 		}
 
 		void InitializeNodeViews()
 		{
 			foreach (var node in graph.nodes)
-			{
-				var viewType = NodeProvider.GetNodeViewTypeFromType(node.GetType());
+				AddNode(node);
+		}
 
-				if (viewType == null)
-					continue ;
+		protected bool AddNode(BaseNode node)
+		{
+			var viewType = NodeProvider.GetNodeViewTypeFromType(node.GetType());
 
-				var baseNodeView = Activator.CreateInstance(viewType) as BaseNodeView;
+			if (viewType == null)
+				return false;
 
-				baseNodeView.Initialize(this, node);
-			}
+			var baseNodeView = Activator.CreateInstance(viewType) as BaseNodeView;
+
+			baseNodeView.Initialize(this, node);
+
+			AddElement(baseNodeView);
+
+			return true;
+		}
+	
+		protected virtual void InitializeManipulators()
+		{
+			this.AddManipulator(new ContentDragger());
+			this.AddManipulator(new SelectionDragger());
+			this.AddManipulator(new RectangleSelector());
+			this.AddManipulator(new ClickSelector());
 		}
 
 	}

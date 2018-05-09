@@ -17,12 +17,11 @@ namespace GraphProcessor
 
 			intField.value = intNode.output;
 
-
 			intField.OnValueChanged((v) => {
 				Debug.Log("Value: " + v.newValue);
 				Debug.Log("IntNode value: " + intNode.output);
 				intNode.output = (int)v.newValue;
-				Undo.RegisterCompleteObjectUndo(intNode, "Updated IntNode output");
+				owner.graph.RegisterCompleteObjectUndo("Updated IntNode output");
 			});
 
 			Debug.Log("mainContainerName: " + mainContainer.name);

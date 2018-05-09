@@ -13,28 +13,38 @@ namespace GraphProcessor
 	[NodeCustomEditor(typeof(BaseNode))]
 	public class BaseNodeView : NodeView
 	{
-		protected BaseNode	nodeTarget;
+		protected BaseNode		nodeTarget;
+
+		protected BaseGraphView	owner;
 
         protected VisualElement controlsContainer;
 
-		public void Initialize(BaseNode node)
+		public void Initialize(BaseGraphView owner, BaseNode node)
 		{
 			nodeTarget = node;
+			this.owner = owner;
 			
 			AddStyleSheetPath("Styles/BaseNodeView");
-			// AddToClassList("Node");
 			
-            controlsContainer = new VisualElement { name = "controls" };
-            {
-                var m_ControlsDivider = new VisualElement { name = "divider" };
-                m_ControlsDivider.AddToClassList("horizontal");
-                controlsContainer.Add(m_ControlsDivider);
-                var m_ControlItems = new VisualElement { name = "items" };
-                controlsContainer.Add(m_ControlItems);
-            }
+            controlsContainer = new VisualElement{ name = "controls" };
         	mainContainer.Add(controlsContainer);
 
+			InitializePorts();
+
 			Enable();
+		}
+
+		void InitializePorts()
+		{
+			var inputPort = new PortView(Orientation.Horizontal, Direction.Input, typeof(int), owner.connectorListener);
+			var outputPort = new PortView(Orientation.Horizontal, Direction.Output, typeof(int), owner.connectorListener);
+
+			inputContainer.Add(inputPort);
+			outputContainer.Add(outputPort);
+
+			SetPosition(new Rect(0, 0, 100, 100));
+
+			owner.AddElement(this);
 		}
 
 		public virtual void Enable()

@@ -30,15 +30,22 @@ namespace GraphProcessor
 			Debug.Log("TODO !");
         }
 
+		public void RegisterCompleteObjectUndo(string name)
+		{
+		}
+
 		public void OnBeforeSerialize()
 		{
 			serializedNodes = JsonUtility.ToJson(nodes);
-			throw new System.NotImplementedException();
+			
+			Debug.Log("Serialized nodes: " + serializedNodes);
 		}
 
 		public void OnAfterDeserialize()
 		{
-			throw new System.NotImplementedException();
+			nodes = JsonUtility.FromJson(serializedNodes, typeof(List< BaseNode >)) as List< BaseNode >;
+
+			Debug.Log("Deserialized nodes: " + nodes);
 		}
 	}
 }

@@ -6,13 +6,13 @@ using UnityEngine.Experimental.UIElements;
 
 namespace GraphProcessor
 {
-    sealed class EdgeConnectorListener : IEdgeConnectorListener
+    public sealed class EdgeConnectorListener : IEdgeConnectorListener
     {
-        // readonly GraphProcessorView m_Graph;
+        readonly BaseGraphView graphView;
 
-        public EdgeConnectorListener(GraphProcessorView graph)
+        public EdgeConnectorListener(BaseGraphView graphView)
         {
-            // m_Graph = graph;
+            this.graphView = graphView;
         }
 
         public void OnDropOutsidePort(Edge edge, Vector2 position)
@@ -26,6 +26,7 @@ namespace GraphProcessor
             var rightSlot = edge.input;
             if (leftSlot != null && rightSlot != null)
             {
+				this.graphView.graph.RegisterCompleteObjectUndo("Nothing ?");
 				//TODO: Register undo
 				//TODO: tell to the graph to connect these slots
                 // m_Graph.owner.RegisterCompleteObjectUndo("Connect Edge");

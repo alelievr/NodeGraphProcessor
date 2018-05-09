@@ -9,9 +9,13 @@ using System;
 
 namespace GraphProcessor
 {
-	public class GraphProcessorView : GraphView
+	public class BaseGraphView : GraphView
 	{
-		public GraphProcessorView()
+		public BaseGraph				graph;
+		
+		public EdgeConnectorListener	connectorListener;
+
+		public BaseGraphView()
 		{
 			serializeGraphElements = SerializeGraphElementsImplementation;
 			canPasteSerializedData = CanPasteSerializedDataImplementation;
@@ -45,6 +49,30 @@ namespace GraphProcessor
 			compatiblePorts.AddRange(ports.ToList().Where(p => p.portType.IsAssignableFrom(startPort.portType)));
 
 			return compatiblePorts;
+		}
+
+		public void Initialize(BaseGraph graph)
+		{
+			this.graph = graph;
+			
+            connectorListener = new EdgeConnectorListener(this);
+
+			InitializeNodeViews();
+		}
+
+		void InitializeNodeViews()
+		{
+			foreach (var node in graph.nodes)
+			{
+				var viewType = NodeProvider.GetNodeViewTypeFromType(node.GetType());
+
+				if (viewType == null)
+					continue ;
+
+				var baseNodeView = Activator.CreateInstance(viewType) as BaseNodeView;
+
+				baseNodeView.Initialize(this, node);
+			}
 		}
 
 	}

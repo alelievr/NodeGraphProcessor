@@ -51,7 +51,7 @@ namespace GraphProcessor
 			if (attrs != null && attrs.Length > 0)
 			{
 				Debug.Log("Node found: " + type);
-				//TODO: add this type to the dictionary
+				nodePerMenuTitle[attrs.First().menuTitle] = type;
             }
 		}
 

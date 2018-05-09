@@ -12,16 +12,14 @@ using UnityEditor.ShaderGraph.Drawing;
 
 namespace GraphProcessor
 {
-	public abstract class BaseGraphProcessorWindow : EditorWindow
+	public abstract class BaseGraphWindow : EditorWindow
 	{
 		protected VisualElement		rootView;
 		protected BaseGraphView		graphView;
 	
-		private void OnEnable()
+		protected void OnEnable()
 		{
 			InitializeRootView();
-
-			InitializeGraphView();
 		}
 
 		void InitializeRootView()
@@ -31,25 +29,13 @@ namespace GraphProcessor
 			rootView.AddStyleSheetPath("Styles/Graph");
 		}
 
-		void InitializeGraphView()
-		{
-			graphView = new BaseGraphView();
-	
-			graphView.AddManipulator(new ContentDragger());
-			graphView.AddManipulator(new SelectionDragger());
-			graphView.AddManipulator(new RectangleSelector());
-			graphView.AddManipulator(new ClickSelector());
-			
-			graphView.SetupZoom(0.05f, ContentZoomer.DefaultMaxScale);
-	
-			graphView.StretchToParentSize();
-			
-			rootView.Add(graphView);
-		}
-
-		public void Initialize(BaseGraph graph)
+		public void InitializeGraph(BaseGraph graph)
 		{
 			graphView.Initialize(graph);
+
+			Initialize(graph);
 		}
+
+		protected virtual void	Initialize(BaseGraph graph) {}
 	}
 }

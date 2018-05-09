@@ -5,7 +5,7 @@ using UnityEditor;
 using GraphProcessor;
 using UnityEditor.Callbacks;
 
-public class GraphProcessorAssets
+public class GraphAssets
 {
 	[MenuItem("Assets/Create/GraphProcessor", false, 10)]
 	public static void CreateGraphPorcessor()
@@ -24,18 +24,18 @@ public class GraphProcessorAssets
 	}
 
 	[OnOpenAsset(0)]
-	public static bool step1(int instanceID, int line)
+	public static bool OnBaseGraphOpened(int instanceID, int line)
 	{
 		var obj = EditorUtility.InstanceIDToObject(instanceID);
 
 		if (!(obj is BaseGraph))
 			return false;
 
-		var win = GraphProcessorWindow.GetWindow< GraphProcessorWindow >();
+		var win = BaseGraphWindow.GetWindow< BaseGraphWindow >();
 		
 		win.Show();
 
-		win.Initialize(obj as BaseGraph);
+		win.InitializeGraph(obj as BaseGraph);
 
 		return false;
 	}

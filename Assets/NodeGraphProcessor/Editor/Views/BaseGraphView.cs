@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Experimental.UIElements;
+using UnityEngine.Experimental.UIElements;
 using UnityEditor.Experimental.UIElements.GraphView;
 using System.Linq;
 using System;
@@ -20,6 +21,12 @@ namespace GraphProcessor
 			serializeGraphElements = SerializeGraphElementsImplementation;
 			canPasteSerializedData = CanPasteSerializedDataImplementation;
 			unserializeAndPaste = UnserializeAndPasteImplementation;
+			
+			InitializeManipulators();
+			
+			SetupZoom(0.05f, ContentZoomer.DefaultMaxScale);
+	
+			this.StretchToParentSize();
 		}
 	
 		protected override bool canCopySelection
@@ -72,7 +79,17 @@ namespace GraphProcessor
 				var baseNodeView = Activator.CreateInstance(viewType) as BaseNodeView;
 
 				baseNodeView.Initialize(this, node);
+
+				AddElement(baseNodeView);
 			}
+		}
+	
+		protected virtual void InitializeManipulators()
+		{
+			this.AddManipulator(new ContentDragger());
+			this.AddManipulator(new SelectionDragger());
+			this.AddManipulator(new RectangleSelector());
+			this.AddManipulator(new ClickSelector());
 		}
 
 	}

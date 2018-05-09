@@ -32,6 +32,7 @@ namespace GraphProcessor
 
 		public void RegisterCompleteObjectUndo(string name)
 		{
+			Debug.Log("TODO !");
 		}
 
 		public void OnBeforeSerialize()

@@ -76,6 +76,8 @@ namespace GraphProcessor
 
 		void InitializeNodeViews()
 		{
+			graph.nodes.RemoveAll(n => n == null);
+			
 			foreach (var node in graph.nodes)
 				AddNode(node);
 		}
@@ -92,6 +94,8 @@ namespace GraphProcessor
 			baseNodeView.Initialize(this, node);
 
 			AddElement(baseNodeView);
+
+			graph.AddNode(node);
 
 			return true;
 		}

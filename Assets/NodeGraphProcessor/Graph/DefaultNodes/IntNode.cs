@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GraphProcessor
 {
-	[NodeMenuItem("Primitives/IntNode")]
+	[System.Serializable, NodeMenuItem("Primitives/IntNode")]
 	public class IntNode : BaseNode
 	{
 		[Output]

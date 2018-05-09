@@ -11,7 +11,7 @@ using NodeView = UnityEditor.Experimental.UIElements.GraphView.Node;
 namespace GraphProcessor
 {
 	[NodeCustomEditor(typeof(BaseNode))]
-	public class BaseNodeView : NodeView
+	public class BaseNodeView : NodeView, ISerializationCallbackReceiver
 	{
 		protected BaseNode		nodeTarget;
 
@@ -52,6 +52,15 @@ namespace GraphProcessor
 			var field = new TextField();
 			mainContainer.Add(field);
 			//TODO: draw custom inspector with reflection
+		}
+
+		public void OnBeforeSerialize()
+		{
+			Debug.Log("JsonView: " + JsonUtility.ToJson(this));
+		}
+
+		public void OnAfterDeserialize()
+		{
 		}
 	}
 }

@@ -11,14 +11,16 @@ public class CustomContextMenuGraphView : BaseGraphView
 		evt.menu.AppendSeparator();
 		
 		foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries())
-			evt.menu.AppendAction("Create/" + nodeMenuItem.Key, (e) => CreateNodeOfType(nodeMenuItem.Value), ContextualMenu.MenuAction.AlwaysEnabled);
+			evt.menu.AppendAction("Create/" + nodeMenuItem.Key, (e) => CreateNodeOfType(nodeMenuItem.Value, evt.mousePosition), ContextualMenu.MenuAction.AlwaysEnabled);
 		
 		base.BuildContextualMenu(evt);
 	}
 
-	void CreateNodeOfType(Type type)
+	void CreateNodeOfType(Type type, Vector2 position)
 	{
-		var node = Activator.CreateInstance(type);
+		var node = Activator.CreateInstance(type) as BaseNode;
+
+		node.position = new Rect(position, new Vector2(100, 100));
 
 		AddNode(node as BaseNode);
 	}

@@ -15,6 +15,10 @@ namespace GraphProcessor
 		[NonSerialized]
 		public bool					needsEnable = typeof(BaseNode).GetMethod("Enable").DeclaringType != typeof(BaseNode);
 
+		//Node view datas
+		public Rect					position;
+		public bool					expanded;
+
 		public virtual void			Enable() {}
 		public virtual void			Process() {}
 	}

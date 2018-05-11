@@ -11,7 +11,7 @@ using NodeView = UnityEditor.Experimental.UIElements.GraphView.Node;
 namespace GraphProcessor
 {
 	[NodeCustomEditor(typeof(BaseNode))]
-	public class BaseNodeView : NodeView, ISerializationCallbackReceiver
+	public class BaseNodeView : NodeView
 	{
 		protected BaseNode		nodeTarget;
 
@@ -31,20 +31,28 @@ namespace GraphProcessor
 
 			InitializePorts();
 
+			InitializeView();
+
 			Enable();
 		}
 
 		void InitializePorts()
 		{
+			//TODO: get input and output via reflection
 			var inputPort = new PortView(Orientation.Horizontal, Direction.Input, typeof(int), owner.connectorListener);
 			var outputPort = new PortView(Orientation.Horizontal, Direction.Output, typeof(int), owner.connectorListener);
 
 			inputContainer.Add(inputPort);
 			outputContainer.Add(outputPort);
 
-			SetPosition(new Rect(0, 0, 100, 100));
-
 			owner.AddElement(this);
+		}
+
+		void InitializeView()
+		{
+			title = name;
+
+			SetPosition(nodeTarget.position);
 		}
 
 		public virtual void Enable()
@@ -54,13 +62,21 @@ namespace GraphProcessor
 			//TODO: draw custom inspector with reflection
 		}
 
-		public void OnBeforeSerialize()
+		public override void SetPosition(Rect newPosition)
 		{
-			Debug.Log("JsonView: " + JsonUtility.ToJson(this));
+			base.SetPosition(newPosition);
+
+			nodeTarget.position = newPosition;
 		}
 
-		public void OnAfterDeserialize()
+		public override bool	expanded
 		{
+			get { return base.expanded; }
+			set
+			{
+				base.expanded = value;
+				nodeTarget.expanded = value;
+			}
 		}
 	}
 }

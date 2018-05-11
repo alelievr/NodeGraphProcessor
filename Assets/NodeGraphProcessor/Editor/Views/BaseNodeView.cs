@@ -13,11 +13,16 @@ namespace GraphProcessor
 	[NodeCustomEditor(typeof(BaseNode))]
 	public class BaseNodeView : NodeView
 	{
-		public BaseNode			nodeTarget;
+		public BaseNode				nodeTarget;
 
-		protected BaseGraphView	owner;
+		public List< Port >			inputPorts = new List< Port >();
+		public List< Port >			outputPorts = new List< Port >();
 
-        protected VisualElement controlsContainer;
+		Dictionary< string, Port >	portsPerFieldName = new Dictionary< string, Port >();
+
+		protected BaseGraphView		owner;
+
+        protected VisualElement 	controlsContainer;
 
 		public void Initialize(BaseGraphView owner, BaseNode node)
 		{
@@ -42,10 +47,26 @@ namespace GraphProcessor
 			var inputPort = new PortView(Orientation.Horizontal, Direction.Input, typeof(int), owner.connectorListener);
 			var outputPort = new PortView(Orientation.Horizontal, Direction.Output, typeof(int), owner.connectorListener);
 
-			inputContainer.Add(inputPort);
-			outputContainer.Add(outputPort);
+			AddPort(inputPort);
+			AddPort(outputPort);
 
 			owner.AddElement(this);
+		}
+
+		void AddPort(Port p)
+		{
+			if (p.direction == Direction.Input)
+			{
+				inputPorts.Add(p);
+				inputContainer.Add(p);
+			}
+			else
+			{
+				outputPorts.Add(p);
+				outputContainer.Add(p);
+			}
+
+			portsPerFieldName[p.portName] = p;
 		}
 
 		void InitializeView()
@@ -53,6 +74,15 @@ namespace GraphProcessor
 			title = name;
 
 			SetPosition(nodeTarget.position);
+		}
+
+		public Port GetPortFromFieldName(string fieldName)
+		{
+			Port	ret;
+			
+			portsPerFieldName.TryGetValue(fieldName, out ret);
+
+			return ret;
 		}
 
 		public virtual void Enable()

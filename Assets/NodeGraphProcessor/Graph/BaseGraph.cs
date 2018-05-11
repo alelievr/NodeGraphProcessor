@@ -10,10 +10,17 @@ namespace GraphProcessor
 	{
 		//JSon datas contaning all elements of the graph
 		[SerializeField]
-		public List< JsonElement >	serializedNodes = new List< JsonElement >();
+		public List< JsonElement >						serializedNodes = new List< JsonElement >();
 
 		[System.NonSerialized]
-		public List< BaseNode >		nodes = new List< BaseNode >();
+		public List< BaseNode >							nodes = new List< BaseNode >();
+		[System.NonSerialized]
+		public Dictionary< string, BaseNode >			nodesPerGUID = new Dictionary< string, BaseNode >();
+
+		[SerializeField]
+		public List< SerializableEdge >					edges = new List< SerializableEdge >();
+		[System.NonSerialized]
+		public Dictionary< string, SerializableEdge >	edgesPerGUID = new Dictionary< string, SerializableEdge >();
 
 		//graph visual properties
 		public Vector3				position;
@@ -51,6 +58,27 @@ namespace GraphProcessor
 			nodes.Remove(node);
 		}
 
+		public void Connect(BaseNode inputNode, string inputFieldName, BaseNode outputNode, string outputFieldName)
+		{
+			var edge = SerializableEdge.CreateNewEdge(inputNode, inputFieldName, outputNode, outputFieldName);
+
+			edges.Add(edge);
+		}
+
+		public void Disconnect(BaseNode inputNode, string inputFieldName, BaseNode outputNode, string outputFieldName)
+		{
+			edges.RemoveAll(r => r.inputNode == inputNode
+				&& r.outputNode == outputNode
+				&& r.outputFieldName == outputFieldName
+				&& r.inputFieldName == inputFieldName
+			);
+		}
+
+		public void Disconnect(string edgeGUID)
+		{
+			edges.RemoveAll(r => r.GUID == edgeGUID);
+		}
+
 		public void OnBeforeSerialize()
 		{
 			Debug.Log("Before serialization node count: " + nodes.Count);
@@ -59,6 +87,7 @@ namespace GraphProcessor
 			
 			foreach (var node in nodes)
 				serializedNodes.Add(JsonSerializer.Serialize(node));
+
 		}
 
 		public void OnAfterDeserialize()
@@ -66,7 +95,16 @@ namespace GraphProcessor
 			nodes.Clear();
 
 			foreach (var serializedNode in serializedNodes)
-				nodes.Add(JsonSerializer.DeserializeNode(serializedNode) as BaseNode);
+			{
+				var node = JsonSerializer.DeserializeNode(serializedNode) as BaseNode;
+				nodes.Add(node);
+				nodesPerGUID[node.GUID] = node;
+			}
+
+			foreach (var edge in edges)
+			{
+				edgesPerGUID[edge.GUID] = edge;
+			}
 		}
 	}
 }

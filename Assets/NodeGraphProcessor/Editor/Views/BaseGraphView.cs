@@ -12,11 +12,12 @@ namespace GraphProcessor
 {
 	public class BaseGraphView : GraphView
 	{
-		public BaseGraph				graph;
+		public BaseGraph						graph;
 		
-		public EdgeConnectorListener	connectorListener;
+		public EdgeConnectorListener			connectorListener;
 
-		List< BaseNodeView >			nodeViews = new List< BaseNodeView >();
+		List< BaseNodeView >					nodeViews = new List< BaseNodeView >();
+		Dictionary< BaseNode, BaseNodeView >	nodeViewsPerNode = new Dictionary< BaseNode, BaseNodeView >();
 
 		public BaseGraphView()
 		{
@@ -66,6 +67,8 @@ namespace GraphProcessor
 				}
 				return false;
 			});
+
+			//TODO: delete edges
 		}
 
 		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -93,6 +96,7 @@ namespace GraphProcessor
 
 			InitializeGraphView();
 			InitializeNodeViews();
+			InitializeEdgeViews();
 		}
 
 		void InitializeNodeViews()
@@ -112,6 +116,19 @@ namespace GraphProcessor
 
 			Debug.Log("graph pos: " + viewTransform.position);
 			Debug.Log("graph scale: " + viewTransform.scale);
+		}
+
+		void InitializeEdgeViews()
+		{
+			foreach (var serializedEdge in graph.edges)
+			{
+				var edge = new Edge();
+
+				var inputNodeView = nodeViewsPerNode[serializedEdge.inputNode];
+				var outputNodeView = nodeViewsPerNode[serializedEdge.outputNode];
+
+				edge.input = inputNodeView.GetPortFromFieldName(serializedEdge.inputFieldName);
+			}
 		}
 
 		protected bool AddNode(BaseNode node)
@@ -134,6 +151,8 @@ namespace GraphProcessor
 			baseNodeView.Initialize(this, node);
 			AddElement(baseNodeView);
 
+			nodeViewsPerNode[node] = baseNodeView;
+
 			return true;
 		}
 
@@ -144,7 +163,10 @@ namespace GraphProcessor
 
 			AddElement(e);
 
-			// graph.Connect(e.input.name, e.input.node, e.output.node)
+			var inputNodeView = e.input.node as BaseNodeView;
+			var outputNodeView = e.output.node as BaseNodeView;
+
+			graph.Connect(inputNodeView.nodeTarget, e.input.name, outputNodeView.nodeTarget, e.output.name);
 		}
 	
 		protected virtual void InitializeManipulators()

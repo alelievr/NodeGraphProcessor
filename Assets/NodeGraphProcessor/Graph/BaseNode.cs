@@ -10,6 +10,9 @@ namespace GraphProcessor
 	{
 		public abstract string		name { get; }
 
+		//id
+		public string				GUID;
+
 		[NonSerialized]
 		public bool					needsProcess = typeof(BaseNode).GetMethod("Process").DeclaringType != typeof(BaseNode);
 		[NonSerialized]

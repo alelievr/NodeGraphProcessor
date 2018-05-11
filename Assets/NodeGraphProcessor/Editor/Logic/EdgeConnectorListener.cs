@@ -22,15 +22,16 @@ namespace GraphProcessor
 
         public void OnDrop(GraphView graphView, Edge edge)
         {
-            var leftSlot = edge.output;
-            var rightSlot = edge.input;
-            if (leftSlot != null && rightSlot != null)
+            var output = edge.output;
+            var input = edge.input;
+            if (output != null && input != null)
             {
 				this.graphView.graph.RegisterCompleteObjectUndo("Nothing ?");
+				this.graphView.Connect(edge);
 				//TODO: Register undo
 				//TODO: tell to the graph to connect these slots
                 // m_Graph.owner.RegisterCompleteObjectUndo("Connect Edge");
-                // m_Graph.Connect(leftSlot.slotReference, rightSlot.slotReference);
+                // m_Graph.Connect(output.slotReference, input.slotReference);
             }
         }
     }

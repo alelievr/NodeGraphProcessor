@@ -16,12 +16,12 @@ namespace GraphProcessor
 		public List< BaseNode >		nodes = new List< BaseNode >();
 
 		//graph visual properties
-		public Rect					position;
+		public Vector3				position;
+		public Vector3				scale;
 
         void OnEnable()
         {
             Undo.undoRedoPerformed += UndoRedoPerformed;
-            UndoRedoPerformed();
         }
 
         void OnDisable()
@@ -45,6 +45,12 @@ namespace GraphProcessor
 			nodes.Add(node);
 		}
 
+		public void RemoveNode(BaseNode node)
+		{
+			Debug.Log("Remove node: " + node);
+			nodes.Remove(node);
+		}
+
 		public void OnBeforeSerialize()
 		{
 			Debug.Log("Before serialization node count: " + nodes.Count);
@@ -60,13 +66,7 @@ namespace GraphProcessor
 			nodes.Clear();
 
 			foreach (var serializedNode in serializedNodes)
-			{
-				var node = JsonSerializer.DeserializeNode(serializedNode) as BaseNode;
-
-				Debug.Log("node position: " + node.position);
-
-				nodes.Add(node);
-			}
+				nodes.Add(JsonSerializer.DeserializeNode(serializedNode) as BaseNode);
 		}
 	}
 }

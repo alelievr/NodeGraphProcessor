@@ -19,14 +19,9 @@ namespace GraphProcessor
 			intField.value = intNode.output;
 
 			intField.OnValueChanged((v) => {
-				Debug.Log("Value: " + v.newValue);
-				Debug.Log("IntNode value: " + intNode.output);
 				intNode.output = (int)v.newValue;
 				owner.graph.RegisterCompleteObjectUndo("Updated IntNode output");
 			});
-
-			Debug.Log("mainContainerName: " + mainContainer.name);
-			Debug.Log("extentionContainerName: " + extensionContainer.name);
 
 			controlsContainer.Add(intField);
 		}

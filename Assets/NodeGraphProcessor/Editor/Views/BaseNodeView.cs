@@ -13,7 +13,7 @@ namespace GraphProcessor
 	[NodeCustomEditor(typeof(BaseNode))]
 	public class BaseNodeView : NodeView
 	{
-		protected BaseNode		nodeTarget;
+		public BaseNode			nodeTarget;
 
 		protected BaseGraphView	owner;
 

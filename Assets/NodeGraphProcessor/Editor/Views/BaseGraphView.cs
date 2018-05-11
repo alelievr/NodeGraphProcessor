@@ -16,31 +16,36 @@ namespace GraphProcessor
 		
 		public EdgeConnectorListener	connectorListener;
 
+		List< BaseNodeView >			nodeViews = new List< BaseNodeView >();
+
 		public BaseGraphView()
 		{
 			serializeGraphElements = SerializeGraphElementsImplementation;
 			canPasteSerializedData = CanPasteSerializedDataImplementation;
 			unserializeAndPaste = UnserializeAndPasteImplementation;
+			deleteSelection = DeleteSelection;
 			
 			InitializeManipulators();
 			
-			SetupZoom(0.05f, ContentZoomer.DefaultMaxScale);
+			SetupZoom(0.1f, ContentZoomer.DefaultMaxScale);
 	
 			this.StretchToParentSize();
 		}
 	
 		protected override bool canCopySelection
 		{
-			get { return selection.OfType<Node>().Any(); }
+			get { return selection.OfType< BaseNodeView >().Any(); }
 		}
 
 		string SerializeGraphElementsImplementation(IEnumerable<GraphElement> elements)
 		{
+			Debug.Log("TODO !");
 			return JsonUtility.ToJson("", true);
 		}
 
 		bool CanPasteSerializedDataImplementation(string serializedData)
 		{
+			Debug.Log("TODO !");
 			return true;
 		}
 
@@ -49,11 +54,33 @@ namespace GraphProcessor
 			Debug.Log("TODO !");
 		}
 
+		void DeleteSelection(string operationName, AskUser askUser)
+		{
+			Debug.Log("operationName: " + operationName);
+
+			nodeViews.RemoveAll(n => {
+				if (n.selected)
+				{
+					graph.RemoveNode(n.nodeTarget);
+					return true;
+				}
+				return false;
+			});
+		}
+
 		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
 		{
 			var compatiblePorts = new List<Port>();
 
-			compatiblePorts.AddRange(ports.ToList().Where(p => p.portType.IsAssignableFrom(startPort.portType)));
+			compatiblePorts.AddRange(ports.ToList().Where(p => {
+				if (p.direction == startPort.direction)
+					return false;
+
+				if (!p.portType.IsAssignableFrom(startPort.portType))
+					return false;
+					
+				return true;
+			}));
 
 			return compatiblePorts;
 		}
@@ -64,14 +91,8 @@ namespace GraphProcessor
 			
             connectorListener = new EdgeConnectorListener(this);
 
-			nodeCreationRequest = CreateNode;
-
+			InitializeGraphView();
 			InitializeNodeViews();
-		}
-
-		void CreateNode(NodeCreationContext context)
-		{
-			Debug.Log("TODO !");
 		}
 
 		void InitializeNodeViews()
@@ -80,6 +101,17 @@ namespace GraphProcessor
 			
 			foreach (var node in graph.nodes)
 				AddNodeView(node);
+		}
+
+		void InitializeGraphView()
+		{
+			Debug.Log("Graph position: " + graph.position);
+			// viewTransform.position = graph.position;
+			contentViewContainer.transform.position = graph.position;
+			UpdateViewTransform(graph.position, graph.scale);
+
+			Debug.Log("graph pos: " + viewTransform.position);
+			Debug.Log("graph scale: " + viewTransform.scale);
 		}
 
 		protected bool AddNode(BaseNode node)
@@ -99,17 +131,26 @@ namespace GraphProcessor
 				return false;
 
 			var baseNodeView = Activator.CreateInstance(viewType) as BaseNodeView;
-
 			baseNodeView.Initialize(this, node);
-
 			AddElement(baseNodeView);
 
 			return true;
 		}
+
+		public void Connect(Edge e)
+		{
+			if (e.input == null || e.output == null)
+				return ;
+
+			AddElement(e);
+
+			// graph.Connect(e.input.name, e.input.node, e.output.node)
+		}
 	
 		protected virtual void InitializeManipulators()
 		{
-			this.AddManipulator(new ContentDragger());
+			this.AddManipulator(new BaseGraphContentDragger());
+			this.AddManipulator(new BaseGraphZoomer());
 			this.AddManipulator(new SelectionDragger());
 			this.AddManipulator(new RectangleSelector());
 			this.AddManipulator(new ClickSelector());

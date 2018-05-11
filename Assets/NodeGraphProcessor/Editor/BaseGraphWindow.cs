@@ -49,6 +49,7 @@ namespace GraphProcessor
 		{
 			this.graph = graph;
 
+			//Initialize will provide the BaseGraphView
 			Initialize(graph);
 
 			graphView = rootView.Children().FirstOrDefault(e => e is BaseGraphView) as BaseGraphView;
@@ -62,6 +63,8 @@ namespace GraphProcessor
 			graphView.Initialize(graph);
 		}
 
-		protected virtual void	Initialize(BaseGraph graph) {}
+		bool first = true;
+
+		protected abstract void	Initialize(BaseGraph graph);
 	}
 }

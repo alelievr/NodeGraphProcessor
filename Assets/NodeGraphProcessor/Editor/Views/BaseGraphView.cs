@@ -27,7 +27,7 @@ namespace GraphProcessor
 			canPasteSerializedData = CanPasteSerializedDataImplementation;
 			unserializeAndPaste = UnserializeAndPasteImplementation;
 			deleteSelection = DeleteSelection;
-			
+
 			InitializeManipulators();
 			
 			SetupZoom(0.1f, ContentZoomer.DefaultMaxScale);
@@ -83,18 +83,26 @@ namespace GraphProcessor
 
 		public void Disconnect(EdgeView e)
 		{
-			var inputNodeView = e.input.node as BaseNodeView;
-			var outputNodeView = e.output.node as BaseNodeView;
+			var serializableEdge = e.userData as SerializableEdge;
 
-			graph.Disconnect(inputNodeView.nodeTarget, e.input.portName, outputNodeView.nodeTarget, e.output.portName);
-
-			e.input.Disconnect(e);
-			e.output.Disconnect(e);
-
-			inputNodeView.RefreshPorts();
-			outputNodeView.RefreshPorts();
+			if (serializableEdge != null)
+				graph.Disconnect(serializableEdge.GUID);
 
 			RemoveElement(e);
+			
+			if (e.input == null)
+			{
+				var inputNodeView = e.input.node as BaseNodeView;
+				inputNodeView.RefreshPorts();
+				e.input.Disconnect(e);
+			}
+			if (e.output != null)
+			{
+				var outputNodeView = e.output.node as BaseNodeView;
+				e.output.Disconnect(e);
+				outputNodeView.RefreshPorts();
+			}
+
 		}
 
 		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -153,6 +161,7 @@ namespace GraphProcessor
 				var inputNodeView = nodeViewsPerNode[serializedEdge.inputNode];
 				var outputNodeView = nodeViewsPerNode[serializedEdge.outputNode];
 				var edgeView = new EdgeView() {
+					userData = serializedEdge,
 					input = inputNodeView.GetPortFromFieldName(serializedEdge.inputFieldName),
 					output = outputNodeView.GetPortFromFieldName(serializedEdge.outputFieldName)
 				};
@@ -206,7 +215,7 @@ namespace GraphProcessor
 
 			if (serializeToGraph)
 			{
-				graph.Connect(
+				e.userData = graph.Connect(
 					inputNodeView.nodeTarget, e.input.portName,
 					outputNodeView.nodeTarget, e.output.portName
 				);

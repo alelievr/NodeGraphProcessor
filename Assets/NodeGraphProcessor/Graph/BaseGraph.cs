@@ -60,11 +60,13 @@ namespace GraphProcessor
 			nodes.Remove(node);
 		}
 
-		public void Connect(BaseNode inputNode, string inputFieldName, BaseNode outputNode, string outputFieldName)
+		public SerializableEdge Connect(BaseNode inputNode, string inputFieldName, BaseNode outputNode, string outputFieldName)
 		{
 			var edge = SerializableEdge.CreateNewEdge(this, inputNode, inputFieldName, outputNode, outputFieldName);
 
 			edges.Add(edge);
+
+			return edge;
 		}
 
 		public void Disconnect(BaseNode inputNode, string inputFieldName, BaseNode outputNode, string outputFieldName)

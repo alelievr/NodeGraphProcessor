@@ -24,10 +24,6 @@ public class CustomContextMenuGraphView : BaseGraphView
 
 	void CreateNodeOfType(Type type, Vector2 position)
 	{
-		var node = Activator.CreateInstance(type) as BaseNode;
-
-		node.position = new Rect(position, new Vector2(100, 100));
-
-		AddNode(node as BaseNode);
+		AddNode(BaseNode.CreateFromType(type, position));
 	}
 }

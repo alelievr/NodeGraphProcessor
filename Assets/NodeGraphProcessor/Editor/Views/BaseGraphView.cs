@@ -18,6 +18,8 @@ namespace GraphProcessor
 
 		List< BaseNodeView >					nodeViews = new List< BaseNodeView >();
 		Dictionary< BaseNode, BaseNodeView >	nodeViewsPerNode = new Dictionary< BaseNode, BaseNodeView >();
+		
+		List< EdgeView >						edgeViews = new List< EdgeView >();
 
 		public BaseGraphView()
 		{
@@ -62,7 +64,6 @@ namespace GraphProcessor
 			nodeViews.RemoveAll(n => {
 				if (n.selected)
 				{
-					Debug.Log("Removed node: " + n);
 					graph.RemoveNode(n.nodeTarget);
 					RemoveElement(n);
 					return true;
@@ -70,7 +71,30 @@ namespace GraphProcessor
 				return false;
 			});
 
-			//TODO: delete edges
+			edgeViews.RemoveAll(e => {
+				if (e.selected)
+				{
+					Disconnect(e);
+					return true;
+				}
+				return false;
+			});
+		}
+
+		public void Disconnect(EdgeView e)
+		{
+			var inputNodeView = e.input.node as BaseNodeView;
+			var outputNodeView = e.output.node as BaseNodeView;
+
+			graph.Disconnect(inputNodeView.nodeTarget, e.input.portName, outputNodeView.nodeTarget, e.output.portName);
+
+			e.input.Disconnect(e);
+			e.output.Disconnect(e);
+
+			inputNodeView.RefreshPorts();
+			outputNodeView.RefreshPorts();
+
+			RemoveElement(e);
 		}
 
 		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -95,6 +119,8 @@ namespace GraphProcessor
 			this.graph = graph;
 			
             connectorListener = new EdgeConnectorListener(this);
+
+			Debug.Log("INIT with graph: " + graph);
 
 			InitializeGraphView();
 			InitializeNodeViews();
@@ -124,18 +150,22 @@ namespace GraphProcessor
 		{
 			foreach (var serializedEdge in graph.edges)
 			{
-				var edge = new Edge();
-
 				var inputNodeView = nodeViewsPerNode[serializedEdge.inputNode];
 				var outputNodeView = nodeViewsPerNode[serializedEdge.outputNode];
-
-				edge.input = inputNodeView.GetPortFromFieldName(serializedEdge.inputFieldName);
+				var edgeView = new EdgeView() {
+					input = inputNodeView.GetPortFromFieldName(serializedEdge.inputFieldName),
+					output = outputNodeView.GetPortFromFieldName(serializedEdge.outputFieldName)
+				};
+				
+				Connect(edgeView, false);
 			}
 		}
 
 		protected bool AddNode(BaseNode node)
 		{
 			AddNodeView(node);
+
+			Debug.Log("graph: " + graph);
 
 			graph.AddNode(node);
 
@@ -159,17 +189,33 @@ namespace GraphProcessor
 			return true;
 		}
 
-		public void Connect(Edge e)
+		public void Connect(EdgeView e, bool serializeToGraph = true)
 		{
 			if (e.input == null || e.output == null)
 				return ;
 
 			AddElement(e);
+			
+			e.input.Connect(e);
+			e.output.Connect(e);
 
 			var inputNodeView = e.input.node as BaseNodeView;
 			var outputNodeView = e.output.node as BaseNodeView;
+			
+			edgeViews.Add(e);
 
-			graph.Connect(inputNodeView.nodeTarget, e.input.name, outputNodeView.nodeTarget, e.output.name);
+			if (serializeToGraph)
+			{
+				graph.Connect(
+					inputNodeView.nodeTarget, e.input.portName,
+					outputNodeView.nodeTarget, e.output.portName
+				);
+			}
+			
+			inputNodeView.RefreshPorts();
+			outputNodeView.RefreshPorts();
+
+			e.isConnected = true;
 		}
 	
 		protected virtual void InitializeManipulators()

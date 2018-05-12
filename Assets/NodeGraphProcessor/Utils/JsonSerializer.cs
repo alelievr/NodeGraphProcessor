@@ -37,8 +37,6 @@ namespace GraphProcessor
 		{
 			var baseNodeType = Type.GetType(e.type);
 
-			Debug.Log("JsonDatas: " + e.jsonDatas + " | nodeType: " + e.type);
-
 			return JsonUtility.FromJson(e.jsonDatas, baseNodeType) as BaseNode;
 		}
 	}

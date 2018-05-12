@@ -29,15 +29,18 @@ namespace GraphProcessor
 		//Private constructor so we can't instantiate this class
 		private SerializableEdge() {}
 
-		public static SerializableEdge CreateNewEdge(BaseNode inputNode, string inputFieldName, BaseNode outputNode, string outputFieldName)
+		public static SerializableEdge CreateNewEdge(BaseGraph graph, BaseNode inputNode, string inputFieldName, BaseNode outputNode, string outputFieldName)
 		{
 			SerializableEdge	edge = new SerializableEdge();
 
+			edge.owner = graph;
 			edge.GUID = System.Guid.NewGuid().ToString();
 			edge.inputNode = inputNode;
 			edge.inputFieldName = inputFieldName;
 			edge.outputNode = outputNode;
 			edge.outputFieldName = outputFieldName;
+
+			Debug.Log("Created edge with node GUIDs: " + inputNode.GUID + " | " + outputNode.GUID);
 
 			return edge;
 		}
@@ -48,10 +51,15 @@ namespace GraphProcessor
 			inputNodeGUID = inputNode.GUID;
 		}
 
-		public void OnAfterDeserialize()
+		public void OnAfterDeserialize() {}
+
+		//here our owner have been deserialized
+		public void Deserialize()
 		{
 			outputNode = owner.nodesPerGUID[outputNodeGUID];
 			inputNode = owner.nodesPerGUID[inputNodeGUID];
+			Debug.Log("inputNode: " + inputNodeGUID);
+			Debug.Log("outputNode: " + outputNodeGUID);
 		}
 	}
 }

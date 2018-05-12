@@ -24,5 +24,24 @@ namespace GraphProcessor
 
 		public virtual void			Enable() {}
 		public virtual void			Process() {}
+
+		public virtual void			OnNodeCreated()
+		{
+			GUID = Guid.NewGuid().ToString();
+		}
+
+		public static BaseNode		CreateFromType(Type nodeType, Vector2 position)
+		{
+			if (!nodeType.IsSubclassOf(typeof(BaseNode)))
+				return null;
+			
+			var node = Activator.CreateInstance(nodeType) as BaseNode;
+	
+			node.position = new Rect(position, new Vector2(100, 100));
+	
+			node.OnNodeCreated();
+
+			return node;
+		}
 	}
 }

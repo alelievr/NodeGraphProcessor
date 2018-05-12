@@ -49,6 +49,9 @@ namespace GraphProcessor
 		{
 			this.graph = graph;
 
+			if (graphView != null)
+				rootView.Remove(graphView);
+
 			//Initialize will provide the BaseGraphView
 			Initialize(graph);
 

@@ -29,6 +29,8 @@ namespace GraphProcessor
         void OnEnable()
         {
             Undo.undoRedoPerformed += UndoRedoPerformed;
+
+			DestroyBrokenGraphElements();
         }
 
         void OnDisable()
@@ -60,7 +62,7 @@ namespace GraphProcessor
 
 		public void Connect(BaseNode inputNode, string inputFieldName, BaseNode outputNode, string outputFieldName)
 		{
-			var edge = SerializableEdge.CreateNewEdge(inputNode, inputFieldName, outputNode, outputFieldName);
+			var edge = SerializableEdge.CreateNewEdge(this, inputNode, inputFieldName, outputNode, outputFieldName);
 
 			edges.Add(edge);
 		}
@@ -92,6 +94,7 @@ namespace GraphProcessor
 
 		public void OnAfterDeserialize()
 		{
+			Debug.Log("Deserialize graph !");
 			nodes.Clear();
 
 			foreach (var serializedNode in serializedNodes)
@@ -103,8 +106,19 @@ namespace GraphProcessor
 
 			foreach (var edge in edges)
 			{
+				edge.Deserialize();
 				edgesPerGUID[edge.GUID] = edge;
 			}
+		}
+
+		void DestroyBrokenGraphElements()
+		{
+			edges.RemoveAll(e => e.inputNode == null
+				|| e.outputNode == null
+				|| string.IsNullOrEmpty(e.outputFieldName)
+				|| string.IsNullOrEmpty(e.inputFieldName)
+			);
+			nodes.RemoveAll(n => n == null);
 		}
 	}
 }

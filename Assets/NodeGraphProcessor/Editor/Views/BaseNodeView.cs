@@ -79,7 +79,7 @@ namespace GraphProcessor
 		public Port GetPortFromFieldName(string fieldName)
 		{
 			Port	ret;
-			
+
 			portsPerFieldName.TryGetValue(fieldName, out ret);
 
 			return ret;

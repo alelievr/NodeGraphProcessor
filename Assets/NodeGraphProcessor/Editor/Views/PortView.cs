@@ -13,7 +13,7 @@ namespace GraphProcessor
 		{
 			AddStyleSheetPath("Styles/PortView");
 
-			m_EdgeConnector = new EdgeConnector< Edge >(edgeConnectorListener);
+			m_EdgeConnector = new EdgeConnector< EdgeView >(edgeConnectorListener);
 
 			this.AddManipulator(m_EdgeConnector);
 

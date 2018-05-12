@@ -17,22 +17,34 @@ namespace GraphProcessor
 
         public void OnDropOutsidePort(Edge edge, Vector2 position)
         {
+			//If the edge was already existing, remove it
+			if (!edge.isGhostEdge)
+			{
+				graphView.Disconnect(edge as EdgeView);
+			}
+
 			//TODO: open new nodes selector and connect the created node if there is one
         }
 
         public void OnDrop(GraphView graphView, Edge edge)
         {
-            var output = edge.output;
-            var input = edge.input;
-            if (output != null && input != null)
-            {
-				this.graphView.graph.RegisterCompleteObjectUndo("Nothing ?");
-				this.graphView.Connect(edge);
-				//TODO: Register undo
-				//TODO: tell to the graph to connect these slots
-                // m_Graph.owner.RegisterCompleteObjectUndo("Connect Edge");
-                // m_Graph.Connect(output.slotReference, input.slotReference);
-            }
+			var edgeView = edge as EdgeView;
+
+			if (edgeView == null || edgeView.input == null || edgeView.output == null)
+				return ;
+			
+			Debug.Log("ghost edge: " + edge.input.connected);
+			Debug.Log("ghost edge: " + edge.output.connected);
+
+			//If the edge was moved to another port
+			if (edgeView.isConnected)
+			{
+				this.graphView.Disconnect(edgeView);
+				Debug.Log("Edge disconnected !");
+			}
+
+			this.graphView.graph.RegisterCompleteObjectUndo("Connected " + edgeView.input.node.name + " and " + edgeView.output.node.name);
+			this.graphView.Connect(edge as EdgeView);
         }
     }
 }

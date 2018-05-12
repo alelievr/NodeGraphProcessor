@@ -29,7 +29,8 @@ namespace GraphProcessor
 		void OnSavePan(MouseUpEvent e, BaseGraphView graphView)
 		{
 			//Save graph position:
-			graphView.graph.position = graphView.viewTransform.position;
+			if (graphView.graph != null)
+				graphView.graph.position = graphView.viewTransform.position;
 		}
 
 	}

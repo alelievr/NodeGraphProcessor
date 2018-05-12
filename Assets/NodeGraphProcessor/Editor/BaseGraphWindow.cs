@@ -63,8 +63,6 @@ namespace GraphProcessor
 			graphView.Initialize(graph);
 		}
 
-		bool first = true;
-
 		protected abstract void	Initialize(BaseGraph graph);
 	}
 }

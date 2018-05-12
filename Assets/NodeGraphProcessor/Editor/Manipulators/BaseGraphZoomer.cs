@@ -27,7 +27,8 @@ namespace GraphProcessor
 		void OnSavePan(WheelEvent e, BaseGraphView graphView)
 		{
 			//Save graph scale:
-			graphView.graph.scale = graphView.viewTransform.scale;
+			if (graphView.graph != null)
+				graphView.graph.scale = graphView.viewTransform.scale;
 		}
 
 	}

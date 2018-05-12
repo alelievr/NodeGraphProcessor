@@ -62,7 +62,9 @@ namespace GraphProcessor
 			nodeViews.RemoveAll(n => {
 				if (n.selected)
 				{
+					Debug.Log("Removed node: " + n);
 					graph.RemoveNode(n.nodeTarget);
+					RemoveElement(n);
 					return true;
 				}
 				return false;
@@ -151,6 +153,7 @@ namespace GraphProcessor
 			baseNodeView.Initialize(this, node);
 			AddElement(baseNodeView);
 
+			nodeViews.Add(baseNodeView);
 			nodeViewsPerNode[node] = baseNodeView;
 
 			return true;

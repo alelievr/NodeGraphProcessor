@@ -34,9 +34,6 @@ namespace GraphProcessor
 			if (edgeView == null || edgeView.input == null || edgeView.output == null)
 				return ;
 			
-			Debug.Log("ghost edge: " + edge.input.connected);
-			Debug.Log("ghost edge: " + edge.output.connected);
-
 			//If the edge was moved to another port
 			if (edgeView.isConnected)
 			{

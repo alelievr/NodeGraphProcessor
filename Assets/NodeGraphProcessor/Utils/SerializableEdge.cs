@@ -58,8 +58,6 @@ namespace GraphProcessor
 		{
 			outputNode = owner.nodesPerGUID[outputNodeGUID];
 			inputNode = owner.nodesPerGUID[inputNodeGUID];
-			Debug.Log("inputNode: " + inputNodeGUID);
-			Debug.Log("outputNode: " + outputNodeGUID);
 		}
 	}
 }

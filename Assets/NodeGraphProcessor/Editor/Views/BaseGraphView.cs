@@ -29,14 +29,13 @@ namespace GraphProcessor
 			canPasteSerializedData = CanPasteSerializedDataCallback;
 			unserializeAndPaste = UnserializeAndPasteCallback;
             graphViewChanged = GraphViewChangedCallback;
+			viewTransformChanged = ViewTransformChangedCallback;
 
 			InitializeManipulators();
 			
 			SetupZoom(0.1f, ContentZoomer.DefaultMaxScale);
 	
 			this.StretchToParentSize();
-
-			UpdateViewTransform(Vector2.one * 500, Vector3.one);
 		}
 	
 		protected override bool canCopySelection
@@ -106,6 +105,23 @@ namespace GraphProcessor
 			return changes;
 		}
 
+		void ViewTransformChangedCallback(GraphView view)
+		{
+			graph.position = viewTransform.position;
+			graph.scale = viewTransform.scale;
+		}
+
+		public override void OnPersistentDataReady()
+		{
+			//We set the position and scale saved in the graph asset file
+			Vector3 pos = graph.position;
+			Vector3 scale = graph.scale;
+
+			base.OnPersistentDataReady();
+
+			UpdateViewTransform(pos, scale);
+		}
+
 		public void Disconnect(EdgeView e)
 		{
 			var serializableEdge = e.userData as SerializableEdge;
@@ -153,9 +169,6 @@ namespace GraphProcessor
 			
             connectorListener = new EdgeConnectorListener(this);
 
-			Debug.Log("INIT with graph: " + graph);
-
-			InitializeGraphView();
 			InitializeNodeViews();
 			InitializeEdgeViews();
 		}
@@ -166,17 +179,6 @@ namespace GraphProcessor
 			
 			foreach (var node in graph.nodes)
 				AddNodeView(node);
-		}
-
-		void InitializeGraphView()
-		{
-			Debug.Log("Graph position: " + graph.position);
-			// viewTransform.position = graph.position;
-			// contentViewContainer.transform.position = graph.position;
-			// UpdateViewTransform(graph.position, graph.scale);
-
-			Debug.Log("graph pos: " + viewTransform.position);
-			Debug.Log("graph scale: " + viewTransform.scale);
 		}
 
 		void InitializeEdgeViews()
@@ -252,8 +254,8 @@ namespace GraphProcessor
 
 		protected virtual void InitializeManipulators()
 		{
-			this.AddManipulator(new BaseGraphContentDragger());
-			this.AddManipulator(new BaseGraphZoomer());
+			this.AddManipulator(new ContentDragger());
+			this.AddManipulator(new ContentZoomer());
 			this.AddManipulator(new SelectionDragger());
 			this.AddManipulator(new RectangleSelector());
 			this.AddManipulator(new ClickSelector());

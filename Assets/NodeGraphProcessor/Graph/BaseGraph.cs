@@ -96,7 +96,6 @@ namespace GraphProcessor
 
 		public void OnAfterDeserialize()
 		{
-			Debug.Log("Deserialize graph !");
 			nodes.Clear();
 
 			foreach (var serializedNode in serializedNodes)

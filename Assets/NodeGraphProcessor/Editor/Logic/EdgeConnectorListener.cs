@@ -19,10 +19,7 @@ namespace GraphProcessor
         {
 			//If the edge was already existing, remove it
 			if (!edge.isGhostEdge)
-			{
-				Debug.Log("Disconnect !");
 				graphView.Disconnect(edge as EdgeView);
-			}
 
 			//TODO: open new nodes selector and connect the created node if there is one
         }

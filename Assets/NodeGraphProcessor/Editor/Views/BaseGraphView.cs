@@ -33,7 +33,7 @@ namespace GraphProcessor
 
 			InitializeManipulators();
 			
-			SetupZoom(0.1f, ContentZoomer.DefaultMaxScale);
+			SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
 	
 			this.StretchToParentSize();
 		}
@@ -69,14 +69,17 @@ namespace GraphProcessor
 			}
 
 			ClearSelection();
-			
+
 			return JsonUtility.ToJson(data, true);
 		}
 
 		bool CanPasteSerializedDataCallback(string serializedData)
 		{
-			return !String.IsNullOrEmpty(serializedData)
-				&& JsonUtility.FromJson(serializedData, typeof(CopyPasteHelper)) != null;
+			try {
+				return JsonUtility.FromJson(serializedData, typeof(CopyPasteHelper)) != null;
+			} catch {
+				return false;
+			}
 		}
 
 		void UnserializeAndPasteCallback(string operationName, string serializedData)
@@ -238,7 +241,7 @@ namespace GraphProcessor
 			var viewType = NodeProvider.GetNodeViewTypeFromType(node.GetType());
 
 			if (viewType == null)
-				return false;
+				viewType = typeof(BaseNodeView);
 
 			var baseNodeView = Activator.CreateInstance(viewType) as BaseNodeView;
 			baseNodeView.Initialize(this, node);
@@ -268,6 +271,10 @@ namespace GraphProcessor
 		{
 			if (e.input == null || e.output == null)
 				return ;
+				
+			//Remove all edges connected to the input port:
+			foreach (var edge in edgeViews.Where(ev => ev.input == e.input))
+				Disconnect(edge);
 
 			AddElement(e);
 			

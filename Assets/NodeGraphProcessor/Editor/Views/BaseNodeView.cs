@@ -5,6 +5,7 @@ using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine.Experimental.UIElements;
 using UnityEngine.Rendering;
 using UnityEditor;
+using System.Reflection;
 
 using NodeView = UnityEditor.Experimental.UIElements.GraphView.Node;
 
@@ -41,19 +42,7 @@ namespace GraphProcessor
 			Enable();
 		}
 
-		void InitializePorts()
-		{
-			//TODO: get input and output via reflection
-			var inputPort = new PortView(Orientation.Horizontal, Direction.Input, typeof(int), owner.connectorListener);
-			var outputPort = new PortView(Orientation.Horizontal, Direction.Output, typeof(int), owner.connectorListener);
-
-			AddPort(inputPort);
-			AddPort(outputPort);
-
-			owner.AddElement(this);
-		}
-
-		void AddPort(Port p)
+		public void AddPort(Port p)
 		{
 			if (p.direction == Direction.Input)
 			{
@@ -69,9 +58,53 @@ namespace GraphProcessor
 			portsPerFieldName[p.portName] = p;
 		}
 
+		public void RemovePort(Port p)
+		{
+			if (p.direction == Direction.Input)
+			{
+				inputPorts.Remove(p);
+				inputContainer.Remove(p);
+			}
+			else
+			{
+				outputPorts.Remove(p);
+				outputContainer.Remove(p);
+			}
+
+			portsPerFieldName.Remove(p.portName);
+		}
+
+		void InitializePorts()
+		{
+			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+			foreach (var field in fields)
+			{
+				var inputAttribute = field.GetCustomAttribute< InputAttribute >();
+				var outputAttribute = field.GetCustomAttribute< OutputAttribute >();
+
+				if (inputAttribute == null && outputAttribute == null)
+					continue ;
+
+				Debug.Log("adding port: " + field);
+				
+				PortView port = new PortView(
+					Orientation.Horizontal,
+					(inputAttribute != null) ? Direction.Input : Direction.Output,
+					field,
+					owner.connectorListener,
+					this
+				);
+
+				port.portName = field.Name;
+
+				AddPort(port);
+			}
+		}
+
 		void InitializeView()
 		{
-			title = name;
+			title = nodeTarget.name;
 
 			SetPosition(nodeTarget.position);
 		}
@@ -87,9 +120,12 @@ namespace GraphProcessor
 
 		public virtual void Enable()
 		{
-			var field = new TextField();
-			mainContainer.Add(field);
+			DrawDefaultInspector();
 			//TODO: draw custom inspector with reflection
+		}
+
+		public virtual void DrawDefaultInspector()
+		{
 		}
 
 		public override void SetPosition(Rect newPosition)

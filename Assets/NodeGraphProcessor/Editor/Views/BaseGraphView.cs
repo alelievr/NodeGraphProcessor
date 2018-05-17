@@ -156,13 +156,25 @@ namespace GraphProcessor
 		{
 			var compatiblePorts = new List<Port>();
 
+			Type startPortType = startPort.portType;
+
+			if ((startPort as PortView).isMultiple)
+				startPortType = startPortType.GetGenericArguments()[0];
+
 			compatiblePorts.AddRange(ports.ToList().Where(p => {
-				if (p.direction == startPort.direction)
+				var portView = p as PortView;
+
+				if (portView.direction == startPort.direction)
 					return false;
 
-				if (!p.portType.IsAssignableFrom(startPort.portType))
+				Type portType = portView.portType;
+
+				if (portView.isMultiple)
+					portType = portType.GetGenericArguments()[0];
+				
+				if (!portType.IsReallyAssignableFrom(startPortType))
 					return false;
-					
+				
 				return true;
 			}));
 
@@ -271,10 +283,8 @@ namespace GraphProcessor
 		{
 			if (e.input == null || e.output == null)
 				return ;
-				
-			//Remove all edges connected to the input port:
-			foreach (var edge in edgeViews.Where(ev => ev.input == e.input))
-				Disconnect(edge);
+			
+			var edgesToRemove = edgeViews.Where(ev => ev.input == e.input).ToList();
 
 			AddElement(e);
 			
@@ -283,16 +293,23 @@ namespace GraphProcessor
 
 			var inputNodeView = e.input.node as BaseNodeView;
 			var outputNodeView = e.output.node as BaseNodeView;
+
+			if (inputNodeView == null || outputNodeView == null)
+				return ;
 			
 			edgeViews.Add(e);
 
 			if (serializeToGraph)
 			{
 				e.userData = graph.Connect(
-					inputNodeView.nodeTarget, e.input.portName,
-					outputNodeView.nodeTarget, e.output.portName
+					inputNodeView.nodeTarget, (e.input as PortView).fieldName,
+					outputNodeView.nodeTarget, (e.output as PortView).fieldName
 				);
 			}
+
+			//Remove edges formerly connected to the same input port
+			foreach (var edge in edgesToRemove)
+				Disconnect(edge);
 			
 			inputNodeView.RefreshPorts();
 			outputNodeView.RefreshPorts();
@@ -309,13 +326,13 @@ namespace GraphProcessor
 
 			RemoveElement(e);
 			
-			if (e.input != null)
+			if (e?.input?.node != null)
 			{
 				var inputNodeView = e.input.node as BaseNodeView;
 				inputNodeView.RefreshPorts();
 				e.input.Disconnect(e);
 			}
-			if (e.output != null)
+			if (e?.output?.node != null)
 			{
 				var outputNodeView = e.output.node as BaseNodeView;
 				e.output.Disconnect(e);

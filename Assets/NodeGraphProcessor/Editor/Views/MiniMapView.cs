@@ -10,6 +10,8 @@ namespace GraphProcessor
 	{
 		public MiniMapView()
 		{
+			SetPosition(new Rect(0, 0, 100, 100));
+			SetSize(new Vector2(1000, 1000));
 		}
 	}
 }

@@ -6,11 +6,19 @@ using GraphProcessor;
 [System.Serializable, NodeMenuItem("Primitives/Add")]
 public class AddNode : BaseNode
 {
-	[Input]
-	public PortArray< float >	input;
+	[Input("Input")]
+	public PortArray< float >	inputs;
 
 	[Output]
 	public float				output;
 
-	public override string name { get { return "Add"; } }
+	public override string		name { get { return "Add"; } }
+
+	public override void Process()
+	{
+		output = 0;
+
+		foreach (float input in inputs)
+			output += input;
+	}
 }

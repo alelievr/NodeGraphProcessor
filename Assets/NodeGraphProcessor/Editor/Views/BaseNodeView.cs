@@ -6,6 +6,7 @@ using UnityEngine.Experimental.UIElements;
 using UnityEngine.Rendering;
 using UnityEditor;
 using System.Reflection;
+using System;
 
 using NodeView = UnityEditor.Experimental.UIElements.GraphView.Node;
 
@@ -42,7 +43,7 @@ namespace GraphProcessor
 			Enable();
 		}
 
-		public void AddPort(Port p)
+		public void AddPort(PortView p)
 		{
 			if (p.direction == Direction.Input)
 			{
@@ -55,10 +56,10 @@ namespace GraphProcessor
 				outputContainer.Add(p);
 			}
 
-			portsPerFieldName[p.portName] = p;
+			portsPerFieldName[p.fieldName] = p;
 		}
 
-		public void RemovePort(Port p)
+		public void RemovePort(PortView p)
 		{
 			if (p.direction == Direction.Input)
 			{
@@ -71,7 +72,7 @@ namespace GraphProcessor
 				outputContainer.Remove(p);
 			}
 
-			portsPerFieldName.Remove(p.portName);
+			portsPerFieldName.Remove(p.fieldName);
 		}
 
 		void InitializePorts()
@@ -96,7 +97,10 @@ namespace GraphProcessor
 					this
 				);
 
-				port.portName = field.Name;
+				if (!String.IsNullOrEmpty(inputAttribute?.name))
+					port.portName = inputAttribute.name;
+				else if (!String.IsNullOrEmpty(outputAttribute?.name))
+					port.portName = outputAttribute.name;
 
 				AddPort(port);
 			}
@@ -104,7 +108,7 @@ namespace GraphProcessor
 
 		void InitializeView()
 		{
-			title = nodeTarget.name;
+			title = (string.IsNullOrEmpty(nodeTarget.name)) ? nodeTarget.GetType().Name : nodeTarget.name;
 
 			SetPosition(nodeTarget.position);
 		}

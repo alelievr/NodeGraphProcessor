@@ -45,7 +45,7 @@ namespace GraphProcessor
 
 		public void RegisterCompleteObjectUndo(string name)
 		{
-			Debug.Log("TODO !");
+			Undo.RegisterCompleteObjectUndo(this, name);
 		}
 		
 		public void AddNode(BaseNode node)

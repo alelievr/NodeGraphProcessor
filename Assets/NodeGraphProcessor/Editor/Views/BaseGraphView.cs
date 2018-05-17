@@ -37,43 +37,70 @@ namespace GraphProcessor
 	
 			this.StretchToParentSize();
 		}
+
+		#region Callbacks
 	
 		protected override bool canCopySelection
 		{
+			//TODO: add block comment type
+			get { return selection.OfType< BaseNodeView >().Any(); }
+		}
+
+		protected override bool canCutSelection
+		{
+			//TODO: add block comment type
 			get { return selection.OfType< BaseNodeView >().Any(); }
 		}
 
 		string SerializeGraphElementsCallback(IEnumerable<GraphElement> elements)
 		{
-			//TODO: make a copy-paste class to store these serialized datas
-			var serializedNodes = new List< JsonElement >();
+			var data = new CopyPasteHelper();
 
-			foreach (var node in elements.Where(e => e is BaseNodeView))
+			foreach (var nodeView in elements.Where(e => e is BaseNodeView))
 			{
-				Debug.Log("added one node: " + node);
-				serializedNodes.Add(JsonSerializer.Serialize< BaseNode >(((node) as BaseNodeView).nodeTarget));
+				var node = ((nodeView) as BaseNodeView).nodeTarget;
+				data.copiedNodes.Add(JsonSerializer.Serialize< BaseNode >(node));
 			}
+
+			foreach (var commentBlockView in elements.Where(e => e is CommentBlockView))
+			{
+				var commentBlock = (commentBlockView as CommentBlockView).commentBlock;
+				data.copiedCommentBlocks.Add(JsonSerializer.Serialize< CommentBlock >(commentBlock));
+			}
+
+			ClearSelection();
 			
-			return JsonUtility.ToJson(serializedNodes, true);
+			return JsonUtility.ToJson(data, true);
 		}
 
 		bool CanPasteSerializedDataCallback(string serializedData)
 		{
-			return !String.IsNullOrEmpty(serializedData);
+			return !String.IsNullOrEmpty(serializedData)
+				&& JsonUtility.FromJson(serializedData, typeof(CopyPasteHelper)) != null;
 		}
 
 		void UnserializeAndPasteCallback(string operationName, string serializedData)
 		{
-			Debug.Log("json: " + serializedData);
+			var data = JsonUtility.FromJson< CopyPasteHelper >(serializedData);
+
             graph.RegisterCompleteObjectUndo(operationName);
 
-			var nodes = JsonUtility.FromJson< List< BaseNode > >(serializedData);
-
-			foreach (var node in nodes)
+			foreach (var serializedNode in data.copiedNodes)
 			{
-				Debug.Log("Added one node: " + node);
+				var node = JsonSerializer.DeserializeNode(serializedNode);
+
+				//Call OnNodeCreated on the new fresh copied node
+				node.OnNodeCreated();
+				//And move a bit the new node
+				node.position.position += new Vector2(20, 20);
+
 				AddNode(node);
+
+				//Select the new node
+				AddToSelection(nodeViewsPerNode[node]);
 			}
+
+			//TODO: comment block
 		}
 
 		GraphViewChange GraphViewChangedCallback(GraphViewChange changes)
@@ -122,30 +149,6 @@ namespace GraphProcessor
 			UpdateViewTransform(pos, scale);
 		}
 
-		public void Disconnect(EdgeView e)
-		{
-			var serializableEdge = e.userData as SerializableEdge;
-
-			if (serializableEdge != null)
-				graph.Disconnect(serializableEdge.GUID);
-
-			RemoveElement(e);
-			
-			if (e.input != null)
-			{
-				var inputNodeView = e.input.node as BaseNodeView;
-				inputNodeView.RefreshPorts();
-				e.input.Disconnect(e);
-			}
-			if (e.output != null)
-			{
-				var outputNodeView = e.output.node as BaseNodeView;
-				e.output.Disconnect(e);
-				outputNodeView.RefreshPorts();
-			}
-
-		}
-
 		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
 		{
 			var compatiblePorts = new List<Port>();
@@ -162,6 +165,17 @@ namespace GraphProcessor
 
 			return compatiblePorts;
 		}
+
+		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			Vector2 position = evt.mousePosition - (Vector2)viewTransform.position;
+			evt.menu.AppendAction("Create/Comment Block", (e) => AddCommentBlockView(new CommentBlock("New Comment Block"), position), ContextualMenu.MenuAction.AlwaysEnabled);
+			base.BuildContextualMenu(evt);
+		}
+
+		#endregion
+
+		#region Initialization
 
 		public void Initialize(BaseGraph graph)
 		{
@@ -197,6 +211,19 @@ namespace GraphProcessor
 			}
 		}
 
+		protected virtual void InitializeManipulators()
+		{
+			this.AddManipulator(new ContentDragger());
+			this.AddManipulator(new ContentZoomer());
+			this.AddManipulator(new SelectionDragger());
+			this.AddManipulator(new RectangleSelector());
+			this.AddManipulator(new ClickSelector());
+		}
+
+		#endregion
+
+		#region Graph content modification
+
 		protected bool AddNode(BaseNode node)
 		{
 			AddNodeView(node);
@@ -221,6 +248,20 @@ namespace GraphProcessor
 			nodeViewsPerNode[node] = baseNodeView;
 
 			return true;
+		}
+
+		public void AddCommentBlock(string title, Vector2 position)
+		{
+			AddCommentBlockView(new CommentBlock(title), position);
+		}
+
+		public void AddCommentBlockView(CommentBlock block, Vector2 positiont)
+		{
+			var c = new CommentBlockView();
+
+			c.Initialize(this, block);
+
+			AddElement(c);
 		}
 
 		public void Connect(EdgeView e, bool serializeToGraph = true)
@@ -251,15 +292,31 @@ namespace GraphProcessor
 
 			e.isConnected = true;
 		}
-
-		protected virtual void InitializeManipulators()
+		
+		public void Disconnect(EdgeView e)
 		{
-			this.AddManipulator(new ContentDragger());
-			this.AddManipulator(new ContentZoomer());
-			this.AddManipulator(new SelectionDragger());
-			this.AddManipulator(new RectangleSelector());
-			this.AddManipulator(new ClickSelector());
+			var serializableEdge = e.userData as SerializableEdge;
+
+			if (serializableEdge != null)
+				graph.Disconnect(serializableEdge.GUID);
+
+			RemoveElement(e);
+			
+			if (e.input != null)
+			{
+				var inputNodeView = e.input.node as BaseNodeView;
+				inputNodeView.RefreshPorts();
+				e.input.Disconnect(e);
+			}
+			if (e.output != null)
+			{
+				var outputNodeView = e.output.node as BaseNodeView;
+				e.output.Disconnect(e);
+				outputNodeView.RefreshPorts();
+			}
 		}
+
+		#endregion
 
 	}
 }

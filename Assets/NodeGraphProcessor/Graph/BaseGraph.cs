@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEditor;
 
 namespace GraphProcessor
 {
+	[System.Serializable]
 	public class BaseGraph : ScriptableObject, ISerializationCallbackReceiver
 	{
 		//JSon datas contaning all elements of the graph
@@ -28,25 +28,8 @@ namespace GraphProcessor
 
         void OnEnable()
         {
-            Undo.undoRedoPerformed += UndoRedoPerformed;
-
 			DestroyBrokenGraphElements();
         }
-
-        void OnDisable()
-        {
-            Undo.undoRedoPerformed -= UndoRedoPerformed;
-        }
-
-        void UndoRedoPerformed()
-        {
-			Debug.Log("TODO !");
-        }
-
-		public void RegisterCompleteObjectUndo(string name)
-		{
-			Undo.RegisterCompleteObjectUndo(this, name);
-		}
 		
 		public void AddNode(BaseNode node)
 		{
@@ -91,12 +74,13 @@ namespace GraphProcessor
 			
 			foreach (var node in nodes)
 				serializedNodes.Add(JsonSerializer.Serialize(node));
-
 		}
 
 		public void OnAfterDeserialize()
 		{
 			nodes.Clear();
+
+			Debug.Log("Serialized nodes count: " + serializedNodes.Count);
 
 			foreach (var serializedNode in serializedNodes)
 			{

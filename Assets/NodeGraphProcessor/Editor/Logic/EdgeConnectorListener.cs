@@ -38,7 +38,7 @@ namespace GraphProcessor
 				Debug.Log("Edge disconnected !");
 			}
 
-			this.graphView.graph.RegisterCompleteObjectUndo("Connected " + edgeView.input.node.name + " and " + edgeView.output.node.name);
+			this.graphView.RegisterCompleteObjectUndo("Connected " + edgeView.input.node.name + " and " + edgeView.output.node.name);
 			this.graphView.Connect(edge as EdgeView);
         }
     }

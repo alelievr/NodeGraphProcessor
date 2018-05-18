@@ -87,8 +87,6 @@ namespace GraphProcessor
 				if (inputAttribute == null && outputAttribute == null)
 					continue ;
 
-				Debug.Log("adding port: " + field);
-				
 				PortView port = new PortView(
 					Orientation.Horizontal,
 					(inputAttribute != null) ? Direction.Input : Direction.Output,

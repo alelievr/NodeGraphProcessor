@@ -32,6 +32,8 @@ namespace GraphProcessor
 			viewTransformChanged = ViewTransformChangedCallback;
 
 			InitializeManipulators();
+
+			RegisterCallback< KeyDownEvent >(KeyDownCallback);
 			
 			SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
 	
@@ -86,7 +88,7 @@ namespace GraphProcessor
 		{
 			var data = JsonUtility.FromJson< CopyPasteHelper >(serializedData);
 
-            graph.RegisterCompleteObjectUndo(operationName);
+            RegisterCompleteObjectUndo(operationName);
 
 			foreach (var serializedNode in data.copiedNodes)
 			{
@@ -110,7 +112,7 @@ namespace GraphProcessor
 		{
 			if (changes.elementsToRemove != null)
 			{
-				graph.RegisterCompleteObjectUndo("Remove Elements");
+				RegisterCompleteObjectUndo("Remove Elements");
 
 				//Handle ourselve the edge and node remove
 				changes.elementsToRemove.RemoveAll(e => {
@@ -188,12 +190,24 @@ namespace GraphProcessor
 			base.BuildContextualMenu(evt);
 		}
 
+		void KeyDownCallback(KeyDownEvent e)
+		{
+			if (e.keyCode == KeyCode.S)
+			{
+				SaveGraphToDisk();
+				e.StopPropagation();
+			}
+		}
+
 		#endregion
 
 		#region Initialization
 
 		public void Initialize(BaseGraph graph)
 		{
+			if (this.graph != null)
+				SaveGraphToDisk();
+			
 			this.graph = graph;
 			
             connectorListener = new EdgeConnectorListener(this);
@@ -338,6 +352,18 @@ namespace GraphProcessor
 				e.output.Disconnect(e);
 				outputNodeView.RefreshPorts();
 			}
+		}
+
+		public void RegisterCompleteObjectUndo(string name)
+		{
+			Undo.RegisterCompleteObjectUndo(graph, name);
+			Debug.Log("UNDO !");
+		}
+
+		public void SaveGraphToDisk()
+		{
+			Debug.Log("Saved to disk !");
+			EditorUtility.SetDirty(graph);
 		}
 
 		#endregion

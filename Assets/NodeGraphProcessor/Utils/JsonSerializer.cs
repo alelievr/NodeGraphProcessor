@@ -11,6 +11,11 @@ namespace GraphProcessor
 	{
 		public string		type;
 		public string		jsonDatas;
+
+		public override string ToString()
+		{
+			return "type: " + type + " | JSON: " + jsonDatas;
+		}
 	}
 
 	public static class JsonSerializer

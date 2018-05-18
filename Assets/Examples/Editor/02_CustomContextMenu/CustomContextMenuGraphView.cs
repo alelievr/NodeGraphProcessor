@@ -24,6 +24,7 @@ public class CustomContextMenuGraphView : BaseGraphView
 
 	void CreateNodeOfType(Type type, Vector2 position)
 	{
+		RegisterCompleteObjectUndo("Added " + type + " node");
 		AddNode(BaseNode.CreateFromType(type, position));
 	}
 }

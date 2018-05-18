@@ -21,7 +21,7 @@ namespace GraphProcessor
 
 			intField.OnValueChanged((v) => {
 				intNode.output = (int)v.newValue;
-				owner.graph.RegisterCompleteObjectUndo("Updated IntNode output");
+				owner.RegisterCompleteObjectUndo("Updated IntNode output");
 			});
 
 			controlsContainer.Add(intField);

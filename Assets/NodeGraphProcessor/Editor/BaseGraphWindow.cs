@@ -36,6 +36,12 @@ namespace GraphProcessor
 				InitializeGraph(graph);
 		}
 
+		protected void OnDisable()
+		{
+			if (graph != null)
+				graphView.SaveGraphToDisk();
+		}
+
 		void InitializeRootView()
 		{
 			rootView = this.GetRootVisualContainer();

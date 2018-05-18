@@ -37,4 +37,15 @@ namespace GraphProcessor
 			this.menuTitle = menuTitle;
 		}
 	}
+
+	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+	public class FieldDrawerAttribute : Attribute
+	{
+		public Type		fieldType;
+
+		public FieldDrawerAttribute(Type fieldType)
+		{
+			this.fieldType = fieldType;
+		}
+	}
 }

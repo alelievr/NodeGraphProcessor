@@ -92,8 +92,7 @@ namespace GraphProcessor
 					Orientation.Horizontal,
 					(inputAttribute != null) ? Direction.Input : Direction.Output,
 					field,
-					owner.connectorListener,
-					this
+					owner.connectorListener
 				);
 
 				if (!String.IsNullOrEmpty(inputAttribute?.name))
@@ -134,6 +133,9 @@ namespace GraphProcessor
 			{
 				if (!field.IsPublic || field.GetCustomAttribute(typeof(SerializeField)) == null)
 					continue ;
+
+				FieldFactory.CreateField(field);
+				//TODO: implement field factor
 			}
 		}
 

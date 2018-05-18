@@ -13,19 +13,15 @@ namespace GraphProcessor
 		public bool				isMultiple;
 		public string			fieldName { get { return field.Name; } }
 		FieldInfo				field;
-		BaseNodeView			owner;
-		EdgeConnectorListener	edgeConnectorListener;
 
 		List< EdgeView >		edges = new List< EdgeView >();
 
-		public PortView(Orientation portOrientation, Direction portDirection, FieldInfo field, EdgeConnectorListener edgeConnectorListener, BaseNodeView owner) : base(portOrientation, portDirection, field.FieldType)
+		public PortView(Orientation portOrientation, Direction portDirection, FieldInfo field, EdgeConnectorListener edgeConnectorListener) : base(portOrientation, portDirection, field.FieldType)
 		{
 			AddStyleSheetPath("Styles/PortView");
 
 			this.m_EdgeConnector = new EdgeConnector< EdgeView >(edgeConnectorListener);
 			this.field = field;
-			this.owner = owner;
-			this.edgeConnectorListener = edgeConnectorListener;
 
 			this.AddManipulator(m_EdgeConnector);
 

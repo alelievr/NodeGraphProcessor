@@ -16,7 +16,7 @@ namespace GraphProcessor
 		static NodeProvider()
 		{
             // First build up temporary data structure containing group & title as an array of strings (the last one is the actual title) and associated node type.
-			foreach (var type in GetAllTypesInCurrentDomain())
+			foreach (var type in AppDomain.CurrentDomain.GetAllTypes())
 			{
 				if (type.IsClass && !type.IsAbstract)
 				{
@@ -26,23 +26,6 @@ namespace GraphProcessor
 						AddNodeViewType(type);
 				}
             }
-		}
-
-		static IEnumerable< Type >	GetAllTypesInCurrentDomain()
-		{
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-				Type[] types = {};
-				
-                try {
-					types = assembly.GetTypes();
-				} catch {
-					//just ignore it ...
-				}
-
-				foreach (var type in types)
-					yield return type;
-			}
 		}
 
 		static void AddNodeType(Type type)

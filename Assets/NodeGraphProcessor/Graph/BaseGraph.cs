@@ -68,8 +68,6 @@ namespace GraphProcessor
 
 		public void OnBeforeSerialize()
 		{
-			Debug.Log("Before serialization node count: " + nodes.Count);
-
 			serializedNodes.Clear();
 			
 			foreach (var node in nodes)

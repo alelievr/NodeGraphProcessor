@@ -165,16 +165,19 @@ namespace GraphProcessor
 
 			compatiblePorts.AddRange(ports.ToList().Where(p => {
 				var portView = p as PortView;
-
-				if (portView.direction == startPort.direction)
-					return false;
-
 				Type portType = portView.portType;
 
 				if (portView.isMultiple)
 					portType = portType.GetGenericArguments()[0];
+
+				if (portView.direction == startPort.direction)
+					return false;
 				
 				if (!portType.IsReallyAssignableFrom(startPortType))
+					return false;
+				
+				//if the edge already exists
+				if (portView.GetEdges().Any(e => e.input == startPort || e.output == startPort))
 					return false;
 				
 				return true;
@@ -298,7 +301,10 @@ namespace GraphProcessor
 			if (e.input == null || e.output == null)
 				return ;
 			
-			var edgesToRemove = edgeViews.Where(ev => ev.input == e.input).ToList();
+			//If the input port does not support multi-connection, we remove them
+			if (!(e.input as PortView).isMultiple)
+				foreach (var edge in edgeViews.Where(ev => ev.input == e.input))
+					Disconnect(edge);
 
 			AddElement(e);
 			
@@ -309,7 +315,10 @@ namespace GraphProcessor
 			var outputNodeView = e.output.node as BaseNodeView;
 
 			if (inputNodeView == null || outputNodeView == null)
+			{
+				Debug.Log("Connect aborted !");
 				return ;
+			}
 			
 			edgeViews.Add(e);
 
@@ -320,10 +329,6 @@ namespace GraphProcessor
 					outputNodeView.nodeTarget, (e.output as PortView).fieldName
 				);
 			}
-
-			//Remove edges formerly connected to the same input port
-			foreach (var edge in edgesToRemove)
-				Disconnect(edge);
 			
 			inputNodeView.RefreshPorts();
 			outputNodeView.RefreshPorts();
@@ -357,12 +362,10 @@ namespace GraphProcessor
 		public void RegisterCompleteObjectUndo(string name)
 		{
 			Undo.RegisterCompleteObjectUndo(graph, name);
-			Debug.Log("UNDO !");
 		}
 
 		public void SaveGraphToDisk()
 		{
-			Debug.Log("Saved to disk !");
 			EditorUtility.SetDirty(graph);
 		}
 

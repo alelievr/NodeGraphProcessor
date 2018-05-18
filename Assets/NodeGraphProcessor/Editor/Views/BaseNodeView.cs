@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Experimental.UIElements.GraphView;
+using UnityEditor.Experimental.UIElements;
 using UnityEngine.Experimental.UIElements;
 using UnityEngine.Rendering;
 using UnityEditor;
@@ -15,16 +16,16 @@ namespace GraphProcessor
 	[NodeCustomEditor(typeof(BaseNode))]
 	public class BaseNodeView : NodeView
 	{
-		public BaseNode				nodeTarget;
+		public BaseNode							nodeTarget;
 
-		public List< Port >			inputPorts = new List< Port >();
-		public List< Port >			outputPorts = new List< Port >();
+		public List< Port >						inputPorts = new List< Port >();
+		public List< Port >						outputPorts = new List< Port >();
 
-		Dictionary< string, Port >	portsPerFieldName = new Dictionary< string, Port >();
+		protected Dictionary< string, Port >	portsPerFieldName = new Dictionary< string, Port >();
 
-		protected BaseGraphView		owner;
+		protected BaseGraphView					owner;
 
-        protected VisualElement 	controlsContainer;
+        protected VisualElement 				controlsContainer;
 
 		public void Initialize(BaseGraphView owner, BaseNode node)
 		{
@@ -123,12 +124,21 @@ namespace GraphProcessor
 		public virtual void Enable()
 		{
 			DrawDefaultInspector();
-			//TODO: draw custom inspector with reflection
 		}
 
 		public virtual void DrawDefaultInspector()
 		{
+			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+
+			foreach (var field in fields)
+			{
+				if (!field.IsPublic || field.GetCustomAttribute(typeof(SerializeField)) == null)
+					continue ;
+			}
 		}
+
+		public virtual void OnPortConnected(PortView port) {}
+		public virtual void OnPortDisconnected(PortView port) {}
 
 		public override void SetPosition(Rect newPosition)
 		{

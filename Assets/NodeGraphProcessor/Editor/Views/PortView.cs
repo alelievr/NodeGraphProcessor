@@ -16,6 +16,8 @@ namespace GraphProcessor
 		BaseNodeView			owner;
 		EdgeConnectorListener	edgeConnectorListener;
 
+		List< EdgeView >		edges = new List< EdgeView >();
+
 		public PortView(Orientation portOrientation, Direction portDirection, FieldInfo field, EdgeConnectorListener edgeConnectorListener, BaseNodeView owner) : base(portOrientation, portDirection, field.FieldType)
 		{
 			AddStyleSheetPath("Styles/PortView");
@@ -41,43 +43,34 @@ namespace GraphProcessor
 		{
 			base.Connect(edge);
 
-			if (direction == Direction.Input && isMultiple)
-			{
-				var portArray = field.GetValue(owner.nodeTarget) as IList;
+			var inputNode = edge.input.node as BaseNodeView;
+			var outputNode = edge.output.node as BaseNodeView;
 
-				//Initialize the array if not
-				if (portArray == null)
-				{
-					portArray = Activator.CreateInstance(field.FieldType) as IList;
-					field.SetValue(owner.nodeTarget, portArray);
-				}
+			inputNode.OnPortConnected(edge.input as PortView);
+			outputNode.OnPortConnected(edge.output as PortView);
 
-				var paramType = portArray.GetType().GetGenericArguments()[0];
-				int index = portArray.Count;
-				var newPort = new PortView(orientation, direction, field, edgeConnectorListener, owner);
-
-				portArray.Add(Activator.CreateInstance(paramType));
-
-				newPort.portName = portName;
-				
-				owner.AddPort(newPort);
-			}
+			edges.Add(edge as EdgeView);
 		}
 
 		public override void Disconnect(Edge edge)
 		{
-			var edgeView = edge as EdgeView;
-
 			base.Disconnect(edge);
 
-			if (!edgeView.isConnected)
+			if (!(edge as EdgeView).isConnected)
 				return ;
 
-			if (direction == Direction.Input && isMultiple)
-			{
-				owner.RemovePort(this);
-				//TODO: remove the element in the portArray
-			}
+			var inputNode = edge.input.node as BaseNodeView;
+			var outputNode = edge.output.node as BaseNodeView;
+
+			inputNode.OnPortDisconnected(edge.input as PortView);
+			outputNode.OnPortDisconnected(edge.output as PortView);
+			
+			edges.Remove(edge as EdgeView);
+		}
+
+		public List< EdgeView >		GetEdges()
+		{
+			return edges;
 		}
 	}
 }

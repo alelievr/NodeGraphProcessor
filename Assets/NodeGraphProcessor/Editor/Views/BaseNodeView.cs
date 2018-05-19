@@ -42,6 +42,8 @@ namespace GraphProcessor
 			InitializeView();
 
 			Enable();
+
+			this.RefreshPorts();
 		}
 
 		public void AddPort(PortView p)
@@ -131,22 +133,38 @@ namespace GraphProcessor
 
 			foreach (var field in fields)
 			{
-				if (!field.IsPublic || field.GetCustomAttribute(typeof(SerializeField)) == null)
+				//skip if the field is not serilizable
+				if (!field.IsPublic && field.GetCustomAttribute(typeof(SerializeField)) == null)
+					continue ;
+				
+				//skip if the field is an input/output
+				if (field.GetCustomAttribute(typeof(InputAttribute)) != null || field.GetCustomAttribute(typeof(OutputAttribute)) != null)
 					continue ;
 
-				FieldFactory.CreateField(field);
-				//TODO: implement field factor
+                //skip if marked with NonSerialized
+                if (field.GetCustomAttribute(typeof(System.NonSerializedAttribute)) != null)
+                    continue ;
+
+				var controlLabel = new Label(field.Name);
+                controlsContainer.Add(controlLabel);
+
+				var element = FieldFactory.CreateField(field, (newValue) => {
+					field.SetValue(nodeTarget, newValue);
+					owner.RegisterCompleteObjectUndo("Updated " + newValue);
+				});
+
+				controlsContainer.Add(element);
 			}
 		}
 
 		public virtual void OnPortConnected(PortView port) {}
 		public virtual void OnPortDisconnected(PortView port) {}
 
-		public override void SetPosition(Rect newPosition)
+		public override void SetPosition(Rect newPos)
 		{
-			base.SetPosition(newPosition);
+			base.SetPosition(newPos);
 
-			nodeTarget.position = newPosition;
+			nodeTarget.position = newPos;
 		}
 
 		public override bool	expanded

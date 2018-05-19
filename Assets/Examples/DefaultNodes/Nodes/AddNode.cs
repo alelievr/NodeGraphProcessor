@@ -14,6 +14,8 @@ public class AddNode : BaseNode
 
 	public override string		name { get { return "Add"; } }
 
+	public int					test;
+
 	public override void Process()
 	{
 		output = 0;

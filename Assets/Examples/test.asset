@@ -19,7 +19,7 @@ MonoBehaviour:
   - type: IntNode
     jsonDatas: '{"GUID":"240d9400-836b-4fb7-a157-5b7a9ca9318b","position":{"serializedVersion":"2","x":-53.13677978515625,"y":456.65179443359377,"width":89.0,"height":97.0},"expanded":false,"output":0}'
   - type: AddNode
-    jsonDatas: '{"GUID":"17f48d73-bf80-4f52-ae02-d61b2009878c","position":{"serializedVersion":"2","x":191.94322204589845,"y":230.09181213378907,"width":137.0,"height":77.0},"expanded":false,"output":0.0}'
+    jsonDatas: '{"GUID":"17f48d73-bf80-4f52-ae02-d61b2009878c","position":{"serializedVersion":"2","x":196.94322204589845,"y":269.05181884765627,"width":137.0,"height":117.0},"expanded":false,"output":0.0,"test":0}'
   - type: IntNode
     jsonDatas: '{"GUID":"a1a91bf2-b474-4f89-8235-38a1e71e4c31","position":{"serializedVersion":"2","x":-110.14024353027344,"y":320.9788513183594,"width":89.0,"height":97.0},"expanded":false,"output":0}'
   edges:
@@ -41,5 +41,5 @@ MonoBehaviour:
     outputNodeGUID: 240d9400-836b-4fb7-a157-5b7a9ca9318b
     inputFieldName: inputs
     outputFieldName: output
-  position: {x: 309.09912, y: -139.76471, z: 0}
+  position: {x: 209.70853, y: -128.78745, z: 0}
   scale: {x: 1, y: 1, z: 1}

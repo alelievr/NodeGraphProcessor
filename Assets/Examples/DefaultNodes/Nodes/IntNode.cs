@@ -6,7 +6,7 @@ using GraphProcessor;
 [System.Serializable, NodeMenuItem("Primitives/Int")]
 public class IntNode : BaseNode
 {
-	[Output]
+    [Output]
 	public int		output;
 
 	public override string name { get { return  "IntNode"; } }

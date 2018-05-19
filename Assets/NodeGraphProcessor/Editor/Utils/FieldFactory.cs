@@ -11,7 +11,9 @@ namespace GraphProcessor
 {
 	public static class FieldFactory
 	{
-		static Dictionary< Type, Type >		fieldDrawers = new Dictionary< Type, Type >();
+		static readonly Dictionary< Type, Type >    fieldDrawers = new Dictionary< Type, Type >();
+
+		static readonly MethodInfo	        		createFieldMethod = typeof(FieldFactory).GetMethod("CreateFieldSpecific", BindingFlags.Static | BindingFlags.Public);
 
 		static FieldFactory()
 		{
@@ -26,8 +28,9 @@ namespace GraphProcessor
 			}
 
 			// щ(ºДºщ) ...
-			AddDrawer(typeof(int), typeof(IntegerField));
-			AddDrawer(typeof(float), typeof(DoubleField));
+            AddDrawer(typeof(int), typeof(IntegerField));
+            AddDrawer(typeof(long), typeof(LongField));
+            AddDrawer(typeof(float), typeof(FloatField));
 			AddDrawer(typeof(double), typeof(DoubleField));
 			AddDrawer(typeof(string), typeof(TextField));
 			AddDrawer(typeof(Bounds), typeof(BoundsField));
@@ -42,9 +45,11 @@ namespace GraphProcessor
 
 		static void AddDrawer(Type fieldType, Type drawerType)
 		{
-			if (!drawerType.IsSubclassOf(typeof(INotifyValueChanged<>)))
+			var iNotifyType = typeof(INotifyValueChanged<>).MakeGenericType(fieldType);
+
+			if (!iNotifyType.IsAssignableFrom(drawerType))
 			{
-				Debug.LogError("The custom field drawer " + drawerType + " does not implements INotifyValueChanged< T >");
+				Debug.LogError("The custom field drawer " + drawerType + " does not implements INotifyValueChanged< " + fieldType + " >");
 				return ;
 			}
 
@@ -53,23 +58,42 @@ namespace GraphProcessor
 
 		public static INotifyValueChanged< T > CreateField< T >()
 		{
-			Type drawerType;
-
-			fieldDrawers.TryGetValue(typeof(T), out drawerType);
-
-			if (drawerType == null)
-			{
-				throw new ArgumentException("Can't find field drawer for type" + typeof(T));
-			}
-
-			var field = Activator.CreateInstance(drawerType);
-			return field as INotifyValueChanged< T >;
+			return CreateField(typeof(T)) as INotifyValueChanged< T >;
 		}
 
-		public static VisualElement CreateField(FieldInfo field)
+		public static VisualElement CreateField(Type t)
 		{
-			//TODO: Create new field drawer and attach chnage events to this field
-			return null;
+			Type drawerType;
+
+			fieldDrawers.TryGetValue(t, out drawerType);
+
+			if (drawerType == null)
+				drawerType = fieldDrawers.FirstOrDefault(kp => kp.Key.IsReallyAssignableFrom(t)).Value;
+
+			if (drawerType == null)
+				throw new ArgumentException("Can't find field drawer for type: " + t);
+
+			var field = Activator.CreateInstance(drawerType);
+
+			return field as VisualElement;
+		}
+
+		public static INotifyValueChanged< T > CreateFieldSpecific< T >(FieldInfo field, Action< object > onValueChanged)
+		{
+			var fieldDrawer = CreateField< T >();
+
+			fieldDrawer.OnValueChanged((e) => {
+				onValueChanged(e.newValue);
+			});
+
+			return fieldDrawer as INotifyValueChanged< T >;
+		}
+
+		public static VisualElement CreateField(FieldInfo field, Action< object > onValueChanged)
+		{
+			var createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(field.FieldType);
+
+			return createFieldSpecificMethod.Invoke(null, new object[]{field, onValueChanged}) as VisualElement;
 		}
 	}
 }

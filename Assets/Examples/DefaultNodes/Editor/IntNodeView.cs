@@ -14,12 +14,13 @@ namespace GraphProcessor
 		public override void Enable()
 		{
 			var intNode = nodeTarget as IntNode;
-			
-			IntegerField	intField = new IntegerField();
 
-			intField.value = intNode.output;
+            IntegerField intField = new IntegerField
+            {
+                value = intNode.output
+            };
 
-			intField.OnValueChanged((v) => {
+            intField.OnValueChanged((v) => {
 				intNode.output = (int)v.newValue;
 				owner.RegisterCompleteObjectUndo("Updated IntNode output");
 			});

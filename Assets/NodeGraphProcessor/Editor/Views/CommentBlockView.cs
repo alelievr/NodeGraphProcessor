@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine.Experimental.UIElements;
+using UnityEditor.Graphs;
 
 namespace GraphProcessor
 {
-	public class CommentBlockView : GroupNode
+	public class CommentBlockView : GraphElement
 	{
 		public BaseGraphView	owner;
 		public CommentBlock		commentBlock;

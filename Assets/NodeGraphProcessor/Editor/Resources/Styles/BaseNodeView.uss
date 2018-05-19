@@ -5,6 +5,6 @@ IntNodeView {
     background-color: rgba(63, 63, 63, 0.8);
 }
 
-IntNodeView #controls {
+#controls {
     background-color: rgba(63, 63, 63, 0.8);
 }

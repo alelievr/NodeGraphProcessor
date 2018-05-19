@@ -16,7 +16,8 @@ namespace GraphProcessor
 
 		List< EdgeView >		edges = new List< EdgeView >();
 
-		public PortView(Orientation portOrientation, Direction portDirection, FieldInfo field, EdgeConnectorListener edgeConnectorListener) : base(portOrientation, portDirection, field.FieldType)
+        public PortView(Orientation portOrientation, Direction portDirection, FieldInfo field, EdgeConnectorListener edgeConnectorListener)
+            : base(portOrientation, portDirection, Capacity.Multi, field.FieldType)
 		{
 			AddStyleSheetPath("Styles/PortView");
 

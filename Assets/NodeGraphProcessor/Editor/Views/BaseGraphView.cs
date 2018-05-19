@@ -30,6 +30,7 @@ namespace GraphProcessor
 			unserializeAndPaste = UnserializeAndPasteCallback;
             graphViewChanged = GraphViewChangedCallback;
 			viewTransformChanged = ViewTransformChangedCallback;
+            elementResized = ElementResizedCallback;
 
 			InitializeManipulators();
 
@@ -44,14 +45,12 @@ namespace GraphProcessor
 	
 		protected override bool canCopySelection
 		{
-			//TODO: add block comment type
-			get { return selection.OfType< BaseNodeView >().Any(); }
+            get { return selection.Any(e => e is BaseNodeView || e is CommentBlockView); }
 		}
 
 		protected override bool canCutSelection
 		{
-			//TODO: add block comment type
-			get { return selection.OfType< BaseNodeView >().Any(); }
+            get { return selection.Any(e => e is BaseNodeView || e is CommentBlockView); }
 		}
 
 		string SerializeGraphElementsCallback(IEnumerable<GraphElement> elements)
@@ -105,7 +104,12 @@ namespace GraphProcessor
 				AddToSelection(nodeViewsPerNode[node]);
 			}
 
-			//TODO: comment block
+            foreach (var serializedCommentBlock in data.copiedCommentBlocks)
+            {
+                var commentBlock = JsonSerializer.Deserialize<CommentBlock>(serializedCommentBlock);
+
+                AddCommentBlock(commentBlock);
+            }
 		}
 
 		GraphViewChange GraphViewChangedCallback(GraphViewChange changes)
@@ -142,6 +146,14 @@ namespace GraphProcessor
 			graph.position = viewTransform.position;
 			graph.scale = viewTransform.scale;
 		}
+
+        void ElementResizedCallback(VisualElement elem)
+        {
+            var commentBlockView = elem as CommentBlockView;
+
+            if (commentBlockView != null)
+                commentBlockView.commentBlock.size = commentBlockView.GetPosition().size;
+        }
 
 		public override void OnPersistentDataReady()
 		{
@@ -189,7 +201,7 @@ namespace GraphProcessor
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			Vector2 position = evt.mousePosition - (Vector2)viewTransform.position;
-			evt.menu.AppendAction("Create/Comment Block", (e) => AddCommentBlockView(new CommentBlock("New Comment Block"), position), ContextualMenu.MenuAction.AlwaysEnabled);
+            evt.menu.AppendAction("Create/Comment Block", (e) => AddCommentBlockView(new CommentBlock("New Comment Block", position)), ContextualMenu.MenuAction.AlwaysEnabled);
 			base.BuildContextualMenu(evt);
 		}
 
@@ -217,6 +229,7 @@ namespace GraphProcessor
 
 			InitializeNodeViews();
 			InitializeEdgeViews();
+            InitializeCommentBlocks();
 		}
 
 		void InitializeNodeViews()
@@ -242,6 +255,12 @@ namespace GraphProcessor
 				Connect(edgeView, false);
 			}
 		}
+
+        void InitializeCommentBlocks()
+        {
+            foreach (var commentBlock in graph.commentBlocks)
+                AddCommentBlockView(commentBlock);
+        }
 
 		protected virtual void InitializeManipulators()
 		{
@@ -284,10 +303,16 @@ namespace GraphProcessor
 
 		public void AddCommentBlock(string title, Vector2 position)
 		{
-			AddCommentBlockView(new CommentBlock(title), position);
+            AddCommentBlock(new CommentBlock(title, position));
 		}
 
-		public void AddCommentBlockView(CommentBlock block, Vector2 positiont)
+        public void AddCommentBlock(CommentBlock block)
+        {
+            AddCommentBlockView(block);
+            graph.AddCommentBlock(block);
+        }
+
+		public void AddCommentBlockView(CommentBlock block)
 		{
 			var c = new CommentBlockView();
 

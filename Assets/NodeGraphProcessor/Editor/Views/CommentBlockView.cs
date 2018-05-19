@@ -2,36 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Experimental.UIElements.GraphView;
+using UnityEngine.Experimental.UIElements.StyleEnums;
 using UnityEngine.Experimental.UIElements;
-using UnityEditor.Graphs;
 
 namespace GraphProcessor
 {
-	public class CommentBlockView : GraphElement
+    public class CommentBlockView : Group
 	{
 		public BaseGraphView	owner;
 		public CommentBlock		commentBlock;
 
-		public CommentBlockView()
-		{
-			AddStyleSheetPath("Styles/CommentBlock");
-			
-			Add(new Resizer());
+        public CommentBlockView()
+        {
+            AddStyleSheetPath("Styles/CommentBlock");
 
-			SetSize(Vector2.one * 50);
+            capabilities |= Capabilities.Resizable;
+
+            shadow.Add(new Resizer());
 		}
 
 		public void Initialize(BaseGraphView graphView, CommentBlock block)
 		{
 			commentBlock = block;
 			owner = graphView;
-		}
-		
-		public override void SetPosition(Rect newPosition)
-		{
-			base.SetPosition(newPosition);
 
-			commentBlock.position = newPosition;
+            title = block.title;
+			SetSize(block.size);
+            SetPosition(block.position);
+
+            headerContainer.Q< TextField >().RegisterCallback< ChangeEvent< string > >(TitleChangedCallback);
+		}
+
+        void TitleChangedCallback(ChangeEvent< string > e)
+        {
+            commentBlock.title = e.newValue;
+        }
+		
+		public override void SetPosition(Rect newPos)
+		{
+			base.SetPosition(newPos);
+
+			commentBlock.position = newPos;
 		}
 	}
 }

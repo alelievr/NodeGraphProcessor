@@ -10,12 +10,14 @@ namespace GraphProcessor
 		public string			title;
 		public Color			color;
 		public Rect				position;
+        public Vector2          size;
 
 		public List< string >	innerNodeGUIDs = new List< string >();
 
-		public CommentBlock(string title)
+        public CommentBlock(string title, Vector2 position)
 		{
 			this.title = title;
+            this.position.position = position;
 		}
 
 	}

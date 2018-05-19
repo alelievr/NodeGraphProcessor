@@ -22,6 +22,9 @@ namespace GraphProcessor
 		[System.NonSerialized]
 		public Dictionary< string, SerializableEdge >	edgesPerGUID = new Dictionary< string, SerializableEdge >();
 
+        [SerializeField]
+        public List< CommentBlock >                     commentBlocks = new List< CommentBlock >();
+
 		//graph visual properties
 		public Vector3				position;
 		public Vector3				scale;
@@ -65,6 +68,16 @@ namespace GraphProcessor
 		{
 			edges.RemoveAll(r => r.GUID == edgeGUID);
 		}
+
+        public void AddCommentBlock(CommentBlock block)
+        {
+            commentBlocks.Add(block);
+        }
+
+        public void RemoveCommentBlock(CommentBlock block)
+        {
+            commentBlocks.Remove(block);
+        }
 
 		public void OnBeforeSerialize()
 		{

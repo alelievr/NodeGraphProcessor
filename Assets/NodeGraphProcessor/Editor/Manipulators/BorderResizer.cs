@@ -1,15 +1,14 @@
-﻿using UnityEngine;
-using UnityEditor;
-using UnityEditor.Experimental.UIElements;
-using UnityEngine.Experimental.UIElements;
+﻿using UnityEngine.Experimental.UIElements;
 using UnityEditor.Experimental.UIElements.GraphView;
-using System;
+using UnityEngine;
 
 namespace GraphProcessor
 {
     public class BorderResizer : MouseManipulator
     {
-        bool active;
+        bool        active;
+        Vector2     startMousePosition;
+        Vector2     startComponentSize;
 
         readonly string     cursorBorderStyleSheet = "GraphProcessorStyles/BorderResizer";
 
@@ -56,6 +55,9 @@ namespace GraphProcessor
                 active = true;
                 target.TakeMouseCapture();
                 e.StopPropagation();
+
+                startComponentSize = new Vector2(graphElement.style.width, graphElement.style.height);
+                startMousePosition = e.localMousePosition;
             }
         }
 
@@ -66,8 +68,10 @@ namespace GraphProcessor
 
             var graphElement = e.target as GraphElement;
 
-            graphElement.style.width += e.mouseDelta.x;
-            graphElement.style.height += e.mouseDelta.y;
+            Vector2 delta = e.localMousePosition - startMousePosition;
+
+            graphElement.style.width = startComponentSize.x + delta.x;
+            graphElement.style.height = startComponentSize.y + delta.y;
         }
 
         void OnMouseUp(MouseUpEvent e)

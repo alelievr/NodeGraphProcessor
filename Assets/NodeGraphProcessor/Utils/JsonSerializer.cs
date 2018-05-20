@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GraphProcessor
 {
-	[System.Serializable]
+	[Serializable]
 	public struct JsonElement
 	{
 		public string		type;

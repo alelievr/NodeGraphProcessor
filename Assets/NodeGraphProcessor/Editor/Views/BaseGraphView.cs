@@ -18,10 +18,12 @@ namespace GraphProcessor
 		
 		public EdgeConnectorListener			connectorListener;
 
-		List< BaseNodeView >					nodeViews = new List< BaseNodeView >();
-		Dictionary< BaseNode, BaseNodeView >	nodeViewsPerNode = new Dictionary< BaseNode, BaseNodeView >();
+		public List< BaseNodeView >					nodeViews = new List< BaseNodeView >();
+		public Dictionary< BaseNode, BaseNodeView >	nodeViewsPerNode = new Dictionary< BaseNode, BaseNodeView >();
 		
-		List< EdgeView >						edgeViews = new List< EdgeView >();
+		public List< EdgeView >					edgeViews = new List< EdgeView >();
+
+        public List< CommentBlockView >         commentBlockViews = new List< CommentBlockView >();
 
 		public BaseGraphView()
 		{
@@ -163,10 +165,7 @@ namespace GraphProcessor
             var commentBlockView = elem as CommentBlockView;
 
             if (commentBlockView != null)
-            {
-                Debug.Log("New size saved !");
                 commentBlockView.commentBlock.size = commentBlockView.GetPosition().size;
-            }
         }
 
 		public override void OnPersistentDataReady()
@@ -330,6 +329,8 @@ namespace GraphProcessor
 			c.Initialize(this, block);
 
 			AddElement(c);
+
+            commentBlockViews.Add(c);
 		}
 
 		public void Connect(EdgeView e, bool serializeToGraph = true)

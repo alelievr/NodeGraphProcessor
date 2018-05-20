@@ -1,3 +1,4 @@
-CommentBlockView {
-	background-color: #FF00FF;
+#headerColorPicker {
+    width: 50;
+    align: right;
 }

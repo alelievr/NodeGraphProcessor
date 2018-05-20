@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Experimental.UIElements.GraphView;
-using UnityEditor.Experimental.UIElements;
 using UnityEngine.Experimental.UIElements;
-using UnityEngine.Rendering;
 using UnityEditor;
 using System.Reflection;
 using System;
+using System.Linq;
 
+using StatusFlags = UnityEngine.Experimental.UIElements.ContextualMenu.MenuAction.StatusFlags;
 using NodeView = UnityEditor.Experimental.UIElements.GraphView.Node;
 
 namespace GraphProcessor
@@ -176,5 +175,24 @@ namespace GraphProcessor
 				nodeTarget.expanded = value;
 			}
 		}
-	}
+
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            base.BuildContextualMenu(evt);
+            evt.menu.AppendAction("Add to group", AddNodeToGroup, AddNodeToGroupStatus);
+        }
+
+        void AddNodeToGroup(ContextualMenu.MenuAction action)
+        {
+            
+        }
+
+        StatusFlags AddNodeToGroupStatus(ContextualMenu.MenuAction action)
+        {
+            var mouseRect = new Rect(action.eventInfo.mousePosition, Vector2.zero);
+            var block = owner.commentBlockViews.FirstOrDefault(c => c.Overlaps(mouseRect));
+
+            return (block == null) ? StatusFlags.Disabled : StatusFlags.Normal;
+        }
+    }
 }

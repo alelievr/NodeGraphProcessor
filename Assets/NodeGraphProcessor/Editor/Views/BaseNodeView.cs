@@ -184,11 +184,12 @@ namespace GraphProcessor
 
         void AddNodeToGroup(ContextualMenu.MenuAction action)
         {
-            
+            Debug.Log("Attach node !");
         }
 
         StatusFlags AddNodeToGroupStatus(ContextualMenu.MenuAction action)
         {
+            //FIXME !
             var mouseRect = new Rect(action.eventInfo.mousePosition, Vector2.zero);
             var block = owner.commentBlockViews.FirstOrDefault(c => c.Overlaps(mouseRect));
 

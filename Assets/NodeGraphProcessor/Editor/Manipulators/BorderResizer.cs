@@ -6,11 +6,17 @@ namespace GraphProcessor
 {
     public class BorderResizer : MouseManipulator
     {
-        bool        active;
-        Vector2     startMousePosition;
-        Vector2     startComponentSize;
+        bool                active;
+        Vector2             startMousePosition;
+        Vector2             startComponentSize;
+        Vector2             startComponentPosition;
+
+        readonly int        dragBorderSize = 15;
+        Vector2             dragDirection;
 
         readonly string     cursorBorderStyleSheet = "GraphProcessorStyles/BorderResizer";
+
+        GraphElement        elem;
 
         public BorderResizer()
         {
@@ -19,6 +25,11 @@ namespace GraphProcessor
 
         protected override void RegisterCallbacksOnTarget()
         {
+            elem = target as GraphElement;
+
+            if (elem == null)
+                throw new System.InvalidOperationException("BorderReiszer can only be added to a GraphElement");
+            
             target.RegisterCallback< MouseDownEvent >(OnMouseDown);
             target.RegisterCallback< MouseMoveEvent >(OnMouseMove);
             target.RegisterCallback< MouseUpEvent >(OnMouseUp);
@@ -45,10 +56,8 @@ namespace GraphProcessor
             if (MouseCaptureController.IsMouseCaptureTaken())
                 return ;
 
-            var graphElement = e.target as GraphElement;
-
-            if (graphElement == null)
-                return ;
+            if (!IsMouseOverBorders(e.localMousePosition))
+                return;
 
             if (CanStartManipulation(e))
             {
@@ -56,9 +65,12 @@ namespace GraphProcessor
                 target.TakeMouseCapture();
                 e.StopPropagation();
 
-                startComponentSize = new Vector2(graphElement.style.width, graphElement.style.height);
+                startComponentSize = new Vector2(elem.style.width, elem.style.height);
                 startMousePosition = e.localMousePosition;
+                startComponentPosition = elem.transform.position;
             }
+            else
+                Debug.Log("can't start manipulation !");
         }
 
         void OnMouseMove(MouseMoveEvent e)
@@ -66,12 +78,12 @@ namespace GraphProcessor
             if (!active)
                 return ;
 
-            var graphElement = e.target as GraphElement;
-
             Vector2 delta = e.localMousePosition - startMousePosition;
 
-            graphElement.style.width = startComponentSize.x + delta.x;
-            graphElement.style.height = startComponentSize.y + delta.y;
+            elem.style.width = startComponentSize.x + delta.x * dragDirection.x;
+            elem.style.height = startComponentSize.y + delta.y * dragDirection.y;
+
+            elem.transform.position = startComponentPosition - delta * Vector2.Min(Vector2.zero, dragDirection);
         }
 
         void OnMouseUp(MouseUpEvent e)
@@ -79,19 +91,35 @@ namespace GraphProcessor
             if (!active)
                 return ;
 
-            var graphElement = target as GraphElement;
-
             if (CanStopManipulation(e))
             {
                 target.ReleaseMouseCapture();
                 e.StopPropagation();
 
-                GraphView graphView = graphElement.GetFirstAncestorOfType<GraphView>();
+                GraphView graphView = elem.GetFirstAncestorOfType<GraphView>();
                 if (graphView != null && graphView.elementResized != null)
-                    graphView.elementResized(graphElement);
+                    graphView.elementResized(elem);
             }
 
             active = false;
+        }
+
+        bool IsMouseOverBorders(Vector2 mousePosition)
+        {
+            Rect borders = new Rect(Vector2.zero, target.localBound.size);
+
+            dragDirection = Vector2.zero;
+
+            if (mousePosition.x - borders.xMin < dragBorderSize)
+                dragDirection.x = -1;
+            if (borders.xMax - mousePosition.x < dragBorderSize)
+                dragDirection.x = 1;
+            if (mousePosition.y - borders.yMin < dragBorderSize)
+                dragDirection.y = -1;
+            if (borders.yMax - mousePosition.y < dragBorderSize)
+                dragDirection.y = 1;
+
+            return dragDirection != Vector2.zero;
         }
     }
 }

@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -13,15 +13,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes:
   - type: IntNode
-    jsonDatas: '{"GUID":"ae7c2124-4d00-43b4-b7aa-bb74213fbf54","position":{"serializedVersion":"2","x":-146.03439331054688,"y":176.942626953125,"width":89.0,"height":97.0},"expanded":false,"output":0}'
+    jsonDatas: '{"GUID":"ae7c2124-4d00-43b4-b7aa-bb74213fbf54","position":{"serializedVersion":"2","x":-192.03439331054688,"y":124.86260986328125,"width":89.0,"height":97.0},"expanded":false,"output":0}'
   - type: IntNode
-    jsonDatas: '{"GUID":"d3c134a5-f9b1-40fe-8eb4-6a6f6a4a39e0","position":{"serializedVersion":"2","x":-19.13677978515625,"y":134.77178955078126,"width":89.0,"height":97.0},"expanded":false,"output":0}'
+    jsonDatas: '{"GUID":"d3c134a5-f9b1-40fe-8eb4-6a6f6a4a39e0","position":{"serializedVersion":"2","x":-19.13677978515625,"y":85.77178955078125,"width":89.0,"height":97.0},"expanded":false,"output":0}'
   - type: IntNode
-    jsonDatas: '{"GUID":"240d9400-836b-4fb7-a157-5b7a9ca9318b","position":{"serializedVersion":"2","x":-53.13677978515625,"y":456.65179443359377,"width":89.0,"height":97.0},"expanded":false,"output":0}'
+    jsonDatas: '{"GUID":"240d9400-836b-4fb7-a157-5b7a9ca9318b","position":{"serializedVersion":"2","x":-185.38693237304688,"y":446.7066955566406,"width":89.00000762939453,"height":97.00001525878906},"expanded":false,"output":0}'
   - type: AddNode
     jsonDatas: '{"GUID":"17f48d73-bf80-4f52-ae02-d61b2009878c","position":{"serializedVersion":"2","x":196.94322204589845,"y":269.05181884765627,"width":137.0,"height":117.0},"expanded":false,"output":0.0,"test":0}'
   - type: IntNode
-    jsonDatas: '{"GUID":"a1a91bf2-b474-4f89-8235-38a1e71e4c31","position":{"serializedVersion":"2","x":-110.14024353027344,"y":320.9788513183594,"width":89.0,"height":97.0},"expanded":false,"output":0}'
+    jsonDatas: '{"GUID":"a1a91bf2-b474-4f89-8235-38a1e71e4c31","position":{"serializedVersion":"2","x":-190.8804931640625,"y":265.8685607910156,"width":89.0,"height":97.0},"expanded":false,"output":0}'
   edges:
   - GUID: f791cb26-6a21-4543-bc76-36ea076545e8
     owner: {fileID: 11400000}
@@ -41,5 +41,36 @@ MonoBehaviour:
     outputNodeGUID: 240d9400-836b-4fb7-a157-5b7a9ca9318b
     inputFieldName: inputs
     outputFieldName: output
-  position: {x: 209.70853, y: -128.78745, z: 0}
-  scale: {x: 1, y: 1, z: 1}
+  commentBlocks:
+  - title: New Comment Block
+    color: {r: 0, g: 0, b: 0, a: 0}
+    position:
+      serializedVersion: 2
+      x: 240.05603
+      y: 179.77661
+      width: 0
+      height: 0
+    size: {x: 0, y: 0}
+    innerNodeGUIDs: []
+  - title: 'test #42'
+    color: {r: 0, g: 0, b: 0, a: 0}
+    position:
+      serializedVersion: 2
+      x: -246.41316
+      y: 55.99635
+      width: 379
+      height: 527.99994
+    size: {x: 416, y: 518}
+    innerNodeGUIDs: []
+  - title: olol
+    color: {r: 0, g: 0, b: 0, a: 0}
+    position:
+      serializedVersion: 2
+      x: 364.36383
+      y: 133.59766
+      width: 394.00003
+      height: 184
+    size: {x: 361, y: 167}
+    innerNodeGUIDs: []
+  position: {x: 221.32254, y: 2.0252616, z: 0}
+  scale: {x: 0.7561437, y: 0.7561437, z: 1}

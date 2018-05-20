@@ -7,6 +7,6 @@ public class EdgeView : Edge
 
 	public EdgeView()
 	{
-		AddStyleSheetPath("Styles/EdgeView");
+		AddStyleSheetPath("GraphProcessorStyles/EdgeView");
 	}
 }

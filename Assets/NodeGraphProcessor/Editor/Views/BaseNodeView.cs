@@ -32,7 +32,7 @@ namespace GraphProcessor
 			nodeTarget = node;
 			this.owner = owner;
 			
-			AddStyleSheetPath("Styles/BaseNodeView");
+			AddStyleSheetPath("GraphProcessorStyles/BaseNodeView");
 			
             controlsContainer = new VisualElement{ name = "controls" };
         	mainContainer.Add(controlsContainer);

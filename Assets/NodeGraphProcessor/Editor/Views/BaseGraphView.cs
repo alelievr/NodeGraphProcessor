@@ -108,6 +108,10 @@ namespace GraphProcessor
             {
                 var commentBlock = JsonSerializer.Deserialize<CommentBlock>(serializedCommentBlock);
 
+                //Same than for node
+                commentBlock.OnCreated();
+                commentBlock.position.position += new Vector2(20, 20);
+
                 AddCommentBlock(commentBlock);
             }
 		}
@@ -122,18 +126,25 @@ namespace GraphProcessor
 				changes.elementsToRemove.RemoveAll(e => {
 					var edge = e as EdgeView;
 					var node = e as BaseNodeView;
+                    var commentBlock = e as CommentBlockView;
 	
 					if (edge != null)
 					{
 						Disconnect(edge);
 						return true;
 					}
-					if (node != null)
+					else if (node != null)
 					{
 						graph.RemoveNode(node.nodeTarget);
 						RemoveElement(node);
 						return true;
 					}
+                    else if (commentBlock != null)
+                    {
+                        graph.RemoveCommentBlock(commentBlock.commentBlock);
+                        RemoveElement(commentBlock);
+                        return true;
+                    }
 					return false;
 				});
 			}
@@ -152,7 +163,10 @@ namespace GraphProcessor
             var commentBlockView = elem as CommentBlockView;
 
             if (commentBlockView != null)
+            {
+                Debug.Log("New size saved !");
                 commentBlockView.commentBlock.size = commentBlockView.GetPosition().size;
+            }
         }
 
 		public override void OnPersistentDataReady()
@@ -201,7 +215,7 @@ namespace GraphProcessor
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			Vector2 position = evt.mousePosition - (Vector2)viewTransform.position;
-            evt.menu.AppendAction("Create/Comment Block", (e) => AddCommentBlockView(new CommentBlock("New Comment Block", position)), ContextualMenu.MenuAction.AlwaysEnabled);
+            evt.menu.AppendAction("Create/Comment Block", (e) => AddCommentBlock(new CommentBlock("New Comment Block", position)), ContextualMenu.MenuAction.AlwaysEnabled);
 			base.BuildContextualMenu(evt);
 		}
 
@@ -258,6 +272,7 @@ namespace GraphProcessor
 
         void InitializeCommentBlocks()
         {
+            Debug.Log("Comment block count: " + graph.commentBlocks.Count);
             foreach (var commentBlock in graph.commentBlocks)
                 AddCommentBlockView(commentBlock);
         }
@@ -301,15 +316,11 @@ namespace GraphProcessor
 			return true;
 		}
 
-		public void AddCommentBlock(string title, Vector2 position)
-		{
-            AddCommentBlock(new CommentBlock(title, position));
-		}
-
         public void AddCommentBlock(CommentBlock block)
         {
-            AddCommentBlockView(block);
             graph.AddCommentBlock(block);
+            block.OnCreated();
+            AddCommentBlockView(block);
         }
 
 		public void AddCommentBlockView(CommentBlock block)

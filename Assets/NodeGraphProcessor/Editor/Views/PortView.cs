@@ -19,7 +19,7 @@ namespace GraphProcessor
         public PortView(Orientation portOrientation, Direction portDirection, FieldInfo field, EdgeConnectorListener edgeConnectorListener)
             : base(portOrientation, portDirection, Capacity.Multi, field.FieldType)
 		{
-			AddStyleSheetPath("Styles/PortView");
+			AddStyleSheetPath("GraphProcessorStyles/PortView");
 
 			this.m_EdgeConnector = new EdgeConnector< EdgeView >(edgeConnectorListener);
 			this.field = field;

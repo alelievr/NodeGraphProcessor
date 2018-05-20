@@ -20,5 +20,10 @@ namespace GraphProcessor
             this.position.position = position;
 		}
 
+        public virtual void OnCreated()
+        {
+            size = new Vector2(300, 100);
+            position.size = size;
+        }
 	}
 }

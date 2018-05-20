@@ -48,7 +48,7 @@ namespace GraphProcessor
 
 			rootView.name = "graphRootView";
 	
-			rootView.AddStyleSheetPath("Styles/BaseGraphView");
+			rootView.AddStyleSheetPath("GraphProcessorStyles/BaseGraphView");
 		}
 
 		public void InitializeGraph(BaseGraph graph)

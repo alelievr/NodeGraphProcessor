@@ -17,7 +17,11 @@ namespace GraphProcessor
 		List< EdgeView >		edges = new List< EdgeView >();
 
         public PortView(Orientation portOrientation, Direction portDirection, FieldInfo field, EdgeConnectorListener edgeConnectorListener)
+		#if UNITY_2018_2
             : base(portOrientation, portDirection, Capacity.Multi, field.FieldType)
+		#else
+            : base(portOrientation, portDirection, field.FieldType)
+		#endif
 		{
 			AddStyleSheetPath("GraphProcessorStyles/PortView");
 

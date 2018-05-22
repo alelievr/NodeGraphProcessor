@@ -5,7 +5,11 @@ using UnityEngine.Experimental.UIElements;
 
 namespace GraphProcessor
 {
+    #if UNITY_2018_2
     public class CommentBlockView : Group
+    #else
+    public class CommentBlockView : GroupNode
+    #endif
 	{
 		public BaseGraphView	owner;
 		public CommentBlock		commentBlock;
@@ -29,6 +33,7 @@ namespace GraphProcessor
 			SetSize(block.size);
             SetPosition(block.position);
 
+            #if UNITY_2018_2
             headerContainer.Q<TextField>().RegisterCallback<ChangeEvent<string>>(TitleChangedCallback);
             titleLabel = headerContainer.Q<Label>();
 
@@ -40,6 +45,7 @@ namespace GraphProcessor
             UpdateCommentBlockColor(commentBlock.color);
 
             headerContainer.Add(colorField);
+            #endif
 
             InitializeInnerNodes();
 		}
@@ -55,6 +61,7 @@ namespace GraphProcessor
             }
         }
 
+        #if UNITY_2018_2
         protected override void OnElementAdded(GraphElement element)
         {
             var node = element as BaseNodeView;
@@ -72,6 +79,7 @@ namespace GraphProcessor
         {
             base.OnElementRemoved(element);
         }
+        #endif
 
         public void UpdateCommentBlockColor(Color newColor)
         {

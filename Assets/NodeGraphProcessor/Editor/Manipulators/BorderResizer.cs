@@ -78,12 +78,12 @@ namespace GraphProcessor
             if (!active)
                 return ;
 
-            Vector2 delta = e.localMousePosition - startMousePosition;
+            Vector2 delta = e.localMousePosition - startMousePosition + (Vector2)elem.transform.position - startComponentPosition;
 
             elem.style.width = startComponentSize.x + delta.x * dragDirection.x;
             elem.style.height = startComponentSize.y + delta.y * dragDirection.y;
 
-            elem.transform.position = startComponentPosition - delta * Vector2.Min(Vector2.zero, dragDirection);
+            elem.transform.position -= (Vector3)(e.mouseDelta * Vector2.Min(Vector2.zero, dragDirection));
         }
 
         void OnMouseUp(MouseUpEvent e)

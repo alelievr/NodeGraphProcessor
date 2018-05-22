@@ -14,16 +14,20 @@ namespace GraphProcessor
 {
 	public class BaseGraphView : GraphView
 	{
-		public BaseGraph						graph;
+		public BaseGraph							graph;
 		
-		public EdgeConnectorListener			connectorListener;
+		public EdgeConnectorListener				connectorListener;
 
 		public List< BaseNodeView >					nodeViews = new List< BaseNodeView >();
 		public Dictionary< BaseNode, BaseNodeView >	nodeViewsPerNode = new Dictionary< BaseNode, BaseNodeView >();
 		
-		public List< EdgeView >					edgeViews = new List< EdgeView >();
+		public List< EdgeView >						edgeViews = new List< EdgeView >();
 
-        public List< CommentBlockView >         commentBlockViews = new List< CommentBlockView >();
+        public List< CommentBlockView >         	commentBlockViews = new List< CommentBlockView >();
+
+		public delegate void ComputeOrderUpdatedDelegate();
+
+		public event ComputeOrderUpdatedDelegate	computeOrderUpdated;
 
 		public BaseGraphView()
 		{
@@ -243,6 +247,8 @@ namespace GraphProcessor
 			InitializeNodeViews();
 			InitializeEdgeViews();
             InitializeCommentBlocks();
+
+			UpdateComputeOrder();
 		}
 
 		void InitializeNodeViews()
@@ -294,6 +300,8 @@ namespace GraphProcessor
 			AddNodeView(node);
 
 			graph.AddNode(node);
+			
+			UpdateComputeOrder();
 
 			return true;
 		}
@@ -369,31 +377,50 @@ namespace GraphProcessor
 			
 			inputNodeView.RefreshPorts();
 			outputNodeView.RefreshPorts();
+			
+			inputNodeView.nodeTarget.OnEdgeConnected(e.userData as SerializableEdge);
+			outputNodeView.nodeTarget.OnEdgeConnected(e.userData as SerializableEdge);
 
 			e.isConnected = true;
+
+			if (serializeToGraph)
+				UpdateComputeOrder();
 		}
 		
 		public void Disconnect(EdgeView e)
 		{
 			var serializableEdge = e.userData as SerializableEdge;
 
-			if (serializableEdge != null)
-				graph.Disconnect(serializableEdge.GUID);
-
 			RemoveElement(e);
 			
 			if (e?.input?.node != null)
 			{
 				var inputNodeView = e.input.node as BaseNodeView;
-				inputNodeView.RefreshPorts();
 				e.input.Disconnect(e);
+				inputNodeView.RefreshPorts();
+				inputNodeView.nodeTarget.OnEdgeDisonnected(e.serializedEdge);
 			}
 			if (e?.output?.node != null)
 			{
 				var outputNodeView = e.output.node as BaseNodeView;
 				e.output.Disconnect(e);
 				outputNodeView.RefreshPorts();
+				outputNodeView.nodeTarget.OnEdgeDisonnected(e.serializedEdge);
 			}
+
+			if (serializableEdge != null)
+			{
+				graph.Disconnect(serializableEdge.GUID);
+				UpdateComputeOrder();
+			}
+		}
+
+		public void UpdateComputeOrder()
+		{
+			graph.UpdateComputeOrder();
+
+			if (computeOrderUpdated != null)
+				computeOrderUpdated();
 		}
 
 		public void RegisterCompleteObjectUndo(string name)

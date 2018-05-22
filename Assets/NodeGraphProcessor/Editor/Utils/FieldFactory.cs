@@ -29,8 +29,10 @@ namespace GraphProcessor
 
 			// щ(ºДºщ) ...
             AddDrawer(typeof(int), typeof(IntegerField));
+			#if UNITY_2018_2
             AddDrawer(typeof(long), typeof(LongField));
             AddDrawer(typeof(float), typeof(FloatField));
+			#endif
 			AddDrawer(typeof(double), typeof(DoubleField));
 			AddDrawer(typeof(string), typeof(TextField));
 			AddDrawer(typeof(Bounds), typeof(BoundsField));
@@ -49,7 +51,7 @@ namespace GraphProcessor
 
 			if (!iNotifyType.IsAssignableFrom(drawerType))
 			{
-				Debug.LogError("The custom field drawer " + drawerType + " does not implements INotifyValueChanged< " + fieldType + " >");
+				Debug.LogWarning("The custom field drawer " + drawerType + " does not implements INotifyValueChanged< " + fieldType + " >");
 				return ;
 			}
 
@@ -81,6 +83,9 @@ namespace GraphProcessor
 		public static INotifyValueChanged< T > CreateFieldSpecific< T >(FieldInfo field, Action< object > onValueChanged)
 		{
 			var fieldDrawer = CreateField< T >();
+
+			if (fieldDrawer == null)
+				return null;
 
 			fieldDrawer.OnValueChanged((e) => {
 				onValueChanged(e.newValue);

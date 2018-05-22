@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -13,22 +13,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes:
   - type: IntNode
-    jsonDatas: '{"GUID":"ae7c2124-4d00-43b4-b7aa-bb74213fbf54","position":{"serializedVersion":"2","x":-449.31439208984377,"y":388.7823791503906,"width":89.0,"height":97.0},"expanded":false,"output":0}'
+    jsonDatas: '{"GUID":"ae7c2124-4d00-43b4-b7aa-bb74213fbf54","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":-436.31439208984377,"y":332.3819274902344,"width":89.0,"height":97.0},"expanded":false,"output":0}'
   - type: IntNode
-    jsonDatas: '{"GUID":"d3c134a5-f9b1-40fe-8eb4-6a6f6a4a39e0","position":{"serializedVersion":"2","x":-475.13677978515627,"y":224.41162109375,"width":89.0,"height":97.0},"expanded":false,"output":0}'
+    jsonDatas: '{"GUID":"d3c134a5-f9b1-40fe-8eb4-6a6f6a4a39e0","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":-469.13677978515627,"y":196.05068969726563,"width":89.0,"height":97.0},"expanded":false,"output":0}'
   - type: IntNode
-    jsonDatas: '{"GUID":"240d9400-836b-4fb7-a157-5b7a9ca9318b","position":{"serializedVersion":"2","x":12.3330078125,"y":382.30670166015627,"width":89.0,"height":97.0},"expanded":false,"output":0}'
+    jsonDatas: '{"GUID":"240d9400-836b-4fb7-a157-5b7a9ca9318b","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":-190.6669921875,"y":441.2267761230469,"width":107.0,"height":117.0},"expanded":false,"output":0}'
   - type: AddNode
-    jsonDatas: '{"GUID":"17f48d73-bf80-4f52-ae02-d61b2009878c","position":{"serializedVersion":"2","x":196.94322204589845,"y":269.05181884765627,"width":137.0,"height":117.0},"expanded":false,"output":0.0,"test":0}'
+    jsonDatas: '{"GUID":"17f48d73-bf80-4f52-ae02-d61b2009878c","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":196.94322204589845,"y":269.05181884765627,"width":137.0,"height":117.0},"expanded":false,"output":0.0,"test":0}'
   - type: IntNode
-    jsonDatas: '{"GUID":"a1a91bf2-b474-4f89-8235-38a1e71e4c31","position":{"serializedVersion":"2","x":-331.8804931640625,"y":256.7083740234375,"width":89.0,"height":97.0},"expanded":false,"output":0}'
+    jsonDatas: '{"GUID":"a1a91bf2-b474-4f89-8235-38a1e71e4c31","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":-325.8804931640625,"y":228.34747314453126,"width":89.0,"height":97.0},"expanded":false,"output":0}'
+  - type: AddNode
+    jsonDatas: '{"GUID":"72345501-f5cc-4083-88d1-9778b11c3c52","computeOrder":5,"canProcess":true,"position":{"serializedVersion":"2","x":182.198974609375,"y":499.8559265136719,"width":137.0,"height":117.0},"expanded":false,"output":0.0,"test":0}'
   edges:
-  - GUID: eb3e2713-5718-4f3b-8c4b-4f047eb5e69b
-    owner: {fileID: 11400000}
-    inputNodeGUID: 17f48d73-bf80-4f52-ae02-d61b2009878c
-    outputNodeGUID: a1a91bf2-b474-4f89-8235-38a1e71e4c31
-    inputFieldName: inputs
-    outputFieldName: output
   - GUID: 1510846b-193f-40a6-8c8f-3c1cc009ca37
     owner: {fileID: 11400000}
     inputNodeGUID: 17f48d73-bf80-4f52-ae02-d61b2009878c
@@ -41,26 +37,38 @@ MonoBehaviour:
     outputNodeGUID: ae7c2124-4d00-43b4-b7aa-bb74213fbf54
     inputFieldName: inputs
     outputFieldName: output
+  - GUID: dbbd5a7f-0fb7-4b9e-89d8-8b09b9d1fe2e
+    owner: {fileID: 11400000}
+    inputNodeGUID: 17f48d73-bf80-4f52-ae02-d61b2009878c
+    outputNodeGUID: a1a91bf2-b474-4f89-8235-38a1e71e4c31
+    inputFieldName: inputs
+    outputFieldName: output
+  - GUID: 961f9e05-cfa2-4e13-8cac-7f520bbc0c73
+    owner: {fileID: 11400000}
+    inputNodeGUID: 72345501-f5cc-4083-88d1-9778b11c3c52
+    outputNodeGUID: 17f48d73-bf80-4f52-ae02-d61b2009878c
+    inputFieldName: inputs
+    outputFieldName: output
   commentBlocks:
   - title: New Comment Block
     color: {r: 0, g: 0, b: 0, a: 0}
     position:
       serializedVersion: 2
-      x: 240.05603
-      y: 179.77661
-      width: 0
-      height: 0
+      x: NaN
+      y: NaN
+      width: NaN
+      height: NaN
     size: {x: 0, y: 0}
     innerNodeGUIDs: []
   - title: 'test #42'
     color: {r: 1, g: 0, b: 0, a: 0.24313726}
     position:
       serializedVersion: 2
-      x: -500
-      y: 138
-      width: 289
-      height: 377
-    size: {x: 289, y: 377}
+      x: -484.13678
+      y: 142.05069
+      width: 300.2563
+      height: 342.33127
+    size: {x: 340, y: 316}
     innerNodeGUIDs:
     - d3c134a5-f9b1-40fe-8eb4-6a6f6a4a39e0
     - a1a91bf2-b474-4f89-8235-38a1e71e4c31
@@ -69,11 +77,11 @@ MonoBehaviour:
     color: {r: 0.28114074, g: 1, b: 0.051886797, a: 0.32941177}
     position:
       serializedVersion: 2
-      x: 419.36383
-      y: 133.59766
-      width: 274
-      height: 330
+      x: NaN
+      y: NaN
+      width: NaN
+      height: NaN
     size: {x: 274, y: 330}
     innerNodeGUIDs: []
-  position: {x: 867.89594, y: 158.03622, z: 0}
+  position: {x: 323.80103, y: -76.055954, z: 0}
   scale: {x: 1, y: 1, z: 1}

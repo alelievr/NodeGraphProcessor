@@ -13,10 +13,18 @@ namespace GraphProcessor
 		//id
 		public string				GUID;
 
+		public int					computeOrder = -1;
+		public bool					canProcess = true;
+
 		[NonSerialized]
 		public bool					needsProcess = typeof(BaseNode).GetMethod("Process").DeclaringType != typeof(BaseNode);
 		[NonSerialized]
 		public bool					needsEnable = typeof(BaseNode).GetMethod("Enable").DeclaringType != typeof(BaseNode);
+
+		[NonSerialized]
+		public readonly List< SerializableEdge > inputEdges = new List< SerializableEdge >();
+		[NonSerialized]
+		public readonly List< SerializableEdge > outputEdges = new List< SerializableEdge >();
 
 		//Node view datas
 		public Rect					position;
@@ -43,5 +51,38 @@ namespace GraphProcessor
 
 			return node;
 		}
+
+		public void OnEdgeConnected(SerializableEdge edge)
+		{
+			if (edge.inputNode == this)
+				inputEdges.Add(edge);
+			else
+				outputEdges.Add(edge);
+		}
+
+		public void OnEdgeDisonnected(SerializableEdge edge)
+		{
+			if (edge == null)
+				return ;
+			
+			if (edge.inputNode == this)
+				inputEdges.Remove(edge);
+			else
+				outputEdges.Remove(edge);
+		}
+
+		public IEnumerable< BaseNode > GetInputNodes()
+		{
+			foreach (var edge in inputEdges)
+				yield return edge.outputNode;
+		}
+
+		public IEnumerable< BaseNode > GetOutputNodes()
+		{
+			foreach (var edge in outputEdges)
+				yield return edge.inputNode;
+		}
+
+		public virtual void OnProcess() {}
 	}
 }

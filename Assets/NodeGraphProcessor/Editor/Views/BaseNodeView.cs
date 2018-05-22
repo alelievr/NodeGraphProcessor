@@ -25,24 +25,89 @@ namespace GraphProcessor
 		protected BaseGraphView					owner;
 
         protected VisualElement 				controlsContainer;
+		protected VisualElement					debugContainer;
+
+		Label									computeOrderLabel;
+
+		#region  Initialization
 
 		public void Initialize(BaseGraphView owner, BaseNode node)
 		{
 			nodeTarget = node;
 			this.owner = owner;
+
+			owner.computeOrderUpdated += ComputeOrderUpdatedCallback;
 			
 			AddStyleSheetPath("GraphProcessorStyles/BaseNodeView");
-			
-            controlsContainer = new VisualElement{ name = "controls" };
-        	mainContainer.Add(controlsContainer);
 
 			InitializePorts();
-
 			InitializeView();
+			InitializeDebug();
 
 			Enable();
 
 			this.RefreshPorts();
+		}
+		
+		void InitializePorts()
+		{
+			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+			foreach (var field in fields)
+			{
+				var inputAttribute = field.GetCustomAttribute< InputAttribute >();
+				var outputAttribute = field.GetCustomAttribute< OutputAttribute >();
+
+				if (inputAttribute == null && outputAttribute == null)
+					continue ;
+
+				PortView port = new PortView(
+					Orientation.Horizontal,
+					(inputAttribute != null) ? Direction.Input : Direction.Output,
+					field,
+					owner.connectorListener
+				);
+
+				if (!String.IsNullOrEmpty(inputAttribute?.name))
+					port.portName = inputAttribute.name;
+				else if (!String.IsNullOrEmpty(outputAttribute?.name))
+					port.portName = outputAttribute.name;
+
+				AddPort(port);
+			}
+		}
+
+		void InitializeView()
+		{
+			
+            controlsContainer = new VisualElement{ name = "controls" };
+        	mainContainer.Add(controlsContainer);
+
+			debugContainer = new VisualElement{ name = "debug" };
+			mainContainer.Add(debugContainer);
+
+			title = (string.IsNullOrEmpty(nodeTarget.name)) ? nodeTarget.GetType().Name : nodeTarget.name;
+
+			SetPosition(nodeTarget.position);
+		}
+
+		void InitializeDebug()
+		{
+			computeOrderLabel = new Label("compute order: " + nodeTarget.computeOrder);
+			debugContainer.Add(computeOrderLabel);
+		}
+
+		#endregion
+		
+		#region API
+
+		public Port GetPortFromFieldName(string fieldName)
+		{
+			Port	ret;
+
+			portsPerFieldName.TryGetValue(fieldName, out ret);
+
+			return ret;
 		}
 
 		public void AddPort(PortView p)
@@ -77,48 +142,14 @@ namespace GraphProcessor
 			portsPerFieldName.Remove(p.fieldName);
 		}
 
-		void InitializePorts()
+		#endregion
+
+		#region Callbacks
+
+		void ComputeOrderUpdatedCallback()
 		{
-			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
-			foreach (var field in fields)
-			{
-				var inputAttribute = field.GetCustomAttribute< InputAttribute >();
-				var outputAttribute = field.GetCustomAttribute< OutputAttribute >();
-
-				if (inputAttribute == null && outputAttribute == null)
-					continue ;
-
-				PortView port = new PortView(
-					Orientation.Horizontal,
-					(inputAttribute != null) ? Direction.Input : Direction.Output,
-					field,
-					owner.connectorListener
-				);
-
-				if (!String.IsNullOrEmpty(inputAttribute?.name))
-					port.portName = inputAttribute.name;
-				else if (!String.IsNullOrEmpty(outputAttribute?.name))
-					port.portName = outputAttribute.name;
-
-				AddPort(port);
-			}
-		}
-
-		void InitializeView()
-		{
-			title = (string.IsNullOrEmpty(nodeTarget.name)) ? nodeTarget.GetType().Name : nodeTarget.name;
-
-			SetPosition(nodeTarget.position);
-		}
-
-		public Port GetPortFromFieldName(string fieldName)
-		{
-			Port	ret;
-
-			portsPerFieldName.TryGetValue(fieldName, out ret);
-
-			return ret;
+			//Update debug compute order
+			computeOrderLabel.text = "Compute order: " + nodeTarget.computeOrder;
 		}
 
 		public virtual void Enable()
@@ -152,7 +183,8 @@ namespace GraphProcessor
 					owner.RegisterCompleteObjectUndo("Updated " + newValue);
 				});
 
-				controlsContainer.Add(element);
+				if (element != null)
+					controlsContainer.Add(element);
 			}
 		}
 
@@ -176,24 +208,6 @@ namespace GraphProcessor
 			}
 		}
 
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-        {
-            base.BuildContextualMenu(evt);
-            evt.menu.AppendAction("Add to group", AddNodeToGroup, AddNodeToGroupStatus);
-        }
-
-        void AddNodeToGroup(ContextualMenu.MenuAction action)
-        {
-            Debug.Log("Attach node !");
-        }
-
-        StatusFlags AddNodeToGroupStatus(ContextualMenu.MenuAction action)
-        {
-            //FIXME !
-            var mouseRect = new Rect(action.eventInfo.mousePosition, Vector2.zero);
-            var block = owner.commentBlockViews.FirstOrDefault(c => c.Overlaps(mouseRect));
-
-            return (block == null) ? StatusFlags.Disabled : StatusFlags.Normal;
-        }
+		#endregion
     }
 }

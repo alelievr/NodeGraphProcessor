@@ -8,6 +8,8 @@ namespace GraphProcessor
 	[System.Serializable]
 	public class BaseGraph : ScriptableObject, ISerializationCallbackReceiver
 	{
+		static readonly int			maxComputeOrderDepth = 1000;
+
 		//JSon datas contaning all elements of the graph
 		[SerializeField]
 		public List< JsonElement >						serializedNodes = new List< JsonElement >();
@@ -25,6 +27,9 @@ namespace GraphProcessor
         [SerializeField]
         public List< CommentBlock >                     commentBlocks = new List< CommentBlock >();
 
+		[System.NonSerialized]
+		Dictionary< BaseNode, int > computeOrderDictionary = new Dictionary< BaseNode, int >();
+
 		//graph visual properties
 		public Vector3				position;
 		public Vector3				scale;
@@ -36,13 +41,11 @@ namespace GraphProcessor
 		
 		public void AddNode(BaseNode node)
 		{
-			Debug.Log("Added node: " + node);
 			nodes.Add(node);
 		}
 
 		public void RemoveNode(BaseNode node)
 		{
-			Debug.Log("Remove node: " + node);
 			nodes.Remove(node);
 		}
 
@@ -105,6 +108,59 @@ namespace GraphProcessor
 				edge.Deserialize();
 				edgesPerGUID[edge.GUID] = edge;
 			}
+		}
+
+		public void UpdateComputeOrder()
+		{
+			if (nodes.Count == 0)
+				return ;
+			
+			computeOrderDictionary.Clear();
+
+			foreach (var node in nodes)
+				UpdateComputeOrder(0, node);
+		}
+
+		int UpdateComputeOrder(int depth, BaseNode node)
+		{
+			int computeOrder = 0;
+
+			if (depth > maxComputeOrderDepth)
+			{
+				Debug.LogError("Recursion error while updating compute order");
+				return -1;
+			}
+
+			if (computeOrderDictionary.ContainsKey(node))
+				return computeOrderDictionary[node];
+
+			if (!node.canProcess)
+			{
+				node.computeOrder = -1;
+				computeOrderDictionary[node] = -1;
+				return -1;
+			}
+
+			foreach (var dep in node.GetInputNodes())
+			{
+				int c = UpdateComputeOrder(depth + 1, dep);
+
+				if (c == -1)
+				{
+					computeOrder = -1;
+					break ;
+				}
+
+				computeOrder += c;
+			}
+
+			if (computeOrder != -1)
+				computeOrder++;
+
+			node.computeOrder = computeOrder;
+			computeOrderDictionary[node] = computeOrder;
+
+			return computeOrder;
 		}
 
 		void DestroyBrokenGraphElements()

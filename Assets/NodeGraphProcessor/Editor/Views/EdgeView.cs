@@ -1,12 +1,17 @@
 using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine;
 
-public class EdgeView : Edge
+namespace GraphProcessor
 {
-	public bool			isConnected = false;
-
-	public EdgeView()
+	public class EdgeView : Edge
 	{
-		AddStyleSheetPath("GraphProcessorStyles/EdgeView");
+		public bool					isConnected = false;
+		
+		public SerializableEdge		serializedEdge { get { return userData as SerializableEdge; } }
+	
+		public EdgeView()
+		{
+			AddStyleSheetPath("GraphProcessorStyles/EdgeView");
+		}
 	}
 }

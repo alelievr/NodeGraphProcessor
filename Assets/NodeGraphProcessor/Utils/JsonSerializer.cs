@@ -41,6 +41,10 @@ namespace GraphProcessor
 		{
 			var baseNodeType = Type.GetType(e.type);
 
+			Debug.Log("Jsonelement: " + e.type);
+			if (e.jsonDatas == null)
+				return null;
+
 			return JsonUtility.FromJson(e.jsonDatas, baseNodeType) as BaseNode;
 		}
 	}

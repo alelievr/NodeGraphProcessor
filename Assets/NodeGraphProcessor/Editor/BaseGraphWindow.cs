@@ -4,13 +4,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Assertions;
-using Unity.Properties;
 using UnityEngine.Experimental.UIElements;
 using UnityEditor.Experimental.UIElements;
 using UnityEditor.Experimental.UIElements.GraphView;
-
-using UnityEditor.ShaderGraph;
-using UnityEditor.ShaderGraph.Drawing;
 
 namespace GraphProcessor
 {

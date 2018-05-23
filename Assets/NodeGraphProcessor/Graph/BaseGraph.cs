@@ -28,7 +28,7 @@ namespace GraphProcessor
         public List< CommentBlock >                     commentBlocks = new List< CommentBlock >();
 
 		[System.NonSerialized]
-		Dictionary< BaseNode, int > computeOrderDictionary = new Dictionary< BaseNode, int >();
+		Dictionary< BaseNode, int >						computeOrderDictionary = new Dictionary< BaseNode, int >();
 
 		//graph visual properties
 		public Vector3				position;

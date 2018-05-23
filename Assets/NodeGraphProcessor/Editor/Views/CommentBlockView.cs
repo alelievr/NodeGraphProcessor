@@ -54,6 +54,12 @@ namespace GraphProcessor
         {
             foreach (var nodeGUID in commentBlock.innerNodeGUIDs)
             {
+                if (!owner.graph.nodesPerGUID.ContainsKey(nodeGUID))
+                {
+                    Debug.LogWarning("Node GUID not found: " + nodeGUID);
+                    
+                    continue ;
+                }
                 var node = owner.graph.nodesPerGUID[nodeGUID];
                 var nodeView = owner.nodeViewsPerNode[node];
 

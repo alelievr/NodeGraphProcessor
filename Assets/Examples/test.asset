@@ -11,8 +11,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d56d3b862614a2fbc27b3b7213459b, type: 3}
   m_Name: test
   m_EditorClassIdentifier: 
-  serializedNodes: []
-  edges: []
+  serializedNodes:
+  - type: AddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"b1531178-d29b-41bc-83ae-7affb485e101","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":676.0,"y":274.0,"width":137.0,"height":117.0},"expanded":false,"output":0.0,"test":0}'
+  - type: IntNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"b01ecebc-4a49-47a7-9490-37113c8bd4c4","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":301.0,"y":207.0,"width":107.0,"height":117.0},"expanded":false,"output":0}'
+  - type: IntNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"4b4790a5-1249-4353-b70d-e258fd7f5ec2","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":311.0,"y":398.0,"width":107.0,"height":117.0},"expanded":false,"output":0}'
+  edges:
+  - GUID: c68c52b7-81c2-427c-9996-fc0bbe52f43f
+    owner: {fileID: 11400000}
+    inputNodeGUID: b1531178-d29b-41bc-83ae-7affb485e101
+    outputNodeGUID: b01ecebc-4a49-47a7-9490-37113c8bd4c4
+    inputFieldName: inputs
+    outputFieldName: output
+  - GUID: d13cbd64-4367-4701-9735-bff9e0c19d75
+    owner: {fileID: 11400000}
+    inputNodeGUID: b1531178-d29b-41bc-83ae-7affb485e101
+    outputNodeGUID: 4b4790a5-1249-4353-b70d-e258fd7f5ec2
+    inputFieldName: inputs
+    outputFieldName: output
   commentBlocks: []
-  position: {x: 0, y: 0, z: 0}
-  scale: {x: 0, y: 0, z: 0}
+  position: {x: 86.90253, y: 40.065002, z: 0}
+  scale: {x: 1, y: 1, z: 1}

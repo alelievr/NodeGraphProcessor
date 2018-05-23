@@ -68,6 +68,14 @@ namespace GraphProcessor
 			graphView.Initialize(graph);
 		}
 
+		public virtual void OnGraphDeleted()
+		{
+			if (graph != null)
+				rootView.Remove(graphView);
+			
+			graphView = null;
+		}
+
 		protected abstract void	Initialize(BaseGraph graph);
 	}
 }

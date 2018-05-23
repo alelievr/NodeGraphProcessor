@@ -277,7 +277,6 @@ namespace GraphProcessor
 
         void InitializeCommentBlocks()
         {
-            Debug.Log("Comment block count: " + graph.commentBlocks.Count);
             foreach (var commentBlock in graph.commentBlocks)
                 AddCommentBlockView(commentBlock);
         }

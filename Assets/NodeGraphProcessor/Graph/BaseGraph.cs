@@ -31,8 +31,8 @@ namespace GraphProcessor
 		Dictionary< BaseNode, int >						computeOrderDictionary = new Dictionary< BaseNode, int >();
 
 		//graph visual properties
-		public Vector3				position;
-		public Vector3				scale;
+		public Vector3				position = Vector3.zero;
+		public Vector3				scale = Vector3.one;
 
         void OnEnable()
         {
@@ -93,8 +93,6 @@ namespace GraphProcessor
 		public void OnAfterDeserialize()
 		{
 			nodes.Clear();
-
-			Debug.Log("Serialized nodes count: " + serializedNodes.Count);
 
 			foreach (var serializedNode in serializedNodes)
 			{

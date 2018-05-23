@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Reflection;
 
 namespace GraphProcessor
 {
@@ -23,7 +24,7 @@ namespace GraphProcessor
 		{
 			JsonElement	elem = new JsonElement();
 
-			elem.type = obj.GetType().FullName;
+			elem.type = obj.GetType().AssemblyQualifiedName;
 			elem.jsonDatas = JsonUtility.ToJson(obj);
 
 			return elem;
@@ -41,7 +42,6 @@ namespace GraphProcessor
 		{
 			var baseNodeType = Type.GetType(e.type);
 
-			Debug.Log("Jsonelement: " + e.type);
 			if (e.jsonDatas == null)
 				return null;
 

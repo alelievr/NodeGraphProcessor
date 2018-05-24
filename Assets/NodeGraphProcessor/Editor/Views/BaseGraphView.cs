@@ -8,6 +8,8 @@ using UnityEditor.Experimental.UIElements.GraphView;
 using System.Linq;
 using System;
 
+using StatusFlags = UnityEngine.Experimental.UIElements.ContextualMenu.MenuAction.StatusFlags;
+
 using Object = UnityEngine.Object;
 
 namespace GraphProcessor
@@ -20,10 +22,10 @@ namespace GraphProcessor
 
 		public List< BaseNodeView >					nodeViews = new List< BaseNodeView >();
 		public Dictionary< BaseNode, BaseNodeView >	nodeViewsPerNode = new Dictionary< BaseNode, BaseNodeView >();
-		
 		public List< EdgeView >						edgeViews = new List< EdgeView >();
-
         public List< CommentBlockView >         	commentBlockViews = new List< CommentBlockView >();
+
+		Dictionary< Type, BaseGraphElementView >	uniqueElements = new Dictionary< Type, BaseGraphElementView >();
 
 		public delegate void ComputeOrderUpdatedDelegate();
 
@@ -217,9 +219,20 @@ namespace GraphProcessor
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
+			BuildCreateContextualMenu(evt);
+			BuildViewContextualMenu(evt);
+			base.BuildContextualMenu(evt);
+		}
+
+		protected void BuildCreateContextualMenu(ContextualMenuPopulateEvent evt)
+		{
 			Vector2 position = evt.mousePosition - (Vector2)viewTransform.position;
             evt.menu.AppendAction("Create/Comment Block", (e) => AddCommentBlock(new CommentBlock("New Comment Block", position)), ContextualMenu.MenuAction.AlwaysEnabled);
-			base.BuildContextualMenu(evt);
+		}
+
+		protected void BuildViewContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			evt.menu.AppendAction("View/Processor", (e) => ToggleView< ProcessorView >(), (e) => GetViewStatus< ProcessorView >());
 		}
 
 		void KeyDownCallback(KeyDownEvent e)
@@ -430,6 +443,35 @@ namespace GraphProcessor
 		public void SaveGraphToDisk()
 		{
 			EditorUtility.SetDirty(graph);
+		}
+
+		public void ToggleView< T >() where T : BaseGraphElementView
+		{
+			BaseGraphElementView elem;
+			uniqueElements.TryGetValue(typeof(T), out elem);
+
+			if (elem == null)
+			{
+				elem = Activator.CreateInstance(typeof(T)) as T;
+				uniqueElements[typeof(T)] = elem;
+
+				elem.InitializeGraphView(this);
+	
+				AddElement(elem);
+			}
+			else
+			{
+				uniqueElements.Remove(typeof(T));
+				RemoveElement(elem);
+			}
+		}
+
+		public StatusFlags GetViewStatus< T >() where T : GraphElement
+		{
+			if (uniqueElements.ContainsKey(typeof(T)))
+				return StatusFlags.Checked;
+			else
+				return StatusFlags.Normal;
 		}
 
 		#endregion

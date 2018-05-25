@@ -21,13 +21,14 @@ namespace GraphProcessor
 		{
 			processor = new BaseGraphProcessor(graph);
 
-			Button	b = new Button(OnPlay);
-			b.text = "Play !";
+			Button	b = new Button(OnPlay) { name = "ActionButton", text = "Play !" };
+
+			Add(b);
 		}
 
 		void OnPlay()
 		{
-			Debug.Log("Play !");
+			processor.Process();
 		}
 	}
 }

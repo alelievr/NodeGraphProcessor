@@ -259,6 +259,7 @@ namespace GraphProcessor
 
 			InitializeNodeViews();
 			InitializeEdgeViews();
+			InitializeViews();
             InitializeCommentBlocks();
 
 			UpdateComputeOrder();
@@ -286,6 +287,12 @@ namespace GraphProcessor
 				
 				Connect(edgeView, false);
 			}
+		}
+
+		void InitializeViews()
+		{
+			foreach (var viewType in graph.views)
+				OpenView(viewType.type, false);
 		}
 
         void InitializeCommentBlocks()
@@ -447,28 +454,50 @@ namespace GraphProcessor
 
 		public void ToggleView< T >() where T : BaseGraphElementView
 		{
+			ToggleView(typeof(T));
+		}
+
+		public void ToggleView(Type type)
+		{
 			BaseGraphElementView elem;
-			uniqueElements.TryGetValue(typeof(T), out elem);
+			uniqueElements.TryGetValue(type, out elem);
 
 			if (elem == null)
-			{
-				elem = Activator.CreateInstance(typeof(T)) as T;
-				uniqueElements[typeof(T)] = elem;
-
-				elem.InitializeGraphView(this);
-	
-				AddElement(elem);
-			}
+				OpenView(type);
 			else
-			{
-				uniqueElements.Remove(typeof(T));
-				RemoveElement(elem);
-			}
+				CloseView(type, elem);
+		}
+
+		public void OpenView(Type type, bool serializeToGraph = true)
+		{
+			BaseGraphElementView elem;
+
+			elem = Activator.CreateInstance(type) as BaseGraphElementView;
+			uniqueElements[type] = elem;
+
+			elem.InitializeGraphView(this);
+
+			AddElement(elem);
+			
+			if (serializeToGraph)
+				graph.AddView(type);
+		}
+
+		public void CloseView(Type type, BaseGraphElementView elem)
+		{
+			uniqueElements.Remove(type);
+			RemoveElement(elem);
+			graph.RemoveView(type);
 		}
 
 		public StatusFlags GetViewStatus< T >() where T : GraphElement
 		{
-			if (uniqueElements.ContainsKey(typeof(T)))
+			return GetViewStatus(typeof(T));
+		}
+
+		public StatusFlags GetViewStatus(Type type)
+		{
+			if (uniqueElements.ContainsKey(type))
 				return StatusFlags.Checked;
 			else
 				return StatusFlags.Normal;

@@ -6,6 +6,7 @@ using UnityEditor;
 using System.Reflection;
 using System;
 using System.Linq;
+using UnityEditorInternal;
 
 using StatusFlags = UnityEngine.Experimental.UIElements.ContextualMenu.MenuAction.StatusFlags;
 using NodeView = UnityEditor.Experimental.UIElements.GraphView.Node;
@@ -142,9 +143,25 @@ namespace GraphProcessor
 			portsPerFieldName.Remove(p.fieldName);
 		}
 
+		public void OpenNodeViewScript()
+		{
+			var scriptPath = NodeProvider.GetNodeViewScript(GetType());
+			
+			if (scriptPath != null)
+				InternalEditorUtility.OpenFileAtLineExternal(scriptPath, 0);
+		}
+
+		public void OpenNodeScript()
+		{
+			var scriptPath = NodeProvider.GetNodeScript(nodeTarget.GetType());
+
+			if (scriptPath != null)
+				InternalEditorUtility.OpenFileAtLineExternal(scriptPath, 0);
+		}
+
 		#endregion
 
-		#region Callbacks
+		#region Callbacks & Overrides
 
 		void ComputeOrderUpdatedCallback()
 		{
@@ -206,6 +223,26 @@ namespace GraphProcessor
 				base.expanded = value;
 				nodeTarget.expanded = value;
 			}
+		}
+
+		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			evt.menu.AppendAction("Open Node Script", (e) => OpenNodeScript(), OpenNodeScriptStatus);
+			evt.menu.AppendAction("Open Node View Script", (e) => OpenNodeViewScript(), OpenNodeViewScriptStatus);
+		}
+
+		StatusFlags OpenNodeScriptStatus(EventBase e)
+		{
+			if (NodeProvider.GetNodeScript(nodeTarget.GetType()) != null)
+				return StatusFlags.Normal;
+			return StatusFlags.Disabled;
+		}
+		
+		StatusFlags OpenNodeViewScriptStatus(EventBase e)
+		{
+			if (NodeProvider.GetNodeViewScript(GetType()) != null)
+				return StatusFlags.Normal;
+			return StatusFlags.Disabled;
 		}
 
 		#endregion

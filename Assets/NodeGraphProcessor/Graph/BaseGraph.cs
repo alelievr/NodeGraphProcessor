@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 
 namespace GraphProcessor
 {
@@ -26,6 +27,9 @@ namespace GraphProcessor
 
         [SerializeField]
         public List< CommentBlock >                     commentBlocks = new List< CommentBlock >();
+
+		[SerializeField]
+		public List< SerializableType >					views = new List< SerializableType >();
 
 		[System.NonSerialized]
 		Dictionary< BaseNode, int >						computeOrderDictionary = new Dictionary< BaseNode, int >();
@@ -81,6 +85,16 @@ namespace GraphProcessor
         {
             commentBlocks.Remove(block);
         }
+
+		public void AddView(Type viewType)
+		{
+			views.Add(new SerializableType(viewType));
+		}
+
+		public void RemoveView(Type viewType)
+		{
+			views.RemoveAll(st => st.type == viewType);
+		}
 
 		public void OnBeforeSerialize()
 		{

@@ -12,6 +12,8 @@ namespace GraphProcessor
 	{
 		static Dictionary< Type, Type >		nodeViewPerType = new Dictionary< Type, Type >();
 		static Dictionary< string, Type >	nodePerMenuTitle = new Dictionary< string, Type >();
+		static Dictionary< Type, string >	nodeViewScripts = new Dictionary< Type, string >();
+		static Dictionary< Type, string >	nodeScripts = new Dictionary< Type, string >();
 
 		static NodeProvider()
 		{
@@ -34,6 +36,10 @@ namespace GraphProcessor
 
 			if (attrs != null && attrs.Length > 0)
 				nodePerMenuTitle[attrs.First().menuTitle] = type;
+				
+			var nodeScriptAsset = FindScriptFromClassName(type.Name);
+			if (nodeScriptAsset != null)
+				nodeScripts[type] = nodeScriptAsset;
 		}
 
 		static void	AddNodeViewType(Type type)
@@ -41,7 +47,25 @@ namespace GraphProcessor
 			var attrs = type.GetCustomAttributes(typeof(NodeCustomEditor), false) as NodeCustomEditor[];
 
 			if (attrs != null && attrs.Length > 0)
-				nodeViewPerType[attrs.First().nodeType] = type;
+			{
+				Type nodeType = attrs.First().nodeType;
+				nodeViewPerType[nodeType] = type;
+
+				var nodeViewScriptAsset = FindScriptFromClassName(type.Name);
+
+				if (nodeViewScriptAsset != null)
+					nodeViewScripts[type] = nodeViewScriptAsset;
+			}
+		}
+
+		static string FindScriptFromClassName(string className)
+		{
+			var scriptGUIDs = AssetDatabase.FindAssets(className);
+
+			if (scriptGUIDs.Length == 0)
+				return null;
+
+			return AssetDatabase.GUIDToAssetPath(scriptGUIDs[0]);
 		}
 
 		public static Type GetNodeViewTypeFromType(Type nodeType)
@@ -56,6 +80,26 @@ namespace GraphProcessor
 		public static Dictionary< string, Type >	GetNodeMenuEntries()
 		{
 			return nodePerMenuTitle;
+		}
+
+		public static string GetNodeViewScript(Type type)
+		{
+			string scriptPath;
+
+			nodeViewScripts.TryGetValue(type, out scriptPath);
+
+			return scriptPath;
+		}
+
+		public static string GetNodeScript(Type type)
+		{
+			string scriptPath;
+
+			Debug.Log("req type: " + type);
+
+			nodeScripts.TryGetValue(type, out scriptPath);
+
+			return scriptPath;
 		}
 	}
 }

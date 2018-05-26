@@ -130,7 +130,7 @@ namespace GraphProcessor
 			{
 				RegisterCompleteObjectUndo("Remove Elements");
 
-				//Handle ourselve the edge and node remove
+				//Handle ourselves the edge and node remove
 				changes.elementsToRemove.RemoveAll(e => {
 					var edge = e as EdgeView;
 					var node = e as BaseNodeView;

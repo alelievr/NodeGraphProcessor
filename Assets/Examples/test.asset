@@ -18,6 +18,8 @@ MonoBehaviour:
     jsonDatas: '{"GUID":"b01ecebc-4a49-47a7-9490-37113c8bd4c4","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":301.0,"y":207.0,"width":107.0,"height":117.0},"expanded":false,"output":0}'
   - type: IntNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"4b4790a5-1249-4353-b70d-e258fd7f5ec2","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":311.0,"y":398.0,"width":107.0,"height":117.0},"expanded":false,"output":0}'
+  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"b25aa30d-acec-494b-8dd7-0e8506e8b5f5","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":961.186767578125,"y":184.05072021484376,"width":107.0,"height":117.0},"expanded":false}'
   edges:
   - GUID: c68c52b7-81c2-427c-9996-fc0bbe52f43f
     owner: {fileID: 11400000}
@@ -31,6 +33,15 @@ MonoBehaviour:
     outputNodeGUID: 4b4790a5-1249-4353-b70d-e258fd7f5ec2
     inputFieldName: inputs
     outputFieldName: output
+  - GUID: 3631f113-683a-4310-b5eb-42a86afadac8
+    owner: {fileID: 11400000}
+    inputNodeGUID: b25aa30d-acec-494b-8dd7-0e8506e8b5f5
+    outputNodeGUID: b1531178-d29b-41bc-83ae-7affb485e101
+    inputFieldName: obj
+    outputFieldName: output
   commentBlocks: []
-  position: {x: 86.90253, y: 40.065002, z: 0}
+  views:
+  - serializedType: GraphProcessor.ProcessorView, NodeGraphProcessor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  position: {x: 142.8133, y: 99.94928, z: 0}
   scale: {x: 1, y: 1, z: 1}

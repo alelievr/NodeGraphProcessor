@@ -5,27 +5,25 @@ using UnityEditor;
 using UnityEditor.Experimental.UIElements;
 using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine.Experimental.UIElements;
+using GraphProcessor;
 
-namespace GraphProcessor
+[NodeCustomEditor(typeof(IntNode))]
+public class IntNodeView : BaseNodeView
 {
-	[NodeCustomEditor(typeof(IntNode))]
-	public class IntNodeView : BaseNodeView
+	public override void Enable()
 	{
-		public override void Enable()
+		var intNode = nodeTarget as IntNode;
+
+		IntegerField intField = new IntegerField
 		{
-			var intNode = nodeTarget as IntNode;
+			value = intNode.output
+		};
 
-            IntegerField intField = new IntegerField
-            {
-                value = intNode.output
-            };
+		intField.OnValueChanged((v) => {
+			intNode.output = (int)v.newValue;
+			owner.RegisterCompleteObjectUndo("Updated IntNode output");
+		});
 
-            intField.OnValueChanged((v) => {
-				intNode.output = (int)v.newValue;
-				owner.RegisterCompleteObjectUndo("Updated IntNode output");
-			});
-
-			controlsContainer.Add(intField);
-		}
+		controlsContainer.Add(intField);
 	}
 }

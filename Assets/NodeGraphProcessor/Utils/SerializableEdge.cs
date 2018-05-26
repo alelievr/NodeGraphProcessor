@@ -23,6 +23,10 @@ namespace GraphProcessor
 		[System.NonSerialized]
 		public BaseNode	outputNode;
 
+		//buffer that holds temporarily the output value of the node
+		[System.NonSerialized]
+		public object	passthroughBuffer;
+
 		public string	inputFieldName;
 		public string	outputFieldName;
 
@@ -39,8 +43,6 @@ namespace GraphProcessor
 			edge.inputFieldName = inputFieldName;
 			edge.outputNode = outputNode;
 			edge.outputFieldName = outputFieldName;
-
-			Debug.Log("Created edge with node GUIDs: " + inputNode.GUID + " | " + outputNode.GUID);
 
 			return edge;
 		}

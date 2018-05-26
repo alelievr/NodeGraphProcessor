@@ -9,10 +9,12 @@ namespace GraphProcessor
 	public class InputAttribute : Attribute
 	{
 		public string		name;
-
-		public InputAttribute(string name = null)
+		public string		customPullerName;
+		
+		public InputAttribute(string name = null, string customInputPuller = null)
 		{
 			this.name = name;
+			this.customPullerName = customInputPuller;
 		}
 	}
 
@@ -20,10 +22,12 @@ namespace GraphProcessor
 	public class OutputAttribute : Attribute
 	{
 		public string		name;
+		public string		customPusherName;
 
-		public OutputAttribute(string name = null)
+		public OutputAttribute(string name = null, string customOutputPusher = null)
 		{
 			this.name = name;
+			this.customPusherName = customOutputPusher;
 		}
 	}
 	

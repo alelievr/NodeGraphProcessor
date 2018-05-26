@@ -17,7 +17,6 @@ namespace GraphProcessor
 
 		static NodeProvider()
 		{
-            // First build up temporary data structure containing group & title as an array of strings (the last one is the actual title) and associated node type.
 			foreach (var type in AppDomain.CurrentDomain.GetAllTypes())
 			{
 				if (type.IsClass && !type.IsAbstract)
@@ -94,8 +93,6 @@ namespace GraphProcessor
 		public static string GetNodeScript(Type type)
 		{
 			string scriptPath;
-
-			Debug.Log("req type: " + type);
 
 			nodeScripts.TryGetValue(type, out scriptPath);
 

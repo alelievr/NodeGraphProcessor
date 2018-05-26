@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.Jobs;
+using Unity.Jobs;
 
 namespace GraphProcessor
 {
@@ -13,53 +13,70 @@ namespace GraphProcessor
 		Stopped,
 	}
 
+	class GraphScheduleList
+	{
+		public BaseNode			node;
+		public BaseNode[]		dependencies;
+
+		public GraphScheduleList(BaseNode node)
+		{
+			this.node = node;
+		}
+	}
+
 	public class BaseGraphProcessor
 	{
 		public GraphProcessState	state { get; private set; }
-
 		BaseGraph					graph;
+		GraphScheduleList[]			scheduleList;
 
-		BaseNode[]					processOrderedNodes;
+		struct NodeProcessJob : IJob
+		{
+			BaseNode node;
+
+			public NodeProcessJob(BaseNode nodeToProcess)
+			{
+				node = nodeToProcess;
+			}
+
+			public void Execute()
+			{
+				node.OnProcess();
+			}
+		}
 
 		public BaseGraphProcessor(BaseGraph graph)
 		{
 			this.graph = graph;
 
 			UpdateComputeOrder();
-			
 		}
 
 		void UpdateComputeOrder()
 		{
-			var tmp = new List< BaseNode >();
-
-			tmp.AddRange(graph.nodes);
-			tmp.Sort((n1, n2) => n1.computeOrder.CompareTo(n2.computeOrder));
-
-			processOrderedNodes = tmp.ToArray();
+			scheduleList = graph.nodes.OrderBy(n => n.computeOrder).Select(n => {
+				GraphScheduleList gsl = new GraphScheduleList(n);
+				gsl.dependencies = n.GetInputNodes().ToArray();
+				return gsl;
+			}).ToArray();
 		}
 
-		public void Process()
+		public virtual void Process()
 		{
-			int count = processOrderedNodes.Length;
+			int count = scheduleList.Length;
+			var scheduledHandles = new Dictionary< BaseNode, JobHandle >();
 
 			for (int i = 0; i < count; i++)
-				processOrderedNodes[i].OnProcess();
-		}
+			{
+				var schedule = scheduleList[i];
+				NodeProcessJob job = new NodeProcessJob();
 
-		public void Pause()
-		{
+				scheduledHandles[schedule.node] = job.Schedule();
 
-		}
-
-		public void Stop()
-		{
-
-		}
-
-		public void NextStep()
-		{
-
+				int dependenciesCount = schedule.dependencies.Length;
+				for (int j = 0; j < dependenciesCount; j++)
+					job.Schedule(scheduledHandles[schedule.dependencies[j]]);
+			}
 		}
 	}
 }

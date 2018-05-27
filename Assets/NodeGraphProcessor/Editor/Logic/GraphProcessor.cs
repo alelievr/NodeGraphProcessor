@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Unity.Jobs;
 using Unity.Collections;
+using Unity.Entities;
 
 namespace GraphProcessor
 {

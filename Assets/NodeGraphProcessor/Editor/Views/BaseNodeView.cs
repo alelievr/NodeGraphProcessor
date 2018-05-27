@@ -217,14 +217,14 @@ namespace GraphProcessor
 			evt.menu.AppendAction("Open Node View Script", (e) => OpenNodeViewScript(), OpenNodeViewScriptStatus);
 		}
 
-		StatusFlags OpenNodeScriptStatus(ContextualMenu.MenuAction e)
+		StatusFlags OpenNodeScriptStatus(EventBase e)
 		{
 			if (NodeProvider.GetNodeScript(nodeTarget.GetType()) != null)
 				return StatusFlags.Normal;
 			return StatusFlags.Disabled;
 		}
 		
-		StatusFlags OpenNodeViewScriptStatus(ContextualMenu.MenuAction e)
+		StatusFlags OpenNodeViewScriptStatus(EventBase e)
 		{
 			if (NodeProvider.GetNodeViewScript(GetType()) != null)
 				return StatusFlags.Normal;

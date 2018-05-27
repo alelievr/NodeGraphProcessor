@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
+using Unity.Jobs;
+using Unity.Collections;
 
 [System.Serializable, NodeMenuItem("Primitives/Add")]
 public class AddNode : BaseNode
@@ -16,12 +18,32 @@ public class AddNode : BaseNode
 
 	public int					test;
 
-	protected override void Process()
+	struct AddJob : IJob
 	{
-		output = 0;
+		NativeArray< float >	inputs;
+		float					result;
 
-		foreach (float input in inputs)
-			output += input;
+		public void Execute()
+		{
+			result = 0;
+
+			foreach (float input in inputs)
+				result += input;
+		}
+	}
+
+	public override JobHandle Schedule(JobHandle[] dependencies)
+	{
+		AddJob		addJob = new AddJob();
+		JobHandle	handle;
+		
+		//Will this work ?
+		handle = addJob.Schedule();
+
+		foreach (JobHandle dep in dependencies)
+			addJob.Schedule(dep);
+		
+		return handle;
 	}
 
 	void PullInputFields(IEnumerable< object > values)

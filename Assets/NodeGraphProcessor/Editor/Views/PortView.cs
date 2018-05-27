@@ -11,33 +11,32 @@ namespace GraphProcessor
 	public class PortView : Port
 	{
 		public bool				isMultiple;
-		public string			fieldName { get { return field.Name; } }
-		FieldInfo				field;
+		public string			fieldName { get; private set; }
 
 		List< EdgeView >		edges = new List< EdgeView >();
 
-        public PortView(Orientation portOrientation, Direction portDirection, FieldInfo field, EdgeConnectorListener edgeConnectorListener)
+        public PortView(Orientation portOrientation, BaseNode.NodeFieldInformation field, EdgeConnectorListener edgeConnectorListener)
 		#if UNITY_2018_2
             : base(portOrientation, portDirection, Capacity.Multi, field.FieldType)
 		#else
-            : base(portOrientation, portDirection, field.FieldType)
+            : base(portOrientation, field.input ? Direction.Input : Direction.Output, field.info.FieldType)
 		#endif
 		{
 			AddStyleSheetPath("GraphProcessorStyles/PortView");
 
 			this.m_EdgeConnector = new EdgeConnector< EdgeView >(edgeConnectorListener);
-			this.field = field;
 
 			this.AddManipulator(m_EdgeConnector);
 
-			portName = field.Name;
-			isMultiple = portType.IsGenericType && portType.GetGenericTypeDefinition() == typeof(PortArray<>);
+			portName = field.name;
+			fieldName = field.info.Name;
+			isMultiple = field.isMultiple;
 			visualClass = "type";
 
 			if (isMultiple)
-				visualClass += field.FieldType.GetGenericArguments()[0].Name;
+				visualClass += field.info.FieldType.GetGenericArguments()[0].Name;
 			else
-				visualClass += field.FieldType.Name;
+				visualClass += field.info.FieldType.Name;
 		}
 
 		public override void Connect(Edge edge)

@@ -3,16 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Unity.Jobs;
+using Unity.Collections;
 
 namespace GraphProcessor
 {
-	public enum	GraphProcessState
-	{
-		Playing,
-		Paused,
-		Stopped,
-	}
-
 	class GraphScheduleList
 	{
 		public BaseNode			node;
@@ -24,26 +18,18 @@ namespace GraphProcessor
 		}
 	}
 
+	public struct Test : IJobParallelFor
+	{
+		public void Execute(int index)
+		{
+			throw new System.NotImplementedException();
+		}
+	}
+
 	public class BaseGraphProcessor
 	{
-		public GraphProcessState	state { get; private set; }
 		BaseGraph					graph;
 		GraphScheduleList[]			scheduleList;
-
-		struct NodeProcessJob : IJob
-		{
-			BaseNode node;
-
-			public NodeProcessJob(BaseNode nodeToProcess)
-			{
-				node = nodeToProcess;
-			}
-
-			public void Execute()
-			{
-				node.OnProcess();
-			}
-		}
 
 		public BaseGraphProcessor(BaseGraph graph)
 		{
@@ -61,7 +47,7 @@ namespace GraphProcessor
 			}).ToArray();
 		}
 
-		public virtual void Process()
+		public virtual void ProcessJob()
 		{
 			int count = scheduleList.Length;
 			var scheduledHandles = new Dictionary< BaseNode, JobHandle >();
@@ -69,13 +55,12 @@ namespace GraphProcessor
 			for (int i = 0; i < count; i++)
 			{
 				var schedule = scheduleList[i];
-				NodeProcessJob job = new NodeProcessJob();
 
-				scheduledHandles[schedule.node] = job.Schedule();
+				scheduledHandles[schedule.node] = schedule.node.Schedule();
 
 				int dependenciesCount = schedule.dependencies.Length;
 				for (int j = 0; j < dependenciesCount; j++)
-					job.Schedule(scheduledHandles[schedule.dependencies[j]]);
+					schedule.node.Schedule(scheduledHandles[schedule.dependencies[j]]);
 			}
 		}
 	}

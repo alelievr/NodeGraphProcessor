@@ -52,27 +52,13 @@ namespace GraphProcessor
 		
 		void InitializePorts()
 		{
-			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
-			foreach (var field in fields)
+			foreach (var fieldInfo in nodeTarget.nodeFields)
 			{
-				var inputAttribute = field.GetCustomAttribute< InputAttribute >();
-				var outputAttribute = field.GetCustomAttribute< OutputAttribute >();
-
-				if (inputAttribute == null && outputAttribute == null)
-					continue ;
-
 				PortView port = new PortView(
 					Orientation.Horizontal,
-					(inputAttribute != null) ? Direction.Input : Direction.Output,
-					field,
+					fieldInfo.Value,
 					owner.connectorListener
 				);
-
-				if (!String.IsNullOrEmpty(inputAttribute?.name))
-					port.portName = inputAttribute.name;
-				else if (!String.IsNullOrEmpty(outputAttribute?.name))
-					port.portName = outputAttribute.name;
 
 				AddPort(port);
 			}

@@ -21,12 +21,6 @@ MonoBehaviour:
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"b25aa30d-acec-494b-8dd7-0e8506e8b5f5","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":961.186767578125,"y":184.05072021484376,"width":107.0,"height":117.0},"expanded":false}'
   edges:
-  - GUID: c68c52b7-81c2-427c-9996-fc0bbe52f43f
-    owner: {fileID: 11400000}
-    inputNodeGUID: b1531178-d29b-41bc-83ae-7affb485e101
-    outputNodeGUID: b01ecebc-4a49-47a7-9490-37113c8bd4c4
-    inputFieldName: inputs
-    outputFieldName: output
   - GUID: d13cbd64-4367-4701-9735-bff9e0c19d75
     owner: {fileID: 11400000}
     inputNodeGUID: b1531178-d29b-41bc-83ae-7affb485e101
@@ -39,9 +33,15 @@ MonoBehaviour:
     outputNodeGUID: b1531178-d29b-41bc-83ae-7affb485e101
     inputFieldName: obj
     outputFieldName: output
+  - GUID: 8eeba033-48f6-48a1-a6b1-bc9de75d2e0f
+    owner: {fileID: 11400000}
+    inputNodeGUID: b1531178-d29b-41bc-83ae-7affb485e101
+    outputNodeGUID: b01ecebc-4a49-47a7-9490-37113c8bd4c4
+    inputFieldName: inputs
+    outputFieldName: output
   commentBlocks: []
   views:
   - serializedType: GraphProcessor.ProcessorView, NodeGraphProcessor, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  position: {x: 142.8133, y: 99.94928, z: 0}
+  position: {x: 40.820755, y: 86.194214, z: 0}
   scale: {x: 1, y: 1, z: 1}

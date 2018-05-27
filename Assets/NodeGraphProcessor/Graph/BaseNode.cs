@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Reflection;
+using Unity.Jobs;
 
 namespace GraphProcessor
 {
@@ -40,17 +41,19 @@ namespace GraphProcessor
 
 		public class NodeFieldInformation
 		{
-			public string		fieldName;
+			public string		name;
+			public FieldInfo	info;
 			public MethodInfo	customIOMethod;
 			public bool			input;
 			public bool			isMultiple;
 
-			public NodeFieldInformation(string fieldName, MethodInfo customIOMethod, bool input, bool isMultiple)
+			public NodeFieldInformation(FieldInfo info, string name, MethodInfo customIOMethod, bool input, bool isMultiple)
 			{
-				this.fieldName = fieldName;
 				this.customIOMethod = customIOMethod;
 				this.input = input;
 				this.isMultiple = isMultiple;
+				this.info = info;
+				this.name = name;
 			}
 		}
 
@@ -90,14 +93,19 @@ namespace GraphProcessor
 				var outputAttribute = field.GetCustomAttribute< OutputAttribute >();
 				bool isMultiple = false;
 				bool input = false;
+				string name = field.Name;
 
 				if (inputAttribute == null && outputAttribute == null)
 					continue ;
 				
 				//check if field is a collection of list type
-				if (typeof(IList).IsInstanceOfType(field))
-					isMultiple = true;
+				isMultiple = typeof(IList).IsAssignableFrom(field.FieldType);
 				input = inputAttribute != null;
+			
+				if (!String.IsNullOrEmpty(inputAttribute?.name))
+					name = inputAttribute.name;
+				if (!String.IsNullOrEmpty(outputAttribute?.name))
+					name = outputAttribute.name;
 				
 				string customIOMethod = inputAttribute?.customPullerName;
 
@@ -109,13 +117,14 @@ namespace GraphProcessor
 				if (!String.IsNullOrEmpty(customIOMethod))
 					ioMethod = GetFieldIOMethod(customIOMethod, input, isMultiple);
 
-				nodeFields[field.Name] = new NodeFieldInformation(field.Name, ioMethod, input, isMultiple);
+				nodeFields[field.Name] = new NodeFieldInformation(field, name, ioMethod, input, isMultiple);
 			}
 		}
 
 		MethodInfo GetFieldIOMethod(string methodName, bool input, bool isMultiple)
 		{
 			MethodInfo method = GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+			Type matchingDelegate = null;
 
 			if (method == null)
 			{
@@ -123,34 +132,20 @@ namespace GraphProcessor
 				return null;
 			}
 
-			Type[] parameterTypes = new Type[]{};
-			Type returnType;
-
 			if (input)
 			{
-				returnType = typeof(void);
-				parameterTypes = new []{ (isMultiple) ? typeof(IEnumerable< object >) : typeof(object) };
+				if (isMultiple)
+					matchingDelegate = typeof(MultiInputPullerDelegate);
+				else
+					matchingDelegate = typeof(InputPullerDelegate);
 			}
 			else
-			{
-				returnType = typeof(object);
-				if (isMultiple)
-					parameterTypes = new []{ typeof(int) };
-			}
+				matchingDelegate = typeof(OutputPusherDelegate);
 
 			var methodParameters = method.GetParameters();
 
-			if (methodParameters.Length != parameterTypes.Length)
-			{
-				Debug.LogError("The method " + method + " have bad parameters, expected paramseters: " + parameterTypes);
-				return null;
-			}
-
-			if (method.ReturnType != returnType)
-			{
-				Debug.LogError("Bad return type for method " + method + ", expected: " + returnType);
-				return null;
-			}
+			if ((Delegate.CreateDelegate(matchingDelegate, method, false) != null))
+				Debug.Log("Custom IO method is not matching delegate: " + matchingDelegate);
 
 			return method;
 		}
@@ -165,7 +160,6 @@ namespace GraphProcessor
 				inputEdges.Add(edge);
 			else
 				outputEdges.Add(edge);
-
 		}
 
 		public void OnEdgeDisonnected(SerializableEdge edge)
@@ -195,9 +189,16 @@ namespace GraphProcessor
 		{
 			foreach (var edge in inputEdges)
 			{
+				MethodInfo customIOMethod = nodeFields[edge.inputFieldName]?.customIOMethod;
+
 				//TODO: optimize this
-				var inputField = edge.inputNode.GetType().GetField(edge.inputFieldName, BindingFlags.Instance | BindingFlags.Public);
-				inputField.SetValue(edge.inputNode, edge.passthroughBuffer);
+				if (customIOMethod != null)
+					customIOMethod.Invoke(edge.inputNode, new []{ edge.passthroughBuffer });
+				else
+				{
+					var inputField = edge.inputNode.GetType().GetField(edge.inputFieldName, BindingFlags.Instance | BindingFlags.Public);
+					inputField.SetValue(edge.inputNode, edge.passthroughBuffer);
+				}
 			}
 		}
 
@@ -205,14 +206,23 @@ namespace GraphProcessor
 		{
 			foreach (var edge in outputEdges)
 			{
+				MethodInfo customIOMethod = edge.outputNode.nodeFields[edge.inputFieldName]?.customIOMethod;
+
 				//TODO: optimize this
-				var outputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Instance | BindingFlags.Public);
-				edge.passthroughBuffer = outputField.GetValue(edge.outputNode);
+				if (customIOMethod != null)
+					edge.passthroughBuffer = customIOMethod.Invoke(edge.outputNode, new object[]{});
+				else
+				{
+					var outputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Instance | BindingFlags.Public);
+					edge.passthroughBuffer = outputField.GetValue(edge.outputNode);
+				}
 			}
 		}
 		
-		protected virtual void		Enable() {}
-		protected virtual void		Process() {}
+		protected virtual void Enable() {}
+		protected virtual void Process() {}
+
+		public virtual JobHandle Schedule(params JobHandle[] dependencies) { return default(JobHandle); }
 
 		#endregion
 

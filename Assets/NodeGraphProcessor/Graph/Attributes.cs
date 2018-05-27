@@ -5,6 +5,11 @@ using System;
 
 namespace GraphProcessor
 {
+	public delegate void InputPullerDelegate(object value);
+	public delegate void MultiInputPullerDelegate(IEnumerable< object > value);
+
+	public delegate object OutputPusherDelegate();
+
 	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
 	public class InputAttribute : Attribute
 	{

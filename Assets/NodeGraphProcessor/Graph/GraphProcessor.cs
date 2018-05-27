@@ -8,22 +8,30 @@ using Unity.Collections;
 
 namespace GraphProcessor
 {
-	class GraphScheduleList
-	{
-		public BaseNode			node;
-		public BaseNode[]		dependencies;
 
-		public GraphScheduleList(BaseNode node)
-		{
-			this.node = node;
-		}
-	}
-
+	/// <summary>
+	/// Graph processor
+	/// </summary>
 	public class BaseGraphProcessor
 	{
 		BaseGraph					graph;
 		GraphScheduleList[]			scheduleList;
+		
+		internal class GraphScheduleList
+		{
+			public BaseNode			node;
+			public BaseNode[]		dependencies;
+	
+			public GraphScheduleList(BaseNode node)
+			{
+				this.node = node;
+			}
+		}
 
+		/// <summary>
+		/// Manage graph scheduling and processing
+		/// </summary>
+		/// <param name="graph">Graph to be processed</param>
 		public BaseGraphProcessor(BaseGraph graph)
 		{
 			this.graph = graph;
@@ -40,6 +48,9 @@ namespace GraphProcessor
 			}).ToArray();
 		}
 
+		/// <summary>
+		/// Schedule the graph into the job system
+		/// </summary>
 		public void ScheduleJobs()
 		{
 			int count = scheduleList.Length;
@@ -55,9 +66,7 @@ namespace GraphProcessor
 					dep = JobHandle.CombineDependencies(dep, scheduledHandles[schedule.dependencies[j]]);
 
 				JobHandle currentJob = schedule.node.OnSchedule(dep);
-
 				scheduledHandles[schedule.node] = currentJob;
-
 			}
 
 			JobHandle.ScheduleBatchedJobs();

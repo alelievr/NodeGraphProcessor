@@ -4,6 +4,7 @@ using UnityEngine;
 using GraphProcessor;
 using Unity.Jobs;
 using Unity.Collections;
+using System.Linq;
 
 [System.Serializable, NodeMenuItem("Primitives/Add")]
 public class AddNode : BaseNode
@@ -39,7 +40,7 @@ public class AddNode : BaseNode
 
 	protected override void Disable()
 	{
-		
+		inputs.Dispose();
 	}
 
 	protected override JobHandle Schedule(JobHandle dependency)
@@ -56,6 +57,14 @@ public class AddNode : BaseNode
 
 	void PullInputFields(IEnumerable< object > values)
 	{
-		inputs = new NativeArray<float>();
+		var array = values.Cast< float >().ToArray();
+
+		if (inputs.Length != array.Length)
+		{
+			inputs.Dispose();
+			inputs = new NativeArray<float>(array.Length, Allocator.Persistent);
+		}
+
+		inputs.CopyFrom(array);
 	}
 }

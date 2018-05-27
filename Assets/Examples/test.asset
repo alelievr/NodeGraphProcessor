@@ -15,9 +15,9 @@ MonoBehaviour:
   - type: AddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"b1531178-d29b-41bc-83ae-7affb485e101","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":676.0,"y":274.0,"width":137.0,"height":117.0},"expanded":false,"output":0.0,"test":0}'
   - type: IntNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"b01ecebc-4a49-47a7-9490-37113c8bd4c4","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":301.0,"y":207.0,"width":107.0,"height":117.0},"expanded":false,"output":0}'
+    jsonDatas: '{"GUID":"b01ecebc-4a49-47a7-9490-37113c8bd4c4","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":301.0,"y":207.0,"width":107.0,"height":117.0},"expanded":false,"output":2}'
   - type: IntNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"4b4790a5-1249-4353-b70d-e258fd7f5ec2","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":311.0,"y":398.0,"width":107.0,"height":117.0},"expanded":false,"output":0}'
+    jsonDatas: '{"GUID":"4b4790a5-1249-4353-b70d-e258fd7f5ec2","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":311.0,"y":398.0,"width":107.0,"height":117.0},"expanded":false,"output":2}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"b25aa30d-acec-494b-8dd7-0e8506e8b5f5","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":961.186767578125,"y":184.05072021484376,"width":107.0,"height":117.0},"expanded":false}'
   edges:
@@ -43,5 +43,7 @@ MonoBehaviour:
   views:
   - serializedType: GraphProcessor.ProcessorView, NodeGraphProcessor, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  position: {x: 58.76819, y: 89.436646, z: 0}
+  - serializedType: GraphProcessor.ProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  position: {x: 130.76819, y: 96.436646, z: 0}
   scale: {x: 1, y: 1, z: 1}

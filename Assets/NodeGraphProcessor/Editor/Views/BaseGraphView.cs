@@ -463,6 +463,9 @@ namespace GraphProcessor
 		{
 			BaseGraphElementView elem;
 
+			if (type == null)
+				return ;
+
 			elem = Activator.CreateInstance(type) as BaseGraphElementView;
 			uniqueElements[type] = elem;
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Reflection;
 using Unity.Jobs;
+using System.Linq;
 
 namespace GraphProcessor
 {
@@ -19,12 +20,16 @@ namespace GraphProcessor
 		public bool					canProcess = true;
 
 		[NonSerialized]
-		public readonly bool		needsSchedule = typeof(BaseNode).GetMethod("Schedule", BindingFlags.Public | BindingFlags.Instance).DeclaringType != typeof(BaseNode);
+		public readonly bool		needsSchedule = typeof(BaseNode).GetMethod("Schedule", BindingFlags.NonPublic | BindingFlags.Instance).DeclaringType != typeof(BaseNode);
 
 		[NonSerialized]
-		public readonly HashSet< SerializableEdge > inputEdges = new HashSet< SerializableEdge >();
+		public readonly List< SerializableEdge > inputEdges = new List< SerializableEdge >();
 		[NonSerialized]
-		public readonly HashSet< SerializableEdge > outputEdges = new HashSet< SerializableEdge >();
+		public readonly Dictionary< string, List< SerializableEdge > > inputEdgesPerFields = new Dictionary< string, List< SerializableEdge > >();
+		[NonSerialized]
+		public readonly List< SerializableEdge > outputEdges = new List< SerializableEdge >();
+		[NonSerialized]
+		public readonly Dictionary< string, List< SerializableEdge > > outputEdgesPerFields = new Dictionary< string, List< SerializableEdge > >();
 
 		//Node view datas
 		public Rect					position;
@@ -161,21 +166,31 @@ namespace GraphProcessor
 
 		public void OnEdgeConnected(SerializableEdge edge)
 		{
-			if (edge.inputNode == this)
-				inputEdges.Add(edge);
-			else
-				outputEdges.Add(edge);
+			bool input = edge.inputNode == this;
+			var edgeCollection = (input) ? inputEdges : outputEdges;
+			var edgePerField = (input) ? inputEdgesPerFields : outputEdgesPerFields;
+			var edgeField = (input) ? edge.inputFieldName : edge.outputFieldName;
+
+			if (!edgeCollection.Contains(edge))
+				edgeCollection.Add(edge);
+			if (!edgePerField.ContainsKey(edgeField))
+				edgePerField[edgeField] = new List< SerializableEdge >();
+			edgePerField[edgeField].Add(edge);
 		}
 
 		public void OnEdgeDisonnected(SerializableEdge edge)
 		{
 			if (edge == null)
 				return ;
+				
+			bool input = edge.inputNode == this;
+			var edgeCollection = (input) ? inputEdges : outputEdges;
+			var edgePerField = (input) ? inputEdgesPerFields : outputEdgesPerFields;
+			var edgeField = (input) ? edge.inputFieldName : edge.outputFieldName;
 			
-			if (edge.inputNode == this)
-				inputEdges.Remove(edge);
-			else
-				outputEdges.Remove(edge);
+			edgeCollection.Remove(edge);
+			if (edgePerField.ContainsKey(edgeField))
+				edgePerField[edgeField].Remove(edge);
 		}
 
 		public JobHandle OnSchedule(JobHandle handle)
@@ -194,17 +209,20 @@ namespace GraphProcessor
 
 		void PullInputs()
 		{
-			foreach (var edge in inputEdges)
+			foreach (var edgeKP in inputEdgesPerFields)
 			{
-				MethodInfo customPullMethod = nodeFields[edge.inputFieldName]?.customIOMethod;
+				NodeFieldInformation info;
+				nodeFields.TryGetValue(edgeKP.Key, out info);
+				MethodInfo customPullMethod = info?.customIOMethod;
+				SerializableEdge firstEdge = edgeKP.Value.First();
 
 				//TODO: optimize this
 				if (customPullMethod != null)
-					customPullMethod.Invoke(edge.inputNode, new []{ edge.passthroughBuffer });
+					customPullMethod.Invoke(firstEdge.inputNode, new []{ edgeKP.Value.Select(e => e.passthroughBuffer) });
 				else
 				{
-					var inputField = edge.inputNode.GetType().GetField(edge.inputFieldName, BindingFlags.Instance | BindingFlags.Public);
-					inputField.SetValue(edge.inputNode, edge.passthroughBuffer);
+					var inputField = firstEdge.inputNode.GetType().GetField(firstEdge.inputFieldName, BindingFlags.Instance | BindingFlags.Public);
+					inputField.SetValue(firstEdge.inputNode, firstEdge.passthroughBuffer);
 				}
 			}
 		}
@@ -213,7 +231,9 @@ namespace GraphProcessor
 		{
 			foreach (var edge in outputEdges)
 			{
-				MethodInfo customPushMethod = edge.outputNode.nodeFields[edge.inputFieldName]?.customIOMethod;
+				NodeFieldInformation info;
+				edge.outputNode.nodeFields.TryGetValue(edge.inputFieldName, out info);
+				MethodInfo customPushMethod = info?.customIOMethod;
 
 				//TODO: optimize this
 				if (customPushMethod != null)

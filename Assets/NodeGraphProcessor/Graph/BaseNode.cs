@@ -178,17 +178,18 @@ namespace GraphProcessor
 				outputEdges.Remove(edge);
 		}
 
-		public void OnSchedule()
+		public JobHandle OnSchedule(JobHandle handle)
 		{
+			JobHandle ret = default(JobHandle);
+
 			PullInputs();
-
 			if (needsSchedule)
-				Schedule();
-
+				ret = Schedule(handle);
 			if (onProcessed != null)
 				onProcessed();
-
 			PushOutputs();
+
+			return ret;
 		}
 
 		void PullInputs()
@@ -228,7 +229,7 @@ namespace GraphProcessor
 		protected virtual void Enable() {}
 		protected virtual void Disable() {}
 
-		public virtual JobHandle Schedule(params JobHandle[] dependencies) { return default(JobHandle); }
+		protected virtual JobHandle Schedule(JobHandle dependencies) { return default(JobHandle); }
 
 		#endregion
 

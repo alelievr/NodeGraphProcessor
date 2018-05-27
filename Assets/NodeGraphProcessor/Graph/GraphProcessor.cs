@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Unity.Jobs;
 using Unity.Collections;
-using Unity.Entities;
+// using Unity.Entities;
 
 namespace GraphProcessor
 {
@@ -16,14 +16,6 @@ namespace GraphProcessor
 		public GraphScheduleList(BaseNode node)
 		{
 			this.node = node;
-		}
-	}
-
-	public struct Test : IJobParallelFor
-	{
-		public void Execute(int index)
-		{
-			throw new System.NotImplementedException();
 		}
 	}
 
@@ -55,14 +47,17 @@ namespace GraphProcessor
 
 			for (int i = 0; i < count; i++)
 			{
+				JobHandle dep = default(JobHandle);
 				var schedule = scheduleList[i];
-				JobHandle currentJob = schedule.node.Schedule();
 				int dependenciesCount = schedule.dependencies.Length;
+
+				for (int j = 0; j < dependenciesCount; j++)
+					dep = JobHandle.CombineDependencies(dep, scheduledHandles[schedule.dependencies[j]]);
+
+				JobHandle currentJob = schedule.node.OnSchedule(dep);
 
 				scheduledHandles[schedule.node] = currentJob;
 
-				for (int j = 0; j < dependenciesCount; j++)
-					JobHandle.CombineDependencies(currentJob, scheduledHandles[schedule.dependencies[j]]);
 			}
 
 			JobHandle.ScheduleBatchedJobs();

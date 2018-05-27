@@ -42,14 +42,14 @@ public class AddNode : BaseNode
 		
 	}
 
-	public override JobHandle Schedule(JobHandle[] dependencies)
+	protected override JobHandle Schedule(JobHandle dependency)
 	{
 		AddJob		addJob = new AddJob();
 		JobHandle	handle;
 
 		addJob.inputs = new NativeArray<float>(inputs.Length, Allocator.Temp);
 
-		handle = addJob.Schedule();
+		handle = addJob.Schedule(dependency);
 		
 		return handle;
 	}

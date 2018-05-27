@@ -144,7 +144,7 @@ namespace GraphProcessor
 			}
 
 			if (computeOrderDictionary.ContainsKey(node))
-				return computeOrderDictionary[node];
+				return node.computeOrder;
 
 			if (!node.canProcess)
 			{

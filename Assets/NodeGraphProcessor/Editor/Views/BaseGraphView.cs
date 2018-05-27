@@ -189,22 +189,13 @@ namespace GraphProcessor
 		{
 			var compatiblePorts = new List<Port>();
 
-			Type startPortType = startPort.portType;
-
-			if ((startPort as PortView).isMultiple)
-				startPortType = startPortType.GetGenericArguments()[0];
-
 			compatiblePorts.AddRange(ports.ToList().Where(p => {
 				var portView = p as PortView;
-				Type portType = portView.portType;
-
-				if (portView.isMultiple)
-					portType = portType.GetGenericArguments()[0];
 
 				if (portView.direction == startPort.direction)
 					return false;
 				
-				if (!portType.IsReallyAssignableFrom(startPortType))
+				if (!portView.portType.IsReallyAssignableFrom(startPort.portType))
 					return false;
 				
 				//if the edge already exists
@@ -380,7 +371,7 @@ namespace GraphProcessor
 
 			if (inputNodeView == null || outputNodeView == null)
 			{
-				Debug.Log("Connect aborted !");
+				Debug.LogError("Connect aborted !");
 				return ;
 			}
 			

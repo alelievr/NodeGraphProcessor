@@ -9,7 +9,7 @@ using Unity.Collections;
 public class AddNode : BaseNode
 {
 	[Input("Input", nameof(PullInputFields))]
-	public PortArray< float >	inputs = new PortArray< float >();
+	public NativeArray< float >	inputs = new NativeArray< float >();
 
 	[Output]
 	public float				output;
@@ -20,8 +20,8 @@ public class AddNode : BaseNode
 
 	struct AddJob : IJob
 	{
-		NativeArray< float >	inputs;
-		float					result;
+		public NativeArray< float >	inputs;
+		public float				result;
 
 		public void Execute()
 		{
@@ -32,23 +32,30 @@ public class AddNode : BaseNode
 		}
 	}
 
+	protected override void Enable()
+	{
+		inputs = new NativeArray<float>();
+	}
+
+	protected override void Disable()
+	{
+		
+	}
+
 	public override JobHandle Schedule(JobHandle[] dependencies)
 	{
 		AddJob		addJob = new AddJob();
 		JobHandle	handle;
-		
-		//Will this work ?
-		handle = addJob.Schedule();
 
-		foreach (JobHandle dep in dependencies)
-			addJob.Schedule(dep);
+		addJob.inputs = new NativeArray<float>(inputs.Length, Allocator.Temp);
+
+		handle = addJob.Schedule();
 		
 		return handle;
 	}
 
 	void PullInputFields(IEnumerable< object > values)
 	{
-		foreach (var value in values)
-			inputs.Add((float)value);
+		inputs = new NativeArray<float>();
 	}
 }

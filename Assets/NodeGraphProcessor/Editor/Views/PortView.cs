@@ -12,12 +12,13 @@ namespace GraphProcessor
 	{
 		public bool				isMultiple;
 		public string			fieldName { get; private set; }
+		public new Type			portType;
 
 		List< EdgeView >		edges = new List< EdgeView >();
 
         public PortView(Orientation portOrientation, BaseNode.NodeFieldInformation field, EdgeConnectorListener edgeConnectorListener)
 		#if UNITY_2018_2
-            : base(portOrientation, portDirection, Capacity.Multi, field.FieldType)
+            : base(portOrientation, portDirection, Capacity.Multi, field.info.FieldType)
 		#else
             : base(portOrientation, field.input ? Direction.Input : Direction.Output, field.info.FieldType)
 		#endif
@@ -31,12 +32,8 @@ namespace GraphProcessor
 			portName = field.name;
 			fieldName = field.info.Name;
 			isMultiple = field.isMultiple;
-			visualClass = "type";
-
-			if (isMultiple)
-				visualClass += field.info.FieldType.GetGenericArguments()[0].Name;
-			else
-				visualClass += field.info.FieldType.Name;
+			portType = (isMultiple) ? field.info.FieldType.GetGenericArguments()[0] : field.info.FieldType;
+			visualClass = "type" + portType.Name;
 		}
 
 		public override void Connect(Edge edge)

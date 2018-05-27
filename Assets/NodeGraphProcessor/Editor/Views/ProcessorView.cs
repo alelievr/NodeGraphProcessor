@@ -28,7 +28,7 @@ namespace GraphProcessor
 
 		void OnPlay()
 		{
-			processor.ProcessJob();
+			processor.ScheduleJobs();
 		}
 	}
 }

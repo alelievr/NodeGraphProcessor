@@ -47,7 +47,7 @@ namespace GraphProcessor
 			}).ToArray();
 		}
 
-		public virtual void ProcessJob()
+		public void ScheduleJobs()
 		{
 			int count = scheduleList.Length;
 			var scheduledHandles = new Dictionary< BaseNode, JobHandle >();
@@ -55,13 +55,16 @@ namespace GraphProcessor
 			for (int i = 0; i < count; i++)
 			{
 				var schedule = scheduleList[i];
-
-				scheduledHandles[schedule.node] = schedule.node.Schedule();
-
+				JobHandle currentJob = schedule.node.Schedule();
 				int dependenciesCount = schedule.dependencies.Length;
+
+				scheduledHandles[schedule.node] = currentJob;
+
 				for (int j = 0; j < dependenciesCount; j++)
-					schedule.node.Schedule(scheduledHandles[schedule.dependencies[j]]);
+					JobHandle.CombineDependencies(currentJob, scheduledHandles[schedule.dependencies[j]]);
 			}
+
+			JobHandle.ScheduleBatchedJobs();
 		}
 	}
 }

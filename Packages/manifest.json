@@ -1,8 +1,11 @@
 {
   "dependencies": {
-    "com.unity.incrementalcompiler": "0.0.42-preview.1",
-    "com.unity.entities": "0.0.12-preview.4",
-    "com.unity.package-manager-ui": "1.9.3"
+    "com.unity.entities": "0.0.12-preview.4"
   },
-  "registry": "https://staging-packages.unity.com"
+  "registry": "https://staging-packages.unity.com",
+  "testables": [
+    "com.unity.collections",
+    "com.unity.entities",
+    "com.unity.jobs"
+  ]
 }

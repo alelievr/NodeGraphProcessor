@@ -19,14 +19,12 @@ namespace GraphProcessor
 		public bool					canProcess = true;
 
 		[NonSerialized]
-		public bool					needsProcess = typeof(BaseNode).GetMethod("Process", BindingFlags.NonPublic | BindingFlags.Instance).DeclaringType != typeof(BaseNode);
-		[NonSerialized]
-		public bool					needsEnable = typeof(BaseNode).GetMethod("Enable", BindingFlags.NonPublic | BindingFlags.Instance).DeclaringType != typeof(BaseNode);
+		public readonly bool		needsSchedule = typeof(BaseNode).GetMethod("Schedule", BindingFlags.Public | BindingFlags.Instance).DeclaringType != typeof(BaseNode);
 
 		[NonSerialized]
-		public readonly List< SerializableEdge > inputEdges = new List< SerializableEdge >();
+		public readonly HashSet< SerializableEdge > inputEdges = new HashSet< SerializableEdge >();
 		[NonSerialized]
-		public readonly List< SerializableEdge > outputEdges = new List< SerializableEdge >();
+		public readonly HashSet< SerializableEdge > outputEdges = new HashSet< SerializableEdge >();
 
 		//Node view datas
 		public Rect					position;
@@ -73,10 +71,19 @@ namespace GraphProcessor
 
 		#region Initialization
 
-		public BaseNode()
+		protected BaseNode()
+
 		{
 			InitializeInOutDatas();
+
+			Enable();
 		}
+		
+		~BaseNode()
+		{
+			Disable();
+		}
+
 
 		public virtual void	OnNodeCreated()
 		{
@@ -99,7 +106,7 @@ namespace GraphProcessor
 					continue ;
 				
 				//check if field is a collection of list type
-				isMultiple = typeof(IList).IsAssignableFrom(field.FieldType);
+				isMultiple = typeof(IEnumerable).IsAssignableFrom(field.FieldType);
 				input = inputAttribute != null;
 			
 				if (!String.IsNullOrEmpty(inputAttribute?.name))
@@ -142,8 +149,6 @@ namespace GraphProcessor
 			else
 				matchingDelegate = typeof(OutputPusherDelegate);
 
-			var methodParameters = method.GetParameters();
-
 			if ((Delegate.CreateDelegate(matchingDelegate, method, false) != null))
 				Debug.Log("Custom IO method is not matching delegate: " + matchingDelegate);
 
@@ -173,11 +178,12 @@ namespace GraphProcessor
 				outputEdges.Remove(edge);
 		}
 
-		public void OnProcess()
+		public void OnSchedule()
 		{
 			PullInputs();
 
-			Process();
+			if (needsSchedule)
+				Schedule();
 
 			if (onProcessed != null)
 				onProcessed();
@@ -189,11 +195,11 @@ namespace GraphProcessor
 		{
 			foreach (var edge in inputEdges)
 			{
-				MethodInfo customIOMethod = nodeFields[edge.inputFieldName]?.customIOMethod;
+				MethodInfo customPullMethod = nodeFields[edge.inputFieldName]?.customIOMethod;
 
 				//TODO: optimize this
-				if (customIOMethod != null)
-					customIOMethod.Invoke(edge.inputNode, new []{ edge.passthroughBuffer });
+				if (customPullMethod != null)
+					customPullMethod.Invoke(edge.inputNode, new []{ edge.passthroughBuffer });
 				else
 				{
 					var inputField = edge.inputNode.GetType().GetField(edge.inputFieldName, BindingFlags.Instance | BindingFlags.Public);
@@ -206,11 +212,11 @@ namespace GraphProcessor
 		{
 			foreach (var edge in outputEdges)
 			{
-				MethodInfo customIOMethod = edge.outputNode.nodeFields[edge.inputFieldName]?.customIOMethod;
+				MethodInfo customPushMethod = edge.outputNode.nodeFields[edge.inputFieldName]?.customIOMethod;
 
 				//TODO: optimize this
-				if (customIOMethod != null)
-					edge.passthroughBuffer = customIOMethod.Invoke(edge.outputNode, new object[]{});
+				if (customPushMethod != null)
+					edge.passthroughBuffer = customPushMethod.Invoke(edge.outputNode, new object[]{});
 				else
 				{
 					var outputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Instance | BindingFlags.Public);
@@ -220,7 +226,7 @@ namespace GraphProcessor
 		}
 		
 		protected virtual void Enable() {}
-		protected virtual void Process() {}
+		protected virtual void Disable() {}
 
 		public virtual JobHandle Schedule(params JobHandle[] dependencies) { return default(JobHandle); }
 

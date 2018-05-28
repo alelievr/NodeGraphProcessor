@@ -10,7 +10,7 @@ using NativeCollections;
 [System.Serializable, NodeMenuItem("Primitives/Add")]
 public class AddNode : BaseNode
 {
-	[Input("Input", nameof(PullInputFields))]
+	[Input(name = "In Values", allowMultiple = true)]
 	public ManagedNativeArray< float >	inputs = new ManagedNativeArray< float >();
 
 	[Output]
@@ -44,12 +44,5 @@ public class AddNode : BaseNode
 		handle = addJob.Schedule(dependency);
 		
 		return handle;
-	}
-
-	void PullInputFields(IEnumerable< object > values)
-	{
-		var array = values.Select(o => System.Convert.ToSingle(o)).ToArray();
-
-		inputs.CopyFrom(array);
 	}
 }

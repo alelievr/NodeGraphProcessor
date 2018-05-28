@@ -46,13 +46,11 @@ namespace GraphProcessor
 		{
 			public string		name;
 			public FieldInfo	info;
-			public MethodInfo	customIOMethod;
 			public bool			input;
 			public bool			isMultiple;
 
-			public NodeFieldInformation(FieldInfo info, string name, MethodInfo customIOMethod, bool input, bool isMultiple)
+			public NodeFieldInformation(FieldInfo info, string name, bool input, bool isMultiple)
 			{
-				this.customIOMethod = customIOMethod;
 				this.input = input;
 				this.isMultiple = isMultiple;
 				this.info = info;
@@ -111,53 +109,16 @@ namespace GraphProcessor
 					continue ;
 				
 				//check if field is a collection of list type
-				isMultiple = typeof(IEnumerable).IsAssignableFrom(field.FieldType);
+				isMultiple = (inputAttribute != null) ? inputAttribute.allowMultiple : false;
 				input = inputAttribute != null;
 			
 				if (!String.IsNullOrEmpty(inputAttribute?.name))
 					name = inputAttribute.name;
 				if (!String.IsNullOrEmpty(outputAttribute?.name))
 					name = outputAttribute.name;
-				
-				string customIOMethod = inputAttribute?.customPullerName;
 
-				if (customIOMethod == null)
-					customIOMethod = outputAttribute?.customPusherName;
-				
-				MethodInfo ioMethod = null;
-
-				if (!String.IsNullOrEmpty(customIOMethod))
-					ioMethod = GetFieldIOMethod(customIOMethod, input, isMultiple);
-
-				nodeFields[field.Name] = new NodeFieldInformation(field, name, ioMethod, input, isMultiple);
+				nodeFields[field.Name] = new NodeFieldInformation(field, name, input, isMultiple);
 			}
-		}
-
-		MethodInfo GetFieldIOMethod(string methodName, bool input, bool isMultiple)
-		{
-			MethodInfo method = GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-			Type matchingDelegate = null;
-
-			if (method == null)
-			{
-				Debug.LogError("Can't find the method " + methodName + " in the node " + GetType() + ", Make sure that the method is non-static");
-				return null;
-			}
-
-			if (input)
-			{
-				if (isMultiple)
-					matchingDelegate = typeof(MultiInputPullerDelegate);
-				else
-					matchingDelegate = typeof(InputPullerDelegate);
-			}
-			else
-				matchingDelegate = typeof(OutputPusherDelegate);
-
-			if ((Delegate.CreateDelegate(matchingDelegate, method, false) != null))
-				Debug.Log("Custom IO method is not matching delegate: " + matchingDelegate);
-
-			return method;
 		}
 
 		#endregion
@@ -213,16 +174,20 @@ namespace GraphProcessor
 			{
 				NodeFieldInformation info;
 				nodeFields.TryGetValue(edgeKP.Key, out info);
-				MethodInfo customPullMethod = info?.customIOMethod;
 				SerializableEdge firstEdge = edgeKP.Value.First();
+				FieldInfo inputField = GetType().GetField(firstEdge.inputFieldName, BindingFlags.Instance | BindingFlags.Public);
 
 				//TODO: optimize this
-				if (customPullMethod != null)
-					customPullMethod.Invoke(firstEdge.inputNode, new []{ edgeKP.Value.Select(e => e.passthroughBuffer) });
+				if (info.isMultiple)
+				{
+					var arr = new []{ edgeKP.Value.Select(e => e.passthroughBuffer) };
+					var customMultiPull = GraphIO.GetMultiPullMethod(info.info.FieldType);
+					customMultiPull.GenericMultiPull(arr, inputField.GetValue(this));
+				}
 				else
 				{
-					var inputField = firstEdge.inputNode.GetType().GetField(firstEdge.inputFieldName, BindingFlags.Instance | BindingFlags.Public);
-					inputField.SetValue(firstEdge.inputNode, firstEdge.passthroughBuffer);
+					var customPull = GraphIO.GetPullMethod(info.info.FieldType);
+					inputField.SetValue(this, customPull.GenericPull(firstEdge.passthroughBuffer));
 				}
 			}
 		}
@@ -233,19 +198,12 @@ namespace GraphProcessor
 			{
 				NodeFieldInformation info;
 				edge.outputNode.nodeFields.TryGetValue(edge.outputFieldName, out info);
-				MethodInfo customPushMethod = info?.customIOMethod;
+				FieldInfo inputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Instance | BindingFlags.Public);
+				var value = inputField.GetValue(edge.outputNode);
 
-				//TODO: optimize this
-				if (customPushMethod != null)
-				{
-					Debug.Log("using custom push method: " + customPushMethod);
-					edge.passthroughBuffer = customPushMethod.Invoke(edge.outputNode, new object[]{});
-				}
-				else
-				{
-					var outputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Instance | BindingFlags.Public);
-					edge.passthroughBuffer = outputField.GetValue(edge.outputNode);
-				}
+				var pushMethod = GraphIO.GetPushMethod(inputField.FieldType);
+
+				edge.passthroughBuffer = pushMethod.GenericPush(value);
 			}
 		}
 		

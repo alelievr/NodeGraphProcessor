@@ -9,7 +9,7 @@
     "com.unity.analytics": "exclude",
     "com.unity.standardevents": "exclude"
   },
-  "registry": "https://packages.unity.com",
+  "registry": "https://staging-packages.unity.com",
   "testables": [
     "com.unity.collections",
     "com.unity.entities",

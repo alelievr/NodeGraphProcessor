@@ -232,12 +232,15 @@ namespace GraphProcessor
 			foreach (var edge in outputEdges)
 			{
 				NodeFieldInformation info;
-				edge.outputNode.nodeFields.TryGetValue(edge.inputFieldName, out info);
+				edge.outputNode.nodeFields.TryGetValue(edge.outputFieldName, out info);
 				MethodInfo customPushMethod = info?.customIOMethod;
 
 				//TODO: optimize this
 				if (customPushMethod != null)
+				{
+					Debug.Log("using custom push method: " + customPushMethod);
 					edge.passthroughBuffer = customPushMethod.Invoke(edge.outputNode, new object[]{});
+				}
 				else
 				{
 					var outputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Instance | BindingFlags.Public);

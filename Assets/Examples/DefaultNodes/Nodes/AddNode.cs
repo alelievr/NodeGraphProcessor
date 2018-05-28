@@ -5,12 +5,13 @@ using GraphProcessor;
 using Unity.Jobs;
 using Unity.Collections;
 using System.Linq;
+using NativeCollections;
 
 [System.Serializable, NodeMenuItem("Primitives/Add")]
 public class AddNode : BaseNode
 {
 	[Input("Input", nameof(PullInputFields))]
-	public NativeArray< float >	inputs = new NativeArray< float >();
+	public ManagedNativeArray< float >	inputs = new ManagedNativeArray< float >();
 
 	[Output]
 	public float				output;
@@ -33,22 +34,12 @@ public class AddNode : BaseNode
 		}
 	}
 
-	protected override void Enable()
-	{
-		inputs = new NativeArray<float>();
-	}
-
-	protected override void Disable()
-	{
-		inputs.Dispose();
-	}
-
 	protected override JobHandle Schedule(JobHandle dependency)
 	{
 		AddJob		addJob = new AddJob();
 		JobHandle	handle;
 
-		addJob.inputs = new NativeArray<float>(inputs.Length, Allocator.Temp);
+		addJob.inputs = inputs.native;
 
 		handle = addJob.Schedule(dependency);
 		
@@ -57,13 +48,7 @@ public class AddNode : BaseNode
 
 	void PullInputFields(IEnumerable< object > values)
 	{
-		var array = values.Cast< float >().ToArray();
-
-		if (inputs.Length != array.Length)
-		{
-			inputs.Dispose();
-			inputs = new NativeArray<float>(array.Length, Allocator.Persistent);
-		}
+		var array = values.Select(o => System.Convert.ToSingle(o)).ToArray();
 
 		inputs.CopyFrom(array);
 	}

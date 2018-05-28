@@ -19,7 +19,7 @@ MonoBehaviour:
   - type: IntNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"4b4790a5-1249-4353-b70d-e258fd7f5ec2","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":311.0,"y":398.0,"width":107.0,"height":117.0},"expanded":false,"output":2}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"b25aa30d-acec-494b-8dd7-0e8506e8b5f5","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":961.186767578125,"y":184.05072021484376,"width":107.0,"height":117.0},"expanded":false}'
+    jsonDatas: '{"GUID":"b25aa30d-acec-494b-8dd7-0e8506e8b5f5","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":962.186767578125,"y":193.05072021484376,"width":107.0,"height":117.0},"expanded":false}'
   edges:
   - GUID: 3631f113-683a-4310-b5eb-42a86afadac8
     owner: {fileID: 11400000}
@@ -45,5 +45,5 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   - serializedType: GraphProcessor.ProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  position: {x: 130.76819, y: 96.436646, z: 0}
+  position: {x: 206.76819, y: 124.436646, z: 0}
   scale: {x: 1, y: 1, z: 1}

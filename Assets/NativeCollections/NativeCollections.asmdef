@@ -1,0 +1,8 @@
+{
+    "name": "NativeCollections",
+    "references": [],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true
+}

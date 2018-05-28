@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.Mathematics;
+using static Unity.Mathematics.math;
 
 namespace GraphProcessor
 {
@@ -55,6 +57,28 @@ namespace GraphProcessor
 		public FieldDrawerAttribute(Type fieldType)
 		{
 			this.fieldType = fieldType;
+		}
+	}
+
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+	public class CustomDataPush : Attribute
+	{
+		public Type		dataType;
+
+		public CustomDataPush(Type dataType)
+		{
+			this.dataType = dataType;
+		}
+	}
+
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+	public class CustomDataPull : Attribute
+	{
+		public Type		dataType;
+
+		public CustomDataPull(Type dataType)
+		{
+			this.dataType = dataType;
 		}
 	}
 }

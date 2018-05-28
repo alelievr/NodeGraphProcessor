@@ -185,21 +185,22 @@ namespace GraphProcessor
 			UpdateViewTransform(pos, scale);
 		}
 
-		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+		public override List< Port > GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
 		{
-			var compatiblePorts = new List<Port>();
+			var compatiblePorts = new List< Port >();
+			var startPortView = startPort as PortView;
 
 			compatiblePorts.AddRange(ports.ToList().Where(p => {
 				var portView = p as PortView;
 
-				if (portView.direction == startPort.direction)
+				if (portView.direction == startPortView.direction)
 					return false;
 				
-				if (!portView.portType.IsReallyAssignableFrom(startPort.portType))
+				if (!portView.portType.IsReallyAssignableFrom(startPortView.portType))
 					return false;
 				
 				//if the edge already exists
-				if (portView.GetEdges().Any(e => e.input == startPort || e.output == startPort))
+				if (portView.GetEdges().Any(e => e.input == startPortView || e.output == startPort))
 					return false;
 				
 				return true;

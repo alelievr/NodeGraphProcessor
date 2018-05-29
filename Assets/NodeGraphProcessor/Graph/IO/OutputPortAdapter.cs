@@ -12,6 +12,6 @@ namespace GraphProcessor
 			return GetType().GetMethod(nameof(TransfertOutputData), BindingFlags.Public | BindingFlags.Instance);
 		}
 
-		public abstract OutputT TransfertOutputData(SourceT output);
+		public abstract void TransfertOutputData(SourceT source, NodePort port);
 	}
 }

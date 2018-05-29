@@ -3,11 +3,12 @@
     "com.unity.incrementalcompiler": "0.0.42-preview.1",
     "com.unity.entities": "0.0.12-preview.4",
     "com.unity.collections": "0.0.9-preview.1",
-    "com.unity.burst": "0.2.4-preview.7",
-    "com.unity.properties": "0.1.18-preview.2",
+    "com.unity.burst": "0.2.4-preview.9",
     "com.unity.ads": "exclude",
     "com.unity.analytics": "exclude",
-    "com.unity.standardevents": "exclude"
+    "com.unity.standardevents": "exclude",
+    "com.unity.2d.spriteshape": "1.0.10-preview.1",
+    "com.unity.package-manager-ui": "1.9.3"
   },
   "registry": "https://staging-packages.unity.com",
   "testables": [

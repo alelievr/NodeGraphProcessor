@@ -195,11 +195,16 @@ namespace GraphProcessor
 
 				if (portView.direction == startPortView.direction)
 					return false;
+
+				//Check if there is custom adapters for this assignation
+				if (PortAdapters.IsAssignable(portView.portType, startPortView.portType))
+					return true;
 				
+				//Check for type assignability
 				if (!portView.portType.IsReallyAssignableFrom(startPortView.portType))
 					return false;
 				
-				//if the edge already exists
+				//Check if the edge already exists
 				if (portView.GetEdges().Any(e => e.input == startPortView || e.output == startPort))
 					return false;
 				
@@ -360,7 +365,7 @@ namespace GraphProcessor
 			//If the input port does not support multi-connection, we remove them
 			if (!(e.input as PortView).isMultiple)
 				foreach (var edge in edgeViews.Where(ev => ev.input == e.input))
-					Disconnect(edge);
+					Disconnect(edge, serializeToGraph);
 
 			AddElement(e);
 			
@@ -398,7 +403,7 @@ namespace GraphProcessor
 				UpdateComputeOrder();
 		}
 		
-		public void Disconnect(EdgeView e)
+		public void Disconnect(EdgeView e, bool serializeToGraph = true)
 		{
 			var serializableEdge = e.userData as SerializableEdge;
 
@@ -421,7 +426,8 @@ namespace GraphProcessor
 
 			if (serializableEdge != null)
 			{
-				graph.Disconnect(serializableEdge.GUID);
+				if (serializeToGraph)
+					graph.Disconnect(serializableEdge.GUID);
 				UpdateComputeOrder();
 			}
 		}

@@ -32,7 +32,7 @@ namespace GraphProcessor
 			portName = field.name;
 			fieldName = field.info.Name;
 			isMultiple = field.isMultiple;
-			portType = (isMultiple) ? field.info.FieldType.GetGenericArguments()[0] : field.info.FieldType;
+			portType = field.info.FieldType;
 			visualClass = "type" + portType.Name;
 		}
 
@@ -65,7 +65,7 @@ namespace GraphProcessor
 			edges.Remove(edge as EdgeView);
 		}
 
-		public List< EdgeView >		GetEdges()
+		public List< EdgeView >	GetEdges()
 		{
 			return edges;
 		}

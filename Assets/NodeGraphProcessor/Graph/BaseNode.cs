@@ -23,9 +23,9 @@ namespace GraphProcessor
 		public readonly bool		needsSchedule = typeof(BaseNode).GetMethod("Schedule", BindingFlags.NonPublic | BindingFlags.Instance).DeclaringType != typeof(BaseNode);
 
 		[NonSerialized]
-		public readonly List< SerializableEdge > inputEdges = new List< SerializableEdge >();
+		public readonly NodePortContainer	inputPorts;
 		[NonSerialized]
-		public readonly List< SerializableEdge > outputEdges = new List< SerializableEdge >();
+		public readonly NodePortContainer	outputPorts;
 
 		//Node view datas
 		public Rect					position;
@@ -54,7 +54,7 @@ namespace GraphProcessor
 			}
 		}
 
-		public static BaseNode		CreateFromType(Type nodeType, Vector2 position)
+		public static BaseNode CreateFromType(Type nodeType, Vector2 position)
 		{
 			if (!nodeType.IsSubclassOf(typeof(BaseNode)))
 				return null;
@@ -71,11 +71,23 @@ namespace GraphProcessor
 		#region Initialization
 
 		protected BaseNode()
-
 		{
 			InitializeInOutDatas();
 
 			Enable();
+
+			inputPorts = new NodePortContainer(this);
+			outputPorts = new NodePortContainer(this);
+
+			foreach (var nodeFieldKP in nodeFields)
+			{
+				NodeFieldInformation field = nodeFieldKP.Value;
+
+				if (field.input)
+					inputPorts.Add(new NodePort(this, field.info.Name));
+				else
+					outputPorts.Add(new NodePort(this, field.info.Name));
+			}
 		}
 		
 		~BaseNode()
@@ -83,7 +95,9 @@ namespace GraphProcessor
 			Disable();
 		}
 
-
+		/// <summary>
+		/// Called only when the node is created, not when instantiated 
+		/// </summary>
 		public virtual void	OnNodeCreated()
 		{
 			GUID = Guid.NewGuid().ToString();
@@ -124,11 +138,10 @@ namespace GraphProcessor
 		public void OnEdgeConnected(SerializableEdge edge)
 		{
 			bool input = edge.inputNode == this;
-			var edgeCollection = (input) ? inputEdges : outputEdges;
+			var portCollection = (input) ? inputPorts : outputPorts;
 			var edgeField = (input) ? edge.inputFieldName : edge.outputFieldName;
 
-			if (!edgeCollection.Contains(edge))
-				edgeCollection.Add(edge);
+			portCollection.Add(edge);
 		}
 
 		public void OnEdgeDisonnected(SerializableEdge edge)
@@ -137,10 +150,10 @@ namespace GraphProcessor
 				return ;
 				
 			bool input = edge.inputNode == this;
-			var edgeCollection = (input) ? inputEdges : outputEdges;
+			var portCollection = (input) ? inputPorts : outputPorts;
 			var edgeField = (input) ? edge.inputFieldName : edge.outputFieldName;
 			
-			edgeCollection.Remove(edge);
+			portCollection.Remove(edge);
 		}
 
 		public JobHandle OnSchedule(JobHandle handle)
@@ -152,18 +165,11 @@ namespace GraphProcessor
 			if (onProcessed != null)
 				onProcessed();
 
-			PushPortDatas();
+			outputPorts.PushData();
 
 			return ret;
 		}
 
-		void PushPortDatas()
-		{
-			foreach (var edge in outputEdges)
-			{
-			}
-		}
-		
 		protected virtual void Enable() {}
 		protected virtual void Disable() {}
 
@@ -175,14 +181,16 @@ namespace GraphProcessor
 
 		public IEnumerable< BaseNode > GetInputNodes()
 		{
-			foreach (var edge in inputEdges)
-				yield return edge.outputNode;
+			foreach (var port in inputPorts)
+				foreach (var edge in port.GetEdges())
+					yield return edge.outputNode;
 		}
 
 		public IEnumerable< BaseNode > GetOutputNodes()
 		{
-			foreach (var edge in outputEdges)
-				yield return edge.inputNode;
+			foreach (var port in outputPorts)
+				foreach (var edge in port.GetEdges())
+					yield return edge.inputNode;
 		}
 
 		#endregion

@@ -1,15 +1,18 @@
 using UnityEngine;
 using System;
 using NativeCollections;
-using System.Linq;
+using Unity.Collections;
 
 namespace GraphProcessor
 {
-	public sealed class ManagedNativeArrayDataPull< T > : MultiDataPull< T, ManagedNativeArray< T > > where T : struct
+	public class ManagedNativeArrayInputPortAdapter< T > : MultiInputPortAdapter< T, ManagedNativeArray< T > > where T : struct
 	{
-		public override void MultiPull(T[] inputArray, ManagedNativeArray<T> target)
+		public override void ReceiveIncomingData(T input, ref ManagedNativeArray< T > destination, int index)
 		{
-			target.CopyFrom(inputArray);
+			Debug.Log("TODO !");
+			// destination.CopyFrom(input);
 		}
 	}
+
+	public class ManagedFloatNativeArrayInputPortAdapter : ManagedNativeArrayInputPortAdapter< float > {}
 }

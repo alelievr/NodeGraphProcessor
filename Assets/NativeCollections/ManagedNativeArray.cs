@@ -27,6 +27,13 @@ namespace NativeCollections
 			native.CopyTo(array);
 		}
 
+		public void Reserve(int length, Allocator newAllocator)
+		{
+			if (native.IsCreated)
+				native.Dispose();
+			native = new NativeArray< T >(length, newAllocator);
+		}
+
 		public IEnumerator<T> GetEnumerator()
 		{
 			return native.GetEnumerator();

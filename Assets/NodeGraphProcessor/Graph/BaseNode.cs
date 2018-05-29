@@ -25,11 +25,7 @@ namespace GraphProcessor
 		[NonSerialized]
 		public readonly List< SerializableEdge > inputEdges = new List< SerializableEdge >();
 		[NonSerialized]
-		public readonly Dictionary< string, List< SerializableEdge > > inputEdgesPerFields = new Dictionary< string, List< SerializableEdge > >();
-		[NonSerialized]
 		public readonly List< SerializableEdge > outputEdges = new List< SerializableEdge >();
-		[NonSerialized]
-		public readonly Dictionary< string, List< SerializableEdge > > outputEdgesPerFields = new Dictionary< string, List< SerializableEdge > >();
 
 		//Node view datas
 		public Rect					position;
@@ -129,14 +125,10 @@ namespace GraphProcessor
 		{
 			bool input = edge.inputNode == this;
 			var edgeCollection = (input) ? inputEdges : outputEdges;
-			var edgePerField = (input) ? inputEdgesPerFields : outputEdgesPerFields;
 			var edgeField = (input) ? edge.inputFieldName : edge.outputFieldName;
 
 			if (!edgeCollection.Contains(edge))
 				edgeCollection.Add(edge);
-			if (!edgePerField.ContainsKey(edgeField))
-				edgePerField[edgeField] = new List< SerializableEdge >();
-			edgePerField[edgeField].Add(edge);
 		}
 
 		public void OnEdgeDisonnected(SerializableEdge edge)
@@ -146,64 +138,29 @@ namespace GraphProcessor
 				
 			bool input = edge.inputNode == this;
 			var edgeCollection = (input) ? inputEdges : outputEdges;
-			var edgePerField = (input) ? inputEdgesPerFields : outputEdgesPerFields;
 			var edgeField = (input) ? edge.inputFieldName : edge.outputFieldName;
 			
 			edgeCollection.Remove(edge);
-			if (edgePerField.ContainsKey(edgeField))
-				edgePerField[edgeField].Remove(edge);
 		}
 
 		public JobHandle OnSchedule(JobHandle handle)
 		{
 			JobHandle ret = default(JobHandle);
 
-			PullInputs();
 			if (needsSchedule)
 				ret = Schedule(handle);
 			if (onProcessed != null)
 				onProcessed();
-			PushOutputs();
+
+			PushPortDatas();
 
 			return ret;
 		}
 
-		void PullInputs()
-		{
-			foreach (var edgeKP in inputEdgesPerFields)
-			{
-				NodeFieldInformation info;
-				nodeFields.TryGetValue(edgeKP.Key, out info);
-				SerializableEdge firstEdge = edgeKP.Value.First();
-				FieldInfo inputField = GetType().GetField(firstEdge.inputFieldName, BindingFlags.Instance | BindingFlags.Public);
-
-				//TODO: optimize this
-				if (info.isMultiple)
-				{
-					var arr = new []{ edgeKP.Value.Select(e => e.passthroughBuffer) };
-					var customMultiPull = GraphIO.GetMultiPullMethod(info.info.FieldType);
-					customMultiPull.GenericMultiPull(arr, inputField.GetValue(this));
-				}
-				else
-				{
-					var customPull = GraphIO.GetPullMethod(info.info.FieldType);
-					inputField.SetValue(this, customPull.GenericPull(firstEdge.passthroughBuffer));
-				}
-			}
-		}
-
-		void PushOutputs()
+		void PushPortDatas()
 		{
 			foreach (var edge in outputEdges)
 			{
-				NodeFieldInformation info;
-				edge.outputNode.nodeFields.TryGetValue(edge.outputFieldName, out info);
-				FieldInfo inputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Instance | BindingFlags.Public);
-				var value = inputField.GetValue(edge.outputNode);
-
-				var pushMethod = GraphIO.GetPushMethod(inputField.FieldType);
-
-				edge.passthroughBuffer = pushMethod.GenericPush(value);
 			}
 		}
 		

@@ -39,7 +39,7 @@ namespace GraphProcessor
 				//Creation of the delegate to move the data from the input node to the output node:
 				FieldInfo inputField = edge.inputNode.GetType().GetField(edge.inputFieldName, BindingFlags.Public | BindingFlags.Instance);
 				FieldInfo outputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Public | BindingFlags.Instance);
-	
+
 				MemberExpression inputParamField = Expression.Field(Expression.Constant(edge.inputNode), inputField);
 				MemberExpression outputParamField = Expression.Field(Expression.Constant(edge.outputNode), outputField);
 	

@@ -39,7 +39,7 @@ namespace GraphProcessor
 			UpdateComputeOrder();
 		}
 
-		void UpdateComputeOrder()
+		public void UpdateComputeOrder()
 		{
 			scheduleList = graph.nodes.OrderBy(n => n.computeOrder).Select(n => {
 				GraphScheduleList gsl = new GraphScheduleList(n);

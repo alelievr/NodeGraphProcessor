@@ -41,6 +41,7 @@ namespace GraphProcessor
         void OnEnable()
         {
 			DestroyBrokenGraphElements();
+			UpdateComputeOrder();
         }
 		
 		public void AddNode(BaseNode node)

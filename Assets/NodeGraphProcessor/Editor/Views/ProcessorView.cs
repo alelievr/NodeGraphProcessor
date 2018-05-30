@@ -17,9 +17,11 @@ namespace GraphProcessor
 		{
 		}
 
-		public override void Initialize(BaseGraph graph)
+		protected override void Initialize(BaseGraphView graphView)
 		{
-			processor = new BaseGraphProcessor(graph);
+			processor = new BaseGraphProcessor(graphView.graph);
+
+			graphView.computeOrderUpdated += processor.UpdateComputeOrder;
 
 			Button	b = new Button(OnPlay) { name = "ActionButton", text = "Play !" };
 

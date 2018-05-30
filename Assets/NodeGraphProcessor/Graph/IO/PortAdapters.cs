@@ -19,23 +19,34 @@ namespace GraphProcessor
 		{
 			foreach (var type in AppDomain.CurrentDomain.GetAllTypes())
 			{
-				if (!type.IsSubclassOf(typeof(PortAdapter)))
+				if (type.IsAbstract || type.ContainsGenericParameters)
+					continue ;
+				if (!(type.IsSubclassOf(typeof(PortAdapter))))
 					continue ;
 
-				Type adapterType = FindAdapterType(type).GetGenericTypeDefinition();
+				Type adapterType = FindAdapterType(type);
+				Type genericAdapterType = adapterType.GetGenericTypeDefinition();
 				
 				Type[] genericArguments = adapterType.GetGenericArguments();
 				
-				Debug.Log("adapter type: " + adapterType);
-
-				if (adapterType == typeof(InputPortAdapter<,>))
+				if (genericAdapterType == typeof(InputPortAdapter<,>))
 				{
 					inputPortAdapters[genericArguments[0]] = Activator.CreateInstance(type) as PortAdapter;
+					AddAssignableTypes(genericArguments[0], genericArguments[1]);
+					AddAssignableTypes(genericArguments[1], genericArguments[0]);
 				}
 
-				if (adapterType == typeof(OutputPortAdapter<,>))
+				if (genericAdapterType == typeof(OutputPortAdapter<,>))
 					outputPortAdapters[genericArguments[0]] = Activator.CreateInstance(type) as PortAdapter;
 			}
+		}
+
+		static void AddAssignableTypes(Type fromType, Type toType)
+		{
+			if (!assignableTypes.ContainsKey(fromType))
+				assignableTypes[fromType] = new List< Type >();
+
+			assignableTypes[fromType].Add(toType);
 		}
 
 		static Type FindAdapterType(Type t)

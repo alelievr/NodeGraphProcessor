@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 
-[System.Serializable, NodeMenuItem("Primitives/Int")]
-public class IntNode : BaseNode
+[System.Serializable, NodeMenuItem("Primitives/Float")]
+public class FloatNode : BaseNode
 {
     [Output]
-	public int		output;
+	public float		output;
 
-	public override string name { get { return  "IntNode"; } }
+	public override string name { get { return  "FloatNode"; } }
 }

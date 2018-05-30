@@ -15,11 +15,18 @@ namespace GraphProcessor
 
 			style.backgroundColor = Color.red;
 
-			Initialize(graphView.graph);
+			Initialize(graphView);
 
 			RefreshPorts();
 		}
 
-		public abstract void Initialize(BaseGraph graph);
+		protected abstract void Initialize(BaseGraphView graphView);
+
+		~BaseGraphElementView()
+		{
+			Destroy();
+		}
+
+		protected virtual void Destroy() {}
 	}
 }

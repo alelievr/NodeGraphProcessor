@@ -7,23 +7,23 @@ using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine.Experimental.UIElements;
 using GraphProcessor;
 
-[NodeCustomEditor(typeof(IntNode))]
-public class IntNodeView : BaseNodeView
+[NodeCustomEditor(typeof(FloatNode))]
+public class FloatNodeView : BaseNodeView
 {
 	public override void Enable()
 	{
-		var intNode = nodeTarget as IntNode;
+		var floatNode = nodeTarget as FloatNode;
 
-		IntegerField intField = new IntegerField
+		DoubleField floatField = new DoubleField
 		{
-			value = intNode.output
+			value = floatNode.output
 		};
 
-		intField.OnValueChanged((v) => {
-			intNode.output = (int)v.newValue;
-			owner.RegisterCompleteObjectUndo("Updated IntNode output");
+		floatField.OnValueChanged((v) => {
+			floatNode.output = (float)v.newValue;
+			owner.RegisterCompleteObjectUndo("Updated floatNode output");
 		});
 
-		controlsContainer.Add(intField);
+		controlsContainer.Add(floatField);
 	}
 }

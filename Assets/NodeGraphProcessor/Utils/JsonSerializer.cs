@@ -46,6 +46,7 @@ namespace GraphProcessor
 				return null;
 
 			return JsonUtility.FromJson(e.jsonDatas, baseNodeType) as BaseNode;
+			
 		}
 	}
 }

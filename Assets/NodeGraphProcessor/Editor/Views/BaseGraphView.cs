@@ -197,7 +197,7 @@ namespace GraphProcessor
 					return false;
 
 				//Check if there is custom adapters for this assignation
-				if (PortAdapters.IsAssignable(startPortView.portType, portView.portType))
+				if (CustomPortIO.IsAssignable(startPortView.portType, portView.portType))
 					return true;
 				
 				//Check for type assignability

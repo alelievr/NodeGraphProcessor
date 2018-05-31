@@ -160,12 +160,14 @@ namespace GraphProcessor
 		{
 			JobHandle ret = default(JobHandle);
 
+			inputPorts.PullDatas();
+
 			if (needsSchedule)
 				ret = Schedule(handle);
 			if (onProcessed != null)
 				onProcessed();
 
-			outputPorts.PushData();
+			outputPorts.PushDatas();
 
 			return ret;
 		}
@@ -191,6 +193,11 @@ namespace GraphProcessor
 			foreach (var port in outputPorts)
 				foreach (var edge in port.GetEdges())
 					yield return edge.inputNode;
+		}
+
+		public NodePort	GetPort(string fieldName)
+		{
+			return inputPorts.Concat(outputPorts).FirstOrDefault(p => p.fieldName == fieldName);
 		}
 
 		#endregion

@@ -21,6 +21,15 @@ namespace GraphProcessor
 		public BaseNode	inputNode;
 
 		[System.NonSerialized]
+		public NodePort	inputPort;
+		[System.NonSerialized]
+		public NodePort outputPort;
+
+		//temporary object used to send port to port data when a custom input/output function is used.
+		[System.NonSerialized]
+		public object	passThroughBuffer;
+
+		[System.NonSerialized]
 		public BaseNode	outputNode;
 
 		public string	inputFieldName;
@@ -56,6 +65,8 @@ namespace GraphProcessor
 		{
 			outputNode = owner.nodesPerGUID[outputNodeGUID];
 			inputNode = owner.nodesPerGUID[inputNodeGUID];
+			inputPort = inputNode.GetPort(inputFieldName);
+			outputPort = outputNode.GetPort(outputFieldName);
 		}
 	}
 }

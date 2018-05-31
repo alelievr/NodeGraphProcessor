@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 using System.Linq.Expressions;
+using System;
 
 namespace GraphProcessor
 {
@@ -12,6 +13,10 @@ namespace GraphProcessor
 		public BaseNode				owner;
 		List< SerializableEdge >	edges = new List< SerializableEdge >();
 		Dictionary< SerializableEdge, PushDataDelegate >	pushDataDelegates = new Dictionary< SerializableEdge, PushDataDelegate >();
+		List< SerializableEdge >	edgeWithRemoteCustomIO = new List< SerializableEdge >();
+
+		CustomPortIODelegate		customPortIOMethod;
+		FieldInfo					ourValueField;
 
 		public delegate void PushDataDelegate();
 
@@ -19,13 +24,32 @@ namespace GraphProcessor
 		{
 			this.fieldName = fieldName;
 			this.owner = owner;
+
+			ourValueField = owner.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+			customPortIOMethod = CustomPortIO.GetCustomPortMethod(owner.GetType(), fieldName);
 		}
 
 		public void Add(SerializableEdge edge)
 		{
 			if (!edges.Contains(edge))
 				edges.Add(edge);
+			
+			if (edge.inputNode == owner)
+			{
+				if (edge.outputPort.customPortIOMethod != null)
+					edgeWithRemoteCustomIO.Add(edge);
+			}
+			else
+			{
+				if (edge.inputPort.customPortIOMethod != null)
+					edgeWithRemoteCustomIO.Add(edge);
+			}
 
+			//if we have a custom io implementation, we don't need
+			if (edge.inputPort.customPortIOMethod != null || edge.outputPort.customPortIOMethod != null)
+				return ;
+			
 			PushDataDelegate edgeDelegate = CreatePushDataDelegateForEdge(edge);
 
 			if (edgeDelegate != null)
@@ -43,9 +67,10 @@ namespace GraphProcessor
 				MemberExpression inputParamField = Expression.Field(Expression.Constant(edge.inputNode), inputField);
 				MemberExpression outputParamField = Expression.Field(Expression.Constant(edge.outputNode), outputField);
 	
-				BinaryExpression assign = Expression.Assign(outputParamField, Expression.Convert(inputParamField, outputField.FieldType));
+				BinaryExpression assign = Expression.Assign(inputParamField, Expression.Convert(outputParamField, inputField.FieldType));
 				return Expression.Lambda< PushDataDelegate >(assign).Compile();
-			} catch {
+			} catch (Exception e) {
+				Debug.LogError(e);
 				return null;
 			}
 		}
@@ -61,10 +86,33 @@ namespace GraphProcessor
 			return edges;
 		}
 
+		//This method can only be called on output ports
 		public void PushData()
 		{
+			if (customPortIOMethod != null)
+			{
+				customPortIOMethod(owner, edges);
+				return ;
+			}
+
 			foreach (var pushDataDelegate in pushDataDelegates)
 				pushDataDelegate.Value();
+			
+			if (edgeWithRemoteCustomIO.Count == 0)
+				return ;
+			
+			//if there are custom IO implementation on the other ports, they'll need our value in the passThrough buffer
+			object ourValue = ourValueField.GetValue(owner);
+			foreach (var edge in edgeWithRemoteCustomIO)
+				edge.passThroughBuffer = ourValue;
+		}
+		
+		public void PullData()
+		{
+			if (customPortIOMethod != null)
+			{
+				customPortIOMethod(owner, edges);
+			}
 		}
 	}
 
@@ -89,9 +137,14 @@ namespace GraphProcessor
 			port.Add(edge);
 		}
 		
-		public void PushData()
+		public void PushDatas()
 		{
 			ForEach(p => p.PushData());
+		}
+
+		public void PullDatas()
+		{
+			ForEach(p => p.PullData());
 		}
 	}
 }

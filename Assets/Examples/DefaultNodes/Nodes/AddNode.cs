@@ -45,4 +45,12 @@ public class AddNode : BaseNode
 		
 		return handle;
 	}
+
+	[CustomPortInput(nameof(inputs), typeof(float), allowCast = true)]
+	public void GetInputs(List< SerializableEdge > edges)
+	{
+		var array = edges.Select(e => (float)e.passThroughBuffer).ToArray();
+
+		inputs.CopyFrom(array);
+	}
 }

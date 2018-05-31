@@ -52,4 +52,34 @@ namespace GraphProcessor
 			this.fieldType = fieldType;
 		}
 	}
+
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+	public class CustomPortInputAttribute : Attribute
+	{
+		public string	fieldName;
+		public Type		inputType;
+		public bool		allowCast;
+
+		public CustomPortInputAttribute(string fieldName, Type inputType, bool allowCast = true)
+		{
+			this.fieldName = fieldName;
+			this.inputType = inputType;
+			this.allowCast = allowCast;
+		}
+	}
+	
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+	public class CustomPortOutputAttribute : Attribute
+	{
+		public string	fieldName;
+		public Type		outputType;
+		public bool		allowCast;
+
+		public CustomPortOutputAttribute(string fieldName, Type outputType, bool allowCast = true)
+		{
+			this.fieldName = fieldName;
+			this.outputType = outputType;
+			this.allowCast = allowCast;
+		}
+	}
 }

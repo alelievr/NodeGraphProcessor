@@ -9,5 +9,5 @@ public class PrintNode : BaseNode
 	[Input]
 	public object	obj;
 
-	public override string name { get { return "Print"; } }
+	public override string name => "Print";
 }

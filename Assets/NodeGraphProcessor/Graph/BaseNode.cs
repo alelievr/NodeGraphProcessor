@@ -23,9 +23,9 @@ namespace GraphProcessor
 		public readonly bool		needsSchedule = typeof(BaseNode).GetMethod("Schedule", BindingFlags.NonPublic | BindingFlags.Instance).DeclaringType != typeof(BaseNode);
 
 		[NonSerialized]
-		public readonly NodePortContainer	inputPorts;
+		public readonly NodeInputPortContainer	inputPorts;
 		[NonSerialized]
-		public readonly NodePortContainer	outputPorts;
+		public readonly NodeOutputPortContainer	outputPorts;
 
 		//Node view datas
 		public Rect					position;
@@ -76,8 +76,8 @@ namespace GraphProcessor
 
 			Enable();
 
-			inputPorts = new NodePortContainer(this);
-			outputPorts = new NodePortContainer(this);
+			inputPorts = new NodeInputPortContainer(this);
+			outputPorts = new NodeOutputPortContainer(this);
 
 			foreach (var nodeFieldKP in nodeFields)
 			{
@@ -138,7 +138,7 @@ namespace GraphProcessor
 		public void OnEdgeConnected(SerializableEdge edge)
 		{
 			bool input = edge.inputNode == this;
-			var portCollection = (input) ? inputPorts : outputPorts;
+			NodePortContainer portCollection = (input) ? (NodePortContainer)inputPorts : outputPorts;
 			var edgeField = (input) ? edge.inputFieldName : edge.outputFieldName;
 
 			portCollection.Add(edge);
@@ -150,7 +150,7 @@ namespace GraphProcessor
 				return ;
 				
 			bool input = edge.inputNode == this;
-			var portCollection = (input) ? inputPorts : outputPorts;
+			NodePortContainer portCollection = (input) ? (NodePortContainer)inputPorts : outputPorts;
 			var edgeField = (input) ? edge.inputFieldName : edge.outputFieldName;
 			
 			portCollection.Remove(edge);

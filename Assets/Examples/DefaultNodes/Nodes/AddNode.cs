@@ -16,9 +16,7 @@ public class AddNode : BaseNode
 	[Output]
 	public float				output;
 
-	public override string		name { get { return "Add"; } }
-
-	public int					test;
+	public override string		name => "Add";
 
 	struct AddJob : IJob
 	{

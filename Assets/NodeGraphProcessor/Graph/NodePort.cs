@@ -116,9 +116,9 @@ namespace GraphProcessor
 		}
 	}
 
-	public class NodePortContainer : List< NodePort >
+	public abstract class NodePortContainer : List< NodePort >
 	{
-		BaseNode node;
+		protected BaseNode node;
 
 		public NodePortContainer(BaseNode node)
 		{
@@ -136,15 +136,25 @@ namespace GraphProcessor
 			var port = this.FirstOrDefault(p => p.fieldName == portFieldName);
 			port.Add(edge);
 		}
-		
-		public void PushDatas()
-		{
-			ForEach(p => p.PushData());
-		}
+	}
+
+	public class NodeInputPortContainer : NodePortContainer
+	{
+		public NodeInputPortContainer(BaseNode node) : base(node) {}
 
 		public void PullDatas()
 		{
 			ForEach(p => p.PullData());
+		}
+	}
+
+	public class NodeOutputPortContainer : NodePortContainer
+	{
+		public NodeOutputPortContainer(BaseNode node) : base(node) {}
+
+		public void PushDatas()
+		{
+			ForEach(p => p.PushData());
 		}
 	}
 }

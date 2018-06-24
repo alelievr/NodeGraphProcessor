@@ -29,10 +29,8 @@ namespace GraphProcessor
 
 			// щ(ºДºщ) ...
             AddDrawer(typeof(int), typeof(IntegerField));
-			#if UNITY_2018_2
             AddDrawer(typeof(long), typeof(LongField));
             AddDrawer(typeof(float), typeof(FloatField));
-			#endif
 			AddDrawer(typeof(double), typeof(DoubleField));
 			AddDrawer(typeof(string), typeof(TextField));
 			AddDrawer(typeof(Bounds), typeof(BoundsField));

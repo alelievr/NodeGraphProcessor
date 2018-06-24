@@ -11,16 +11,13 @@ namespace GraphProcessor
 	[Serializable]
 	public abstract class BaseNode
 	{
-		public abstract string		name { get; }
+		public virtual string       name => GetType().Name;
 
 		//id
 		public string				GUID;
 
 		public int					computeOrder = -1;
 		public bool					canProcess = true;
-
-		[NonSerialized]
-		public readonly bool		needsSchedule = typeof(BaseNode).GetMethod("Schedule", BindingFlags.NonPublic | BindingFlags.Instance).DeclaringType != typeof(BaseNode);
 
 		[NonSerialized]
 		public readonly NodeInputPortContainer	inputPorts;
@@ -156,26 +153,22 @@ namespace GraphProcessor
 			portCollection.Remove(edge);
 		}
 
-		public JobHandle OnSchedule(JobHandle handle)
+		public void OnProcess()
 		{
-			JobHandle ret = default(JobHandle);
-
 			inputPorts.PullDatas();
 
-			if (needsSchedule)
-				ret = Schedule(handle);
+			Process();
+			
 			if (onProcessed != null)
 				onProcessed();
 
 			outputPorts.PushDatas();
-
-			return ret;
 		}
 
 		protected virtual void Enable() {}
 		protected virtual void Disable() {}
 
-		protected virtual JobHandle Schedule(JobHandle dependencies) { return default(JobHandle); }
+		protected virtual void Process() {}
 
 		#endregion
 

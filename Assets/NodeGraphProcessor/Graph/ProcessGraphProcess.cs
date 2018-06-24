@@ -12,26 +12,34 @@ namespace GraphProcessor
 	/// <summary>
 	/// Graph processor
 	/// </summary>
-	public abstract class BaseGraphProcessor
+	public class ProcessGraphProcessor : BaseGraphProcessor
 	{
-		protected BaseGraph			graph;
+		List< BaseNode >		processList;
 		
 		/// <summary>
 		/// Manage graph scheduling and processing
 		/// </summary>
 		/// <param name="graph">Graph to be processed</param>
-		public BaseGraphProcessor(BaseGraph graph)
+		public ProcessGraphProcessor(BaseGraph graph) : base(graph) {}
+
+		public override void UpdateComputeOrder()
 		{
-			this.graph = graph;
-
-			UpdateComputeOrder();
+			processList = graph.nodes.OrderBy(n => n.computeOrder).ToList();
 		}
-
-		public abstract void UpdateComputeOrder();
 
 		/// <summary>
 		/// Schedule the graph into the job system
 		/// </summary>
-		public abstract void Run();
+		public override void Run()
+		{
+			int count = processList.Count;
+
+			for (int i = 0; i < count; i++)
+			{
+				processList[i].OnProcess();
+			}
+
+			JobHandle.ScheduleBatchedJobs();
+		}
 	}
 }

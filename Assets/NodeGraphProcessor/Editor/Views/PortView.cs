@@ -5,6 +5,7 @@ using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine.Experimental.UIElements;
 using System;
 using System.Reflection;
+using UnityEngine.Experimental.UIElements.StyleEnums;
 
 namespace GraphProcessor
 {
@@ -14,12 +15,17 @@ namespace GraphProcessor
 		public string			fieldName { get; private set; }
 		public new Type			portType;
 
+		string userPortStyleFile = "PortViewTypes";
+
 		List< EdgeView >		edges = new List< EdgeView >();
 
         public PortView(Orientation portOrientation, BaseNode.NodeFieldInformation field, EdgeConnectorListener edgeConnectorListener)
             : base(portOrientation, field.input ? Direction.Input : Direction.Output, Capacity.Multi, field.info.FieldType)
 		{
 			AddStyleSheetPath("GraphProcessorStyles/PortView");
+
+			if (Resources.Load< UnityEngine.Object >(userPortStyleFile) != null)
+				AddStyleSheetPath(userPortStyleFile);
 
 			this.m_EdgeConnector = new EdgeConnector< EdgeView >(edgeConnectorListener);
 
@@ -29,7 +35,12 @@ namespace GraphProcessor
 			fieldName = field.info.Name;
 			isMultiple = field.isMultiple;
 			portType = field.info.FieldType;
-			visualClass = "type" + portType.Name;
+
+			// Correct port type if port accept multiple values (and so is a container)
+			if (field.isMultiple)
+				portType = portType.GetGenericArguments()[0];
+
+			visualClass = "Port_" + portType.Name;
 		}
 
 		public override void Connect(Edge edge)

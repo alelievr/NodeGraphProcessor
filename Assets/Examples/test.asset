@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -24,6 +24,8 @@ MonoBehaviour:
     jsonDatas: '{"GUID":"7d1d5f60-ac4b-4b61-93ff-39bbafda793a","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":371.066162109375,"y":123.28826904296875,"width":107.0,"height":117.0},"expanded":false,"output":5.0}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"77f4aace-39a6-4175-ab1e-6349e4f2929e","computeOrder":6,"canProcess":true,"position":{"serializedVersion":"2","x":897.5061645507813,"y":296.28826904296877,"width":107.0,"height":117.0},"expanded":false}'
+  - type: AddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"671edb66-8c91-4264-ba38-15f8db09aab1","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":620.4937133789063,"y":395.60345458984377,"width":149.0,"height":97.0},"expanded":false,"output":0.0}'
   edges:
   - GUID: 211441f6-d61f-484c-9104-e1b0b9973ca4
     owner: {fileID: 11400000}
@@ -61,5 +63,5 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   - serializedType: GraphProcessor.ProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  position: {x: 87.50626, y: 75.6767, z: 0}
+  position: {x: 26, y: -85, z: 0}
   scale: {x: 1, y: 1, z: 1}

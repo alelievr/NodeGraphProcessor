@@ -16,7 +16,7 @@ PortView.output {
 }
 
 PortView > #connector {
-    border-color: rgb(70, 70, 70);
+    border-color: rgb(255, 255, 0);
     background-color: #212121;
     width: 8;
     height: 8;
@@ -47,11 +47,4 @@ PortView > #connector > #cap
 PortView > #connector > #cap:hover
 {
     background-color: #f0f0f0;
-}
-
-/* TODO: basic types colors */
-
-/* Example: */
-PortView.Single {
-	port-color: #800080
 }

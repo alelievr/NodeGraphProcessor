@@ -413,17 +413,18 @@ namespace GraphProcessor
 			{
 				var inputNodeView = e.input.node as BaseNodeView;
 				e.input.Disconnect(e);
-				inputNodeView.RefreshPorts();
 				inputNodeView.nodeTarget.OnEdgeDisonnected(e.serializedEdge);
+				inputNodeView.RefreshPorts();
 			}
 			if (e?.output?.node != null)
 			{
 				var outputNodeView = e.output.node as BaseNodeView;
 				e.output.Disconnect(e);
-				outputNodeView.RefreshPorts();
 				outputNodeView.nodeTarget.OnEdgeDisonnected(e.serializedEdge);
+				outputNodeView.RefreshPorts();
 			}
 
+			// Remove the serialized edge if there was one
 			if (serializableEdge != null)
 			{
 				if (serializeToGraph)

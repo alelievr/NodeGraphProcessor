@@ -30,8 +30,8 @@ public class GraphAssetCallbacks
 		if (!(obj is BaseGraph))
 			return false;
 
-
-		var win = BaseGraphWindow.GetWindow< BaseGraphWindow >();
+		// By default we open the custom context menu graph
+		var win = CustomContextMenuGraphWindow.GetWindow< CustomContextMenuGraphWindow >();
 		
 		win.Show();
 

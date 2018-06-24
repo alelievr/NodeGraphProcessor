@@ -48,6 +48,8 @@ namespace GraphProcessor
 			edge.inputFieldName = inputFieldName;
 			edge.outputNode = outputNode;
 			edge.outputFieldName = outputFieldName;
+			edge.inputPort = inputNode.GetPort(inputFieldName);
+			edge.outputPort = outputNode.GetPort(outputFieldName);
 
 			return edge;
 		}

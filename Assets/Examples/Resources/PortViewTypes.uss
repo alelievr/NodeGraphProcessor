@@ -1,0 +1,8 @@
+.Port_Single {
+	port-color: #2080FF;
+}
+
+
+.Port_Object {
+	port-color: #80FF00;
+}

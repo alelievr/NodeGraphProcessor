@@ -19,7 +19,7 @@ namespace GraphProcessor
 
 		protected override void Initialize(BaseGraphView graphView)
 		{
-			processor = new BaseGraphProcessor(graphView.graph);
+			processor = new ProcessGraphProcessor(graphView.graph);
 
 			graphView.computeOrderUpdated += processor.UpdateComputeOrder;
 
@@ -30,7 +30,7 @@ namespace GraphProcessor
 
 		void OnPlay()
 		{
-			processor.ScheduleJobs();
+			processor.Run();
 		}
 	}
 }

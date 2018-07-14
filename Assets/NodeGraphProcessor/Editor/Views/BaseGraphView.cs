@@ -482,7 +482,7 @@ namespace GraphProcessor
 
 			elem.InitializeGraphView(this);
 			
-			WindowDraggable masterPreviewViewDraggable = new WindowDraggable(null, this);
+			ConfinedDragger masterPreviewViewDraggable = new ConfinedDragger(this);
 			elem.AddManipulator(masterPreviewViewDraggable);
 			Add(elem);
 			

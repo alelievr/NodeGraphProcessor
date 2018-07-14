@@ -16,8 +16,6 @@ namespace GraphProcessor
         public CommentBlockView()
         {
             AddStyleSheetPath("GraphProcessorStyles/CommentBlockView");
-
-            this.AddManipulator(new BorderResizer());
 		}
 
 		public void Initialize(BaseGraphView graphView, CommentBlock block)

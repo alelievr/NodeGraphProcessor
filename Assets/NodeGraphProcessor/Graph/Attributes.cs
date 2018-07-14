@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Unity.Mathematics;
-using static Unity.Mathematics.math;
 
 namespace GraphProcessor
 {

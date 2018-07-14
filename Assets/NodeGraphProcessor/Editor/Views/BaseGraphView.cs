@@ -12,6 +12,9 @@ using StatusFlags = UnityEngine.Experimental.UIElements.ContextualMenu.MenuActio
 
 using Object = UnityEngine.Object;
 
+// TODO: remove this
+using UnityEditor.ShaderGraph.Drawing;
+
 namespace GraphProcessor
 {
 	public class BaseGraphView : GraphView
@@ -25,7 +28,7 @@ namespace GraphProcessor
 		public List< EdgeView >						edgeViews = new List< EdgeView >();
         public List< CommentBlockView >         	commentBlockViews = new List< CommentBlockView >();
 
-		Dictionary< Type, BaseGraphElementView >	uniqueElements = new Dictionary< Type, BaseGraphElementView >();
+		Dictionary< Type, PinnedElementView >	uniqueElements = new Dictionary< Type, PinnedElementView >();
 
 		public delegate void ComputeOrderUpdatedDelegate();
 
@@ -451,14 +454,14 @@ namespace GraphProcessor
 			EditorUtility.SetDirty(graph);
 		}
 
-		public void ToggleView< T >() where T : BaseGraphElementView
+		public void ToggleView< T >() where T : PinnedElementView
 		{
 			ToggleView(typeof(T));
 		}
 
 		public void ToggleView(Type type)
 		{
-			BaseGraphElementView elem;
+			PinnedElementView elem;
 			uniqueElements.TryGetValue(type, out elem);
 
 			if (elem == null)
@@ -469,30 +472,32 @@ namespace GraphProcessor
 
 		public void OpenView(Type type, bool serializeToGraph = true)
 		{
-			BaseGraphElementView elem;
+			PinnedElementView elem;
 
 			if (type == null)
 				return ;
 
-			elem = Activator.CreateInstance(type) as BaseGraphElementView;
+			elem = Activator.CreateInstance(type) as PinnedElementView;
 			uniqueElements[type] = elem;
 
 			elem.InitializeGraphView(this);
-
-			AddElement(elem);
+			
+			WindowDraggable masterPreviewViewDraggable = new WindowDraggable(null, this);
+			elem.AddManipulator(masterPreviewViewDraggable);
+			Add(elem);
 			
 			if (serializeToGraph)
 				graph.AddView(type);
 		}
 
-		public void CloseView(Type type, BaseGraphElementView elem)
+		public void CloseView(Type type, PinnedElementView elem)
 		{
 			uniqueElements.Remove(type);
-			RemoveElement(elem);
+			Remove(elem);
 			graph.RemoveView(type);
 		}
 
-		public StatusFlags GetViewStatus< T >() where T : GraphElement
+		public StatusFlags GetViewStatus< T >() where T : PinnedElementView
 		{
 			return GetViewStatus(typeof(T));
 		}

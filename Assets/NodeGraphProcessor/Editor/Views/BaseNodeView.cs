@@ -66,7 +66,6 @@ namespace GraphProcessor
 
 		void InitializeView()
 		{
-			
             controlsContainer = new VisualElement{ name = "controls" };
         	mainContainer.Add(controlsContainer);
 

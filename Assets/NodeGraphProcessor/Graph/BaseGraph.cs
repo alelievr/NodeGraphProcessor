@@ -29,7 +29,7 @@ namespace GraphProcessor
         public List< CommentBlock >                     commentBlocks = new List< CommentBlock >();
 
 		[SerializeField]
-		public List< SerializableType >					views = new List< SerializableType >();
+		public List< PinnedElement >					pinnedWindows = new List< PinnedElement >();
 
 		[System.NonSerialized]
 		Dictionary< BaseNode, int >						computeOrderDictionary = new Dictionary< BaseNode, int >();
@@ -87,14 +87,26 @@ namespace GraphProcessor
             commentBlocks.Remove(block);
         }
 
-		public void AddView(Type viewType)
+		public PinnedElement OpenPinned(Type viewType)
 		{
-			views.Add(new SerializableType(viewType));
+			var pinned = pinnedWindows.Find(p => p.editorType.type == viewType);
+
+			if (pinned == null)
+			{
+				pinned = new PinnedElement(viewType);
+				pinnedWindows.Add(pinned);
+			}
+			else
+				pinned.opened = true;
+			
+			return pinned;
 		}
 
-		public void RemoveView(Type viewType)
+		public void ClosePinned(Type viewType)
 		{
-			views.RemoveAll(st => st.type == viewType);
+			var pinned = pinnedWindows.Find(p => p.editorType.type == viewType);
+
+			pinned.opened = false;
 		}
 
 		public void OnBeforeSerialize()

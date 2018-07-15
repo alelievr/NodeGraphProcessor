@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace GraphProcessor
 {
-	public abstract class PinnedElementView : GraphElement
+	public abstract class PinnedElementView : VisualElement
 	{
 		protected VisualElement header;
-        ResizeBorderFrame previewResizeBorderFrame;
+		protected PinnedElement	pinnedElement;
 
 		private Label titleLabel;
 
@@ -34,15 +34,16 @@ namespace GraphProcessor
 			Add(header);
 		}
 
-		public override void SetPosition(Rect newPos)
+		public override void OnPersistentDataReady()
 		{
-			base.SetPosition(newPos);
-
-			//TODO: save current position into graph
+			transform.position = pinnedElement.position;
 		}
 
-		public void InitializeGraphView(BaseGraphView graphView)
+		public void InitializeGraphView(PinnedElement pinnedElement, BaseGraphView graphView)
 		{
+			this.pinnedElement = pinnedElement;
+			transform.position = pinnedElement.position;
+			Debug.Log("Set position: " + transform.position);
 			Initialize(graphView);
 		}
 

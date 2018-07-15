@@ -15,6 +15,8 @@ namespace GraphProcessor
 		VisualElement container;
         VisualElement handle;
 
+		public Action onDragEnd;
+
         public ConfinedDragger(VisualElement container)
         {
 			this.container = container;
@@ -65,6 +67,9 @@ namespace GraphProcessor
             if (handle.HasMouseCapture())
                 handle.ReleaseMouseCapture();
             evt.StopImmediatePropagation();
+
+			if (onDragEnd != null)
+				onDragEnd();
         }
     }
 }

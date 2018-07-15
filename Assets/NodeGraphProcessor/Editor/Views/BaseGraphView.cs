@@ -28,7 +28,7 @@ namespace GraphProcessor
 		public List< EdgeView >						edgeViews = new List< EdgeView >();
         public List< CommentBlockView >         	commentBlockViews = new List< CommentBlockView >();
 
-		Dictionary< Type, PinnedElementView >	uniqueElements = new Dictionary< Type, PinnedElementView >();
+		Dictionary< Type, PinnedElementView >		pinnedElements = new Dictionary< Type, PinnedElementView >();
 
 		public delegate void ComputeOrderUpdatedDelegate();
 
@@ -232,7 +232,7 @@ namespace GraphProcessor
 
 		protected void BuildViewContextualMenu(ContextualMenuPopulateEvent evt)
 		{
-			evt.menu.AppendAction("View/Processor", (e) => ToggleView< ProcessorView >(), (e) => GetViewStatus< ProcessorView >());
+			evt.menu.AppendAction("View/Processor", (e) => ToggleView< ProcessorView >(), (e) => GetPinnedElementStatus< ProcessorView >());
 		}
 
 		void KeyDownCallback(KeyDownEvent e)
@@ -291,8 +291,8 @@ namespace GraphProcessor
 
 		void InitializeViews()
 		{
-			foreach (var viewType in graph.views)
-				OpenView(viewType.type, false);
+			foreach (var viewType in graph.pinnedWindows)
+				OpenPinned(viewType.editorType.type);
 		}
 
         void InitializeCommentBlocks()
@@ -461,50 +461,52 @@ namespace GraphProcessor
 
 		public void ToggleView(Type type)
 		{
-			PinnedElementView elem;
-			uniqueElements.TryGetValue(type, out elem);
+			PinnedElementView view;
+			pinnedElements.TryGetValue(type, out view);
 
-			if (elem == null)
-				OpenView(type);
+			if (view == null)
+				OpenPinned(type);
 			else
-				CloseView(type, elem);
+				ClosePinned(type, view);
 		}
 
-		public void OpenView(Type type, bool serializeToGraph = true)
+		public void OpenPinned(Type type)
 		{
-			PinnedElementView elem;
+			PinnedElementView view;
 
 			if (type == null)
 				return ;
 
-			elem = Activator.CreateInstance(type) as PinnedElementView;
-			uniqueElements[type] = elem;
+			PinnedElement elem = graph.OpenPinned(type);
 
-			elem.InitializeGraphView(this);
+			view = Activator.CreateInstance(type) as PinnedElementView;
+			pinnedElements[type] = view;
+
+			view.InitializeGraphView(elem, this);
 			
 			ConfinedDragger masterPreviewViewDraggable = new ConfinedDragger(this);
-			elem.AddManipulator(masterPreviewViewDraggable);
-			Add(elem);
-			
-			if (serializeToGraph)
-				graph.AddView(type);
+			masterPreviewViewDraggable.onDragEnd = () => elem.position = view.transform.position;
+			view.AddManipulator(masterPreviewViewDraggable);
+			Add(view);
 		}
 
-		public void CloseView(Type type, PinnedElementView elem)
+		public void ClosePinned(Type type, PinnedElementView elem)
 		{
-			uniqueElements.Remove(type);
+			pinnedElements.Remove(type);
 			Remove(elem);
-			graph.RemoveView(type);
+			graph.ClosePinned(type);
 		}
 
-		public StatusFlags GetViewStatus< T >() where T : PinnedElementView
+		public StatusFlags GetPinnedElementStatus< T >() where T : PinnedElementView
 		{
-			return GetViewStatus(typeof(T));
+			return GetPinnedElementStatus(typeof(T));
 		}
 
-		public StatusFlags GetViewStatus(Type type)
+		public StatusFlags GetPinnedElementStatus(Type type)
 		{
-			if (uniqueElements.ContainsKey(type))
+			var pinned = graph.pinnedWindows.Find(p => p.editorType.type == type);
+
+			if (pinned != null && pinned.opened)
 				return StatusFlags.Checked;
 			else
 				return StatusFlags.Normal;

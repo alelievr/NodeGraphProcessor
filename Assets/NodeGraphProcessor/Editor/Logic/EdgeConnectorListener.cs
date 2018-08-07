@@ -35,7 +35,6 @@ namespace GraphProcessor
 			if (edgeView.isConnected)
 			{
 				this.graphView.Disconnect(edgeView);
-				Debug.Log("Edge disconnected !");
 			}
 
 			this.graphView.RegisterCompleteObjectUndo("Connected " + edgeView.input.node.name + " and " + edgeView.output.node.name);

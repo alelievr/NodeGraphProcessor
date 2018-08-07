@@ -8,7 +8,7 @@ using System.Linq;
 public class CustomPortsNode : BaseNode
 {
     [Input]
-	public MultiPorts       	inputs = null;
+	public MultiPorts       	inputs;
 
 	[Output]
 	public MultiPorts			output;

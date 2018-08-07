@@ -35,6 +35,10 @@ namespace GraphProcessor
 		public string	inputFieldName;
 		public string	outputFieldName;
 
+		// TODO: very bad design, refactor (see with MultiPort to use another property to pass the id)
+		public string 	trueInputFieldName => inputFieldName.Split('|')[0];
+		public string 	trueOutputFieldName => outputFieldName.Split('|')[0];
+
 		//Private constructor so we can't instantiate this class
 		private SerializableEdge() {}
 

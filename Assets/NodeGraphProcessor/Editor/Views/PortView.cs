@@ -12,10 +12,11 @@ namespace GraphProcessor
 	public abstract class PortView : Port
 	{
 		public bool				isMultiple;
-		public string			fieldName { get; private set; }
+		public string			fieldName { get; protected set; }
 		public new Type			portType;
 
 		protected FieldInfo		fieldInfo;
+		protected EdgeConnectorListener	listener;
 
 		string userPortStyleFile = "PortViewTypes";
 
@@ -36,6 +37,7 @@ namespace GraphProcessor
 			portType = fieldInfo.FieldType;
 
 			this.fieldInfo = fieldInfo;
+			this.listener = edgeConnectorListener;
 		}
 
 		public virtual void Initialize(BaseNodeView nodeView, bool isMultiple, string name)

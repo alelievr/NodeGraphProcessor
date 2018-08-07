@@ -78,12 +78,7 @@ namespace GraphProcessor
 
 			foreach (var nodeFieldKP in nodeFields)
 			{
-				NodeFieldInformation field = nodeFieldKP.Value;
-
-				if (field.input)
-					inputPorts.Add(new NodePort(this, field.info.Name));
-				else
-					outputPorts.Add(new NodePort(this, field.info.Name));
+				AddPort(nodeFieldKP.Value.input, nodeFieldKP.Value.name);
 			}
 		}
 		
@@ -115,7 +110,7 @@ namespace GraphProcessor
 				if (inputAttribute == null && outputAttribute == null)
 					continue ;
 				
-				//check if field is a collection of list type
+				//check if field is a collection type
 				isMultiple = (inputAttribute != null) ? inputAttribute.allowMultiple : false;
 				input = inputAttribute != null;
 			
@@ -136,6 +131,8 @@ namespace GraphProcessor
 		{
 			bool input = edge.inputNode == this;
 			NodePortContainer portCollection = (input) ? (NodePortContainer)inputPorts : outputPorts;
+
+			Debug.Log("edge connected: " + edge.outputFieldName + " | " + edge.inputFieldName);
 
 			portCollection.Add(edge);
 		}
@@ -171,6 +168,14 @@ namespace GraphProcessor
 		#endregion
 
 		#region API and utils
+
+		public void AddPort(bool input, string fieldName)
+		{
+			if (input)
+				inputPorts.Add(new NodePort(this, fieldName));
+			else
+				outputPorts.Add(new NodePort(this, fieldName));
+		}
 
 		public IEnumerable< BaseNode > GetInputNodes()
 		{

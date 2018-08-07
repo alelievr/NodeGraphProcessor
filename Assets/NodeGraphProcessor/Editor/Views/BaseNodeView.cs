@@ -21,9 +21,9 @@ namespace GraphProcessor
 		public List< Port >						inputPorts = new List< Port >();
 		public List< Port >						outputPorts = new List< Port >();
 
-		protected Dictionary< string, Port >	portsPerFieldName = new Dictionary< string, Port >();
+		public BaseGraphView					owner { private set; get; }
 
-		protected BaseGraphView					owner;
+		protected Dictionary< string, Port >	portsPerFieldName = new Dictionary< string, Port >();
 
         protected VisualElement 				controlsContainer;
 		protected VisualElement					debugContainer;
@@ -96,7 +96,7 @@ namespace GraphProcessor
 			return ret;
 		}
 
-		public void AddPort(FieldInfo fieldInfo, Direction direction, EdgeConnectorListener listener, bool isMultiple = false, string name = null)
+		public PortView AddPort(FieldInfo fieldInfo, Direction direction, EdgeConnectorListener listener, bool isMultiple = false, string name = null)
 		{
 			PortView p = PortViewFactory.Create(fieldInfo, direction, listener);
 
@@ -114,6 +114,8 @@ namespace GraphProcessor
 			p.Initialize(this, isMultiple, name);
 
 			portsPerFieldName[p.fieldName] = p;
+			
+			return p;
 		}
 
 		public void RemovePort(PortView p)

@@ -12,9 +12,6 @@ using StatusFlags = UnityEngine.Experimental.UIElements.ContextualMenu.MenuActio
 
 using Object = UnityEngine.Object;
 
-// TODO: remove this
-using UnityEditor.ShaderGraph.Drawing;
-
 namespace GraphProcessor
 {
 	public class BaseGraphView : GraphView

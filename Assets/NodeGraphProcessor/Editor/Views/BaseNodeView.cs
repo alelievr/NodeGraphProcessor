@@ -54,13 +54,13 @@ namespace GraphProcessor
 		{
 			foreach (var fieldInfo in nodeTarget.nodeFields)
 			{
-				PortView port = new PortView(
-					Orientation.Horizontal,
-					fieldInfo.Value,
-					owner.connectorListener
+				AddPort(
+					fieldInfo.Value.info,
+					fieldInfo.Value.input ? Direction.Input : Direction.Output,
+					owner.connectorListener,
+					fieldInfo.Value.isMultiple,
+					fieldInfo.Value.name
 				);
-
-				AddPort(port);
 			}
 		}
 
@@ -96,8 +96,10 @@ namespace GraphProcessor
 			return ret;
 		}
 
-		public void AddPort(PortView p)
+		public void AddPort(FieldInfo fieldInfo, Direction direction, EdgeConnectorListener listener, bool isMultiple = false, string name = null)
 		{
+			PortView p = PortViewFactory.Create(fieldInfo, direction, listener);
+
 			if (p.direction == Direction.Input)
 			{
 				inputPorts.Add(p);
@@ -108,6 +110,8 @@ namespace GraphProcessor
 				outputPorts.Add(p);
 				outputContainer.Add(p);
 			}
+
+			p.Initialize(this, isMultiple, name);
 
 			portsPerFieldName[p.fieldName] = p;
 		}

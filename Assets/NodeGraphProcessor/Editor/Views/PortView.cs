@@ -9,18 +9,20 @@ using UnityEngine.Experimental.UIElements.StyleEnums;
 
 namespace GraphProcessor
 {
-	public class PortView : Port
+	public abstract class PortView : Port
 	{
 		public bool				isMultiple;
 		public string			fieldName { get; private set; }
 		public new Type			portType;
 
+		protected FieldInfo		fieldInfo;
+
 		string userPortStyleFile = "PortViewTypes";
 
 		List< EdgeView >		edges = new List< EdgeView >();
 
-        public PortView(Orientation portOrientation, BaseNode.NodeFieldInformation field, EdgeConnectorListener edgeConnectorListener)
-            : base(portOrientation, field.input ? Direction.Input : Direction.Output, Capacity.Multi, field.info.FieldType)
+        public PortView(Orientation portOrientation, Direction direction, FieldInfo fieldInfo, EdgeConnectorListener edgeConnectorListener)
+            : base(portOrientation, direction, Capacity.Multi, fieldInfo.FieldType)
 		{
 			AddStyleSheetPath("GraphProcessorStyles/PortView");
 
@@ -28,18 +30,24 @@ namespace GraphProcessor
 				AddStyleSheetPath(userPortStyleFile);
 
 			this.m_EdgeConnector = new EdgeConnector< EdgeView >(edgeConnectorListener);
-
 			this.AddManipulator(m_EdgeConnector);
 
-			portName = field.name;
-			fieldName = field.info.Name;
-			isMultiple = field.isMultiple;
-			portType = field.info.FieldType;
+			fieldName = fieldInfo.Name;
+			portType = fieldInfo.FieldType;
+
+			this.fieldInfo = fieldInfo;
+		}
+
+		public virtual void Initialize(BaseNodeView nodeView, bool isMultiple, string name)
+		{
+			this.isMultiple = isMultiple;
 
 			// Correct port type if port accept multiple values (and so is a container)
-			if (field.isMultiple)
+			if (isMultiple)
 				portType = portType.GetGenericArguments()[0];
-
+				
+			if (name != null)
+				portName = name;
 			visualClass = "Port_" + portType.Name;
 		}
 

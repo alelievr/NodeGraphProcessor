@@ -8,71 +8,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07d56d3b862614a2fbc27b3b7213459b, type: 3}
-  m_Name: test
+  m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
+  m_Name: test2
   m_EditorClassIdentifier: 
-  serializedNodes:
-  - type: AddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"b1531178-d29b-41bc-83ae-7affb485e101","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":360.0,"y":461.4788513183594,"width":149.0,"height":97.0},"expanded":false,"output":5.0}'
-  - type: AddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"48f636f8-7ce2-4a56-87c6-ddba57d06b5e","computeOrder":5,"canProcess":true,"position":{"serializedVersion":"2","x":650.066162109375,"y":206.28826904296876,"width":157.0,"height":117.0},"expanded":false,"output":10.0}'
-  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"03bfe7c2-ffd0-4ea9-8e41-d203dd19e9ac","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":69.66616821289063,"y":235.28826904296876,"width":107.0,"height":117.0},"expanded":false,"output":3.0}'
-  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"64393f1d-b754-4851-9595-55c5c4d9c70f","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":261.6661682128906,"y":368.96826171875,"width":107.0,"height":117.0},"expanded":false,"output":2.0}'
-  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"7d1d5f60-ac4b-4b61-93ff-39bbafda793a","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":371.066162109375,"y":123.28826904296875,"width":107.0,"height":117.0},"expanded":false,"output":5.0}'
-  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"77f4aace-39a6-4175-ab1e-6349e4f2929e","computeOrder":6,"canProcess":true,"position":{"serializedVersion":"2","x":897.5061645507813,"y":296.28826904296877,"width":107.0,"height":117.0},"expanded":false}'
-  edges:
-  - GUID: 211441f6-d61f-484c-9104-e1b0b9973ca4
-    owner: {fileID: 11400000}
-    inputNodeGUID: b1531178-d29b-41bc-83ae-7affb485e101
-    outputNodeGUID: 03bfe7c2-ffd0-4ea9-8e41-d203dd19e9ac
-    inputFieldName: inputs
-    outputFieldName: output
-  - GUID: edd95f6c-b347-4a86-8ae5-59236aa18989
-    owner: {fileID: 11400000}
-    inputNodeGUID: b1531178-d29b-41bc-83ae-7affb485e101
-    outputNodeGUID: 64393f1d-b754-4851-9595-55c5c4d9c70f
-    inputFieldName: inputs
-    outputFieldName: output
-  - GUID: 124c97d9-bfa1-4b15-b42a-3f0c449b39fb
-    owner: {fileID: 11400000}
-    inputNodeGUID: 48f636f8-7ce2-4a56-87c6-ddba57d06b5e
-    outputNodeGUID: 7d1d5f60-ac4b-4b61-93ff-39bbafda793a
-    inputFieldName: inputs
-    outputFieldName: output
-  - GUID: fd323ca1-cc42-4790-b543-34d2b4286663
-    owner: {fileID: 11400000}
-    inputNodeGUID: 48f636f8-7ce2-4a56-87c6-ddba57d06b5e
-    outputNodeGUID: b1531178-d29b-41bc-83ae-7affb485e101
-    inputFieldName: inputs
-    outputFieldName: output
-  - GUID: c40ba650-1872-4766-ac99-6772381303d4
-    owner: {fileID: 11400000}
-    inputNodeGUID: 77f4aace-39a6-4175-ab1e-6349e4f2929e
-    outputNodeGUID: 48f636f8-7ce2-4a56-87c6-ddba57d06b5e
-    inputFieldName: obj
-    outputFieldName: output
-  commentBlocks:
-  - title: New Comment Block
-    color: {r: 1, g: 0, b: 0, a: 0}
-    position:
-      serializedVersion: 2
-      x: 285
-      y: 385.12
-      width: 300
-      height: 100
-    size: {x: 300, y: 100}
-    innerNodeGUIDs:
-    - b1531178-d29b-41bc-83ae-7affb485e101
-    - 64393f1d-b754-4851-9595-55c5c4d9c70f
-  pinnedWindows:
-  - position: {x: -135, y: -233}
-    opened: 1
-    editorType:
-      serializedType: GraphProcessor.ProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-  position: {x: -64.82254, y: -60.210114, z: 0}
+  serializedNodes: []
+  edges: []
+  commentBlocks: []
+  pinnedWindows: []
+  position: {x: 0, y: 0, z: 0}
   scale: {x: 1, y: 1, z: 1}

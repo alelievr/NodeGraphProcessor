@@ -1,10 +1,9 @@
 {
   "dependencies": {
-    "com.unity.burst": "0.2.4-preview.14",
-    "com.unity.collections": "0.0.9-preview.2",
-    "com.unity.entities": "0.0.12-preview.7",
-    "com.unity.incrementalcompiler": "0.0.42-preview.14",
+    "com.unity.ads": "2.0.8",
+    "com.unity.analytics": "2.0.16",
     "com.unity.package-manager-ui": "1.9.11",
+    "com.unity.purchasing": "2.0.3",
     "com.unity.textmeshpro": "1.2.4",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -36,11 +35,5 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  },
-  "registry": "https://staging-packages.unity.com",
-  "testables": [
-    "com.unity.collections",
-    "com.unity.entities",
-    "com.unity.jobs"
-  ]
+  }
 }

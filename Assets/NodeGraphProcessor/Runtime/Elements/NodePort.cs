@@ -9,6 +9,7 @@ namespace GraphProcessor
 {
 	public class NodePort
 	{
+		
 		public string				fieldName;
 		public BaseNode				owner;
 		List< SerializableEdge >	edges = new List< SerializableEdge >();

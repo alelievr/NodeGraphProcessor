@@ -4,8 +4,6 @@ using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine.Experimental.UIElements;
 using UnityEngine.Experimental.UIElements.StyleSheets;
 
-using UnityEditor.ShaderGraph.Drawing;
-
 namespace GraphProcessor
 {
     public class ConfinedDragger : MouseManipulator

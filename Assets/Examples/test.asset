@@ -12,18 +12,33 @@ MonoBehaviour:
   m_Name: test
   m_EditorClassIdentifier: 
   serializedNodes:
-  - type: AddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"261d552b-76c7-47b5-a24b-f6ca532e4528","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":462.0,"y":169.0,"width":150.0,"height":97.0},"expanded":false,"output":0.0}'
-  - type: AddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"cbedfe29-053c-4da2-8452-f79f91709fc1","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":512.0,"y":290.0,"width":150.0,"height":97.0},"expanded":false,"output":0.0}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"bf341f62-ef9d-41a9-9324-9322046d0329","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":849.0,"y":175.0,"width":100.0,"height":100.0},"expanded":false}'
   - type: CustomPortsNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"6a966a40-ed41-427d-94e8-826796eec99b","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":132.0,"y":320.0,"width":135.0,"height":121.0},"expanded":false}'
+    jsonDatas: '{"GUID":"6a966a40-ed41-427d-94e8-826796eec99b","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":98.00001525878906,"y":513.0,"width":135.0,"height":121.0},"expanded":false}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"76c1121b-b70e-4627-aa33-b4291b12895e","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":356.0,"y":396.44000244140627,"width":104.0,"height":117.0},"expanded":false}'
-  edges: []
+    jsonDatas: '{"GUID":"76c1121b-b70e-4627-aa33-b4291b12895e","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":367.0,"y":437.44000244140627,"width":104.0,"height":117.0},"expanded":false}'
+  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"f3d5e974-2c38-4d79-90b9-90f63398fd30","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":369.3375244140625,"y":646.9124755859375,"width":104.0,"height":117.0},"expanded":false}'
+  edges:
+  - GUID: 6f2a5b7e-9618-4639-86c9-ce57b96949e9
+    owner: {fileID: 11400000}
+    inputNodeGUID: 76c1121b-b70e-4627-aa33-b4291b12895e
+    outputNodeGUID: 6a966a40-ed41-427d-94e8-826796eec99b
+    inputFieldName: obj
+    outputFieldName: output
+  - GUID: 220d53a2-e8fd-4504-b896-bce0e8373dff
+    owner: {fileID: 11400000}
+    inputNodeGUID: f3d5e974-2c38-4d79-90b9-90f63398fd30
+    outputNodeGUID: 6a966a40-ed41-427d-94e8-826796eec99b
+    inputFieldName: obj
+    outputFieldName: output
   commentBlocks: []
-  pinnedWindows: []
-  position: {x: 123, y: -85.44, z: 0}
+  pinnedWindows:
+  - position: {x: -996, y: 10}
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  position: {x: 305.66248, y: -157.91245, z: 0}
   scale: {x: 1, y: 1, z: 1}

@@ -5,6 +5,7 @@ using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine.Experimental.UIElements;
 using UnityEngine;
 using System.Reflection;
+using System.Linq;
 
 namespace GraphProcessor
 {
@@ -14,6 +15,8 @@ namespace GraphProcessor
         MultiPorts          multiPorts;
         Dictionary< Edge, PortView >    portViews = new Dictionary< Edge, PortView >();
         BaseNodeView        owner;
+        
+		public int				    id;
 
         public MultiPortView(Orientation portOrientation, Direction direction, FieldInfo fieldInfo, EdgeConnectorListener edgeConnectorListener)
             : base(portOrientation, direction, fieldInfo, edgeConnectorListener) {}
@@ -32,8 +35,8 @@ namespace GraphProcessor
                 fieldInfo.SetValue(nodeView.nodeTarget, multiPorts);
             }
             
-            // Add an identifier to the fieldName so we can know which edge is connected to which MultiPort port
-            fieldName += "|" + multiPorts.GetId();
+            // Get the last identifier on the list (pushed before this port was created either by this.Connect or the MultiPort constructor)
+            id = multiPorts.portIds.Last();
 
             // if there is no controller yet, set our instance to be the controller
             if (multiPorts.viewController == null)
@@ -64,6 +67,7 @@ namespace GraphProcessor
             if (multiPorts.viewController != this)
                 return ;
             
+            multiPorts.AddUniqueId(multiPorts.GetUniqueId());
             portViews[edge] = AddPort();
         }
 

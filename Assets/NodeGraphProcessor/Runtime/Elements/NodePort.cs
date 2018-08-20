@@ -65,8 +65,6 @@ namespace GraphProcessor
 				FieldInfo inputField = edge.inputNode.GetType().GetField(edge.trueInputFieldName, BindingFlags.Public | BindingFlags.Instance);
 				FieldInfo outputField = edge.outputNode.GetType().GetField(edge.trueOutputFieldName, BindingFlags.Public | BindingFlags.Instance);
 
-				Debug.Log("field: " + inputField + " | " + outputField);
-
 				MemberExpression inputParamField = Expression.Field(Expression.Constant(edge.inputNode), inputField);
 				MemberExpression outputParamField = Expression.Field(Expression.Constant(edge.outputNode), outputField);
 	

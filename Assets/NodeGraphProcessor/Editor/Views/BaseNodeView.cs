@@ -110,6 +110,8 @@ namespace GraphProcessor
 				outputPorts.Add(p);
 				outputContainer.Add(p);
 			}
+			
+			Debug.Log("Add port: " + p.fieldName + (p as MultiPortView)?.id);
 
 			p.Initialize(this, isMultiple, name);
 
@@ -124,9 +126,12 @@ namespace GraphProcessor
 			{
 				inputPorts.Remove(p);
 				inputContainer.Remove(p);
+				Debug.Log("Remove port: " + p.fieldName + (p as MultiPortView)?.id);
+				
 			}
 			else
 			{
+				Debug.Log("Remove port: " + p.fieldName + (p as MultiPortView)?.id);
 				outputPorts.Remove(p);
 				outputContainer.Remove(p);
 			}

@@ -132,8 +132,6 @@ namespace GraphProcessor
 			bool input = edge.inputNode == this;
 			NodePortContainer portCollection = (input) ? (NodePortContainer)inputPorts : outputPorts;
 
-			Debug.Log("edge connected: " + edge.outputFieldName + " | " + edge.inputFieldName);
-
 			portCollection.Add(edge);
 		}
 
@@ -154,8 +152,7 @@ namespace GraphProcessor
 
 			Process();
 			
-			if (onProcessed != null)
-				onProcessed();
+			onProcessed?.Invoke();
 
 			outputPorts.PushDatas();
 		}

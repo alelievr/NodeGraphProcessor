@@ -11,26 +11,27 @@ namespace GraphProcessor
         [System.NonSerialized]
         public object       viewController = null;
 
-        [System.NonSerialized]
-        int                 currentIndex = 0;
-        [SerializeField]
-        List< int >         portIds = new List< int >();
+        public List< int >   portIds = new List< int >();
 
         public int          portCount => portIds.Count;
 
-        public int GetId()
+        public MultiPorts()
         {
-            if (portIds.Count > currentIndex)
-                return portIds[currentIndex++];
-            else
-            {
-                int id = GetUniqueId();
-                portIds.Add(id);
-                return id;
-            }
+            if (portIds.Count == 0)
+                portIds.Add(GetUniqueId());
         }
 
-        int GetUniqueId()
+        public void RemoveUniqueId(int id)
+        {
+            portIds.Remove(id);
+        }
+
+        public void AddUniqueId(int id)
+        {
+            portIds.Add(id);
+        }
+
+        public int GetUniqueId()
         {
             int id = 0;
             

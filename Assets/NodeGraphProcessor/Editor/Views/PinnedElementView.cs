@@ -43,7 +43,6 @@ namespace GraphProcessor
 		{
 			this.pinnedElement = pinnedElement;
 			transform.position = pinnedElement.position;
-			Debug.Log("Set position: " + transform.position);
 			Initialize(graphView);
 		}
 

@@ -437,8 +437,7 @@ namespace GraphProcessor
 		{
 			graph.UpdateComputeOrder();
 
-			if (computeOrderUpdated != null)
-				computeOrderUpdated();
+			computeOrderUpdated?.Invoke();
 		}
 
 		public void RegisterCompleteObjectUndo(string name)

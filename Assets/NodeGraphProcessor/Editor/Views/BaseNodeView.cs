@@ -179,8 +179,8 @@ namespace GraphProcessor
 				if (!field.IsPublic && field.GetCustomAttribute(typeof(SerializeField)) == null)
 					continue ;
 				
-				//skip if the field is an input/output
-				if (field.GetCustomAttribute(typeof(InputAttribute)) != null || field.GetCustomAttribute(typeof(OutputAttribute)) != null)
+				//skip if the field is an input/output and not marked as SerializedField
+				if (field.GetCustomAttribute(typeof(SerializeField)) == null && (field.GetCustomAttribute(typeof(InputAttribute)) != null || field.GetCustomAttribute(typeof(OutputAttribute)) != null))
 					continue ;
 
                 //skip if marked with NonSerialized or HideInInspector

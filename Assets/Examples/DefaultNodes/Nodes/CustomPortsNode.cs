@@ -4,7 +4,7 @@ using UnityEngine;
 using GraphProcessor;
 using System.Linq;
 
-[System.Serializable, NodeMenuItem("Primitives/CustomPorts")]
+[System.Serializable, NodeMenuItem("Custom/MultiPorts")]
 public class CustomPortsNode : BaseNode
 {
     [Input]

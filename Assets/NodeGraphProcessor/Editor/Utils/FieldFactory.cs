@@ -71,7 +71,10 @@ namespace GraphProcessor
 				drawerType = fieldDrawers.FirstOrDefault(kp => kp.Key.IsReallyAssignableFrom(t)).Value;
 
 			if (drawerType == null)
-				throw new ArgumentException("Can't find field drawer for type: " + t);
+			{
+				Debug.LogWarning("Can't find field drawer for type: " + t);
+				return null;
+			}
 
 			var field = Activator.CreateInstance(drawerType);
 

@@ -38,6 +38,7 @@ namespace GraphProcessor
 		public class NodeFieldInformation
 		{
 			public string		name;
+			public string		fieldName;
 			public FieldInfo	info;
 			public bool			input;
 			public bool			isMultiple;
@@ -48,6 +49,7 @@ namespace GraphProcessor
 				this.isMultiple = isMultiple;
 				this.info = info;
 				this.name = name;
+				this.fieldName = info.Name;
 			}
 		}
 
@@ -78,7 +80,7 @@ namespace GraphProcessor
 
 			foreach (var nodeFieldKP in nodeFields)
 			{
-				AddPort(nodeFieldKP.Value.input, nodeFieldKP.Value.name);
+				AddPort(nodeFieldKP.Value.input, nodeFieldKP.Value.fieldName);
 			}
 		}
 		
@@ -172,6 +174,22 @@ namespace GraphProcessor
 				inputPorts.Add(new NodePort(this, fieldName));
 			else
 				outputPorts.Add(new NodePort(this, fieldName));
+		}
+
+		public void RemovePort(bool input, NodePort port)
+		{
+			if (input)
+				inputPorts.Remove(port);
+			else
+				outputPorts.Remove(port);
+		}
+		
+		public void RemovePort(bool input, string fieldName)
+		{
+			if (input)
+				inputPorts.RemoveAll(p => p.fieldName == fieldName);
+			else
+				outputPorts.RemoveAll(p => p.fieldName == fieldName);
 		}
 
 		public IEnumerable< BaseNode > GetInputNodes()

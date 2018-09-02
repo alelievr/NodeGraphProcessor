@@ -188,24 +188,23 @@ namespace GraphProcessor
 		public override List< Port > GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
 		{
 			var compatiblePorts = new List< Port >();
-			var startPortView = startPort as PortView;
 
 			compatiblePorts.AddRange(ports.ToList().Where(p => {
 				var portView = p as PortView;
 
-				if (portView.direction == startPortView.direction)
+				if (p.direction == startPort.direction)
 					return false;
 
 				//Check if there is custom adapters for this assignation
-				if (CustomPortIO.IsAssignable(startPortView.portType, portView.portType))
+				if (CustomPortIO.IsAssignable(startPort.portType, p.portType))
 					return true;
 				
 				//Check for type assignability
-				if (!portView.portType.IsReallyAssignableFrom(startPortView.portType))
+				if (!p.portType.IsReallyAssignableFrom(startPort.portType))
 					return false;
 				
 				//Check if the edge already exists
-				if (portView.GetEdges().Any(e => e.input == startPortView || e.output == startPort))
+				if (portView.GetEdges().Any(e => e.input == startPort || e.output == startPort))
 					return false;
 				
 				return true;
@@ -357,15 +356,18 @@ namespace GraphProcessor
             commentBlockViews.Add(c);
 		}
 
-		public void Connect(EdgeView e, bool serializeToGraph = true)
+		public void Connect(EdgeView e, bool serializeToGraph = true, bool autoDisconnectInputs = true)
 		{
 			if (e.input == null || e.output == null)
 				return ;
 			
 			//If the input port does not support multi-connection, we remove them
-			if (!(e.input as PortView).isMultiple)
+			if (autoDisconnectInputs && !(e.input as PortView).isMultiple)
 				foreach (var edge in edgeViews.Where(ev => ev.input == e.input))
+				{
+					// TODO: do not disconnect them if the connected port is the same than the old connected
 					Disconnect(edge, serializeToGraph);
+				}
 
 			AddElement(e);
 			

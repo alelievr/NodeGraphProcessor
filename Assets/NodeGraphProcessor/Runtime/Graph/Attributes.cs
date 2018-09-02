@@ -82,14 +82,14 @@ namespace GraphProcessor
 	}
 
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-	public class CustomPortViewAttribute : Attribute
+	public class CustomPortBehaviorAttribute : Attribute
 	{
 		public int 		priority;
 		public Type		targetType;
 
-		public CustomPortViewAttribute(int priority = 0) : this(typeof(object), priority) {}
+		public CustomPortBehaviorAttribute(int priority = 0) : this(typeof(object), priority) {}
 
-		public CustomPortViewAttribute(Type targetType, int priority = 0)
+		public CustomPortBehaviorAttribute(Type targetType, int priority = 0)
 		{
 			this.priority = priority;
 			this.targetType = targetType;

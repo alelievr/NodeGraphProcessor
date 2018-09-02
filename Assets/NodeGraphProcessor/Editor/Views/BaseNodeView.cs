@@ -54,7 +54,9 @@ namespace GraphProcessor
 		{
 			foreach (var fieldInfo in nodeTarget.nodeFields)
 			{
-				AddPort(
+				// This will automatically create our visual ports
+				PortBehaviorFactory.CreatePortBehavior(
+					this,
 					fieldInfo.Value.info,
 					fieldInfo.Value.input ? Direction.Input : Direction.Output,
 					owner.connectorListener,
@@ -98,7 +100,8 @@ namespace GraphProcessor
 
 		public PortView AddPort(FieldInfo fieldInfo, Direction direction, EdgeConnectorListener listener, bool isMultiple = false, string name = null)
 		{
-			PortView p = PortViewFactory.Create(fieldInfo, direction, listener);
+			// TODO: hardcoded value
+			PortView p = new PortView(Orientation.Horizontal, direction, fieldInfo, listener);
 
 			if (p.direction == Direction.Input)
 			{
@@ -110,8 +113,6 @@ namespace GraphProcessor
 				outputPorts.Add(p);
 				outputContainer.Add(p);
 			}
-			
-			Debug.Log("Add port: " + p.fieldName + (p as MultiPortView)?.id);
 
 			p.Initialize(this, isMultiple, name);
 
@@ -126,12 +127,10 @@ namespace GraphProcessor
 			{
 				inputPorts.Remove(p);
 				inputContainer.Remove(p);
-				Debug.Log("Remove port: " + p.fieldName + (p as MultiPortView)?.id);
 				
 			}
 			else
 			{
-				Debug.Log("Remove port: " + p.fieldName + (p as MultiPortView)?.id);
 				outputPorts.Remove(p);
 				outputContainer.Remove(p);
 			}
@@ -184,8 +183,8 @@ namespace GraphProcessor
 				if (field.GetCustomAttribute(typeof(InputAttribute)) != null || field.GetCustomAttribute(typeof(OutputAttribute)) != null)
 					continue ;
 
-                //skip if marked with NonSerialized
-                if (field.GetCustomAttribute(typeof(System.NonSerializedAttribute)) != null)
+                //skip if marked with NonSerialized or HideInInspector
+                if (field.GetCustomAttribute(typeof(System.NonSerializedAttribute)) != null || field.GetCustomAttribute(typeof(HideInInspector)) != null)
                     continue ;
 
 				var controlLabel = new Label(field.Name);

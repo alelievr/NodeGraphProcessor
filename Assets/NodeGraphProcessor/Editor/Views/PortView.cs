@@ -9,11 +9,15 @@ using UnityEngine.Experimental.UIElements.StyleEnums;
 
 namespace GraphProcessor
 {
-	public abstract class PortView : Port
+	public class PortView : Port
 	{
 		public bool				isMultiple;
 		public string			fieldName { get; protected set; }
 		public new Type			portType;
+        public BaseNodeView     owner { get; private set; }
+
+		public event Action< PortView, Edge >	OnConnected;
+		public event Action< PortView, Edge >	OnDisconnected;
 
 		protected FieldInfo		fieldInfo;
 		protected EdgeConnectorListener	listener;
@@ -43,6 +47,7 @@ namespace GraphProcessor
 		public virtual void Initialize(BaseNodeView nodeView, bool isMultiple, string name)
 		{
 			this.isMultiple = isMultiple;
+			this.owner = nodeView;
 
 			// Correct port type if port accept multiple values (and so is a container)
 			if (isMultiple)
@@ -55,10 +60,12 @@ namespace GraphProcessor
 
 		public override void Connect(Edge edge)
 		{
+			OnConnected?.Invoke(this, edge);
+			
 			base.Connect(edge);
 
-			var inputNode = edge.input.node as BaseNodeView;
-			var outputNode = edge.output.node as BaseNodeView;
+			var inputNode = (edge.input as PortView).owner;
+			var outputNode = (edge.output as PortView).owner;
 
 			inputNode.OnPortConnected(edge.input as PortView);
 			outputNode.OnPortConnected(edge.output as PortView);
@@ -68,13 +75,15 @@ namespace GraphProcessor
 
 		public override void Disconnect(Edge edge)
 		{
+			OnDisconnected?.Invoke(this, edge);
+
 			base.Disconnect(edge);
 
 			if (!(edge as EdgeView).isConnected)
 				return ;
 
-			var inputNode = edge.input.node as BaseNodeView;
-			var outputNode = edge.output.node as BaseNodeView;
+			var inputNode = (edge.input as PortView).owner;
+			var outputNode = (edge.output as PortView).owner;
 
 			inputNode.OnPortDisconnected(edge.input as PortView);
 			outputNode.OnPortDisconnected(edge.output as PortView);

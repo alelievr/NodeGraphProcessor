@@ -21,3 +21,4 @@ For more details consult our [trello](https://trello.com/b/Xk4rfnuV/node-graph-p
 ### Screens
 
 ![](https://preview.ibb.co/hP0CvT/Screen_Shot_2018_06_24_at_18_05_50.png)
+![](https://image.noelshack.com/fichiers/2018/35/7/1535906391-graph.png)

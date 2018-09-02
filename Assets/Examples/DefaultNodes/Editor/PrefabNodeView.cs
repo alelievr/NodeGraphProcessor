@@ -16,9 +16,18 @@ public class PrefabNodeView : BaseNodeView
 
         var objField = new ObjectField
         {
-            value = prefabNode.output
+			objectType = typeof(GameObject),
+			allowSceneObjects = false,
+            value = prefabNode.output,
         };
 
+		var preview = new Image();
+
+		objField.OnValueChanged(v => {
+			preview.image = AssetPreview.GetAssetPreview(objField.value) ?? AssetPreview.GetMiniThumbnail(objField.value);
+		});
+
 		controlsContainer.Add(objField);
+		controlsContainer.Add(preview);
 	}
 }

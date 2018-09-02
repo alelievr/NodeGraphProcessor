@@ -41,6 +41,8 @@ namespace GraphProcessor
 			AddDrawer(typeof(AnimationCurve), typeof(CurveField));
 			AddDrawer(typeof(Enum), typeof(EnumField));
 			AddDrawer(typeof(Gradient), typeof(GradientField));
+			AddDrawer(typeof(UnityEngine.Object), typeof(ObjectField));
+			AddDrawer(typeof(Rect), typeof(RectField));
 		}
 
 		static void AddDrawer(Type fieldType, Type drawerType)

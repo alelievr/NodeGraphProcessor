@@ -175,7 +175,7 @@ namespace GraphProcessor
 
 			foreach (var field in fields)
 			{
-				//skip if the field is not serilizable
+				//skip if the field is not serializable
 				if (!field.IsPublic && field.GetCustomAttribute(typeof(SerializeField)) == null)
 					continue ;
 				

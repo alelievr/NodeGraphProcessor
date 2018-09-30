@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,26 +18,4 @@ public class #SCRIPTNAME# : BaseNodeView
 
 		controlsContainer.Add(new Label("Hello World !"));
 	}
-=======
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using UnityEditor.Experimental.UIElements;
-using UnityEditor.Experimental.UIElements.GraphView;
-using UnityEngine.Experimental.UIElements;
-using GraphProcessor;
-
-[NodeCustomEditor(typeof(node type))]
-public class #SCRIPTNAME# : BaseNodeView
-{
-	public override void Enable()
-	{
-		var node = nodeTarget as node type;
-
-        // Create your fields using node's variables and add them to the controlsContainer
-
-		controlsContainer.Add(new Label("Hello World !"));
-	}
->>>>>>> 85ff4ace9e4636013762a222efd3312ae30ff3ce
 }

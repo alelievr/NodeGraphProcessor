@@ -4,12 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-<<<<<<< HEAD
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-=======
-  m_PrefabInternal: {fileID: 0}
->>>>>>> 85ff4ace9e4636013762a222efd3312ae30ff3ce
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -34,11 +30,7 @@ MonoBehaviour:
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"8be28acc-5d70-4a5d-be0e-b771dce119c1","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":486.0,"y":339.9625244140625,"width":104.0,"height":117.0},"expanded":true,"output":5.0}'
   - type: PrefabNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-<<<<<<< HEAD
     jsonDatas: '{"GUID":"ffd2cf4b-87c3-42a6-9822-04bae7a5700b","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":606.3200073242188,"y":-174.19744873046876,"width":104.0,"height":185.0},"expanded":false,"output":{"instanceID":0}}'
-=======
-    jsonDatas: '{"GUID":"ffd2cf4b-87c3-42a6-9822-04bae7a5700b","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":634.3200073242188,"y":-140.19744873046876,"width":136.0,"height":249.0},"expanded":false,"output":{"instanceID":0}}'
->>>>>>> 85ff4ace9e4636013762a222efd3312ae30ff3ce
   edges:
   - GUID: de00353f-e232-48ea-8d44-f7afc7d025a7
     owner: {fileID: 11400000}
@@ -72,18 +64,9 @@ MonoBehaviour:
     outputFieldName: color
   commentBlocks: []
   pinnedWindows:
-<<<<<<< HEAD
   - position: {x: 10, y: 10}
     opened: 1
     editorType:
       serializedType: GraphProcessor.ProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   position: {x: 1, y: 182, z: 0}
-=======
-  - position: {x: -929, y: 10}
-    opened: 1
-    editorType:
-      serializedType: GraphProcessor.ProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-  position: {x: 27.63324, y: 161.75078, z: 0}
->>>>>>> 85ff4ace9e4636013762a222efd3312ae30ff3ce
   scale: {x: 1, y: 1, z: 1}

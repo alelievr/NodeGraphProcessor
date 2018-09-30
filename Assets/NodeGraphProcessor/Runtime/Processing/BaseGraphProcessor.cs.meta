@@ -1,4 +1,3 @@
-<<<<<<< HEAD:Assets/NodeGraphProcessor/Runtime/Processing/BaseGraphProcessor.cs.meta
 fileFormatVersion: 2
 guid: f35826d7d9b70c342a1e3a77e831946b
 MonoImporter:
@@ -10,16 +9,3 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-=======
-fileFormatVersion: 2
-guid: f35826d7d9b70c342a1e3a77e831946b
-MonoImporter:
-  externalObjects: {}
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
->>>>>>> 85ff4ace9e4636013762a222efd3312ae30ff3ce:Assets/NodeGraphProcessor/Runtime/Processing/BaseGraphProcessor.cs.meta

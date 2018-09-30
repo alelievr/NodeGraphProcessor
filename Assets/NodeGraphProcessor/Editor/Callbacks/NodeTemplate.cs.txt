@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,27 +20,3 @@ public class #SCRIPTNAME# : BaseNode
 	    output = input * 42;
 	}
 }
-=======
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using GraphProcessor;
-using System.Linq;
-
-[System.Serializable, NodeMenuItem("Custom/#NAME#")]
-public class #SCRIPTNAME# : BaseNode
-{
-	[Input(name = "In")]
-    public float                input;
-
-	[Output(name = "Out")]
-	public float				output;
-
-	public override string		name => "#NAME#";
-
-	protected override void Process()
-	{
-	    output = input * 42;
-	}
-}
->>>>>>> 85ff4ace9e4636013762a222efd3312ae30ff3ce

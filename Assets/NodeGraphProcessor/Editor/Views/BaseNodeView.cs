@@ -28,7 +28,7 @@ namespace GraphProcessor
         protected VisualElement 				controlsContainer;
 		protected VisualElement					debugContainer;
 
-		Label									computeOrderLabel;
+		Label									computeOrderLabel = new Label();
 
 		#region  Initialization
 
@@ -81,7 +81,7 @@ namespace GraphProcessor
 
 		void InitializeDebug()
 		{
-			computeOrderLabel = new Label("compute order: " + nodeTarget.computeOrder);
+			ComputeOrderUpdatedCallback();
 			debugContainer.Add(computeOrderLabel);
 		}
 

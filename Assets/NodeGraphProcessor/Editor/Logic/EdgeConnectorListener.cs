@@ -20,6 +20,8 @@ namespace GraphProcessor
 
         public void OnDropOutsidePort(Edge edge, Vector2 position)
         {
+			this.graphView.RegisterCompleteObjectUndo("Disconnect edge");
+
 			//If the edge was already existing, remove it
 			if (!edge.isGhostEdge)
 				graphView.Disconnect(edge as EdgeView);

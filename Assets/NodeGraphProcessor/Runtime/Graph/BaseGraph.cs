@@ -109,16 +109,6 @@ namespace GraphProcessor
 			pinned.opened = false;
 		}
 
-		public void RegisterUndo()
-		{
-			OnBeforeSerialize();
-		}
-
-		public void RegisterRedo()
-		{
-			OnAfterDeserialize();
-		}
-
 		public void OnBeforeSerialize()
 		{
 			serializedNodes.Clear();

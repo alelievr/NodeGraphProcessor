@@ -44,7 +44,9 @@ namespace GraphProcessor
 
 			RegisterCallback< KeyDownEvent >(KeyDownCallback);
 			
-			SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
+			SetupZoom(0.05f, 2f);
+
+			Undo.undoRedoPerformed += ReloadView;
 	
 			this.StretchToParentSize();
 		}
@@ -128,7 +130,7 @@ namespace GraphProcessor
 		{
 			if (changes.elementsToRemove != null)
 			{
-				RegisterCompleteObjectUndo("Remove Elements");
+				RegisterCompleteObjectUndo("Remove Graph Elements");
 
 				//Handle ourselves the edge and node remove
 				changes.elementsToRemove.RemoveAll(e => {
@@ -244,6 +246,23 @@ namespace GraphProcessor
 
 		#region Initialization
 
+		void ReloadView()
+		{
+			// Remove everything
+			RemoveNodeViews();
+			RemoveEdges();
+			RemoveCommentBlocks();
+
+			// And re-add with new up to date datas
+			InitializeNodeViews();
+			InitializeEdgeViews();
+            InitializeCommentBlocks();
+
+			Reload();
+
+			UpdateComputeOrder();
+		}
+
 		public void Initialize(BaseGraph graph)
 		{
 			if (this.graph != null)
@@ -300,11 +319,12 @@ namespace GraphProcessor
 		protected virtual void InitializeManipulators()
 		{
 			this.AddManipulator(new ContentDragger());
-			this.AddManipulator(new ContentZoomer());
 			this.AddManipulator(new SelectionDragger());
 			this.AddManipulator(new RectangleSelector());
 			this.AddManipulator(new ClickSelector());
 		}
+
+		protected virtual void Reload() {}
 
 		#endregion
 
@@ -338,6 +358,14 @@ namespace GraphProcessor
 			return true;
 		}
 
+		void RemoveNodeViews()
+		{
+			foreach (var nodeView in nodeViews)
+				RemoveElement(nodeView);
+			nodeViews.Clear();
+			nodeViewsPerNode.Clear();
+		}
+
         public void AddCommentBlock(CommentBlock block)
         {
             graph.AddCommentBlock(block);
@@ -354,6 +382,13 @@ namespace GraphProcessor
 			AddElement(c);
 
             commentBlockViews.Add(c);
+		}
+
+		public void RemoveCommentBlocks()
+		{
+			foreach (var commentBlockView in commentBlockViews)
+				RemoveElement(commentBlockView);
+			commentBlockViews.Clear();
 		}
 
 		public void Connect(EdgeView e, bool serializeToGraph = true, bool autoDisconnectInputs = true)
@@ -435,6 +470,13 @@ namespace GraphProcessor
 			}
 		}
 
+		public void RemoveEdges()
+		{
+			foreach (var edge in edgeViews)
+				RemoveElement(edge);
+			edgeViews.Clear();
+		}
+
 		public void UpdateComputeOrder()
 		{
 			graph.UpdateComputeOrder();
@@ -444,7 +486,6 @@ namespace GraphProcessor
 
 		public void RegisterCompleteObjectUndo(string name)
 		{
-			// graph.RegisterUndo();
 			Undo.RegisterCompleteObjectUndo(graph, name);
 		}
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .Port_Single {
 	port-color: #2080FF;
 }
@@ -13,4 +14,21 @@
 
 .Port_GameObject {
 	port-color: #FF0000;
+=======
+.Port_Single {
+	port-color: #2080FF;
+}
+
+
+.Port_Object {
+	port-color: #80FF00;
+}
+
+.Port_Color {
+	port-color: #FF00FF;
+}
+
+.Port_GameObject {
+	port-color: #FF0000;
+>>>>>>> 85ff4ace9e4636013762a222efd3312ae30ff3ce
 }

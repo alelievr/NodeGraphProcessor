@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #node {
     background-color: rgba(0, 63, 63, 0.8);
 }
@@ -5,3 +6,12 @@
 #controls {
     background-color: rgba(63, 63, 63, 0.8);
 }
+=======
+#node {
+    background-color: rgba(0, 63, 63, 0.8);
+}
+
+#controls {
+    background-color: rgba(63, 63, 63, 0.8);
+}
+>>>>>>> 85ff4ace9e4636013762a222efd3312ae30ff3ce

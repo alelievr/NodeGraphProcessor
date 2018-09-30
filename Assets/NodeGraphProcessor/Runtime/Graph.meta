@@ -1,3 +1,4 @@
+<<<<<<< HEAD:Assets/NodeGraphProcessor/Runtime/Graph.meta
 fileFormatVersion: 2
 guid: db326f54ce37a86488063e8a81d25fb2
 folderAsset: yes
@@ -6,3 +7,13 @@ DefaultImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+=======
+fileFormatVersion: 2
+guid: db326f54ce37a86488063e8a81d25fb2
+folderAsset: yes
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>> 85ff4ace9e4636013762a222efd3312ae30ff3ce:Assets/NodeGraphProcessor/Runtime/Graph.meta

@@ -8,18 +8,18 @@ using UnityEngine.Experimental.UIElements;
 
 namespace GraphProcessor
 {
-	//TODO: change this to a blackboard in 2018.2
-	public class ProcessorView : BaseGraphElementView
+	public class ProcessorView : PinnedElementView
 	{
 		BaseGraphProcessor	processor;
 
 		public ProcessorView()
 		{
+			title = "Process panel";
 		}
 
 		protected override void Initialize(BaseGraphView graphView)
 		{
-			processor = new BaseGraphProcessor(graphView.graph);
+			processor = new ProcessGraphProcessor(graphView.graph);
 
 			graphView.computeOrderUpdated += processor.UpdateComputeOrder;
 
@@ -30,7 +30,7 @@ namespace GraphProcessor
 
 		void OnPlay()
 		{
-			processor.ScheduleJobs();
+			processor.Run();
 		}
 	}
 }

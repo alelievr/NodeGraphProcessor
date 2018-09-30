@@ -2,6 +2,8 @@
 using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEditor.Experimental.UIElements;
 using UnityEngine.Experimental.UIElements;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace GraphProcessor
 {
@@ -16,8 +18,6 @@ namespace GraphProcessor
         public CommentBlockView()
         {
             AddStyleSheetPath("GraphProcessorStyles/CommentBlockView");
-
-            this.AddManipulator(new BorderResizer());
 		}
 
 		public void Initialize(BaseGraphView graphView, CommentBlock block)
@@ -61,29 +61,26 @@ namespace GraphProcessor
             }
         }
 
-        protected override void OnElementAdded(GraphElement element)
+        protected override void OnElementsAdded(IEnumerable<GraphElement> elements)
         {
-            var node = element as BaseNodeView;
+            foreach (var element in elements)
+            {
+                var node = element as BaseNodeView;
 
-            if (node == null)
-                throw new System.ArgumentException("Adding another thing than node is not currently supported");
+                if (node == null)
+                    throw new System.ArgumentException("Adding another thing than node is not currently supported");
 
-            if (!commentBlock.innerNodeGUIDs.Contains(node.nodeTarget.GUID))
-                commentBlock.innerNodeGUIDs.Add(node.nodeTarget.GUID);
-
-            base.OnElementAdded(element);
-        }
-
-        protected override void OnElementRemoved(GraphElement element)
-        {
-            base.OnElementRemoved(element);
+                if (!commentBlock.innerNodeGUIDs.Contains(node.nodeTarget.GUID))
+                    commentBlock.innerNodeGUIDs.Add(node.nodeTarget.GUID);
+            }
+            base.OnElementsAdded(elements);
         }
 
         public void UpdateCommentBlockColor(Color newColor)
         {
             commentBlock.color = newColor;
             style.backgroundColor = newColor;
-            titleLabel.style.textColor = new Color(1 - newColor.r, 1 - newColor.g, 1 - newColor.b, 1);
+            titleLabel.style.color = new Color(1 - newColor.r, 1 - newColor.g, 1 - newColor.b, 1);
         }
 
         void TitleChangedCallback(ChangeEvent< string > e)

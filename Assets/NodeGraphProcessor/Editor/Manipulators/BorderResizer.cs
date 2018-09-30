@@ -53,7 +53,7 @@ namespace GraphProcessor
                 return ;
             }
 
-            if (MouseCaptureController.IsMouseCaptureTaken())
+            if (MouseCaptureController.IsMouseCaptured())
                 return ;
 
             if (!IsMouseOverBorders(e.localMousePosition))
@@ -62,7 +62,7 @@ namespace GraphProcessor
             if (CanStartManipulation(e))
             {
                 active = true;
-                target.TakeMouseCapture();
+                target.CaptureMouse();
                 e.StopPropagation();
 
                 startComponentSize = new Vector2(elem.style.width, elem.style.height);
@@ -93,7 +93,7 @@ namespace GraphProcessor
 
             if (CanStopManipulation(e))
             {
-                target.ReleaseMouseCapture();
+                target.ReleaseMouse();
                 e.StopPropagation();
 
                 GraphView graphView = elem.GetFirstAncestorOfType<GraphView>();

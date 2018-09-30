@@ -8,7 +8,7 @@ using UnityEditor.Experimental.UIElements.GraphView;
 using System.Linq;
 using System;
 
-using StatusFlags = UnityEngine.Experimental.UIElements.ContextualMenu.MenuAction.StatusFlags;
+using StatusFlags = UnityEngine.Experimental.UIElements.DropdownMenu.MenuAction.StatusFlags;
 
 using Object = UnityEngine.Object;
 
@@ -25,7 +25,7 @@ namespace GraphProcessor
 		public List< EdgeView >						edgeViews = new List< EdgeView >();
         public List< CommentBlockView >         	commentBlockViews = new List< CommentBlockView >();
 
-		Dictionary< Type, BaseGraphElementView >	uniqueElements = new Dictionary< Type, BaseGraphElementView >();
+		Dictionary< Type, PinnedElementView >		pinnedElements = new Dictionary< Type, PinnedElementView >();
 
 		public delegate void ComputeOrderUpdatedDelegate();
 
@@ -188,24 +188,23 @@ namespace GraphProcessor
 		public override List< Port > GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
 		{
 			var compatiblePorts = new List< Port >();
-			var startPortView = startPort as PortView;
 
 			compatiblePorts.AddRange(ports.ToList().Where(p => {
 				var portView = p as PortView;
 
-				if (portView.direction == startPortView.direction)
+				if (p.direction == startPort.direction)
 					return false;
 
 				//Check if there is custom adapters for this assignation
-				if (CustomPortIO.IsAssignable(startPortView.portType, portView.portType))
+				if (CustomPortIO.IsAssignable(startPort.portType, p.portType))
 					return true;
 				
 				//Check for type assignability
-				if (!portView.portType.IsReallyAssignableFrom(startPortView.portType))
+				if (!p.portType.IsReallyAssignableFrom(startPort.portType))
 					return false;
 				
 				//Check if the edge already exists
-				if (portView.GetEdges().Any(e => e.input == startPortView || e.output == startPort))
+				if (portView.GetEdges().Any(e => e.input == startPort || e.output == startPort))
 					return false;
 				
 				return true;
@@ -224,12 +223,12 @@ namespace GraphProcessor
 		protected void BuildCreateContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			Vector2 position = evt.mousePosition - (Vector2)viewTransform.position;
-            evt.menu.AppendAction("Create/Comment Block", (e) => AddCommentBlock(new CommentBlock("New Comment Block", position)), ContextualMenu.MenuAction.AlwaysEnabled);
+            evt.menu.AppendAction("Create/Comment Block", (e) => AddCommentBlock(new CommentBlock("New Comment Block", position)), DropdownMenu.MenuAction.AlwaysEnabled);
 		}
 
 		protected void BuildViewContextualMenu(ContextualMenuPopulateEvent evt)
 		{
-			evt.menu.AppendAction("View/Processor", (e) => ToggleView< ProcessorView >(), (e) => GetViewStatus< ProcessorView >());
+			evt.menu.AppendAction("View/Processor", (e) => ToggleView< ProcessorView >(), (e) => GetPinnedElementStatus< ProcessorView >());
 		}
 
 		void KeyDownCallback(KeyDownEvent e)
@@ -288,8 +287,8 @@ namespace GraphProcessor
 
 		void InitializeViews()
 		{
-			foreach (var viewType in graph.views)
-				OpenView(viewType.type, false);
+			foreach (var viewType in graph.pinnedWindows)
+				OpenPinned(viewType.editorType.type);
 		}
 
         void InitializeCommentBlocks()
@@ -357,15 +356,18 @@ namespace GraphProcessor
             commentBlockViews.Add(c);
 		}
 
-		public void Connect(EdgeView e, bool serializeToGraph = true)
+		public void Connect(EdgeView e, bool serializeToGraph = true, bool autoDisconnectInputs = true)
 		{
 			if (e.input == null || e.output == null)
 				return ;
 			
 			//If the input port does not support multi-connection, we remove them
-			if (!(e.input as PortView).isMultiple)
+			if (autoDisconnectInputs && !(e.input as PortView).isMultiple)
 				foreach (var edge in edgeViews.Where(ev => ev.input == e.input))
+				{
+					// TODO: do not disconnect them if the connected port is the same than the old connected
 					Disconnect(edge, serializeToGraph);
+				}
 
 			AddElement(e);
 			
@@ -413,17 +415,18 @@ namespace GraphProcessor
 			{
 				var inputNodeView = e.input.node as BaseNodeView;
 				e.input.Disconnect(e);
-				inputNodeView.RefreshPorts();
 				inputNodeView.nodeTarget.OnEdgeDisonnected(e.serializedEdge);
+				inputNodeView.RefreshPorts();
 			}
 			if (e?.output?.node != null)
 			{
 				var outputNodeView = e.output.node as BaseNodeView;
 				e.output.Disconnect(e);
-				outputNodeView.RefreshPorts();
 				outputNodeView.nodeTarget.OnEdgeDisonnected(e.serializedEdge);
+				outputNodeView.RefreshPorts();
 			}
 
+			// Remove the serialized edge if there was one
 			if (serializableEdge != null)
 			{
 				if (serializeToGraph)
@@ -436,12 +439,12 @@ namespace GraphProcessor
 		{
 			graph.UpdateComputeOrder();
 
-			if (computeOrderUpdated != null)
-				computeOrderUpdated();
+			computeOrderUpdated?.Invoke();
 		}
 
 		public void RegisterCompleteObjectUndo(string name)
 		{
+			// graph.RegisterUndo();
 			Undo.RegisterCompleteObjectUndo(graph, name);
 		}
 
@@ -450,55 +453,59 @@ namespace GraphProcessor
 			EditorUtility.SetDirty(graph);
 		}
 
-		public void ToggleView< T >() where T : BaseGraphElementView
+		public void ToggleView< T >() where T : PinnedElementView
 		{
 			ToggleView(typeof(T));
 		}
 
 		public void ToggleView(Type type)
 		{
-			BaseGraphElementView elem;
-			uniqueElements.TryGetValue(type, out elem);
+			PinnedElementView view;
+			pinnedElements.TryGetValue(type, out view);
 
-			if (elem == null)
-				OpenView(type);
+			if (view == null)
+				OpenPinned(type);
 			else
-				CloseView(type, elem);
+				ClosePinned(type, view);
 		}
 
-		public void OpenView(Type type, bool serializeToGraph = true)
+		public void OpenPinned(Type type)
 		{
-			BaseGraphElementView elem;
+			PinnedElementView view;
 
 			if (type == null)
 				return ;
 
-			elem = Activator.CreateInstance(type) as BaseGraphElementView;
-			uniqueElements[type] = elem;
+			PinnedElement elem = graph.OpenPinned(type);
 
-			elem.InitializeGraphView(this);
+			view = Activator.CreateInstance(type) as PinnedElementView;
+			pinnedElements[type] = view;
 
-			AddElement(elem);
+			view.InitializeGraphView(elem, this);
 			
-			if (serializeToGraph)
-				graph.AddView(type);
+			ConfinedDragger masterPreviewViewDraggable = new ConfinedDragger(this);
+			masterPreviewViewDraggable.onDragEnd = () => elem.position = view.transform.position;
+			view.AddManipulator(masterPreviewViewDraggable);
+			Add(view);
 		}
 
-		public void CloseView(Type type, BaseGraphElementView elem)
+		public void ClosePinned(Type type, PinnedElementView elem)
 		{
-			uniqueElements.Remove(type);
-			RemoveElement(elem);
-			graph.RemoveView(type);
+			pinnedElements.Remove(type);
+			Remove(elem);
+			graph.ClosePinned(type);
 		}
 
-		public StatusFlags GetViewStatus< T >() where T : GraphElement
+		public StatusFlags GetPinnedElementStatus< T >() where T : PinnedElementView
 		{
-			return GetViewStatus(typeof(T));
+			return GetPinnedElementStatus(typeof(T));
 		}
 
-		public StatusFlags GetViewStatus(Type type)
+		public StatusFlags GetPinnedElementStatus(Type type)
 		{
-			if (uniqueElements.ContainsKey(type))
+			var pinned = graph.pinnedWindows.Find(p => p.editorType.type == type);
+
+			if (pinned != null && pinned.opened)
 				return StatusFlags.Checked;
 			else
 				return StatusFlags.Normal;

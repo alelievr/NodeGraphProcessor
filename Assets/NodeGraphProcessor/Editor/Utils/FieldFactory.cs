@@ -41,6 +41,8 @@ namespace GraphProcessor
 			AddDrawer(typeof(AnimationCurve), typeof(CurveField));
 			AddDrawer(typeof(Enum), typeof(EnumField));
 			AddDrawer(typeof(Gradient), typeof(GradientField));
+			AddDrawer(typeof(UnityEngine.Object), typeof(ObjectField));
+			AddDrawer(typeof(Rect), typeof(RectField));
 		}
 
 		static void AddDrawer(Type fieldType, Type drawerType)
@@ -71,7 +73,10 @@ namespace GraphProcessor
 				drawerType = fieldDrawers.FirstOrDefault(kp => kp.Key.IsReallyAssignableFrom(t)).Value;
 
 			if (drawerType == null)
-				throw new ArgumentException("Can't find field drawer for type: " + t);
+			{
+				Debug.LogWarning("Can't find field drawer for type: " + t);
+				return null;
+			}
 
 			var field = Activator.CreateInstance(drawerType);
 

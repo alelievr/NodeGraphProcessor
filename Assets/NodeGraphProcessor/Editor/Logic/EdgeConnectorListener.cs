@@ -10,6 +10,9 @@ namespace GraphProcessor
     {
         readonly BaseGraphView graphView;
 
+        Dictionary< Edge, PortView >    edgeInputPorts = new Dictionary< Edge, PortView >();
+        Dictionary< Edge, PortView >    edgeOutputPorts = new Dictionary< Edge, PortView >();
+
         public EdgeConnectorListener(BaseGraphView graphView)
         {
             this.graphView = graphView;
@@ -27,6 +30,7 @@ namespace GraphProcessor
         public void OnDrop(GraphView graphView, Edge edge)
         {
 			var edgeView = edge as EdgeView;
+            bool wasOnTheSamePort = false;
 
 			if (edgeView == null || edgeView.input == null || edgeView.output == null)
 				return ;
@@ -34,12 +38,21 @@ namespace GraphProcessor
 			//If the edge was moved to another port
 			if (edgeView.isConnected)
 			{
-				this.graphView.Disconnect(edgeView);
-				Debug.Log("Edge disconnected !");
+                if (edgeInputPorts.ContainsKey(edge) && edgeOutputPorts.ContainsKey(edge))
+                    if (edgeInputPorts[edge] == edge.input && edgeOutputPorts[edge] == edge.output)
+                        wasOnTheSamePort = true;
+
+                if (!wasOnTheSamePort)
+                    this.graphView.Disconnect(edgeView);
 			}
 
+            if (edgeView.input.node == null || edgeView.output.node == null)
+                return;
+
+            edgeInputPorts[edge] = edge.input as PortView;
+            edgeOutputPorts[edge] = edge.output as PortView;
 			this.graphView.RegisterCompleteObjectUndo("Connected " + edgeView.input.node.name + " and " + edgeView.output.node.name);
-			this.graphView.Connect(edge as EdgeView);
+			this.graphView.Connect(edge as EdgeView, autoDisconnectInputs: !wasOnTheSamePort);
         }
     }
 }

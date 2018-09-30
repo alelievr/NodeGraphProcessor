@@ -20,8 +20,8 @@ public class FloatNodeView : BaseNodeView
 		};
 
 		floatField.OnValueChanged((v) => {
-			floatNode.output = (float)v.newValue;
 			owner.RegisterCompleteObjectUndo("Updated floatNode output");
+			floatNode.output = (float)v.newValue;
 		});
 
 		controlsContainer.Add(floatField);

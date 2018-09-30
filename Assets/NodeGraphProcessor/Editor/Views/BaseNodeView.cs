@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 using UnityEditorInternal;
 
-using StatusFlags = UnityEngine.Experimental.UIElements.ContextualMenu.MenuAction.StatusFlags;
+using StatusFlags = UnityEngine.Experimental.UIElements.DropdownMenu.MenuAction.StatusFlags;
 using NodeView = UnityEditor.Experimental.UIElements.GraphView.Node;
 
 namespace GraphProcessor
@@ -21,9 +21,9 @@ namespace GraphProcessor
 		public List< Port >						inputPorts = new List< Port >();
 		public List< Port >						outputPorts = new List< Port >();
 
-		protected Dictionary< string, Port >	portsPerFieldName = new Dictionary< string, Port >();
+		public BaseGraphView					owner { private set; get; }
 
-		protected BaseGraphView					owner;
+		protected Dictionary< string, Port >	portsPerFieldName = new Dictionary< string, Port >();
 
         protected VisualElement 				controlsContainer;
 		protected VisualElement					debugContainer;
@@ -54,19 +54,20 @@ namespace GraphProcessor
 		{
 			foreach (var fieldInfo in nodeTarget.nodeFields)
 			{
-				PortView port = new PortView(
-					Orientation.Horizontal,
-					fieldInfo.Value,
-					owner.connectorListener
+				// This will automatically create our visual ports
+				PortBehaviorFactory.CreatePortBehavior(
+					this,
+					fieldInfo.Value.info,
+					fieldInfo.Value.input ? Direction.Input : Direction.Output,
+					owner.connectorListener,
+					fieldInfo.Value.isMultiple,
+					fieldInfo.Value.name
 				);
-
-				AddPort(port);
 			}
 		}
 
 		void InitializeView()
 		{
-			
             controlsContainer = new VisualElement{ name = "controls" };
         	mainContainer.Add(controlsContainer);
 
@@ -97,8 +98,11 @@ namespace GraphProcessor
 			return ret;
 		}
 
-		public void AddPort(PortView p)
+		public PortView AddPort(FieldInfo fieldInfo, Direction direction, EdgeConnectorListener listener, bool isMultiple = false, string name = null)
 		{
+			// TODO: hardcoded value
+			PortView p = new PortView(Orientation.Horizontal, direction, fieldInfo, listener);
+
 			if (p.direction == Direction.Input)
 			{
 				inputPorts.Add(p);
@@ -110,7 +114,11 @@ namespace GraphProcessor
 				outputContainer.Add(p);
 			}
 
+			p.Initialize(this, isMultiple, name);
+
 			portsPerFieldName[p.fieldName] = p;
+			
+			return p;
 		}
 
 		public void RemovePort(PortView p)
@@ -119,6 +127,7 @@ namespace GraphProcessor
 			{
 				inputPorts.Remove(p);
 				inputContainer.Remove(p);
+				
 			}
 			else
 			{
@@ -166,16 +175,16 @@ namespace GraphProcessor
 
 			foreach (var field in fields)
 			{
-				//skip if the field is not serilizable
+				//skip if the field is not serializable
 				if (!field.IsPublic && field.GetCustomAttribute(typeof(SerializeField)) == null)
 					continue ;
 				
-				//skip if the field is an input/output
-				if (field.GetCustomAttribute(typeof(InputAttribute)) != null || field.GetCustomAttribute(typeof(OutputAttribute)) != null)
+				//skip if the field is an input/output and not marked as SerializedField
+				if (field.GetCustomAttribute(typeof(SerializeField)) == null && (field.GetCustomAttribute(typeof(InputAttribute)) != null || field.GetCustomAttribute(typeof(OutputAttribute)) != null))
 					continue ;
 
-                //skip if marked with NonSerialized
-                if (field.GetCustomAttribute(typeof(System.NonSerializedAttribute)) != null)
+                //skip if marked with NonSerialized or HideInInspector
+                if (field.GetCustomAttribute(typeof(System.NonSerializedAttribute)) != null || field.GetCustomAttribute(typeof(HideInInspector)) != null)
                     continue ;
 
 				var controlLabel = new Label(field.Name);
@@ -217,14 +226,14 @@ namespace GraphProcessor
 			evt.menu.AppendAction("Open Node View Script", (e) => OpenNodeViewScript(), OpenNodeViewScriptStatus);
 		}
 
-		StatusFlags OpenNodeScriptStatus(ContextualMenu.MenuAction action)
+		StatusFlags OpenNodeScriptStatus(DropdownMenu.MenuAction action)
 		{
 			if (NodeProvider.GetNodeScript(nodeTarget.GetType()) != null)
 				return StatusFlags.Normal;
 			return StatusFlags.Disabled;
 		}
 		
-		StatusFlags OpenNodeViewScriptStatus(ContextualMenu.MenuAction action)
+		StatusFlags OpenNodeViewScriptStatus(DropdownMenu.MenuAction action)
 		{
 			if (NodeProvider.GetNodeViewScript(GetType()) != null)
 				return StatusFlags.Normal;

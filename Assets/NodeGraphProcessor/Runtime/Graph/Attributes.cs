@@ -40,7 +40,7 @@ namespace GraphProcessor
 		}
 	}
 
-	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 	public class FieldDrawerAttribute : Attribute
 	{
 		public Type		fieldType;

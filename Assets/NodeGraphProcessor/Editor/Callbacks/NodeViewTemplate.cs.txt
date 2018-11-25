@@ -7,12 +7,12 @@ using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine.Experimental.UIElements;
 using GraphProcessor;
 
-[NodeCustomEditor(typeof(node type))]
+[NodeCustomEditor(typeof(NODE_TYPE))]
 public class #SCRIPTNAME# : BaseNodeView
 {
 	public override void Enable()
 	{
-		var node = nodeTarget as node type;
+		var node = nodeTarget as NODE_TYPE;
 
         // Create your fields using node's variables and add them to the controlsContainer
 

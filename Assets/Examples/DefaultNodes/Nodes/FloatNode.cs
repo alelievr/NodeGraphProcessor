@@ -9,5 +9,5 @@ public class FloatNode : BaseNode
     [Output]
 	public float		output;
 
-	public override string name => "FloatNode";
+	public override string name => "Float";
 }

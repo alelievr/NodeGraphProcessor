@@ -81,7 +81,7 @@ namespace GraphProcessor
 			var field = Activator.CreateInstance(drawerType);
 
 			// For mutiline
-			if(field is TextField)
+			if (field is TextField)
 			{
 				(field as TextField).multiline = true;
 			}

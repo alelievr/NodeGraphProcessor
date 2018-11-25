@@ -25,7 +25,7 @@ public class CustomContextMenuGraphWindow : BaseGraphWindow
 
 		rootView.Add(graphView);
 
-		// graphView.AddElement(new MiniMapView());
+		graphView.AddElement(new MiniMapView());
 
 		// graphView.AddElement(new NodeSelectorMenu());
 

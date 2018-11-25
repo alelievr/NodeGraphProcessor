@@ -219,6 +219,7 @@ namespace GraphProcessor
 		{
 			BuildCreateContextualMenu(evt);
 			BuildViewContextualMenu(evt);
+			BuildSelectAssetContextualMenu(evt);
 			base.BuildContextualMenu(evt);
 		}
 
@@ -231,6 +232,11 @@ namespace GraphProcessor
 		protected void BuildViewContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			evt.menu.AppendAction("View/Processor", (e) => ToggleView< ProcessorView >(), (e) => GetPinnedElementStatus< ProcessorView >());
+		}
+
+		protected void BuildSelectAssetContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			evt.menu.AppendAction("Select Asset", (e) => EditorGUIUtility.PingObject(graph), DropdownMenu.MenuAction.AlwaysEnabled);
 		}
 
 		void KeyDownCallback(KeyDownEvent e)

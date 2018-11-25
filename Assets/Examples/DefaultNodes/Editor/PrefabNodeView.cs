@@ -24,10 +24,18 @@ public class PrefabNodeView : BaseNodeView
 		var preview = new Image();
 
 		objField.OnValueChanged(v => {
-			preview.image = AssetPreview.GetAssetPreview(objField.value) ?? AssetPreview.GetMiniThumbnail(objField.value);
+			prefabNode.output = objField.value as GameObject;
+			UpdatePreviewImage(preview, objField.value);
 		});
+
+		UpdatePreviewImage(preview, prefabNode.output);
 
 		controlsContainer.Add(objField);
 		controlsContainer.Add(preview);
+	}
+
+	void		UpdatePreviewImage(Image image, Object obj)
+	{
+		image.image = AssetPreview.GetAssetPreview(obj) ?? AssetPreview.GetMiniThumbnail(obj);
 	}
 }

@@ -190,7 +190,7 @@ namespace GraphProcessor
 				var controlLabel = new Label(field.Name);
                 controlsContainer.Add(controlLabel);
 
-				var element = FieldFactory.CreateField(field, (newValue) => {
+				var element = FieldFactory.CreateField(field, field.GetValue(nodeTarget), (newValue) => {
 					field.SetValue(nodeTarget, newValue);
 					owner.RegisterCompleteObjectUndo("Updated " + newValue);
 				});

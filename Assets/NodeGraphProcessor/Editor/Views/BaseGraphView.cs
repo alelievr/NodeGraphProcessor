@@ -221,6 +221,7 @@ namespace GraphProcessor
 			BuildViewContextualMenu(evt);
 			base.BuildContextualMenu(evt);
 			BuildSelectAssetContextualMenu(evt);
+			BuildSaveAssetContextualMenu(evt);
 		}
 
 		protected void BuildCreateContextualMenu(ContextualMenuPopulateEvent evt)
@@ -237,6 +238,14 @@ namespace GraphProcessor
 		protected void BuildSelectAssetContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			evt.menu.AppendAction("Select Asset", (e) => EditorGUIUtility.PingObject(graph), DropdownMenu.MenuAction.AlwaysEnabled);
+		}
+
+		protected void BuildSaveAssetContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			evt.menu.AppendAction("Save Asset", (e) => {
+				EditorUtility.SetDirty(graph);
+				AssetDatabase.SaveAssets();
+			}, DropdownMenu.MenuAction.AlwaysEnabled);
 		}
 
 		void KeyDownCallback(KeyDownEvent e)

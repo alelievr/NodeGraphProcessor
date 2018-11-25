@@ -7,16 +7,8 @@ using System.Linq;
 [System.Serializable, NodeMenuItem("Custom/TextNode")]
 public class TextNode : BaseNode
 {
-	[Output(name = "Label")]
+	[Output(name = "Label"), SerializeField]
 	public string				output;
 
 	public override string		name => "TextNode";
-
-	[SerializeField]
-	string						text = "";
-
-	protected override void Process()
-	{
-	    output = text;
-	}
 }

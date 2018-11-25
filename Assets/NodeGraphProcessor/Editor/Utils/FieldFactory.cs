@@ -83,13 +83,14 @@ namespace GraphProcessor
 			return field as VisualElement;
 		}
 
-		public static INotifyValueChanged< T > CreateFieldSpecific< T >(FieldInfo field, Action< object > onValueChanged)
+		public static INotifyValueChanged< T > CreateFieldSpecific< T >(FieldInfo field, T value, Action< object > onValueChanged)
 		{
 			var fieldDrawer = CreateField< T >();
 
 			if (fieldDrawer == null)
 				return null;
 
+			fieldDrawer.value = value;
 			fieldDrawer.OnValueChanged((e) => {
 				onValueChanged(e.newValue);
 			});
@@ -97,11 +98,11 @@ namespace GraphProcessor
 			return fieldDrawer as INotifyValueChanged< T >;
 		}
 
-		public static VisualElement CreateField(FieldInfo field, Action< object > onValueChanged)
+		public static VisualElement CreateField(FieldInfo field, object value, Action< object > onValueChanged)
 		{
 			var createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(field.FieldType);
 
-			return createFieldSpecificMethod.Invoke(null, new object[]{field, onValueChanged}) as VisualElement;
+			return createFieldSpecificMethod.Invoke(null, new object[]{field, value, onValueChanged}) as VisualElement;
 		}
 	}
 }

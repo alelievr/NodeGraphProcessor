@@ -25,18 +25,7 @@ public class GraphAssetCallbacks
 	[OnOpenAsset(0)]
 	public static bool OnBaseGraphOpened(int instanceID, int line)
 	{
-		var obj = EditorUtility.InstanceIDToObject(instanceID);
-
-		if (!(obj is BaseGraph))
-			return false;
-
-		// By default we open the custom context menu graph
-		var win = CustomContextMenuGraphWindow.GetWindow< CustomContextMenuGraphWindow >();
-		
-		win.Show();
-
-		win.InitializeGraph(obj as BaseGraph);
-
+		Debug.Log("To open the graph, use the buttons in the inspector");
 		return false;
 	}
 

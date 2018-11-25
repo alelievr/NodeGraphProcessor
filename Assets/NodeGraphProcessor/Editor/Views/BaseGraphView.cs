@@ -219,8 +219,8 @@ namespace GraphProcessor
 		{
 			BuildCreateContextualMenu(evt);
 			BuildViewContextualMenu(evt);
-			BuildSelectAssetContextualMenu(evt);
 			base.BuildContextualMenu(evt);
+			BuildSelectAssetContextualMenu(evt);
 		}
 
 		protected void BuildCreateContextualMenu(ContextualMenuPopulateEvent evt)

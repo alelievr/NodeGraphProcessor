@@ -8,6 +8,7 @@ public class CustomContextMenuGraphView : BaseGraphView
 {
 	public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 	{
+		Debug.Log("Custom context menu");
 		evt.menu.AppendSeparator();
 		
 		foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries())

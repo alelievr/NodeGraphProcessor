@@ -1,0 +1,13 @@
+{
+    "name": "com.alelievr.node-graph-processor",
+    "displayName": "Node Graph Processor",
+    "version": "0.0.1",
+    "unity": "2018.3",
+    "description": "Node graph editor framework focused on data processing using Unity UIElements and C# 4.7",
+    "keywords": [
+        "graph",
+		"UIElements",
+        "unity"
+    ],
+    "category": "Unity"
+}

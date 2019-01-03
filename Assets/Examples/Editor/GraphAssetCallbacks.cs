@@ -25,8 +25,13 @@ public class GraphAssetCallbacks
 	[OnOpenAsset(0)]
 	public static bool OnBaseGraphOpened(int instanceID, int line)
 	{
-		Debug.Log("To open the graph, use the buttons in the inspector");
+		var asset = EditorUtility.InstanceIDToObject(instanceID);
+
+		if (asset is BaseGraph && AssetDatabase.GetAssetPath(asset).Contains("Examples"))
+		{
+			Debug.Log("To open the graph, use the buttons in the inspector");
+			return true;
+		}
 		return false;
 	}
-
 }

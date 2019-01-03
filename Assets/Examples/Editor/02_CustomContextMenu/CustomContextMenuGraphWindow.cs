@@ -28,8 +28,5 @@ public class CustomContextMenuGraphWindow : BaseGraphWindow
 		graphView.Add(new MiniMapView(graphView));
 
 		// graphView.AddElement(new NodeSelectorMenu());
-
-		// graphView.AddElement(new HelloWorld()); //Comment block
 	}
-
 }

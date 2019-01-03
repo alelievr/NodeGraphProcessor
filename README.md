@@ -5,6 +5,17 @@ Node graph editor framework focused on data processing using Unity UIElements an
 This project requires at least Unity **2018.3b3** with a scripting runtime version of 4.x in player settings.  
 The current Unity version used for the project is **2018.3b11**
 
+### Installation
+
+There are two ways to install this asset: you can use the Unity package manager or move the entire repo inside your Assets folder.  
+To install using the package manager:
+- download this repo
+- inside the package manager click the '+' button at the bottom to add a package from disk
+- then select the package.json file located in `Assets/NodeGraphProcessor`
+- package is installed :)
+
+Note that you'll not have access to the examples provided in this repo because the package only include the core of NodeGraphProcessor.
+
 ### Features
 - Node and Graph property serialization (as json)
 - Scriptable Object to store graph as a Unity asset.
@@ -14,7 +25,6 @@ The current Unity version used for the project is **2018.3b11**
 - [Powerful C# API to add new nodes / graphs](https://github.com/alelievr/NodeGraphProcessor/wiki/Node-scripting-API)
 
 ### Remaining to do
-- Undo / Redo for node fields
 - Investigate for ECS/Jobs integration
 - More examples
 - Node slots for default values

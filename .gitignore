@@ -33,3 +33,6 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Osx finder cache files
+.DS_Store

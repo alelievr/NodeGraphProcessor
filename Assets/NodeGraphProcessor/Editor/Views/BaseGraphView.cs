@@ -17,7 +17,7 @@ namespace GraphProcessor
 	public class BaseGraphView : GraphView
 	{
 		public BaseGraph							graph;
-		
+
 		public EdgeConnectorListener				connectorListener;
 
 		public List< BaseNodeView >					nodeViews = new List< BaseNodeView >();
@@ -29,6 +29,7 @@ namespace GraphProcessor
 
 		public delegate void ComputeOrderUpdatedDelegate();
 
+		public event Action							initialized;
 		public event ComputeOrderUpdatedDelegate	computeOrderUpdated;
 
 		public BaseGraphView()
@@ -43,16 +44,16 @@ namespace GraphProcessor
 			InitializeManipulators();
 
 			RegisterCallback< KeyDownEvent >(KeyDownCallback);
-			
+
 			SetupZoom(0.05f, 2f);
 
 			Undo.undoRedoPerformed += ReloadView;
-	
+
 			this.StretchToParentSize();
 		}
 
 		#region Callbacks
-	
+
 		protected override bool canCopySelection
 		{
             get { return selection.Any(e => e is BaseNodeView || e is CommentBlockView); }
@@ -137,7 +138,7 @@ namespace GraphProcessor
 					var edge = e as EdgeView;
 					var node = e as BaseNodeView;
                     var commentBlock = e as CommentBlockView;
-	
+
 					if (edge != null)
 					{
 						Disconnect(edge);
@@ -200,15 +201,15 @@ namespace GraphProcessor
 				//Check if there is custom adapters for this assignation
 				if (CustomPortIO.IsAssignable(startPort.portType, p.portType))
 					return true;
-				
+
 				//Check for type assignability
 				if (!p.portType.IsReallyAssignableFrom(startPort.portType))
 					return false;
-				
+
 				//Check if the edge already exists
 				if (portView.GetEdges().Any(e => e.input == startPort || e.output == startPort))
 					return false;
-				
+
 				return true;
 			}));
 
@@ -282,9 +283,9 @@ namespace GraphProcessor
 		{
 			if (this.graph != null)
 				SaveGraphToDisk();
-			
+
 			this.graph = graph;
-			
+
             connectorListener = new EdgeConnectorListener(this);
 
 			InitializeNodeViews();
@@ -293,12 +294,15 @@ namespace GraphProcessor
             InitializeCommentBlocks();
 
 			UpdateComputeOrder();
+
+			if (initialized != null)
+				initialized();
 		}
 
 		void InitializeNodeViews()
 		{
 			graph.nodes.RemoveAll(n => n == null);
-			
+
 			foreach (var node in graph.nodes)
 				AddNodeView(node);
 		}
@@ -314,7 +318,7 @@ namespace GraphProcessor
 					input = inputNodeView.GetPortFromFieldName(serializedEdge.inputFieldName),
 					output = outputNodeView.GetPortFromFieldName(serializedEdge.outputFieldName)
 				};
-				
+
 				Connect(edgeView, false);
 			}
 		}
@@ -350,7 +354,7 @@ namespace GraphProcessor
 			AddNodeView(node);
 
 			graph.AddNode(node);
-			
+
 			UpdateComputeOrder();
 
 			return true;
@@ -410,7 +414,7 @@ namespace GraphProcessor
 		{
 			if (e.input == null || e.output == null)
 				return ;
-			
+
 			//If the input port does not support multi-connection, we remove them
 			if (autoDisconnectInputs && !(e.input as PortView).isMultiple)
 				foreach (var edge in edgeViews.Where(ev => ev.input == e.input))
@@ -420,7 +424,7 @@ namespace GraphProcessor
 				}
 
 			AddElement(e);
-			
+
 			e.input.Connect(e);
 			e.output.Connect(e);
 
@@ -432,7 +436,7 @@ namespace GraphProcessor
 				Debug.LogError("Connect aborted !");
 				return ;
 			}
-			
+
 			edgeViews.Add(e);
 
 			if (serializeToGraph)
@@ -442,10 +446,10 @@ namespace GraphProcessor
 					outputNodeView.nodeTarget, (e.output as PortView).fieldName
 				);
 			}
-			
+
 			inputNodeView.RefreshPorts();
 			outputNodeView.RefreshPorts();
-			
+
 			inputNodeView.nodeTarget.OnEdgeConnected(e.userData as SerializableEdge);
 			outputNodeView.nodeTarget.OnEdgeConnected(e.userData as SerializableEdge);
 
@@ -454,13 +458,13 @@ namespace GraphProcessor
 			if (serializeToGraph)
 				UpdateComputeOrder();
 		}
-		
+
 		public void Disconnect(EdgeView e, bool serializeToGraph = true)
 		{
 			var serializableEdge = e.userData as SerializableEdge;
 
 			RemoveElement(e);
-			
+
 			if (e?.input?.node != null)
 			{
 				var inputNodeView = e.input.node as BaseNodeView;
@@ -538,7 +542,7 @@ namespace GraphProcessor
 			pinnedElements[type] = view;
 
 			view.InitializeGraphView(elem, this);
-			
+
 			ConfinedDragger masterPreviewViewDraggable = new ConfinedDragger(this);
 			masterPreviewViewDraggable.onDragEnd = () => elem.position = view.transform.position;
 			view.AddManipulator(masterPreviewViewDraggable);
@@ -562,9 +566,17 @@ namespace GraphProcessor
 			var pinned = graph.pinnedWindows.Find(p => p.editorType.type == type);
 
 			if (pinned != null && pinned.opened)
-				return StatusFlags.Checked;
-			else
 				return StatusFlags.Normal;
+			else
+				return StatusFlags.Hidden;
+		}
+
+		public void ResetPositionAndZoom()
+		{
+			graph.position = Vector3.zero;
+			graph.scale = Vector3.one;
+
+			UpdateViewTransform(graph.position, graph.scale);
 		}
 
 		#endregion

@@ -6,8 +6,14 @@ using GraphProcessor;
 
 public class CustomToolbarView : ToolbarView
 {
-	public CustomToolbarView()
+	public CustomToolbarView(BaseGraphView graphView) : base(graphView) {}
+
+	protected override void AddButtons()
 	{
-		// TODO: test to add a custom style sheet here
+		// Add the hello world button on the left of the toolbar
+		AddButton("Hello !", () => Debug.Log("Hello World"), left: false);
+
+		// add the default buttons (center, show processor and show in project)
+		base.AddButtons();
 	}
 }

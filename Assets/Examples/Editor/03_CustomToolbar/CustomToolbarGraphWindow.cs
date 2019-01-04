@@ -6,7 +6,7 @@ using GraphProcessor;
 
 public class CustomToolbarGraphWindow : BaseGraphWindow
 {
-	
+
 	[MenuItem("Window/03_CustomContextMenu")]
 	public static BaseGraphWindow Open()
 	{
@@ -25,7 +25,6 @@ public class CustomToolbarGraphWindow : BaseGraphWindow
 
 		rootView.Add(graphView);
 
-		graphView.Add(new CustomToolbarView());
+		graphView.Add(new CustomToolbarView(graphView));
 	}
-
 }

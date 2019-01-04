@@ -1,9 +1,0 @@
-#ToolbarView {
-    flex-direction: row;
-    position-type: absolute;
-    position-top: 0;
-    position-right: 0;
-    position-left: 0;
-    background-color: rgb(79, 79, 79);
-	height: 21;
-}

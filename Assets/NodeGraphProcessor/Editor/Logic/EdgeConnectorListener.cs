@@ -34,7 +34,7 @@ namespace GraphProcessor
 			var edgeView = edge as EdgeView;
             bool wasOnTheSamePort = false;
 
-			if (edgeView == null || edgeView.input == null || edgeView.output == null)
+			if (edgeView?.input == null || edgeView?.output == null)
 				return ;
 			
 			//If the edge was moved to another port

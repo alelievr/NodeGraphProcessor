@@ -23,7 +23,7 @@ namespace GraphProcessor
 		{
 			get { return graphView != null && graphView.graph != null; }
 		}
-	
+
 		protected void OnEnable()
 		{
 			InitializeRootView();
@@ -43,7 +43,7 @@ namespace GraphProcessor
 			rootView = this.GetRootVisualContainer();
 
 			rootView.name = "graphRootView";
-	
+
 			rootView.AddStyleSheetPath("GraphProcessorStyles/BaseGraphView");
 		}
 
@@ -72,7 +72,7 @@ namespace GraphProcessor
 		{
 			if (graph != null)
 				rootView.Remove(graphView);
-			
+
 			graphView = null;
 		}
 

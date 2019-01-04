@@ -1,3 +1,4 @@
-#graphRootView {
-    background-color: #202020;
+#graphRootView
+{
+    background-color: #101010;
 }

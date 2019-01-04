@@ -25,5 +25,4 @@ public class DefaultGraphWindow : BaseGraphWindow
 
 		rootView.Add(graphView);
 	}
-
 }

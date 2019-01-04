@@ -6,11 +6,11 @@ using GraphProcessor;
 
 public class CustomToolbarGraphWindow : BaseGraphWindow
 {
-	
+
 	[MenuItem("Window/03_CustomContextMenu")]
 	public static BaseGraphWindow Open()
 	{
-		var graphWindow = GetWindow< CustomContextMenuGraphWindow >();
+		var graphWindow = GetWindow< CustomToolbarGraphWindow >();
 
 		graphWindow.Show();
 
@@ -19,17 +19,12 @@ public class CustomToolbarGraphWindow : BaseGraphWindow
 
 	protected override void Initialize(BaseGraph graph)
 	{
-		titleContent = new GUIContent("Context Menu Graph");
+		titleContent = new GUIContent("Custom Toolbar Graph");
 
-		var graphView = new CustomContextMenuGraphView();
+		var graphView = new CustomToolbarGraphView();
 
 		rootView.Add(graphView);
 
-		graphView.Add(new MiniMapView(graphView));
-
-		// graphView.AddElement(new NodeSelectorMenu());
-
-		// graphView.AddElement(new HelloWorld()); //Comment block
+		graphView.Add(new CustomToolbarView(graphView));
 	}
-
 }

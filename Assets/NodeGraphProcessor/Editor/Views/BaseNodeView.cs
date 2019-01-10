@@ -23,7 +23,7 @@ namespace GraphProcessor
 
 		public BaseGraphView					owner { private set; get; }
 
-		protected Dictionary< string, Port >	portsPerFieldName = new Dictionary< string, Port >();
+		protected Dictionary< string, PortView >portsPerFieldName = new Dictionary< string, PortView >();
 
         protected VisualElement 				controlsContainer;
 		protected VisualElement					debugContainer;
@@ -89,9 +89,9 @@ namespace GraphProcessor
 
 		#region API
 
-		public Port GetPortFromFieldName(string fieldName)
+		public PortView GetPortFromFieldName(string fieldName)
 		{
-			Port	ret;
+			PortView	ret;
 
 			portsPerFieldName.TryGetValue(fieldName, out ret);
 

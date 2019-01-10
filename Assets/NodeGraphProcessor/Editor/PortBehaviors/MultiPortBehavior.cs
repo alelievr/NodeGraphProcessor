@@ -38,7 +38,7 @@ namespace GraphProcessor
                 multiPorts = new MultiPorts();
                 fieldInfo.SetValue(nodeView.nodeTarget, multiPorts);
             }
-            
+
             // Instantiate all ports needed to create the serialized connections
             // Minus one because we count our current instance
             for (int i = 0; i < multiPorts.portCount; i++)
@@ -67,7 +67,7 @@ namespace GraphProcessor
             // If the edge is already connected, ignore it
             if (portViews.ContainsKey(edge))
                 return ;
-            
+
             portViews[edge] = pv;
 
             if (pv.GetEdges().Count == 0)
@@ -86,9 +86,9 @@ namespace GraphProcessor
                     var portToRemove = portViews[edge];
 
                     node.RemovePort(portToRemove);
-                    
+
                     node.nodeTarget.RemovePort(direction == Direction.Input, portToRemove.fieldName);
-                    
+
                     portViews.Remove(edge);
                     multiPorts.RemoveUniqueId(0);
                 }

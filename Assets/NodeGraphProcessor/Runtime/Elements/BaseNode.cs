@@ -57,11 +57,11 @@ namespace GraphProcessor
 		{
 			if (!nodeType.IsSubclassOf(typeof(BaseNode)))
 				return null;
-			
+
 			var node = Activator.CreateInstance(nodeType) as BaseNode;
-	
+
 			node.position = new Rect(position, new Vector2(100, 100));
-	
+
 			node.OnNodeCreated();
 
 			return node;
@@ -83,14 +83,14 @@ namespace GraphProcessor
 				AddPort(nodeFieldKP.Value.input, nodeFieldKP.Value.fieldName);
 			}
 		}
-		
+
 		~BaseNode()
 		{
 			Disable();
 		}
 
 		/// <summary>
-		/// Called only when the node is created, not when instantiated 
+		/// Called only when the node is created, not when instantiated
 		/// </summary>
 		public virtual void	OnNodeCreated()
 		{
@@ -100,7 +100,7 @@ namespace GraphProcessor
 		void InitializeInOutDatas()
 		{
 			var fields = GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-			
+
 			foreach (var field in fields)
 			{
 				var inputAttribute = field.GetCustomAttribute< InputAttribute >();
@@ -111,11 +111,11 @@ namespace GraphProcessor
 
 				if (inputAttribute == null && outputAttribute == null)
 					continue ;
-				
+
 				//check if field is a collection type
 				isMultiple = (inputAttribute != null) ? inputAttribute.allowMultiple : false;
 				input = inputAttribute != null;
-			
+
 				if (!String.IsNullOrEmpty(inputAttribute?.name))
 					name = inputAttribute.name;
 				if (!String.IsNullOrEmpty(outputAttribute?.name))
@@ -141,10 +141,10 @@ namespace GraphProcessor
 		{
 			if (edge == null)
 				return ;
-				
+
 			bool input = edge.inputNode == this;
 			NodePortContainer portCollection = (input) ? (NodePortContainer)inputPorts : outputPorts;
-			
+
 			portCollection.Remove(edge);
 		}
 
@@ -153,7 +153,7 @@ namespace GraphProcessor
 			inputPorts.PullDatas();
 
 			Process();
-			
+
 			onProcessed?.Invoke();
 
 			outputPorts.PushDatas();
@@ -183,7 +183,7 @@ namespace GraphProcessor
 			else
 				outputPorts.Remove(port);
 		}
-		
+
 		public void RemovePort(bool input, string fieldName)
 		{
 			if (input)

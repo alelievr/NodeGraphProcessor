@@ -31,7 +31,7 @@ namespace GraphProcessor
 					continue ;
 				if (!(type.IsSubclassOf(typeof(BaseNode))))
 					continue ;
-				
+
 				var methods = type.GetMethods(bindingFlags);
 
 				foreach (var method in methods)
@@ -41,14 +41,14 @@ namespace GraphProcessor
 
 					if (portInputAttr == null && portOutputAttr == null)
 						continue ;
-					
+
 					var p1 = Expression.Parameter(typeof(BaseNode), "node");
 					var p2 = Expression.Parameter(typeof(List< SerializableEdge >), "edges");
 
 					var ex = Expression.Call(Expression.Convert(p1, type), method, p2);
 
 					var deleg = Expression.Lambda< CustomPortIODelegate >(ex, p1, p2).Compile();
-					
+
 					if (deleg == null)
 					{
 						Debug.LogWarning("Can't use custom IO port function " + method + ": The method have to respect this format: " + typeof(CustomPortIODelegate));
@@ -76,7 +76,7 @@ namespace GraphProcessor
 
 			if (portIOPerField == null)
 				return null;
-			
+
 			portIOPerField.TryGetValue(fieldName, out deleg);
 
 			return deleg;

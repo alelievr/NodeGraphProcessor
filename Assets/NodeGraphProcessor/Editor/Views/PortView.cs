@@ -26,6 +26,8 @@ namespace GraphProcessor
 
 		List< EdgeView >		edges = new List< EdgeView >();
 
+		public int connectionCount => edges.Count;
+
         public PortView(Orientation portOrientation, Direction direction, FieldInfo fieldInfo, EdgeConnectorListener edgeConnectorListener)
             : base(portOrientation, direction, Capacity.Multi, fieldInfo.FieldType)
 		{
@@ -52,7 +54,7 @@ namespace GraphProcessor
 			// Correct port type if port accept multiple values (and so is a container)
 			if (isMultiple)
 				portType = portType.GetGenericArguments()[0];
-				
+
 			if (name != null)
 				portName = name;
 			visualClass = "Port_" + portType.Name;
@@ -61,16 +63,16 @@ namespace GraphProcessor
 		public override void Connect(Edge edge)
 		{
 			OnConnected?.Invoke(this, edge);
-			
+
 			base.Connect(edge);
 
 			var inputNode = (edge.input as PortView).owner;
 			var outputNode = (edge.output as PortView).owner;
 
+			edges.Add(edge as EdgeView);
+
 			inputNode.OnPortConnected(edge.input as PortView);
 			outputNode.OnPortConnected(edge.output as PortView);
-
-			edges.Add(edge as EdgeView);
 		}
 
 		public override void Disconnect(Edge edge)
@@ -87,7 +89,7 @@ namespace GraphProcessor
 
 			inputNode.OnPortDisconnected(edge.input as PortView);
 			outputNode.OnPortDisconnected(edge.output as PortView);
-			
+
 			edges.Remove(edge as EdgeView);
 		}
 

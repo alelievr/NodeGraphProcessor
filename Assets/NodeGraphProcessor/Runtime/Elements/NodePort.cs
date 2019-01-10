@@ -116,12 +116,22 @@ namespace GraphProcessor
 				edge.passThroughBuffer = ourValue;
 		}
 
+		// This method can only be called on input ports
 		public void PullData()
 		{
 			if (customPortIOMethod != null)
 			{
 				customPortIOMethod(owner, edges);
+				return ;
 			}
+
+			// check if this port have connection to ports that have custom output functions
+			if (edgeWithRemoteCustomIO.Count == 0)
+				return ;
+
+			// Only one input connection is handled by this code, if you wany to
+			// take multiple inputs, you must create a custom input function see CustomPortsNode.cs
+			ourValueField.SetValue(owner, edges.First().passThroughBuffer);
 		}
 	}
 

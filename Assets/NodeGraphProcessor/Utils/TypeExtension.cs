@@ -10,6 +10,8 @@ namespace GraphProcessor
 		{
 			if (type.IsAssignableFrom(otherType))
 				return true;
+			if (otherType.IsAssignableFrom(type))
+				return true;
 
 			try
 			{

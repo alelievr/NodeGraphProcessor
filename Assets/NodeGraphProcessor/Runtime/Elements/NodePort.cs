@@ -9,7 +9,7 @@ namespace GraphProcessor
 {
 	public class NodePort
 	{
-		
+
 		public string				fieldName;
 		public BaseNode				owner;
 		List< SerializableEdge >	edges = new List< SerializableEdge >();
@@ -35,7 +35,7 @@ namespace GraphProcessor
 		{
 			if (!edges.Contains(edge))
 				edges.Add(edge);
-			
+
 			if (edge.inputNode == owner)
 			{
 				if (edge.outputPort.customPortIOMethod != null)
@@ -47,10 +47,10 @@ namespace GraphProcessor
 					edgeWithRemoteCustomIO.Add(edge);
 			}
 
-			//if we have a custom io implementation, we don't need
+			//if we have a custom io implementation, we don't need to genereate the defaut one
 			if (edge.inputPort.customPortIOMethod != null || edge.outputPort.customPortIOMethod != null)
 				return ;
-			
+
 			PushDataDelegate edgeDelegate = CreatePushDataDelegateForEdge(edge);
 
 			if (edgeDelegate != null)
@@ -65,9 +65,17 @@ namespace GraphProcessor
 				FieldInfo inputField = edge.inputNode.GetType().GetField(edge.trueInputFieldName, BindingFlags.Public | BindingFlags.Instance);
 				FieldInfo outputField = edge.outputNode.GetType().GetField(edge.trueOutputFieldName, BindingFlags.Public | BindingFlags.Instance);
 
+// We keep slow checks inside the editor
+#if UNITY_EDITOR
+				if (!inputField.FieldType.IsReallyAssignableFrom(outputField.FieldType))
+				{
+					Debug.LogError("Can't convert from " + inputField.FieldType + " to " + outputField.FieldType + ", you must specify a custom port function (i.e CustomPortInput or CustomPortOutput) for non-implicit convertions");
+				}
+#endif
+
 				MemberExpression inputParamField = Expression.Field(Expression.Constant(edge.inputNode), inputField);
 				MemberExpression outputParamField = Expression.Field(Expression.Constant(edge.outputNode), outputField);
-	
+
 				BinaryExpression assign = Expression.Assign(inputParamField, Expression.Convert(outputParamField, inputField.FieldType));
 				return Expression.Lambda< PushDataDelegate >(assign).Compile();
 			} catch (Exception e) {
@@ -98,16 +106,16 @@ namespace GraphProcessor
 
 			foreach (var pushDataDelegate in pushDataDelegates)
 				pushDataDelegate.Value();
-			
+
 			if (edgeWithRemoteCustomIO.Count == 0)
 				return ;
-			
+
 			//if there are custom IO implementation on the other ports, they'll need our value in the passThrough buffer
 			object ourValue = ourValueField.GetValue(owner);
 			foreach (var edge in edgeWithRemoteCustomIO)
 				edge.passThroughBuffer = ourValue;
 		}
-		
+
 		public void PullData()
 		{
 			if (customPortIOMethod != null)

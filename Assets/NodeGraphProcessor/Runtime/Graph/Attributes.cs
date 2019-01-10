@@ -10,7 +10,7 @@ namespace GraphProcessor
 	{
 		public string		name;
 		public bool			allowMultiple = false;
-		
+
 		public InputAttribute(string name = null, bool allowMultiple = false)
 		{
 			this.name = name;
@@ -28,7 +28,7 @@ namespace GraphProcessor
 			this.name = name;
 		}
 	}
-	
+
 	[AttributeUsage(AttributeTargets.Class)]
 	public class NodeMenuItemAttribute : Attribute
 	{
@@ -65,7 +65,7 @@ namespace GraphProcessor
 			this.allowCast = allowCast;
 		}
 	}
-	
+
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 	public class CustomPortOutputAttribute : Attribute
 	{

@@ -1,3 +1,4 @@
+using UnityEngine;
 using System;
 using System.Linq.Expressions;
 
@@ -14,7 +15,7 @@ namespace GraphProcessor
 			{
 				var v = Expression.Variable(otherType);
 				var expr = Expression.Convert(v, type);
-				return expr.Method == null || expr.Method.Name == "op_Implicit";
+				return expr.Method != null && expr.Method.Name != "op_Implicit";
 			}
 			catch (InvalidOperationException)
 			{

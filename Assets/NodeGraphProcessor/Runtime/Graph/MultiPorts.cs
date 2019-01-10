@@ -34,7 +34,7 @@ namespace GraphProcessor
         public int GetUniqueId()
         {
             int id = 0;
-            
+
             while (portIds.Contains(id))
                 id++;
             return id;

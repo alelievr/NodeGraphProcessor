@@ -38,7 +38,7 @@ namespace GraphProcessor
 			this.owner = owner;
 
 			owner.computeOrderUpdated += ComputeOrderUpdatedCallback;
-			
+
 			AddStyleSheetPath("GraphProcessorStyles/BaseNodeView");
 
 			InitializePorts();
@@ -49,7 +49,7 @@ namespace GraphProcessor
 
 			this.RefreshPorts();
 		}
-		
+
 		void InitializePorts()
 		{
 			foreach (var fieldInfo in nodeTarget.nodeFields)
@@ -86,7 +86,7 @@ namespace GraphProcessor
 		}
 
 		#endregion
-		
+
 		#region API
 
 		public Port GetPortFromFieldName(string fieldName)
@@ -117,7 +117,7 @@ namespace GraphProcessor
 			p.Initialize(this, isMultiple, name);
 
 			portsPerFieldName[p.fieldName] = p;
-			
+
 			return p;
 		}
 
@@ -127,7 +127,7 @@ namespace GraphProcessor
 			{
 				inputPorts.Remove(p);
 				inputContainer.Remove(p);
-				
+
 			}
 			else
 			{
@@ -141,7 +141,7 @@ namespace GraphProcessor
 		public void OpenNodeViewScript()
 		{
 			var scriptPath = NodeProvider.GetNodeViewScript(GetType());
-			
+
 			if (scriptPath != null)
 				InternalEditorUtility.OpenFileAtLineExternal(scriptPath, 0);
 		}
@@ -178,7 +178,7 @@ namespace GraphProcessor
 				//skip if the field is not serializable
 				if (!field.IsPublic && field.GetCustomAttribute(typeof(SerializeField)) == null)
 					continue ;
-				
+
 				//skip if the field is an input/output and not marked as SerializedField
 				if (field.GetCustomAttribute(typeof(SerializeField)) == null && (field.GetCustomAttribute(typeof(InputAttribute)) != null || field.GetCustomAttribute(typeof(OutputAttribute)) != null))
 					continue ;
@@ -232,7 +232,7 @@ namespace GraphProcessor
 				return StatusFlags.Normal;
 			return StatusFlags.Disabled;
 		}
-		
+
 		StatusFlags OpenNodeViewScriptStatus(DropdownMenu.MenuAction action)
 		{
 			if (NodeProvider.GetNodeViewScript(GetType()) != null)

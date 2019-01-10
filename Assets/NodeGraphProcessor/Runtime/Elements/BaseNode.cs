@@ -27,6 +27,7 @@ namespace GraphProcessor
 		//Node view datas
 		public Rect					position;
 		public bool					expanded;
+		public bool					debug;
 
 		public delegate void		ProcessDelegate();
 

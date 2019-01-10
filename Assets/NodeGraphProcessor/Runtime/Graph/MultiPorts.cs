@@ -28,7 +28,6 @@ namespace GraphProcessor
 
         public void AddUniqueId(int id)
         {
-            Debug.Log(portIds.Count);
             portIds.Add(id);
         }
 

@@ -69,10 +69,11 @@ namespace GraphProcessor
 		void InitializeView()
 		{
             controlsContainer = new VisualElement{ name = "controls" };
-        	mainContainer.Add(controlsContainer);
+			mainContainer.Add(controlsContainer);
 
 			debugContainer = new VisualElement{ name = "debug" };
-			mainContainer.Add(debugContainer);
+			if (nodeTarget.debug)
+				mainContainer.Add(debugContainer);
 
 			title = (string.IsNullOrEmpty(nodeTarget.name)) ? nodeTarget.GetType().Name : nodeTarget.name;
 
@@ -152,6 +153,20 @@ namespace GraphProcessor
 
 			if (scriptPath != null)
 				InternalEditorUtility.OpenFileAtLineExternal(scriptPath, 0);
+		}
+
+		public void ToggleDebug()
+		{
+			nodeTarget.debug = !nodeTarget.debug;
+			UpdateDebugView();
+		}
+
+		public void UpdateDebugView()
+		{
+			if (nodeTarget.debug)
+				mainContainer.Add(debugContainer);
+			else
+				mainContainer.Remove(debugContainer);
 		}
 
 		#endregion

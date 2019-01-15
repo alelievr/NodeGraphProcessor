@@ -36,6 +36,9 @@ namespace GraphProcessor
 		[NonSerialized]
 		public Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
 
+		[NonSerialized]
+		protected BaseGraph			graph;
+
 		public class NodeFieldInformation
 		{
 			public string		name;
@@ -69,6 +72,12 @@ namespace GraphProcessor
 		}
 
 		#region Initialization
+
+		// called by the BaseGraph when the node is added to the graph
+		public void Initialize(BaseGraph graph)
+		{
+			this.graph = graph;
+		}
 
 		protected BaseNode()
 		{

@@ -4,6 +4,6 @@ using UnityEngine;
 using GraphProcessor;
 using System;
 
-public class CustomToolbarGraphView : BaseGraphView
+public class ExposedPropertiesGraphView : BaseGraphView
 {
 }

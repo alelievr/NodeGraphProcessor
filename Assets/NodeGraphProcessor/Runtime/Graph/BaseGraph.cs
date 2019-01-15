@@ -7,6 +7,14 @@ using System;
 namespace GraphProcessor
 {
 	[System.Serializable]
+	public struct ExposedParameter
+	{
+		public string	name;
+		public string	type;
+		public object	value;
+	}
+
+	[System.Serializable]
 	public class BaseGraph : ScriptableObject, ISerializationCallbackReceiver
 	{
 		static readonly int			maxComputeOrderDepth = 1000;
@@ -31,6 +39,9 @@ namespace GraphProcessor
 		[SerializeField]
 		public List< PinnedElement >					pinnedWindows = new List< PinnedElement >();
 
+		[SerializeField]
+		public List< ExposedParameter >					exposedParameters = new List< ExposedParameter >();
+
 		[System.NonSerialized]
 		Dictionary< BaseNode, int >						computeOrderDictionary = new Dictionary< BaseNode, int >();
 
@@ -43,9 +54,10 @@ namespace GraphProcessor
 			DestroyBrokenGraphElements();
 			UpdateComputeOrder();
         }
-		
+
 		public void AddNode(BaseNode node)
 		{
+			node.Initialize(this);
 			nodes.Add(node);
 		}
 
@@ -98,7 +110,7 @@ namespace GraphProcessor
 			}
 			else
 				pinned.opened = true;
-			
+
 			return pinned;
 		}
 
@@ -112,7 +124,7 @@ namespace GraphProcessor
 		public void OnBeforeSerialize()
 		{
 			serializedNodes.Clear();
-			
+
 			foreach (var node in nodes)
 				serializedNodes.Add(JsonSerializer.Serialize(node));
 		}
@@ -124,7 +136,7 @@ namespace GraphProcessor
 			foreach (var serializedNode in serializedNodes)
 			{
 				var node = JsonSerializer.DeserializeNode(serializedNode) as BaseNode;
-				nodes.Add(node);
+				AddNode(node);
 				nodesPerGUID[node.GUID] = node;
 			}
 
@@ -139,11 +151,25 @@ namespace GraphProcessor
 		{
 			if (nodes.Count == 0)
 				return ;
-			
+
 			computeOrderDictionary.Clear();
 
 			foreach (var node in nodes)
 				UpdateComputeOrder(0, node);
+		}
+
+		public void AddExposedParameter(string name, object value)
+		{
+			exposedParameters.Add(new ExposedParameter{
+				name = name,
+				type = value.GetType().AssemblyQualifiedName,
+				value = value
+			});
+		}
+
+		public void RemoveExposedParameter(string name)
+		{
+			exposedParameters.RemoveAll(e => e.name == name);
 		}
 
 		int UpdateComputeOrder(int depth, BaseNode node)

@@ -15,5 +15,7 @@ public class GraphAssetInspector : Editor
 			CustomContextMenuGraphWindow.Open().InitializeGraph(target as BaseGraph);
 		if (GUILayout.Button("Open custom toolbar graph window"))
 			CustomToolbarGraphWindow.Open().InitializeGraph(target as BaseGraph);
+		if (GUILayout.Button("Open exposed properties graph window"))
+			ExposedPropertiesGraphWindow.Open().InitializeGraph(target as BaseGraph);
 	}
 }

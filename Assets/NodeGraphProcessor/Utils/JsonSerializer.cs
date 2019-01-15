@@ -34,7 +34,7 @@ namespace GraphProcessor
 		{
 			if (typeof(T) != Type.GetType(e.type))
 				throw new ArgumentException("Deserializing type is not the same than Json element type");
-			
+
 			return JsonUtility.FromJson< T >(e.jsonDatas);
 		}
 
@@ -46,7 +46,6 @@ namespace GraphProcessor
 				return null;
 
 			return JsonUtility.FromJson(e.jsonDatas, baseNodeType) as BaseNode;
-			
 		}
 	}
 }

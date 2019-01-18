@@ -3,9 +3,9 @@
     position-type: absolute;
     position-right: 10;
     position-bottom: 10;
-    background-color: rgb(79, 79, 79);
+    background-color: #2b2b2b;
     justify-content: flex-start;
-    border-radius: 6;
+    border-radius: 4;
     border-top-width: 1;
     border-bottom-width: 1;
     border-left-width: 1;
@@ -16,13 +16,13 @@
 #PinnedElementView > #header {
     flex-direction: row;
     justify-content: space-between;
-    background-color: rgb(64, 64, 64);
+    background-color: #393939;
     padding-top: 8;
     padding-bottom: 8;
     padding-left: 8;
     padding-right: 8;
-    border-top-left-radius: 6;
-    border-top-right-radius: 6;
+    border-top-left-radius: 4;
+    border-top-right-radius: 4;
 }
 
 #PinnedElementView > #header > #title {
@@ -32,19 +32,4 @@
     padding-bottom: 2;
     padding-left: 2;
     padding-right: 2;
-}
-
-#PinnedElementView > #content {
-    flex-grow: 1;
-    border-width: 10;
-    flex-direction: row;
-    border-color: rgb(0,10,190);
-}
-
-#PinnedElementView.collapsed{
-    background-color: rgb(206, 53, 185);
-}
-
-#PinnedElementView.expanded{
-    background-color: rgb(206, 53, 185);
 }

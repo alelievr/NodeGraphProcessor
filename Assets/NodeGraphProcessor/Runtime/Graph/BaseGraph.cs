@@ -7,7 +7,7 @@ using System;
 namespace GraphProcessor
 {
 	[System.Serializable]
-	public struct ExposedParameter
+	public class ExposedParameter
 	{
 		public string	name;
 		public string	type;
@@ -46,8 +46,11 @@ namespace GraphProcessor
 		Dictionary< BaseNode, int >						computeOrderDictionary = new Dictionary< BaseNode, int >();
 
 		//graph visual properties
-		public Vector3				position = Vector3.zero;
-		public Vector3				scale = Vector3.one;
+		public Vector3					position = Vector3.zero;
+		public Vector3					scale = Vector3.one;
+
+		public event Action				onExposedParameterListChanged;
+		public event Action< string >	onExposedParameterModified;
 
         void OnEnable()
         {
@@ -165,11 +168,27 @@ namespace GraphProcessor
 				type = value.GetType().AssemblyQualifiedName,
 				value = value
 			});
+
+			onExposedParameterListChanged?.Invoke();
 		}
 
 		public void RemoveExposedParameter(string name)
 		{
 			exposedParameters.RemoveAll(e => e.name == name);
+
+			onExposedParameterListChanged?.Invoke();
+		}
+
+		public void UpdateExposedParameter(string name, object value)
+		{
+			var param = exposedParameters.Find(e => e.name == name);
+			string valueType = value.GetType().AssemblyQualifiedName;
+
+			if (valueType != param.type)
+				throw new Exception("Type mismatch when updating parameter " + name + ": from " + param.type + " to " + valueType);
+
+			param.value = value;
+			onExposedParameterModified.Invoke(name);
 		}
 
 		int UpdateComputeOrder(int depth, BaseNode node)

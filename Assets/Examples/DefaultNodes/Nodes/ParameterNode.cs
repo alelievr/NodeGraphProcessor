@@ -23,7 +23,7 @@ public class ParameterNode : BaseNode
 	{
 		var param = graph.exposedParameters.FirstOrDefault(e => e.name == propertyName);
 
-		if (param.value == null)
+		if (param == null)
 			Debug.Log("Exposed property \"" + propertyName + "\" not found !");
 		else
 			output = param.value;

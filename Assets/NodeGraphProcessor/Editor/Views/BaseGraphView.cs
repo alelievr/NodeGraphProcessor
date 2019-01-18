@@ -32,6 +32,11 @@ namespace GraphProcessor
 		public event Action							initialized;
 		public event ComputeOrderUpdatedDelegate	computeOrderUpdated;
 
+		// Safe event relay from BaseGraph (safe because you are sure to always point on a valid BaseGraph
+		// when one of these events is called), a graph switch can occur between two call tho
+		public event Action				onExposedParameterListChanged;
+		public event Action< string >	onExposedParameterModified;
+
 		public BaseGraphView()
 		{
 			serializeGraphElements = SerializeGraphElementsCallback;
@@ -286,8 +291,10 @@ namespace GraphProcessor
 
 			this.graph = graph;
 
+
             connectorListener = new EdgeConnectorListener(this);
 
+			InitializeGraphCallbacks();
 			InitializeNodeViews();
 			InitializeEdgeViews();
 			InitializeViews();
@@ -297,6 +304,12 @@ namespace GraphProcessor
 
 			if (initialized != null)
 				initialized();
+		}
+
+		void InitializeGraphCallbacks()
+		{
+			graph.onExposedParameterListChanged += () => onExposedParameterListChanged?.Invoke();
+			graph.onExposedParameterModified += (s) => onExposedParameterModified?.Invoke(s);
 		}
 
 		void InitializeNodeViews()

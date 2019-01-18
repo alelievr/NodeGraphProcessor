@@ -34,7 +34,7 @@ namespace GraphProcessor
 
 		protected void OnDisable()
 		{
-			if (graph != null)
+			if (graph != null && graphView != null)
 				graphView.SaveGraphToDisk();
 		}
 

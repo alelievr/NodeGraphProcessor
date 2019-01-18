@@ -5,38 +5,45 @@ using UnityEditor;
 using UnityEditor.Experimental.UIElements;
 using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine.Experimental.UIElements;
+using System.Linq;
 
 namespace GraphProcessor
 {
 	public class BlackboardView : Blackboard
 	{
-		BaseGraphView	graphView;
-        BaseGraph       graph;
-		Vector2			size;
+		protected BaseGraphView	graphView;
 
 		public BlackboardView(BaseGraphView baseGraphView)
 		{
 			this.graphView = baseGraphView;
-            this.graph = graphView.graph;
 			SetPosition(new Rect(0, 0, 100, 100));
-			size = new Vector2(100, 100);
 
-            addItemRequested = OnAddItem;
+            graphView.onExposedParameterListChanged += UpdateParameterList;
+            graphView.initialized += UpdateParameterList;
+
+            addItemRequested = (b) => OnAddClicked();
         }
 
-        void OnAddItem(Blackboard b)
+        protected virtual void OnAddClicked()
         {
-            GenericMenu menu = new GenericMenu();
+            graphView.graph.AddExposedParameter("New Param", 0.0f);
+        }
 
-            menu.AddItem(EditorGUIUtility.TrTextContent("Category"), false, () => { });
-            menu.AddSeparator(string.Empty);
+        protected virtual void UpdateParameterList()
+        {
+            contentContainer.Clear();
 
-            // foreach (var parameter in VFXLibrary.GetParameters())
-            // {
-            //     menu.AddItem(EditorGUIUtility.TextContent(type.UserFriendlyName()), false, OnAddParameter, parameter);
-            // }
+            var row = new BlackboardRow(new BlackboardField{
+                name = "TEST 1"
+            }, new VisualElement{
+                name = "PROP VIEW"
+            });
+            contentContainer.Add(row);
 
-            menu.ShowAsContext();
+            foreach (var param in graphView.graph.exposedParameters)
+            {
+                row.Add(new BlackboardFieldView(param.name));
+            }
         }
 	}
 }

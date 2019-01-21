@@ -13,10 +13,8 @@ namespace GraphProcessor
 	{
 		protected BaseGraphView	graphView;
 
-		public BlackboardFieldView(string name)
+		public BlackboardFieldView(string name) : base(null, name, null)
 		{
-            // TODO: setup ???
-            this.text = name;
         }
 	}
 }

@@ -5,6 +5,7 @@ using UnityEditor;
 using System;
 using UnityEngine.Experimental.UIElements;
 using System.Linq;
+using System.IO;
 
 namespace GraphProcessor
 {
@@ -64,7 +65,14 @@ namespace GraphProcessor
 			if (scriptGUIDs.Length == 0)
 				return null;
 
-			return AssetDatabase.GUIDToAssetPath(scriptGUIDs[0]);
+			foreach (var scriptGUID in scriptGUIDs)
+			{
+				var assetPath = AssetDatabase.GUIDToAssetPath(scriptGUID);
+				if (className == Path.GetFileNameWithoutExtension(assetPath))
+					return assetPath;
+			}
+
+			return null;
 		}
 
 		public static Type GetNodeViewTypeFromType(Type nodeType)

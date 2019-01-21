@@ -13,10 +13,12 @@ namespace GraphProcessor
 	{
 		protected BaseGraphView	graphView;
 
-		public BlackboardView(BaseGraphView baseGraphView)
+		public BlackboardView(BaseGraphView baseGraphView, string title = "Blackboard")
 		{
 			this.graphView = baseGraphView;
-			SetPosition(new Rect(0, 0, 100, 100));
+			this.title = title;
+			SetPosition(new Rect(0, 0, 100, 300));
+			scrollable = true;
 
             graphView.onExposedParameterListChanged += UpdateParameterList;
             graphView.initialized += UpdateParameterList;
@@ -33,16 +35,10 @@ namespace GraphProcessor
         {
             contentContainer.Clear();
 
-            var row = new BlackboardRow(new BlackboardField{
-                name = "TEST 1"
-            }, new VisualElement{
-                name = "PROP VIEW"
-            });
-            contentContainer.Add(row);
-
             foreach (var param in graphView.graph.exposedParameters)
             {
-                row.Add(new BlackboardFieldView(param.name));
+				Debug.Log("Exposed param: " + param.name);
+                contentContainer.Add(new BlackboardFieldView(param.name));
             }
         }
 	}

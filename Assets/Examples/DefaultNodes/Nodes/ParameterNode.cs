@@ -21,6 +21,7 @@ public class ParameterNode : BaseNode
 
 	void UpdateOutput()
 	{
+		Debug.Log("graph: " + graph);
 		var param = graph.exposedParameters.FirstOrDefault(e => e.name == propertyName);
 
 		if (param == null)

@@ -77,13 +77,13 @@ namespace GraphProcessor
 		public void Initialize(BaseGraph graph)
 		{
 			this.graph = graph;
+
+			Enable();
 		}
 
 		protected BaseNode()
 		{
 			InitializeInOutDatas();
-
-			Enable();
 
 			inputPorts = new NodeInputPortContainer(this);
 			outputPorts = new NodeOutputPortContainer(this);

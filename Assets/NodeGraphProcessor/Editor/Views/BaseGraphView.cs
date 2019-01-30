@@ -143,6 +143,7 @@ namespace GraphProcessor
 					var edge = e as EdgeView;
 					var node = e as BaseNodeView;
                     var commentBlock = e as CommentBlockView;
+					var blackboardField = e as ExposedParameterFieldView;
 
 					if (edge != null)
 					{
@@ -161,6 +162,10 @@ namespace GraphProcessor
                         RemoveElement(commentBlock);
                         return true;
                     }
+					else if (blackboardField != null)
+					{
+						graph.RemoveExposedParameter(blackboardField.parameter);
+					}
 					return false;
 				});
 			}

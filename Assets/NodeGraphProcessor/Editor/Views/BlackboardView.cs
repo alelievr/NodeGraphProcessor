@@ -9,15 +9,18 @@ using System.Linq;
 
 namespace GraphProcessor
 {
-	public class BlackboardView : Blackboard
+	public class ExposedParameterView : Blackboard
 	{
 		protected BaseGraphView	graphView;
 
-		public BlackboardView(BaseGraphView baseGraphView, string title = "Blackboard")
+		new const string title = "Exposed Parameters";
+
+		public ExposedParameterView(BaseGraphView baseGraphView)
 		{
 			this.graphView = baseGraphView;
-			this.title = title;
-			SetPosition(new Rect(0, 0, 100, 300));
+			base.title = title;
+			base.subTitle = "";
+			SetPosition(new Rect(0, 0, 150, 300));
 			scrollable = true;
 
             graphView.onExposedParameterListChanged += UpdateParameterList;
@@ -28,7 +31,7 @@ namespace GraphProcessor
 
         protected virtual void OnAddClicked()
         {
-            graphView.graph.AddExposedParameter("New Param", 0.0f);
+            graphView.graph.AddExposedParameter("New Param #" + graphView.graph.exposedParameters.Count, 0.0f);
         }
 
         protected virtual void UpdateParameterList()
@@ -37,8 +40,7 @@ namespace GraphProcessor
 
             foreach (var param in graphView.graph.exposedParameters)
             {
-				Debug.Log("Exposed param: " + param.name);
-                contentContainer.Add(new BlackboardFieldView(param.name));
+                contentContainer.Add(new ExposedParameterFieldView(param));
             }
         }
 	}

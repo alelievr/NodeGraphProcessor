@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes:
   - type: CircleRadians, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"7078860c-f7cb-4534-befd-da3c678d17ee","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":159.0,"y":153.0,"width":120.0,"height":177.0},"expanded":false,"debug":false,"outputRadians":[0.0,1.2566370964050294,2.5132741928100588,3.769911289215088,5.026548385620117]}'
+    jsonDatas: '{"GUID":"7078860c-f7cb-4534-befd-da3c678d17ee","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":183.0,"y":188.0,"width":120.0,"height":177.0},"expanded":false,"debug":false,"outputRadians":[0.0,1.2566370964050294,2.5132741928100588,3.769911289215088,5.026548385620117]}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"0d8cd048-486b-4cce-9bd3-616bd2255d45","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":495.63519287109377,"y":13.4459867477417,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -63,6 +63,8 @@ MonoBehaviour:
     editorType:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  exposedParameters: []
-  position: {x: 95, y: 3, z: 0}
+  exposedParameters:
+  - name: 'New Param #1'
+    type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  position: {x: 46, y: 34, z: 0}
   scale: {x: 1, y: 1, z: 1}

@@ -172,9 +172,9 @@ namespace GraphProcessor
 			onExposedParameterListChanged?.Invoke();
 		}
 
-		public void RemoveExposedParameter(string name)
+		public void RemoveExposedParameter(ExposedParameter ep)
 		{
-			exposedParameters.RemoveAll(e => e.name == name);
+			exposedParameters.Remove(ep);
 
 			onExposedParameterListChanged?.Invoke();
 		}

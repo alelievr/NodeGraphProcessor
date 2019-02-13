@@ -12,6 +12,7 @@ namespace GraphProcessor
 		public string	name;
 		public string	type;
 		public object	value;
+		public bool		input = true;
 	}
 
 	[System.Serializable]
@@ -161,11 +162,11 @@ namespace GraphProcessor
 				UpdateComputeOrder(0, node);
 		}
 
-		public void AddExposedParameter(string name, object value)
+		public void AddExposedParameter(string name, Type type, object value)
 		{
 			exposedParameters.Add(new ExposedParameter{
 				name = name,
-				type = value.GetType().AssemblyQualifiedName,
+				type = type.AssemblyQualifiedName,
 				value = value
 			});
 
@@ -189,6 +190,11 @@ namespace GraphProcessor
 
 			param.value = value;
 			onExposedParameterModified.Invoke(name);
+		}
+
+		public object GetExposedParameterValue(string name)
+		{
+			return exposedParameters.FirstOrDefault(e => e.name == name);
 		}
 
 		int UpdateComputeOrder(int depth, BaseNode node)

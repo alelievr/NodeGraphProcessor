@@ -25,6 +25,6 @@ public class ExposedPropertiesGraphWindow : BaseGraphWindow
 
 		rootView.Add(graphView);
 
-		graphView.Add(new ExposedParameterView(graphView));
+		graphView.OpenPinned< ExposedParameterView >();
 	}
 }

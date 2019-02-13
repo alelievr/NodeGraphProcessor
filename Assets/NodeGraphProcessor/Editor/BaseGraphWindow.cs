@@ -4,9 +4,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Assertions;
-using UnityEngine.Experimental.UIElements;
-using UnityEditor.Experimental.UIElements;
-using UnityEditor.Experimental.UIElements.GraphView;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
+using UnityEditor.Experimental.GraphView;
 
 namespace GraphProcessor
 {
@@ -18,6 +18,8 @@ namespace GraphProcessor
 
 		[SerializeField]
 		protected BaseGraph			graph;
+
+		readonly string				graphWindowStyle = "GraphProcessorStyles/BaseGraphView";
 
 		public bool					isGraphLoaded
 		{
@@ -40,11 +42,11 @@ namespace GraphProcessor
 
 		void InitializeRootView()
 		{
-			rootView = this.GetRootVisualContainer();
+			rootView = base.rootVisualElement;
 
 			rootView.name = "graphRootView";
 
-			rootView.AddStyleSheetPath("GraphProcessorStyles/BaseGraphView");
+			rootView.styleSheets.Add(Resources.Load<StyleSheet>(graphWindowStyle));
 		}
 
 		public void InitializeGraph(BaseGraph graph)

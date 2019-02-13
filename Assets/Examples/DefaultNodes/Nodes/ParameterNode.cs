@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using System;
 
 [System.Serializable, NodeMenuItem("Custom/Parameter")]
 public class ParameterNode : BaseNode
@@ -14,6 +15,9 @@ public class ParameterNode : BaseNode
 
 	public override string		name => "Parameter";
 
+	[SerializeField]
+	ExposedParameter			parameter;
+
 	protected override void Enable()
 	{
 		UpdateOutput();
@@ -21,12 +25,16 @@ public class ParameterNode : BaseNode
 
 	void UpdateOutput()
 	{
-		Debug.Log("graph: " + graph);
-		var param = graph.exposedParameters.FirstOrDefault(e => e.name == propertyName);
+		parameter = graph.exposedParameters.FirstOrDefault(e => e.name == propertyName);
 
-		if (param == null)
+		if (parameter == null)
 			Debug.Log("Exposed property \"" + propertyName + "\" not found !");
 		else
-			output = param.value;
+			output = parameter.value;
+	}
+
+	protected override void Process()
+	{
+		UpdateOutput();
 	}
 }

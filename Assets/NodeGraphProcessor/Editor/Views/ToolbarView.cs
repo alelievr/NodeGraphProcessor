@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Experimental.UIElements.GraphView;
-using UnityEditor.Experimental.UIElements;
-using UnityEngine.Experimental.UIElements.StyleEnums;
-using UnityEngine.Experimental.UIElements;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 using UnityEditor;
 using System;
 
-using StatusFlags = UnityEngine.Experimental.UIElements.DropdownMenu.MenuAction.StatusFlags;
+using Status = UnityEngine.UIElements.DropdownMenuAction.Status;
 
 namespace GraphProcessor
 {
@@ -60,8 +59,10 @@ namespace GraphProcessor
 		{
 			AddButton("Center", graphView.ResetPositionAndZoom);
 
-			bool processorVisible = graphView.GetPinnedElementStatus< ProcessorView >() != StatusFlags.Hidden;
+			bool processorVisible = graphView.GetPinnedElementStatus< ProcessorView >() != Status.Hidden;
 			AddToggle("Show Processor", processorVisible, (v) => graphView.ToggleView< ProcessorView>());
+			bool exposedParamsVisible = graphView.GetPinnedElementStatus< ExposedParameterView >() != Status.Hidden;
+			AddToggle("Show Parameters", exposedParamsVisible, (v) => graphView.ToggleView< ExposedParameterView>());
 
 			AddButton("Show In Project", () => EditorGUIUtility.PingObject(graphView.graph), false);
 		}

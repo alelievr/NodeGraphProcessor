@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:editor="UnityEditor.UIElements" xmlns:upm="UnityEditor.PackageManager.UI" xmlns:engine="UnityEngine.UIElements" xmlns="UnityEditor.Experimental.GraphView" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="UnityEngine.UIElements.xsd" namespace="UnityEngine.UIElements" />
+  <xs:import schemaLocation="UnityEditor.PackageManager.UI.xsd" namespace="UnityEditor.PackageManager.UI" />
+  <xs:import schemaLocation="UnityEditor.UIElements.xsd" namespace="UnityEditor.UIElements" />
+  <xs:import schemaLocation="UnityEditor.Experimental.GraphView.xsd" namespace="UnityEditor.Experimental.GraphView" />
+</xs:schema>

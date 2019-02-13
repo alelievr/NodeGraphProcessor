@@ -28,6 +28,7 @@ public class CustomPortsNode : BaseNode
 		values = inputEdges.Select(e => e.passThroughBuffer).ToList();
 	}
 
+	[CustomPortOutput(nameof(output), typeof(float))]
 	void PushOutputs(List< SerializableEdge > connectedEdges)
 	{
 		// Values length is supposed to match connected edges length

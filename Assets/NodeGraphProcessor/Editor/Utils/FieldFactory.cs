@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements;
-using UnityEditor.Experimental.UIElements;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -23,7 +23,7 @@ namespace GraphProcessor
 
 				if (drawerAttribute == null)
 					continue ;
-				
+
 				AddDrawer(drawerAttribute.fieldType, type);
 			}
 
@@ -97,7 +97,7 @@ namespace GraphProcessor
 				return null;
 
 			fieldDrawer.value = value;
-			fieldDrawer.OnValueChanged((e) => {
+			fieldDrawer.RegisterValueChangedCallback((e) => {
 				onValueChanged(e.newValue);
 			});
 

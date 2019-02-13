@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Experimental.UIElements;
-using UnityEngine.Experimental.UIElements;
-using UnityEditor.Experimental.UIElements.GraphView;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
+using UnityEditor.Experimental.GraphView;
 using System.Linq;
 using System;
 
-using StatusFlags = UnityEngine.Experimental.UIElements.DropdownMenu.MenuAction.StatusFlags;
+using Status = UnityEngine.UIElements.DropdownMenuAction.Status;
 
 using Object = UnityEngine.Object;
 
@@ -187,16 +187,17 @@ namespace GraphProcessor
                 commentBlockView.commentBlock.size = commentBlockView.GetPosition().size;
         }
 
-		public override void OnPersistentDataReady()
-		{
-			//We set the position and scale saved in the graph asset file
-			Vector3 pos = graph.position;
-			Vector3 scale = graph.scale;
+		// TODO: save the position and zoom in the graph asset
+		// public override void OnPersistentDataReady()
+		// {
+		// 	//We set the position and scale saved in the graph asset file
+		// 	Vector3 pos = graph.position;
+		// 	Vector3 scale = graph.scale;
 
-			base.OnPersistentDataReady();
+		// 	base.OnPersistentDataReady();
 
-			UpdateViewTransform(pos, scale);
-		}
+		// 	UpdateViewTransform(pos, scale);
+		// }
 
 		public override List< Port > GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
 		{
@@ -238,7 +239,7 @@ namespace GraphProcessor
 		protected void BuildCreateContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			Vector2 position = evt.mousePosition - (Vector2)viewTransform.position;
-            evt.menu.AppendAction("Create/Comment Block", (e) => AddCommentBlock(new CommentBlock("New Comment Block", position)), DropdownMenu.MenuAction.AlwaysEnabled);
+            evt.menu.AppendAction("Create/Comment Block", (e) => AddCommentBlock(new CommentBlock("New Comment Block", position)), DropdownMenuAction.AlwaysEnabled);
 		}
 
 		protected void BuildViewContextualMenu(ContextualMenuPopulateEvent evt)
@@ -248,7 +249,7 @@ namespace GraphProcessor
 
 		protected void BuildSelectAssetContextualMenu(ContextualMenuPopulateEvent evt)
 		{
-			evt.menu.AppendAction("Select Asset", (e) => EditorGUIUtility.PingObject(graph), DropdownMenu.MenuAction.AlwaysEnabled);
+			evt.menu.AppendAction("Select Asset", (e) => EditorGUIUtility.PingObject(graph), DropdownMenuAction.AlwaysEnabled);
 		}
 
 		protected void BuildSaveAssetContextualMenu(ContextualMenuPopulateEvent evt)
@@ -256,7 +257,7 @@ namespace GraphProcessor
 			evt.menu.AppendAction("Save Asset", (e) => {
 				EditorUtility.SetDirty(graph);
 				AssetDatabase.SaveAssets();
-			}, DropdownMenu.MenuAction.AlwaysEnabled);
+			}, DropdownMenuAction.AlwaysEnabled);
 		}
 
 		void KeyDownCallback(KeyDownEvent e)
@@ -547,6 +548,11 @@ namespace GraphProcessor
 				ClosePinned(type, view);
 		}
 
+		public void OpenPinned< T >() where T : PinnedElementView
+		{
+			OpenPinned(typeof(T));
+		}
+
 		public void OpenPinned(Type type)
 		{
 			PinnedElementView view;
@@ -561,10 +567,12 @@ namespace GraphProcessor
 
 			view.InitializeGraphView(elem, this);
 
-			ConfinedDragger masterPreviewViewDraggable = new ConfinedDragger(this);
-			masterPreviewViewDraggable.onDragEnd = () => elem.position = view.transform.position;
-			view.AddManipulator(masterPreviewViewDraggable);
 			Add(view);
+		}
+
+		public void ClosePinned< T >(PinnedElementView view) where T : PinnedElementView
+		{
+			ClosePinned(typeof(T), view);
 		}
 
 		public void ClosePinned(Type type, PinnedElementView elem)
@@ -574,19 +582,19 @@ namespace GraphProcessor
 			graph.ClosePinned(type);
 		}
 
-		public StatusFlags GetPinnedElementStatus< T >() where T : PinnedElementView
+		public Status GetPinnedElementStatus< T >() where T : PinnedElementView
 		{
 			return GetPinnedElementStatus(typeof(T));
 		}
 
-		public StatusFlags GetPinnedElementStatus(Type type)
+		public Status GetPinnedElementStatus(Type type)
 		{
 			var pinned = graph.pinnedWindows.Find(p => p.editorType.type == type);
 
 			if (pinned != null && pinned.opened)
-				return StatusFlags.Normal;
+				return Status.Normal;
 			else
-				return StatusFlags.Hidden;
+				return Status.Hidden;
 		}
 
 		public void ResetPositionAndZoom()

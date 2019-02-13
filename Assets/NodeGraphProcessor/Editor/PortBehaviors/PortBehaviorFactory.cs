@@ -4,8 +4,8 @@ using UnityEngine;
 using System;
 using System.Reflection;
 using System.Linq;
-using UnityEditor.Experimental.UIElements.GraphView;
-using UnityEngine.Experimental.UIElements;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 
 namespace GraphProcessor
 {
@@ -34,7 +34,7 @@ namespace GraphProcessor
 
             if (behaviorType == null)
                 behaviorType = typeof(DefaultPortBehavior);
-            
+
             Activator.CreateInstance(behaviorType, nodeView, field, direction, listener, isMultiple, name);
         }
     }

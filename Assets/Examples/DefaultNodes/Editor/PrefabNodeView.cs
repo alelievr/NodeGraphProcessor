@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Experimental.UIElements;
-using UnityEditor.Experimental.UIElements.GraphView;
-using UnityEngine.Experimental.UIElements;
+using UnityEditor.UIElements;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 using GraphProcessor;
 
 [NodeCustomEditor(typeof(PrefabNode))]
@@ -23,7 +23,7 @@ public class PrefabNodeView : BaseNodeView
 
 		var preview = new Image();
 
-		objField.OnValueChanged(v => {
+		objField.RegisterValueChangedCallback(v => {
 			prefabNode.output = objField.value as GameObject;
 			UpdatePreviewImage(preview, objField.value);
 		});

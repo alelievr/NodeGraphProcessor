@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Experimental.UIElements.GraphView;
-using UnityEditor.Experimental.UIElements;
-using UnityEngine.Experimental.UIElements.StyleEnums;
-using UnityEngine.Experimental.UIElements;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 
 namespace GraphProcessor
 {
@@ -25,7 +24,7 @@ namespace GraphProcessor
 
 			Button	b = new Button(OnPlay) { name = "ActionButton", text = "Play !" };
 
-			Add(b);
+			content.Add(b);
 		}
 
 		void OnPlay()

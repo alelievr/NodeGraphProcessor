@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_GeneratorAsset: {fileID: 0}
   m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
   m_Name: CustomOutputExample
   m_EditorClassIdentifier: 
@@ -18,7 +19,7 @@ MonoBehaviour:
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"4ddedc62-453d-4d18-81bb-0b8cdb80556d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":60.839111328125,"y":292.5489501953125,"width":107.0,"height":117.0},"expanded":false,"debug":false,"output":2.0}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"54814e54-d849-427c-bd54-4f84921ddb9a","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":102.66525268554688,"y":54.35247802734375,"width":107.0,"height":117.0},"expanded":false,"debug":false,"output":5.0}'
+    jsonDatas: '{"GUID":"54814e54-d849-427c-bd54-4f84921ddb9a","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":125.0,"y":68.35999298095703,"width":73.0,"height":101.0},"expanded":false,"debug":false,"output":5.0}'
   - type: CustomPortsNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"3042d8e2-86c8-46bd-8773-a23db56c259d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":340.0,"y":207.0,"width":134.0,"height":97.0},"expanded":false,"debug":false}'
   edges:
@@ -41,7 +42,12 @@ MonoBehaviour:
     inputFieldName: inputs
     outputFieldName: output
   commentBlocks: []
-  pinnedWindows: []
+  pinnedWindows:
+  - position: {x: 0, y: 0}
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: -2, y: 93, z: 0}
+  position: {x: 139, y: -11, z: 0}
   scale: {x: 1, y: 1, z: 1}

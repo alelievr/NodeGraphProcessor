@@ -1,48 +1,121 @@
-using UnityEditor.Experimental.UIElements.GraphView;
-using UnityEngine.Experimental.UIElements;
-using UnityEngine.Experimental.UIElements.StyleEnums;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEngine;
+using System;
 
 namespace GraphProcessor
 {
-	public abstract class PinnedElementView : VisualElement
+	public abstract class PinnedElementView : GraphElement
 	{
-		protected VisualElement header;
+        private const int k_DefaultWidth = 200;
+        private const float k_DefaultHeight = 400;
+
 		protected PinnedElement	pinnedElement;
+		protected VisualElement	root;
+		protected VisualElement	content;
+		protected VisualElement	header;
 
-		private Label titleLabel;
+		protected event Action	onResized;
 
-		public string title
-		{
-			get => titleLabel.text;
-			set => titleLabel.text = value;
-		}
+		VisualElement			main;
+		Label					titleLabel;
+		bool					_scrollable;
+		ScrollView				scrollView;
+
+        static readonly string	pinnedElementStyle = "GraphProcessorStyles/PinnedElementView";
+        static readonly string	pinnedElementTree = "GraphProcessorElements/PinnedElement";
+
+        public override string title
+        {
+            get { return titleLabel.text; }
+            set { titleLabel.text = value; }
+        }
+
+        protected bool scrollable
+        {
+            get
+            {
+                return _scrollable;
+            }
+            set
+            {
+                if (_scrollable == value)
+                    return;
+
+                _scrollable = value;
+
+                style.position = Position.Absolute;
+                if (_scrollable)
+                {
+                    content.RemoveFromHierarchy();
+                    root.Add(scrollView);
+                    scrollView.Add(content);
+                    AddToClassList("scrollable");
+                }
+                else
+                {
+					scrollView.RemoveFromHierarchy();
+					content.RemoveFromHierarchy();
+					root.Add(content);
+                    RemoveFromClassList("scrollable");
+                }
+            }
+        }
 
 		public PinnedElementView()
 		{
-            AddStyleSheetPath("GraphProcessorStyles/PinnedElementView");
+            var tpl = Resources.Load<VisualTreeAsset>(pinnedElementTree);
+            styleSheets.Add(Resources.Load<StyleSheet>(pinnedElementStyle));
 
-			name = "PinnedElementView";
+            main = tpl.CloneTree();
+            main.AddToClassList("mainContainer");
+			scrollView = new ScrollView(ScrollViewMode.VerticalAndHorizontal);
 
-            clippingOptions = ClippingOptions.ClipAndCacheContents;
-			header = new VisualElement { name = "header" };
-			{
-				titleLabel = new Label { name = "title", text = "Title" };
-				header.Add(titleLabel);
-			}
-			Add(header);
-		}
+            root = main.Q("content");
 
-		public override void OnPersistentDataReady()
-		{
-			transform.position = pinnedElement.position;
+            header = main.Q("header");
+
+            titleLabel = main.Q<Label>(name: "titleLabel");
+            content = main.Q<VisualElement>(name: "contentContainer");
+
+            hierarchy.Add(main);
+
+            capabilities |= Capabilities.Movable | Capabilities.Resizable;
+            cacheAsBitmap = true;
+            style.overflow = Overflow.Hidden;
+
+            ClearClassList();
+            AddToClassList("pinnedElement");
+
+            this.AddManipulator(new Dragger { clampToParentEdges = true });
+
+            scrollable = false;
+
+            hierarchy.Add(new Resizer(() => onResized?.Invoke()));
+
+            RegisterCallback<DragUpdatedEvent>(e =>
+            {
+                e.StopPropagation();
+            });
+
+			title = "PinnedElementView";
+			SetPosition(new Rect(0, 0, 200, 200));
 		}
 
 		public void InitializeGraphView(PinnedElement pinnedElement, BaseGraphView graphView)
 		{
 			this.pinnedElement = pinnedElement;
-			transform.position = pinnedElement.position;
+			SetPosition(pinnedElement.position);
+
+			onResized += () => {
+				pinnedElement.position.size = layout.size;
+			};
+
+			RegisterCallback<MouseUpEvent>(e => {
+				pinnedElement.position.position = layout.position;
+			});
+
 			Initialize(graphView);
 		}
 

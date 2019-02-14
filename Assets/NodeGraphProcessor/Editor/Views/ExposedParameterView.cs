@@ -35,6 +35,10 @@ namespace GraphProcessor
                 graphView.graph.AddExposedParameter(uniqueName, paramType, value);
             });
 
+            RegisterCallback<DragPerformEvent>((e) => {
+                Debug.Log("OK !");
+            });
+
             parameterType.ShowAsContext();
         }
 
@@ -50,7 +54,7 @@ namespace GraphProcessor
 
         protected virtual IEnumerable< Type > GetExposedParameterTypes()
         {
-            // filter the slot types because we don't want lists
+            // filter the slot types because we don't want generic types (i.e lists)
             foreach (var type in NodeProvider.GetSlotTypes())
             {
                 if (type.IsGenericType)

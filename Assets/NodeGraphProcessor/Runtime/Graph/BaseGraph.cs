@@ -55,6 +55,8 @@ namespace GraphProcessor
 
         void OnEnable()
         {
+			Deserialize();
+
 			DestroyBrokenGraphElements();
 			UpdateComputeOrder();
         }
@@ -133,7 +135,9 @@ namespace GraphProcessor
 				serializedNodes.Add(JsonSerializer.Serialize(node));
 		}
 
-		public void OnAfterDeserialize()
+		// We can deserialize data here because it's called in a unity context
+		// so we can load objects references
+		void Deserialize()
 		{
 			nodes.Clear();
 
@@ -150,6 +154,8 @@ namespace GraphProcessor
 				edgesPerGUID[edge.GUID] = edge;
 			}
 		}
+
+		public void OnAfterDeserialize() {}
 
 		public void UpdateComputeOrder()
 		{

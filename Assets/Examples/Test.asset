@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_GeneratorAsset: {fileID: 0}
   m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
@@ -25,44 +26,39 @@ MonoBehaviour:
     jsonDatas: '{"GUID":"e3318e7b-5469-424c-ab54-9524e62907a8","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":498.0,"y":273.0,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"83c994d8-6442-4e61-82e1-e83537229fda","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":499.0,"y":144.0,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
-  edges:
-  - GUID: 035ee169-e916-40b5-aecc-831d072ea9ab
-    owner: {fileID: 11400000}
-    inputNodeGUID: e2203ce1-49be-41ea-814a-465faf267adb
-    outputNodeGUID: 7078860c-f7cb-4534-befd-da3c678d17ee
-    inputFieldName: obj
-    outputFieldName: outputRadians
-  - GUID: af82447c-1ab3-423d-ab51-cd257c874ceb
-    owner: {fileID: 11400000}
-    inputNodeGUID: 0d8cd048-486b-4cce-9bd3-616bd2255d45
-    outputNodeGUID: 7078860c-f7cb-4534-befd-da3c678d17ee
-    inputFieldName: obj
-    outputFieldName: outputRadians
-  - GUID: 5077ac73-1d8a-4a83-91b8-124993bb62d8
-    owner: {fileID: 11400000}
-    inputNodeGUID: 3b193543-3bd6-44d6-9664-115ecc6f2502
-    outputNodeGUID: 7078860c-f7cb-4534-befd-da3c678d17ee
-    inputFieldName: obj
-    outputFieldName: outputRadians
-  - GUID: 418457cd-27d8-4803-9cb6-f13336a1840e
-    owner: {fileID: 11400000}
-    inputNodeGUID: e3318e7b-5469-424c-ab54-9524e62907a8
-    outputNodeGUID: 7078860c-f7cb-4534-befd-da3c678d17ee
-    inputFieldName: obj
-    outputFieldName: outputRadians
-  - GUID: eda82c3d-12c7-40bc-adb6-eb0abe22c476
-    owner: {fileID: 11400000}
-    inputNodeGUID: 83c994d8-6442-4e61-82e1-e83537229fda
-    outputNodeGUID: 7078860c-f7cb-4534-befd-da3c678d17ee
-    inputFieldName: obj
-    outputFieldName: outputRadians
+  edges: []
   commentBlocks: []
   pinnedWindows:
-  - position: {x: -845, y: -123}
+  - position:
+      serializedVersion: 2
+      x: 622
+      y: 346
+      width: 117
+      height: 101
     opened: 1
     editorType:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  exposedParameters: []
-  position: {x: 95, y: 3, z: 0}
+  - position:
+      serializedVersion: 2
+      x: 707
+      y: 107
+      width: 194
+      height: 206
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  exposedParameters:
+  - name: it worlks !
+    type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    input: 1
+  - name: New SingleParam
+    type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    input: 1
+  - name: New GameObjectParam
+    type: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    input: 1
+  position: {x: -39, y: -3, z: 0}
   scale: {x: 1, y: 1, z: 1}

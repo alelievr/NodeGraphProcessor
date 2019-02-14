@@ -234,6 +234,7 @@ namespace GraphProcessor
 			base.BuildContextualMenu(evt);
 			BuildSelectAssetContextualMenu(evt);
 			BuildSaveAssetContextualMenu(evt);
+			BuildHelpContextualMenu(evt);
 		}
 
 		protected void BuildCreateContextualMenu(ContextualMenuPopulateEvent evt)
@@ -258,6 +259,14 @@ namespace GraphProcessor
 				EditorUtility.SetDirty(graph);
 				AssetDatabase.SaveAssets();
 			}, DropdownMenuAction.AlwaysEnabled);
+		}
+
+		protected void BuildHelpContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			evt.menu.AppendAction("Help/Reset Pinned Windows", e => {
+				foreach (var kp in pinnedElements)
+					kp.Value.ResetPosition();
+			});
 		}
 
 		void KeyDownCallback(KeyDownEvent e)

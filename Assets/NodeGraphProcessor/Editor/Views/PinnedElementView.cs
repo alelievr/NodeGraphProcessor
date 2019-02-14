@@ -8,9 +8,6 @@ namespace GraphProcessor
 {
 	public abstract class PinnedElementView : GraphElement
 	{
-        private const int k_DefaultWidth = 200;
-        private const float k_DefaultHeight = 400;
-
 		protected PinnedElement	pinnedElement;
 		protected VisualElement	root;
 		protected VisualElement	content;
@@ -100,7 +97,6 @@ namespace GraphProcessor
             });
 
 			title = "PinnedElementView";
-			SetPosition(new Rect(0, 0, 200, 200));
 		}
 
 		public void InitializeGraphView(PinnedElement pinnedElement, BaseGraphView graphView)
@@ -117,6 +113,12 @@ namespace GraphProcessor
 			});
 
 			Initialize(graphView);
+		}
+
+		public void ResetPosition()
+		{
+			pinnedElement.position = new Rect(Vector2.zero, PinnedElement.defaultSize);
+			SetPosition(pinnedElement.position);
 		}
 
 		protected abstract void Initialize(BaseGraphView graphView);

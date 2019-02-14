@@ -306,7 +306,6 @@ namespace GraphProcessor
 
 			this.graph = graph;
 
-
             connectorListener = new EdgeConnectorListener(this);
 
 			InitializeGraphCallbacks();
@@ -353,8 +352,11 @@ namespace GraphProcessor
 
 		void InitializeViews()
 		{
-			foreach (var viewType in graph.pinnedElements)
-				OpenPinned(viewType.editorType.type);
+			foreach (var pinnedElement in graph.pinnedElements)
+			{
+				if (pinnedElement.opened)
+					OpenPinned(pinnedElement.editorType.type);
+			}
 		}
 
         void InitializeCommentBlocks()

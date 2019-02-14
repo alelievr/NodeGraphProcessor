@@ -17,12 +17,11 @@ public class DefaultGraphWindow : BaseGraphWindow
 		return graphWindow;
 	}
 
-	protected override void Initialize(BaseGraph graph)
+	protected override void InitializeWindow(BaseGraph graph)
 	{
 		titleContent = new GUIContent("Default Graph");
 
 		var graphView = new BaseGraphView();
-		graphView.Initialize(graph);
 
 		rootView.Add(graphView);
 	}

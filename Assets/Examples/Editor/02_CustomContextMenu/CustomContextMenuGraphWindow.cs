@@ -17,12 +17,11 @@ public class CustomContextMenuGraphWindow : BaseGraphWindow
 		return graphWindow;
 	}
 
-	protected override void Initialize(BaseGraph graph)
+	protected override void InitializeWindow(BaseGraph graph)
 	{
 		titleContent = new GUIContent("Context Menu Graph");
 
 		var graphView = new CustomContextMenuGraphView();
-		graphView.Initialize(graph);
 
 		rootView.Add(graphView);
 

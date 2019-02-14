@@ -52,6 +52,11 @@ namespace GraphProcessor
 
 		public event Action				onExposedParameterListChanged;
 		public event Action< string >	onExposedParameterModified;
+		public event Action				onEnabled;
+
+		[System.NonSerialized]
+		bool _isEnabled = false;
+		public bool isEnabled { get => _isEnabled; private set => _isEnabled = value; }
 
         void OnEnable()
         {
@@ -59,6 +64,8 @@ namespace GraphProcessor
 
 			DestroyBrokenGraphElements();
 			UpdateComputeOrder();
+			isEnabled = true;
+			onEnabled?.Invoke();
         }
 
 		public void AddNode(BaseNode node)

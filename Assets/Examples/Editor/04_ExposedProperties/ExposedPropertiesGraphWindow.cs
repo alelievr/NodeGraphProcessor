@@ -17,15 +17,17 @@ public class ExposedPropertiesGraphWindow : BaseGraphWindow
 		return graphWindow;
 	}
 
-	protected override void Initialize(BaseGraph graph)
+	protected override void InitializeWindow(BaseGraph graph)
 	{
 		titleContent = new GUIContent("Properties Graph");
 
 		var graphView = new ExposedPropertiesGraphView();
-		graphView.Initialize(graph);
 
 		rootView.Add(graphView);
+	}
 
-		graphView.OpenPinned< ExposedParameterView >();
+	protected override void InitializeGraphView(BaseGraphView view)
+	{
+		view.OpenPinned< ExposedParameterView >();
 	}
 }

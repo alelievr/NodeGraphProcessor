@@ -42,12 +42,7 @@ MonoBehaviour:
     inputFieldName: inputs
     outputFieldName: output
   commentBlocks: []
-  pinnedWindows:
-  - position: {x: 0, y: 0}
-    opened: 1
-    editorType:
-      serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  pinnedElements: []
   exposedParameters: []
   position: {x: 139, y: -11, z: 0}
   scale: {x: 1, y: 1, z: 1}

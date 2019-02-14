@@ -25,7 +25,7 @@ MonoBehaviour:
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"e3318e7b-5469-424c-ab54-9524e62907a8","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":498.0,"y":273.0,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"83c994d8-6442-4e61-82e1-e83537229fda","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":499.0,"y":144.0,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
+    jsonDatas: '{"GUID":"83c994d8-6442-4e61-82e1-e83537229fda","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":499.0,"y":137.0,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
   edges:
   - GUID: 035ee169-e916-40b5-aecc-831d072ea9ab
     owner: {fileID: 11400000}
@@ -58,12 +58,17 @@ MonoBehaviour:
     inputFieldName: obj
     outputFieldName: outputRadians
   commentBlocks: []
-  pinnedWindows:
-  - position: {x: 0, y: 1}
+  pinnedElements:
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 307
+      width: 150
+      height: 200
     opened: 1
     editorType:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: 35, y: 21.320023, z: 0}
+  position: {x: 120, y: 76, z: 0}
   scale: {x: 1, y: 1, z: 1}

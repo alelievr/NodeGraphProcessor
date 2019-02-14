@@ -17,12 +17,11 @@ public class CustomToolbarGraphWindow : BaseGraphWindow
 		return graphWindow;
 	}
 
-	protected override void Initialize(BaseGraph graph)
+	protected override void InitializeWindow(BaseGraph graph)
 	{
 		titleContent = new GUIContent("Custom Toolbar Graph");
 
 		var graphView = new CustomToolbarGraphView();
-		graphView.Initialize(graph);
 
 		rootView.Add(graphView);
 

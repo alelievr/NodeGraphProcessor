@@ -31,7 +31,13 @@ namespace GraphProcessor
 			InitializeRootView();
 
 			if (graph != null)
-				InitializeGraph(graph);
+			{
+				// We wait for the graph to be initialized
+				if (graph.isEnabled)
+					InitializeGraph(graph);
+				else
+					graph.onEnabled += () => InitializeGraph(graph);
+			}
 		}
 
 		protected void OnDisable()
@@ -57,7 +63,7 @@ namespace GraphProcessor
 				rootView.Remove(graphView);
 
 			//Initialize will provide the BaseGraphView
-			Initialize(graph);
+			InitializeWindow(graph);
 
 			graphView = rootView.Children().FirstOrDefault(e => e is BaseGraphView) as BaseGraphView;
 
@@ -68,6 +74,8 @@ namespace GraphProcessor
 			}
 
 			graphView.Initialize(graph);
+
+			InitializeGraphView(graphView);
 		}
 
 		public virtual void OnGraphDeleted()
@@ -78,6 +86,7 @@ namespace GraphProcessor
 			graphView = null;
 		}
 
-		protected abstract void	Initialize(BaseGraph graph);
+		protected abstract void	InitializeWindow(BaseGraph graph);
+		protected virtual void InitializeGraphView(BaseGraphView view) {}
 	}
 }

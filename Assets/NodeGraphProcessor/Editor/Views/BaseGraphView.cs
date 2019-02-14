@@ -353,7 +353,7 @@ namespace GraphProcessor
 
 		void InitializeViews()
 		{
-			foreach (var viewType in graph.pinnedWindows)
+			foreach (var viewType in graph.pinnedElements)
 				OpenPinned(viewType.editorType.type);
 		}
 
@@ -571,12 +571,16 @@ namespace GraphProcessor
 
 			PinnedElement elem = graph.OpenPinned(type);
 
-			view = Activator.CreateInstance(type) as PinnedElementView;
-			pinnedElements[type] = view;
+			if (!pinnedElements.ContainsKey(type))
+			{
+				view = Activator.CreateInstance(type) as PinnedElementView;
+				pinnedElements[type] = view;
+				view.InitializeGraphView(elem, this);
+			}
+			view = pinnedElements[type];
 
-			view.InitializeGraphView(elem, this);
-
-			Add(view);
+			if (!Contains(view))
+				Add(view);
 		}
 
 		public void ClosePinned< T >(PinnedElementView view) where T : PinnedElementView
@@ -598,7 +602,7 @@ namespace GraphProcessor
 
 		public Status GetPinnedElementStatus(Type type)
 		{
-			var pinned = graph.pinnedWindows.Find(p => p.editorType.type == type);
+			var pinned = graph.pinnedElements.Find(p => p.editorType.type == type);
 
 			if (pinned != null && pinned.opened)
 				return Status.Normal;

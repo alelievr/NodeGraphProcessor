@@ -6,7 +6,7 @@ using GraphProcessor;
 
 public class DefaultGraphWindow : BaseGraphWindow
 {
-	
+
 	[MenuItem("Window/01_DefaultGraph")]
 	public static BaseGraphWindow Open()
 	{
@@ -22,6 +22,7 @@ public class DefaultGraphWindow : BaseGraphWindow
 		titleContent = new GUIContent("Default Graph");
 
 		var graphView = new BaseGraphView();
+		graphView.Initialize(graph);
 
 		rootView.Add(graphView);
 	}

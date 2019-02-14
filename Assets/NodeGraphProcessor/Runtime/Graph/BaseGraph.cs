@@ -38,7 +38,7 @@ namespace GraphProcessor
         public List< CommentBlock >                     commentBlocks = new List< CommentBlock >();
 
 		[SerializeField]
-		public List< PinnedElement >					pinnedWindows = new List< PinnedElement >();
+		public List< PinnedElement >					pinnedElements = new List< PinnedElement >();
 
 		[SerializeField]
 		public List< ExposedParameter >					exposedParameters = new List< ExposedParameter >();
@@ -107,12 +107,12 @@ namespace GraphProcessor
 
 		public PinnedElement OpenPinned(Type viewType)
 		{
-			var pinned = pinnedWindows.Find(p => p.editorType.type == viewType);
+			var pinned = pinnedElements.Find(p => p.editorType.type == viewType);
 
 			if (pinned == null)
 			{
 				pinned = new PinnedElement(viewType);
-				pinnedWindows.Add(pinned);
+				pinnedElements.Add(pinned);
 			}
 			else
 				pinned.opened = true;
@@ -122,7 +122,7 @@ namespace GraphProcessor
 
 		public void ClosePinned(Type viewType)
 		{
-			var pinned = pinnedWindows.Find(p => p.editorType.type == viewType);
+			var pinned = pinnedElements.Find(p => p.editorType.type == viewType);
 
 			pinned.opened = false;
 		}

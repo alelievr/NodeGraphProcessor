@@ -22,6 +22,7 @@ public class CustomToolbarGraphWindow : BaseGraphWindow
 		titleContent = new GUIContent("Custom Toolbar Graph");
 
 		var graphView = new CustomToolbarGraphView();
+		graphView.Initialize(graph);
 
 		rootView.Add(graphView);
 

@@ -49,6 +49,7 @@ namespace GraphProcessor
 			InitializeManipulators();
 
 			RegisterCallback< KeyDownEvent >(KeyDownCallback);
+			RegisterCallback< DragPerformEvent >(DragPerformedCallback);
 
 			SetupZoom(0.05f, 2f);
 
@@ -275,6 +276,22 @@ namespace GraphProcessor
 			{
 				SaveGraphToDisk();
 				e.StopPropagation();
+			}
+		}
+
+		void DragPerformedCallback(DragPerformEvent e)
+		{
+			var mousePos = (e.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, e.localMousePosition);
+			var dragData = DragAndDrop.GetGenericData("DragSelection") as List< ISelectable >;
+
+			if (dragData == null)
+				return;
+
+			var exposedParameters = dragData.OfType<ExposedParameter>();
+			if (exposedParameters.Any())
+			{
+				foreach (var param in exposedParameters)
+					AddNode(BaseNode.CreateFromType(typeof(ParameterNode), mousePos));
 			}
 		}
 

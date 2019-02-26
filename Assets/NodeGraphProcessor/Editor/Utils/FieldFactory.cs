@@ -85,6 +85,10 @@ namespace GraphProcessor
 			{
 				(field as TextField).multiline = true;
 			}
+			if (field is ObjectField)
+			{
+				(field as ObjectField).objectType = t;
+			}
 
 			return field as VisualElement;
 		}

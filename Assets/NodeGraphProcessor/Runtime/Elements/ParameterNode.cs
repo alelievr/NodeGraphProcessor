@@ -5,7 +5,7 @@ using GraphProcessor;
 using System.Linq;
 using System;
 
-[System.Serializable, NodeMenuItem("Custom/Parameter")]
+[System.Serializable]
 public class ParameterNode : BaseNode
 {
 	[Output(name = "Out")]

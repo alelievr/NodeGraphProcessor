@@ -176,8 +176,11 @@ namespace GraphProcessor
 
 		void ViewTransformChangedCallback(GraphView view)
 		{
-			graph.position = viewTransform.position;
-			graph.scale = viewTransform.scale;
+			if (graph != null)
+			{
+				graph.position = viewTransform.position;
+				graph.scale = viewTransform.scale;
+			}
 		}
 
         void ElementResizedCallback(VisualElement elem)
@@ -325,7 +328,7 @@ namespace GraphProcessor
 
             connectorListener = new EdgeConnectorListener(this);
 
-			InitializeGraphCallbacks();
+			InitializeGraphView();
 			InitializeNodeViews();
 			InitializeEdgeViews();
 			InitializeViews();
@@ -337,10 +340,12 @@ namespace GraphProcessor
 				initialized();
 		}
 
-		void InitializeGraphCallbacks()
+		void InitializeGraphView()
 		{
 			graph.onExposedParameterListChanged += () => onExposedParameterListChanged?.Invoke();
 			graph.onExposedParameterModified += (s) => onExposedParameterModified?.Invoke(s);
+			viewTransform.position = graph.position;
+			viewTransform.scale = graph.scale;
 		}
 
 		void InitializeNodeViews()

@@ -11,30 +11,29 @@ public class ParameterNode : BaseNode
 	[Output(name = "Out")]
 	public object				output;
 
-	public string				propertyName;
-
 	public override string		name => "Parameter";
 
 	[SerializeField]
-	ExposedParameter			parameter;
+	ExposedParameter			_parameter;
 
-	protected override void Enable()
+	public ExposedParameter			parameter
 	{
-		UpdateOutput();
+		get => _parameter;
+		set => UpdateParameter(value);
 	}
 
-	void UpdateOutput()
+	void UpdateParameter(ExposedParameter newValue)
 	{
-		parameter = graph.exposedParameters.FirstOrDefault(e => e.name == propertyName);
+		_parameter = newValue;
 
 		if (parameter == null)
-			Debug.Log("Exposed property \"" + propertyName + "\" not found !");
+			Debug.Log("Null Exposed property assigned to property node not found !");
 		else
 			output = parameter.value;
 	}
 
 	protected override void Process()
 	{
-		UpdateOutput();
+		UpdateParameter(_parameter);
 	}
 }

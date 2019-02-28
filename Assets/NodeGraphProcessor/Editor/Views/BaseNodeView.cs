@@ -208,8 +208,8 @@ namespace GraphProcessor
                 controlsContainer.Add(controlLabel);
 
 				var element = FieldFactory.CreateField(field, field.GetValue(nodeTarget), (newValue) => {
-					field.SetValue(nodeTarget, newValue);
 					owner.RegisterCompleteObjectUndo("Updated " + newValue);
+					field.SetValue(nodeTarget, newValue);
 				});
 
 				if (element != null)
@@ -241,6 +241,14 @@ namespace GraphProcessor
 		{
 			evt.menu.AppendAction("Open Node Script", (e) => OpenNodeScript(), OpenNodeScriptStatus);
 			evt.menu.AppendAction("Open Node View Script", (e) => OpenNodeViewScript(), OpenNodeViewScriptStatus);
+			evt.menu.AppendAction("Debug", (e) => ToggleDebug(), DebugStatus);
+		}
+
+		Status DebugStatus(DropdownMenuAction action)
+		{
+			if (nodeTarget.debug)
+				return Status.Checked;
+			return Status.Normal;
 		}
 
 		Status OpenNodeScriptStatus(DropdownMenuAction action)

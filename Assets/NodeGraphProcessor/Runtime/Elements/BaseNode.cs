@@ -57,6 +57,11 @@ namespace GraphProcessor
 			}
 		}
 
+		public static T CreateFromType< T >(Vector2 position) where T : BaseNode
+		{
+			return CreateFromType(typeof(T), position) as T;
+		}
+
 		public static BaseNode CreateFromType(Type nodeType, Vector2 position)
 		{
 			if (!nodeType.IsSubclassOf(typeof(BaseNode)))

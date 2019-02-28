@@ -60,21 +60,21 @@ MonoBehaviour:
   pinnedElements:
   - position:
       serializedVersion: 2
-      x: 748
-      y: 110
-      width: 151
-      height: 222
+      x: 909
+      y: 288
+      width: 150
+      height: 211
     opened: 1
     editorType:
       serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - position:
       serializedVersion: 2
-      x: 356
-      y: 140
+      x: 47
+      y: 511
       width: 150
       height: 200
-    opened: 0
+    opened: 1
     editorType:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -85,5 +85,5 @@ MonoBehaviour:
   - name: test 2
     type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     input: 1
-  position: {x: 2.5, y: -7.5, z: 0}
-  scale: {x: 1, y: 1, z: 1}
+  position: {x: -47.999996, y: 130, z: 0}
+  scale: {x: 1.520875, y: 1.520875, z: 1}

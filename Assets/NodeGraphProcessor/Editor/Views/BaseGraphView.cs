@@ -294,7 +294,11 @@ namespace GraphProcessor
 			if (exposedParameters.Any())
 			{
 				foreach (var param in exposedParameters)
-					AddNode(BaseNode.CreateFromType(typeof(ParameterNode), mousePos));
+				{
+					var paramNode = BaseNode.CreateFromType< ParameterNode >(mousePos);
+					paramNode.parameter = param;
+					AddNode(paramNode);
+				}
 			}
 		}
 

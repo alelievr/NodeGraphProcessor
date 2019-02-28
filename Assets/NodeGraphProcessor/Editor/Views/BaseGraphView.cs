@@ -308,6 +308,11 @@ namespace GraphProcessor
 
 		void ReloadView()
 		{
+			// Force the graph to reload his datas (Undo have updated the serialized properties of the graph
+			// so the one that are not serialized need to be synchronized)
+			graph.Deserialize();
+			Debug.Log("Reload everything !");
+
 			// Remove everything
 			RemoveNodeViews();
 			RemoveEdges();

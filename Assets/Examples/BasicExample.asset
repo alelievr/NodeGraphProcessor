@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes:
   - type: ColorNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"c2542e31-668d-4816-b7e9-f41dcdec423d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":-31.633270263671876,"y":-103.36654663085938,"width":221.0,"height":139.0},"expanded":true,"debug":false,"color":{"r":0.04716980457305908,"g":0.031372372061014178,"b":0.036676615476608279,"a":1.0}}'
+    jsonDatas: '{"GUID":"c2542e31-668d-4816-b7e9-f41dcdec423d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":-31.633270263671876,"y":-103.36654663085938,"width":221.0,"height":139.0},"expanded":true,"debug":false,"color":{"r":1.0,"g":0.0,"b":0.2509803771972656,"a":1.0}}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"3327402b-5ad1-4564-af17-2025a850d4bb","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":242.0,"y":101.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"output":4.0}'
   - type: MultiAddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -37,9 +37,7 @@ MonoBehaviour:
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"34e17a0c-9187-47eb-a21c-d105ee6ed911","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":506.0,"y":309.04254150390627,"width":107.0,"height":117.0},"expanded":true,"debug":false,"output":5.0}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"729fba99-eff2-4524-ab86-58f7564a5920","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":448.0,"y":192.0,"width":100.0,"height":100.0},"expanded":false,"debug":false,"output":0.0}'
-  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"4a7e10c9-2445-429f-8dcf-0710826952a2","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":637.0,"y":310.0,"width":100.0,"height":100.0},"expanded":false,"debug":false,"output":0.0}'
+    jsonDatas: '{"GUID":"4a7e10c9-2445-429f-8dcf-0710826952a2","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":-77.91999816894531,"y":306.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"output":0.0}'
   edges:
   - GUID: 4c9a8579-1e27-4710-b5bd-e8b0c29563a7
     owner: {fileID: 11400000}
@@ -87,8 +85,8 @@ MonoBehaviour:
   pinnedElements:
   - position:
       serializedVersion: 2
-      x: 84
-      y: 616
+      x: 1047
+      y: 130
       width: 142
       height: 197
     opened: 1
@@ -96,8 +94,8 @@ MonoBehaviour:
       serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters:
-  - name: New SingleParam
+  - name: test
     type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     input: 1
-  position: {x: 117, y: 351, z: 0}
-  scale: {x: 0.8695652, y: 0.8695652, z: 1}
+  position: {x: 434, y: 189, z: 0}
+  scale: {x: 1, y: 1, z: 1}

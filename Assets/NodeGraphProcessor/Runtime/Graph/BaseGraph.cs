@@ -144,7 +144,7 @@ namespace GraphProcessor
 
 		// We can deserialize data here because it's called in a unity context
 		// so we can load objects references
-		void Deserialize()
+		public void Deserialize()
 		{
 			nodes.Clear();
 

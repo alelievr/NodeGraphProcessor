@@ -224,6 +224,7 @@ namespace GraphProcessor
 		{
 			base.SetPosition(newPos);
 
+			Undo.RegisterCompleteObjectUndo(owner.graph, "Moved graph node");
 			nodeTarget.position = newPos;
 		}
 

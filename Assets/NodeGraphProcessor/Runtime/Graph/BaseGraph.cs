@@ -9,10 +9,10 @@ namespace GraphProcessor
 	[System.Serializable]
 	public class ExposedParameter
 	{
-		public string	name;
-		public string	type;
-		public object	value;
-		public bool		input = true;
+		public string				name;
+		public string				type;
+		public SerializableObject	serializedValue;
+		public bool					input = true;
 	}
 
 	[System.Serializable]
@@ -180,9 +180,9 @@ namespace GraphProcessor
 			exposedParameters.Add(new ExposedParameter{
 				name = name,
 				type = type.AssemblyQualifiedName,
-				value = value
+				serializedValue = new SerializableObject(value)
 			});
-
+			
 			onExposedParameterListChanged?.Invoke();
 		}
 
@@ -201,11 +201,11 @@ namespace GraphProcessor
 			if (valueType != param.type)
 				throw new Exception("Type mismatch when updating parameter " + name + ": from " + param.type + " to " + valueType);
 
-			param.value = value;
+			param.serializedValue.value = value;
 			onExposedParameterModified.Invoke(name);
 		}
 
-		public object GetExposedParameterValue(string name)
+		public ExposedParameter GetExposedParameter(string name)
 		{
 			return exposedParameters.FirstOrDefault(e => e.name == name);
 		}

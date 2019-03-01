@@ -30,13 +30,8 @@ namespace GraphProcessor
                 if (paramType.IsValueType)
                 {
                     value = Activator.CreateInstance(paramType);
-                    Debug.Log("Default value: " + value);
                 }
                 graphView.graph.AddExposedParameter(uniqueName, paramType, value);
-            });
-
-            RegisterCallback<DragPerformEvent>((e) => {
-                Debug.Log("OK !");
             });
 
             parameterType.ShowAsContext();

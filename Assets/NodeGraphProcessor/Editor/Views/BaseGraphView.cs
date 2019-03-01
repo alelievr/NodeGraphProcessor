@@ -50,12 +50,18 @@ namespace GraphProcessor
 
 			RegisterCallback< KeyDownEvent >(KeyDownCallback);
 			RegisterCallback< DragPerformEvent >(DragPerformedCallback);
+			RegisterCallback< DragUpdatedEvent >(DragUpdatedCallback);
 
 			SetupZoom(0.05f, 2f);
 
 			Undo.undoRedoPerformed += ReloadView;
 
 			this.StretchToParentSize();
+		}
+
+		~BaseGraphView()
+		{
+			Undo.undoRedoPerformed -= ReloadView;
 		}
 
 		#region Callbacks
@@ -290,17 +296,37 @@ namespace GraphProcessor
 			if (dragData == null)
 				return;
 
-			var exposedParameters = dragData.OfType<ExposedParameter>();
-			if (exposedParameters.Any())
+			var exposedParameterFieldViews = dragData.OfType<ExposedParameterFieldView>();
+			if (exposedParameterFieldViews.Any())
 			{
-				foreach (var param in exposedParameters)
+				foreach (var paramFieldView in exposedParameterFieldViews)
 				{
 					var paramNode = BaseNode.CreateFromType< ParameterNode >(mousePos);
-					paramNode.parameter = param;
+					paramNode.parameterName = paramFieldView.parameter.name;
 					AddNode(paramNode);
 				}
 			}
 		}
+
+		void DragUpdatedCallback(DragUpdatedEvent e)
+        {
+            var dragData = DragAndDrop.GetGenericData("DragSelection") as List<ISelectable>;
+            bool dragging = false;
+
+            if (dragData != null)
+            {
+                // Handle drag from exposed parameter view
+                if (dragData.OfType<ExposedParameterFieldView>().Any())
+				{
+                    dragging = true;
+				}
+            }
+
+            if (dragging)
+            {
+                DragAndDrop.visualMode = DragAndDropVisualMode.Generic;
+            }
+        }
 
 		#endregion
 
@@ -311,7 +337,6 @@ namespace GraphProcessor
 			// Force the graph to reload his datas (Undo have updated the serialized properties of the graph
 			// so the one that are not serialized need to be synchronized)
 			graph.Deserialize();
-			Debug.Log("Reload everything !");
 
 			// Remove everything
 			RemoveNodeViews();

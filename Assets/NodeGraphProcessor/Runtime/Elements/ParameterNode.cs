@@ -8,32 +8,54 @@ using System;
 [System.Serializable]
 public class ParameterNode : BaseNode
 {
-	[Output(name = "Out")]
+	[Output(name = "Value")]
 	public object				output;
 
 	public override string		name => "Parameter";
 
-	[SerializeField]
-	ExposedParameter			_parameter;
+	// We serialize the name of the exposed parameter in the graph so we can retrieve the true ExposedParameter from the graph
+	[SerializeField, HideInInspector]
+	public string				parameterName;
 
-	public ExposedParameter			parameter
+	public ExposedParameter		parameter { get; private set; }
+
+	public event Action			onParameterChanged;
+
+	protected override void Enable()
 	{
-		get => _parameter;
-		set => UpdateParameter(value);
+		// load the parameter
+		LoadExposedParameter();
+
+		graph.onExposedParameterModified += OnParamChanged;
+		if (onParameterChanged != null)
+			onParameterChanged?.Invoke();
+			
 	}
 
-	void UpdateParameter(ExposedParameter newValue)
+	void LoadExposedParameter()
 	{
-		_parameter = newValue;
-
+		parameter = graph.GetExposedParameter(parameterName);
+		
 		if (parameter == null)
-			Debug.Log("Null Exposed property assigned to property node not found !");
-		else
-			output = parameter.value;
+		
+		{
+			Debug.Log("Property \"" + parameterName + "\" Can't be found !");
+			return ;
+		}
+
+		output = parameter.serializedValue.value;
+	}
+
+	void OnParamChanged(string modifiedParameterName)
+	{
+		if (parameterName == modifiedParameterName)
+		{
+			onParameterChanged?.Invoke();
+		}
 	}
 
 	protected override void Process()
 	{
-		UpdateParameter(_parameter);
+		output = parameter?.serializedValue.value;
 	}
 }

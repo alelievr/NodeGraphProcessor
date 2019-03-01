@@ -13,49 +13,29 @@ MonoBehaviour:
   m_Name: ExposedPropertiesExample
   m_EditorClassIdentifier: 
   serializedNodes:
-  - type: CircleRadians, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"7078860c-f7cb-4534-befd-da3c678d17ee","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":183.0,"y":188.0,"width":120.0,"height":177.0},"expanded":false,"debug":false,"outputRadians":[0.0,1.2566370964050294,2.5132741928100588,3.769911289215088,5.026548385620117]}'
+  - type: ParameterNode, com.alelievr.NodeGraphProcessor, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"c116edb8-4c30-4cb6-8c00-4351ee3ea443","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":479.3951110839844,"y":217.76937866210938,"width":100.0,"height":100.0},"expanded":false,"debug":false,"parameterName":"float"}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"0d8cd048-486b-4cce-9bd3-616bd2255d45","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":494.0,"y":55.71999740600586,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
+    jsonDatas: '{"GUID":"ceccedda-11b9-4594-b5e7-bcef01331c0a","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":648.4385375976563,"y":284.77886962890627,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
+  - type: ParameterNode, com.alelievr.NodeGraphProcessor, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"5f801c8d-a64f-41ea-9c65-5815e694d505","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":476.9754333496094,"y":375.4593505859375,"width":68.0,"height":77.0},"expanded":false,"debug":false,"parameterName":"text"}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"e2203ce1-49be-41ea-814a-465faf267adb","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":389.0,"y":108.0,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
-  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"3b193543-3bd6-44d6-9664-115ecc6f2502","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":388.0,"y":268.0,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
-  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"e3318e7b-5469-424c-ab54-9524e62907a8","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":496.0,"y":315.7200012207031,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
-  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"83c994d8-6442-4e61-82e1-e83537229fda","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":497.0,"y":186.72000122070313,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
+    jsonDatas: '{"GUID":"44c26442-9671-481f-941a-a521ab9f2ea9","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":640.7334594726563,"y":428.19281005859377,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
   edges:
-  - GUID: 89035fe5-2dba-467f-ba91-ac127c7e405e
+  - GUID: 8666519c-9202-4b22-9288-99ab4cf3196b
     owner: {fileID: 11400000}
-    inputNodeGUID: e2203ce1-49be-41ea-814a-465faf267adb
-    outputNodeGUID: 7078860c-f7cb-4534-befd-da3c678d17ee
+    inputNodeGUID: ceccedda-11b9-4594-b5e7-bcef01331c0a
+    outputNodeGUID: c116edb8-4c30-4cb6-8c00-4351ee3ea443
     inputFieldName: obj
-    outputFieldName: outputRadians
-  - GUID: dba136dc-c5f6-4bfe-88fd-13e9f6494fb3
+    outputFieldName: output
+  - GUID: 01287748-7d94-43c2-a0b1-52ab603cf3e7
     owner: {fileID: 11400000}
-    inputNodeGUID: 3b193543-3bd6-44d6-9664-115ecc6f2502
-    outputNodeGUID: 7078860c-f7cb-4534-befd-da3c678d17ee
+    inputNodeGUID: 44c26442-9671-481f-941a-a521ab9f2ea9
+    outputNodeGUID: 5f801c8d-a64f-41ea-9c65-5815e694d505
     inputFieldName: obj
-    outputFieldName: outputRadians
-  - GUID: d34d5081-bcc0-4437-a103-eea75af00fd7
-    owner: {fileID: 11400000}
-    inputNodeGUID: 83c994d8-6442-4e61-82e1-e83537229fda
-    outputNodeGUID: 7078860c-f7cb-4534-befd-da3c678d17ee
-    inputFieldName: obj
-    outputFieldName: outputRadians
-  - GUID: d16f949f-cc87-46ad-8792-d4aac21f15e3
-    owner: {fileID: 11400000}
-    inputNodeGUID: 0d8cd048-486b-4cce-9bd3-616bd2255d45
-    outputNodeGUID: 7078860c-f7cb-4534-befd-da3c678d17ee
-    inputFieldName: obj
-    outputFieldName: outputRadians
-  - GUID: d5d5d3fb-1fcc-4ae4-b4e6-584afac90456
-    owner: {fileID: 11400000}
-    inputNodeGUID: e3318e7b-5469-424c-ab54-9524e62907a8
-    outputNodeGUID: 7078860c-f7cb-4534-befd-da3c678d17ee
-    inputFieldName: obj
-    outputFieldName: outputRadians
+    outputFieldName: output
   commentBlocks: []
   pinnedElements:
   - position:
@@ -79,11 +59,17 @@ MonoBehaviour:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters:
-  - name: test
+  - name: float
     type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue:
+      serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      serializedValue: 42
     input: 1
-  - name: test 2
-    type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+  - name: text
+    type: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue:
+      serializedType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      serializedValue: '"Hello World !"'
     input: 1
-  position: {x: -47.999996, y: 130, z: 0}
-  scale: {x: 1.520875, y: 1.520875, z: 1}
+  position: {x: -182, y: -34, z: 0}
+  scale: {x: 1.3225, y: 1.3225, z: 1}

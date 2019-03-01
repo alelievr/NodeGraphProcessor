@@ -11,6 +11,8 @@ namespace GraphProcessor
         protected VisualElement root;
         protected BaseGraph     graph;
 
+        VisualElement   parameterContainer;
+
         void OnEnable()
         {
             graph = target as BaseGraph;
@@ -31,30 +33,38 @@ namespace GraphProcessor
 
         protected virtual void CreateInspector()
         {
-            root.Add(CreateExposedParameters());
-        }
-
-        protected VisualElement CreateExposedParameters()
-        {
-            VisualElement parameters = new VisualElement{
+            parameterContainer = new VisualElement{
                 name = "ExposedParameters"
             };
+            FillExposedParameters(parameterContainer);
 
-            parameters.Add(new Label("Exposed Parameters"));
+            root.Add(parameterContainer);
+        }
+
+        protected void FillExposedParameters(VisualElement parameterContainer)
+        {
+            if (graph.exposedParameters.Count != 0)
+                parameterContainer.Add(new Label("Exposed Parameters:"));
+            
             foreach (var param in graph.exposedParameters)
             {
+                VisualElement prop = new VisualElement();
+                prop.style.display = DisplayStyle.Flex;
                 Type paramType = Type.GetType(param.type);
-                var field = FieldFactory.CreateField(paramType);
-                // TODO: assign field text so we see the name of the parameter
-                parameters.Add(field);
+                var field = FieldFactory.CreateField(paramType, param.serializedValue.value, (newValue) => {
+					Undo.RegisterCompleteObjectUndo(graph, "Changed Parameter " + param.name + " to " + newValue);
+                    param.serializedValue.value = newValue;
+                });
+                prop.Add(new Label(param.name));
+                prop.Add(field);
+                parameterContainer.Add(prop);
             }
-
-            return parameters;
         }
 
         void UpdateExposedParameters()
         {
-
+            parameterContainer.Clear();
+            FillExposedParameters(parameterContainer);
         }
 
         // Don't use ImGUI

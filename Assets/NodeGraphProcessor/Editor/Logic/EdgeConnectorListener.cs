@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Experimental.UIElements.GraphView;
-using UnityEngine.Experimental.UIElements;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 
 namespace GraphProcessor
 {
@@ -36,7 +36,7 @@ namespace GraphProcessor
 
 			if (edgeView?.input == null || edgeView?.output == null)
 				return ;
-			
+
 			//If the edge was moved to another port
 			if (edgeView.isConnected)
 			{

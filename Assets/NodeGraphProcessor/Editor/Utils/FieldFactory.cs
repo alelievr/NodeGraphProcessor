@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements;
-using UnityEditor.Experimental.UIElements;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -23,7 +23,7 @@ namespace GraphProcessor
 
 				if (drawerAttribute == null)
 					continue ;
-				
+
 				AddDrawer(drawerAttribute.fieldType, type);
 			}
 
@@ -85,11 +85,15 @@ namespace GraphProcessor
 			{
 				(field as TextField).multiline = true;
 			}
+			if (field is ObjectField)
+			{
+				(field as ObjectField).objectType = t;
+			}
 
 			return field as VisualElement;
 		}
 
-		public static INotifyValueChanged< T > CreateFieldSpecific< T >(FieldInfo field, T value, Action< object > onValueChanged)
+		public static INotifyValueChanged< T > CreateFieldSpecific< T >(T value, Action< object > onValueChanged)
 		{
 			var fieldDrawer = CreateField< T >();
 
@@ -97,18 +101,18 @@ namespace GraphProcessor
 				return null;
 
 			fieldDrawer.value = value;
-			fieldDrawer.OnValueChanged((e) => {
+			fieldDrawer.RegisterValueChangedCallback((e) => {
 				onValueChanged(e.newValue);
 			});
 
 			return fieldDrawer as INotifyValueChanged< T >;
 		}
 
-		public static VisualElement CreateField(FieldInfo field, object value, Action< object > onValueChanged)
+		public static VisualElement CreateField(Type fieldType, object value, Action< object > onValueChanged)
 		{
-			var createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(field.FieldType);
+			var createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(fieldType);
 
-			return createFieldSpecificMethod.Invoke(null, new object[]{field, value, onValueChanged}) as VisualElement;
+			return createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged}) as VisualElement;
 		}
 	}
 }

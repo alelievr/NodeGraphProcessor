@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Experimental.UIElements.GraphView;
-using UnityEngine.Experimental.UIElements;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 using System;
 using System.Reflection;
-using UnityEngine.Experimental.UIElements.StyleEnums;
 
 namespace GraphProcessor
 {
@@ -28,13 +27,17 @@ namespace GraphProcessor
 
 		public int connectionCount => edges.Count;
 
+		readonly string portStyle = "GraphProcessorStyles/PortView";
+
         public PortView(Orientation portOrientation, Direction direction, FieldInfo fieldInfo, EdgeConnectorListener edgeConnectorListener)
             : base(portOrientation, direction, Capacity.Multi, fieldInfo.FieldType)
 		{
-			AddStyleSheetPath("GraphProcessorStyles/PortView");
+			styleSheets.Add(Resources.Load<StyleSheet>(portStyle));
 
-			if (Resources.Load< UnityEngine.Object >(userPortStyleFile) != null)
-				AddStyleSheetPath(userPortStyleFile);
+			var userPortStyle = Resources.Load<StyleSheet>(userPortStyleFile);
+
+			if (userPortStyle != null)
+				styleSheets.Add(userPortStyle);
 
 			this.m_EdgeConnector = new EdgeConnector< EdgeView >(edgeConnectorListener);
 			this.AddManipulator(m_EdgeConnector);

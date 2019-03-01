@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Experimental.UIElements;
-using UnityEngine.Experimental.UIElements;
-using UnityEditor.Experimental.UIElements.GraphView;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
+using UnityEditor.Experimental.GraphView;
 using System.Linq;
 using System;
 
-using StatusFlags = UnityEngine.Experimental.UIElements.DropdownMenu.MenuAction.StatusFlags;
+using Status = UnityEngine.UIElements.DropdownMenuAction.Status;
 
 using Object = UnityEngine.Object;
 
@@ -32,6 +32,11 @@ namespace GraphProcessor
 		public event Action							initialized;
 		public event ComputeOrderUpdatedDelegate	computeOrderUpdated;
 
+		// Safe event relay from BaseGraph (safe because you are sure to always point on a valid BaseGraph
+		// when one of these events is called), a graph switch can occur between two call tho
+		public event Action				onExposedParameterListChanged;
+		public event Action< string >	onExposedParameterModified;
+
 		public BaseGraphView()
 		{
 			serializeGraphElements = SerializeGraphElementsCallback;
@@ -44,12 +49,19 @@ namespace GraphProcessor
 			InitializeManipulators();
 
 			RegisterCallback< KeyDownEvent >(KeyDownCallback);
+			RegisterCallback< DragPerformEvent >(DragPerformedCallback);
+			RegisterCallback< DragUpdatedEvent >(DragUpdatedCallback);
 
 			SetupZoom(0.05f, 2f);
 
 			Undo.undoRedoPerformed += ReloadView;
 
 			this.StretchToParentSize();
+		}
+
+		~BaseGraphView()
+		{
+			Undo.undoRedoPerformed -= ReloadView;
 		}
 
 		#region Callbacks
@@ -138,6 +150,7 @@ namespace GraphProcessor
 					var edge = e as EdgeView;
 					var node = e as BaseNodeView;
                     var commentBlock = e as CommentBlockView;
+					var blackboardField = e as ExposedParameterFieldView;
 
 					if (edge != null)
 					{
@@ -156,6 +169,10 @@ namespace GraphProcessor
                         RemoveElement(commentBlock);
                         return true;
                     }
+					else if (blackboardField != null)
+					{
+						graph.RemoveExposedParameter(blackboardField.parameter);
+					}
 					return false;
 				});
 			}
@@ -165,8 +182,11 @@ namespace GraphProcessor
 
 		void ViewTransformChangedCallback(GraphView view)
 		{
-			graph.position = viewTransform.position;
-			graph.scale = viewTransform.scale;
+			if (graph != null)
+			{
+				graph.position = viewTransform.position;
+				graph.scale = viewTransform.scale;
+			}
 		}
 
         void ElementResizedCallback(VisualElement elem)
@@ -177,16 +197,17 @@ namespace GraphProcessor
                 commentBlockView.commentBlock.size = commentBlockView.GetPosition().size;
         }
 
-		public override void OnPersistentDataReady()
-		{
-			//We set the position and scale saved in the graph asset file
-			Vector3 pos = graph.position;
-			Vector3 scale = graph.scale;
+		// TODO: save the position and zoom in the graph asset
+		// public override void OnPersistentDataReady()
+		// {
+		// 	//We set the position and scale saved in the graph asset file
+		// 	Vector3 pos = graph.position;
+		// 	Vector3 scale = graph.scale;
 
-			base.OnPersistentDataReady();
+		// 	base.OnPersistentDataReady();
 
-			UpdateViewTransform(pos, scale);
-		}
+		// 	UpdateViewTransform(pos, scale);
+		// }
 
 		public override List< Port > GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
 		{
@@ -223,12 +244,13 @@ namespace GraphProcessor
 			base.BuildContextualMenu(evt);
 			BuildSelectAssetContextualMenu(evt);
 			BuildSaveAssetContextualMenu(evt);
+			BuildHelpContextualMenu(evt);
 		}
 
 		protected void BuildCreateContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			Vector2 position = evt.mousePosition - (Vector2)viewTransform.position;
-            evt.menu.AppendAction("Create/Comment Block", (e) => AddCommentBlock(new CommentBlock("New Comment Block", position)), DropdownMenu.MenuAction.AlwaysEnabled);
+            evt.menu.AppendAction("Create/Comment Block", (e) => AddCommentBlock(new CommentBlock("New Comment Block", position)), DropdownMenuAction.AlwaysEnabled);
 		}
 
 		protected void BuildViewContextualMenu(ContextualMenuPopulateEvent evt)
@@ -238,7 +260,7 @@ namespace GraphProcessor
 
 		protected void BuildSelectAssetContextualMenu(ContextualMenuPopulateEvent evt)
 		{
-			evt.menu.AppendAction("Select Asset", (e) => EditorGUIUtility.PingObject(graph), DropdownMenu.MenuAction.AlwaysEnabled);
+			evt.menu.AppendAction("Select Asset", (e) => EditorGUIUtility.PingObject(graph), DropdownMenuAction.AlwaysEnabled);
 		}
 
 		protected void BuildSaveAssetContextualMenu(ContextualMenuPopulateEvent evt)
@@ -246,7 +268,15 @@ namespace GraphProcessor
 			evt.menu.AppendAction("Save Asset", (e) => {
 				EditorUtility.SetDirty(graph);
 				AssetDatabase.SaveAssets();
-			}, DropdownMenu.MenuAction.AlwaysEnabled);
+			}, DropdownMenuAction.AlwaysEnabled);
+		}
+
+		protected void BuildHelpContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+			evt.menu.AppendAction("Help/Reset Pinned Windows", e => {
+				foreach (var kp in pinnedElements)
+					kp.Value.ResetPosition();
+			});
 		}
 
 		void KeyDownCallback(KeyDownEvent e)
@@ -258,12 +288,56 @@ namespace GraphProcessor
 			}
 		}
 
+		void DragPerformedCallback(DragPerformEvent e)
+		{
+			var mousePos = (e.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, e.localMousePosition);
+			var dragData = DragAndDrop.GetGenericData("DragSelection") as List< ISelectable >;
+
+			if (dragData == null)
+				return;
+
+			var exposedParameterFieldViews = dragData.OfType<ExposedParameterFieldView>();
+			if (exposedParameterFieldViews.Any())
+			{
+				foreach (var paramFieldView in exposedParameterFieldViews)
+				{
+					var paramNode = BaseNode.CreateFromType< ParameterNode >(mousePos);
+					paramNode.parameterName = paramFieldView.parameter.name;
+					AddNode(paramNode);
+				}
+			}
+		}
+
+		void DragUpdatedCallback(DragUpdatedEvent e)
+        {
+            var dragData = DragAndDrop.GetGenericData("DragSelection") as List<ISelectable>;
+            bool dragging = false;
+
+            if (dragData != null)
+            {
+                // Handle drag from exposed parameter view
+                if (dragData.OfType<ExposedParameterFieldView>().Any())
+				{
+                    dragging = true;
+				}
+            }
+
+            if (dragging)
+            {
+                DragAndDrop.visualMode = DragAndDropVisualMode.Generic;
+            }
+        }
+
 		#endregion
 
 		#region Initialization
 
 		void ReloadView()
 		{
+			// Force the graph to reload his datas (Undo have updated the serialized properties of the graph
+			// so the one that are not serialized need to be synchronized)
+			graph.Deserialize();
+
 			// Remove everything
 			RemoveNodeViews();
 			RemoveEdges();
@@ -288,6 +362,7 @@ namespace GraphProcessor
 
             connectorListener = new EdgeConnectorListener(this);
 
+			InitializeGraphView();
 			InitializeNodeViews();
 			InitializeEdgeViews();
 			InitializeViews();
@@ -297,6 +372,14 @@ namespace GraphProcessor
 
 			if (initialized != null)
 				initialized();
+		}
+
+		void InitializeGraphView()
+		{
+			graph.onExposedParameterListChanged += () => onExposedParameterListChanged?.Invoke();
+			graph.onExposedParameterModified += (s) => onExposedParameterModified?.Invoke(s);
+			viewTransform.position = graph.position;
+			viewTransform.scale = graph.scale;
 		}
 
 		void InitializeNodeViews()
@@ -325,8 +408,11 @@ namespace GraphProcessor
 
 		void InitializeViews()
 		{
-			foreach (var viewType in graph.pinnedWindows)
-				OpenPinned(viewType.editorType.type);
+			foreach (var pinnedElement in graph.pinnedElements)
+			{
+				if (pinnedElement.opened)
+					OpenPinned(pinnedElement.editorType.type);
+			}
 		}
 
         void InitializeCommentBlocks()
@@ -529,6 +615,11 @@ namespace GraphProcessor
 				ClosePinned(type, view);
 		}
 
+		public void OpenPinned< T >() where T : PinnedElementView
+		{
+			OpenPinned(typeof(T));
+		}
+
 		public void OpenPinned(Type type)
 		{
 			PinnedElementView view;
@@ -538,15 +629,21 @@ namespace GraphProcessor
 
 			PinnedElement elem = graph.OpenPinned(type);
 
-			view = Activator.CreateInstance(type) as PinnedElementView;
-			pinnedElements[type] = view;
+			if (!pinnedElements.ContainsKey(type))
+			{
+				view = Activator.CreateInstance(type) as PinnedElementView;
+				pinnedElements[type] = view;
+				view.InitializeGraphView(elem, this);
+			}
+			view = pinnedElements[type];
 
-			view.InitializeGraphView(elem, this);
+			if (!Contains(view))
+				Add(view);
+		}
 
-			ConfinedDragger masterPreviewViewDraggable = new ConfinedDragger(this);
-			masterPreviewViewDraggable.onDragEnd = () => elem.position = view.transform.position;
-			view.AddManipulator(masterPreviewViewDraggable);
-			Add(view);
+		public void ClosePinned< T >(PinnedElementView view) where T : PinnedElementView
+		{
+			ClosePinned(typeof(T), view);
 		}
 
 		public void ClosePinned(Type type, PinnedElementView elem)
@@ -556,19 +653,19 @@ namespace GraphProcessor
 			graph.ClosePinned(type);
 		}
 
-		public StatusFlags GetPinnedElementStatus< T >() where T : PinnedElementView
+		public Status GetPinnedElementStatus< T >() where T : PinnedElementView
 		{
 			return GetPinnedElementStatus(typeof(T));
 		}
 
-		public StatusFlags GetPinnedElementStatus(Type type)
+		public Status GetPinnedElementStatus(Type type)
 		{
-			var pinned = graph.pinnedWindows.Find(p => p.editorType.type == type);
+			var pinned = graph.pinnedElements.Find(p => p.editorType.type == type);
 
 			if (pinned != null && pinned.opened)
-				return StatusFlags.Normal;
+				return Status.Normal;
 			else
-				return StatusFlags.Hidden;
+				return Status.Hidden;
 		}
 
 		public void ResetPositionAndZoom()

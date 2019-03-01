@@ -6,7 +6,7 @@ using GraphProcessor;
 
 public class CustomContextMenuGraphWindow : BaseGraphWindow
 {
-	
+
 	[MenuItem("Window/02_CustomContextMenu")]
 	public static BaseGraphWindow Open()
 	{
@@ -17,7 +17,7 @@ public class CustomContextMenuGraphWindow : BaseGraphWindow
 		return graphWindow;
 	}
 
-	protected override void Initialize(BaseGraph graph)
+	protected override void InitializeWindow(BaseGraph graph)
 	{
 		titleContent = new GUIContent("Context Menu Graph");
 
@@ -27,6 +27,7 @@ public class CustomContextMenuGraphWindow : BaseGraphWindow
 
 		graphView.Add(new MiniMapView(graphView));
 
+		// TODO
 		// graphView.AddElement(new NodeSelectorMenu());
 	}
 }

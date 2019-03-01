@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using UnityEditor.Experimental.UIElements.GraphView;
-using UnityEditor.Experimental.UIElements;
-using UnityEngine.Experimental.UIElements;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -15,9 +15,11 @@ namespace GraphProcessor
         Label                   titleLabel;
         ColorField              colorField;
 
+        readonly string         commentBlockStyle = "GraphProcessorStyles/CommentBlockView";
+
         public CommentBlockView()
         {
-            AddStyleSheetPath("GraphProcessorStyles/CommentBlockView");
+            styleSheets.Add(Resources.Load<StyleSheet>(commentBlockStyle));
 		}
 
 		public void Initialize(BaseGraphView graphView, CommentBlock block)
@@ -26,14 +28,13 @@ namespace GraphProcessor
 			owner = graphView;
 
             title = block.title;
-			SetSize(block.size);
             SetPosition(block.position);
 
             headerContainer.Q<TextField>().RegisterCallback<ChangeEvent<string>>(TitleChangedCallback);
             titleLabel = headerContainer.Q<Label>();
 
             colorField = new ColorField{ value = commentBlock.color, name = "headerColorPicker" };
-            colorField.OnValueChanged(e =>
+            colorField.RegisterValueChangedCallback(e =>
             {
                 UpdateCommentBlockColor(e.newValue);
             });
@@ -51,7 +52,7 @@ namespace GraphProcessor
                 if (!owner.graph.nodesPerGUID.ContainsKey(nodeGUID))
                 {
                     Debug.LogWarning("Node GUID not found: " + nodeGUID);
-                    
+
                     continue ;
                 }
                 var node = owner.graph.nodesPerGUID[nodeGUID];
@@ -87,7 +88,7 @@ namespace GraphProcessor
         {
             commentBlock.title = e.newValue;
         }
-		
+
 		public override void SetPosition(Rect newPos)
 		{
 			base.SetPosition(newPos);

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
-using UnityEngine.Experimental.UIElements;
+using UnityEngine.UIElements;
 using System.Linq;
+using System.IO;
+using System.Reflection;
 
 namespace GraphProcessor
 {
@@ -14,6 +16,7 @@ namespace GraphProcessor
 		static Dictionary< string, Type >	nodePerMenuTitle = new Dictionary< string, Type >();
 		static Dictionary< Type, string >	nodeViewScripts = new Dictionary< Type, string >();
 		static Dictionary< Type, string >	nodeScripts = new Dictionary< Type, string >();
+		static List< Type >					slotTypes = new List< Type >();
 
 		static NodeProvider()
 		{
@@ -25,6 +28,12 @@ namespace GraphProcessor
 						AddNodeType(type);
 					if (type.IsSubclassOf(typeof(BaseNodeView)))
 						AddNodeViewType(type);
+
+					foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+					{
+						if (field.GetCustomAttributes().Any(c => c is InputAttribute || c is OutputAttribute))
+							slotTypes.Add(field.FieldType);
+					}
 				}
             }
 		}
@@ -35,7 +44,7 @@ namespace GraphProcessor
 
 			if (attrs != null && attrs.Length > 0)
 				nodePerMenuTitle[attrs.First().menuTitle] = type;
-				
+
 			var nodeScriptAsset = FindScriptFromClassName(type.Name);
 			if (nodeScriptAsset != null)
 				nodeScripts[type] = nodeScriptAsset;
@@ -64,7 +73,14 @@ namespace GraphProcessor
 			if (scriptGUIDs.Length == 0)
 				return null;
 
-			return AssetDatabase.GUIDToAssetPath(scriptGUIDs[0]);
+			foreach (var scriptGUID in scriptGUIDs)
+			{
+				var assetPath = AssetDatabase.GUIDToAssetPath(scriptGUID);
+				if (className == Path.GetFileNameWithoutExtension(assetPath))
+					return assetPath;
+			}
+
+			return null;
 		}
 
 		public static Type GetNodeViewTypeFromType(Type nodeType)
@@ -97,6 +113,11 @@ namespace GraphProcessor
 			nodeScripts.TryGetValue(type, out scriptPath);
 
 			return scriptPath;
+		}
+
+		public static List<Type> GetSlotTypes()
+		{
+			return slotTypes;
 		}
 	}
 }

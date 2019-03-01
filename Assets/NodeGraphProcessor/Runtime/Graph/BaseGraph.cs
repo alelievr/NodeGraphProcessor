@@ -7,6 +7,15 @@ using System;
 namespace GraphProcessor
 {
 	[System.Serializable]
+	public class ExposedParameter
+	{
+		public string				name;
+		public string				type;
+		public SerializableObject	serializedValue;
+		public bool					input = true;
+	}
+
+	[System.Serializable]
 	public class BaseGraph : ScriptableObject, ISerializationCallbackReceiver
 	{
 		static readonly int			maxComputeOrderDepth = 1000;
@@ -29,23 +38,39 @@ namespace GraphProcessor
         public List< CommentBlock >                     commentBlocks = new List< CommentBlock >();
 
 		[SerializeField]
-		public List< PinnedElement >					pinnedWindows = new List< PinnedElement >();
+		public List< PinnedElement >					pinnedElements = new List< PinnedElement >();
+
+		[SerializeField]
+		public List< ExposedParameter >					exposedParameters = new List< ExposedParameter >();
 
 		[System.NonSerialized]
 		Dictionary< BaseNode, int >						computeOrderDictionary = new Dictionary< BaseNode, int >();
 
 		//graph visual properties
-		public Vector3				position = Vector3.zero;
-		public Vector3				scale = Vector3.one;
+		public Vector3					position = Vector3.zero;
+		public Vector3					scale = Vector3.one;
+
+		public event Action				onExposedParameterListChanged;
+		public event Action< string >	onExposedParameterModified;
+		public event Action				onEnabled;
+
+		[System.NonSerialized]
+		bool _isEnabled = false;
+		public bool isEnabled { get => _isEnabled; private set => _isEnabled = value; }
 
         void OnEnable()
         {
+			Deserialize();
+
 			DestroyBrokenGraphElements();
 			UpdateComputeOrder();
+			isEnabled = true;
+			onEnabled?.Invoke();
         }
-		
+
 		public void AddNode(BaseNode node)
 		{
+			node.Initialize(this);
 			nodes.Add(node);
 		}
 
@@ -89,22 +114,22 @@ namespace GraphProcessor
 
 		public PinnedElement OpenPinned(Type viewType)
 		{
-			var pinned = pinnedWindows.Find(p => p.editorType.type == viewType);
+			var pinned = pinnedElements.Find(p => p.editorType.type == viewType);
 
 			if (pinned == null)
 			{
 				pinned = new PinnedElement(viewType);
-				pinnedWindows.Add(pinned);
+				pinnedElements.Add(pinned);
 			}
 			else
 				pinned.opened = true;
-			
+
 			return pinned;
 		}
 
 		public void ClosePinned(Type viewType)
 		{
-			var pinned = pinnedWindows.Find(p => p.editorType.type == viewType);
+			var pinned = pinnedElements.Find(p => p.editorType.type == viewType);
 
 			pinned.opened = false;
 		}
@@ -112,19 +137,21 @@ namespace GraphProcessor
 		public void OnBeforeSerialize()
 		{
 			serializedNodes.Clear();
-			
+
 			foreach (var node in nodes)
 				serializedNodes.Add(JsonSerializer.Serialize(node));
 		}
 
-		public void OnAfterDeserialize()
+		// We can deserialize data here because it's called in a unity context
+		// so we can load objects references
+		public void Deserialize()
 		{
 			nodes.Clear();
 
 			foreach (var serializedNode in serializedNodes)
 			{
 				var node = JsonSerializer.DeserializeNode(serializedNode) as BaseNode;
-				nodes.Add(node);
+				AddNode(node);
 				nodesPerGUID[node.GUID] = node;
 			}
 
@@ -135,15 +162,52 @@ namespace GraphProcessor
 			}
 		}
 
+		public void OnAfterDeserialize() {}
+
 		public void UpdateComputeOrder()
 		{
 			if (nodes.Count == 0)
 				return ;
-			
+
 			computeOrderDictionary.Clear();
 
 			foreach (var node in nodes)
 				UpdateComputeOrder(0, node);
+		}
+
+		public void AddExposedParameter(string name, Type type, object value)
+		{
+			exposedParameters.Add(new ExposedParameter{
+				name = name,
+				type = type.AssemblyQualifiedName,
+				serializedValue = new SerializableObject(value)
+			});
+			
+			onExposedParameterListChanged?.Invoke();
+		}
+
+		public void RemoveExposedParameter(ExposedParameter ep)
+		{
+			exposedParameters.Remove(ep);
+
+			onExposedParameterListChanged?.Invoke();
+		}
+
+		public void UpdateExposedParameter(string name, object value)
+		{
+			var param = exposedParameters.Find(e => e.name == name);
+			string valueType = value.GetType().AssemblyQualifiedName;
+
+			if (valueType != param.type)
+				throw new Exception("Type mismatch when updating parameter " + name + ": from " + param.type + " to " + valueType);
+
+			param.serializedValue.value = value;
+			onExposedParameterModified.Invoke(name);
+		}
+
+		public ExposedParameter GetExposedParameter(string name)
+		{
+			return exposedParameters.FirstOrDefault(e => e.name == name);
 		}
 
 		int UpdateComputeOrder(int depth, BaseNode node)

@@ -4,9 +4,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Assertions;
-using UnityEngine.Experimental.UIElements;
-using UnityEditor.Experimental.UIElements;
-using UnityEditor.Experimental.UIElements.GraphView;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
+using UnityEditor.Experimental.GraphView;
 
 namespace GraphProcessor
 {
@@ -19,6 +19,8 @@ namespace GraphProcessor
 		[SerializeField]
 		protected BaseGraph			graph;
 
+		readonly string				graphWindowStyle = "GraphProcessorStyles/BaseGraphView";
+
 		public bool					isGraphLoaded
 		{
 			get { return graphView != null && graphView.graph != null; }
@@ -29,22 +31,28 @@ namespace GraphProcessor
 			InitializeRootView();
 
 			if (graph != null)
-				InitializeGraph(graph);
+			{
+				// We wait for the graph to be initialized
+				if (graph.isEnabled)
+					InitializeGraph(graph);
+				else
+					graph.onEnabled += () => InitializeGraph(graph);
+			}
 		}
 
 		protected void OnDisable()
 		{
-			if (graph != null)
+			if (graph != null && graphView != null)
 				graphView.SaveGraphToDisk();
 		}
 
 		void InitializeRootView()
 		{
-			rootView = this.GetRootVisualContainer();
+			rootView = base.rootVisualElement;
 
 			rootView.name = "graphRootView";
 
-			rootView.AddStyleSheetPath("GraphProcessorStyles/BaseGraphView");
+			rootView.styleSheets.Add(Resources.Load<StyleSheet>(graphWindowStyle));
 		}
 
 		public void InitializeGraph(BaseGraph graph)
@@ -55,7 +63,7 @@ namespace GraphProcessor
 				rootView.Remove(graphView);
 
 			//Initialize will provide the BaseGraphView
-			Initialize(graph);
+			InitializeWindow(graph);
 
 			graphView = rootView.Children().FirstOrDefault(e => e is BaseGraphView) as BaseGraphView;
 
@@ -66,6 +74,8 @@ namespace GraphProcessor
 			}
 
 			graphView.Initialize(graph);
+
+			InitializeGraphView(graphView);
 		}
 
 		public virtual void OnGraphDeleted()
@@ -76,6 +86,7 @@ namespace GraphProcessor
 			graphView = null;
 		}
 
-		protected abstract void	Initialize(BaseGraph graph);
+		protected abstract void	InitializeWindow(BaseGraph graph);
+		protected virtual void InitializeGraphView(BaseGraphView view) {}
 	}
 }

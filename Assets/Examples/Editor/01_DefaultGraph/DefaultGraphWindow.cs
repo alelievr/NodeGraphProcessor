@@ -6,7 +6,7 @@ using GraphProcessor;
 
 public class DefaultGraphWindow : BaseGraphWindow
 {
-	
+
 	[MenuItem("Window/01_DefaultGraph")]
 	public static BaseGraphWindow Open()
 	{
@@ -17,7 +17,7 @@ public class DefaultGraphWindow : BaseGraphWindow
 		return graphWindow;
 	}
 
-	protected override void Initialize(BaseGraph graph)
+	protected override void InitializeWindow(BaseGraph graph)
 	{
 		titleContent = new GUIContent("Default Graph");
 

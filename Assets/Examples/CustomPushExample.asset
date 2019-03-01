@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes:
   - type: CircleRadians, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"7078860c-f7cb-4534-befd-da3c678d17ee","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":160.0,"y":151.0,"width":120.0,"height":117.0},"expanded":false,"debug":false,"outputRadians":[0.0,1.2566370964050294,2.5132741928100588,3.769911289215088,5.026548385620117]}'
+    jsonDatas: '{"GUID":"7078860c-f7cb-4534-befd-da3c678d17ee","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":159.0,"y":116.0,"width":116.0,"height":167.0},"expanded":false,"debug":false,"outputRadians":[0.0,1.2566370964050294,2.5132741928100588,3.769911289215088,5.026548385620117]}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"0d8cd048-486b-4cce-9bd3-616bd2255d45","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":495.63519287109377,"y":13.4459867477417,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
+    jsonDatas: '{"GUID":"0d8cd048-486b-4cce-9bd3-616bd2255d45","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":496.0,"y":-3.399993896484375,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"e2203ce1-49be-41ea-814a-465faf267adb","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":382.7353515625,"y":107.50852966308594,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
+    jsonDatas: '{"GUID":"e2203ce1-49be-41ea-814a-465faf267adb","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":382.7353515625,"y":107.50852966308594,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"3b193543-3bd6-44d6-9664-115ecc6f2502","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":382.8052978515625,"y":239.9835205078125,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
+    jsonDatas: '{"GUID":"3b193543-3bd6-44d6-9664-115ecc6f2502","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":382.8052978515625,"y":239.9835205078125,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"e3318e7b-5469-424c-ab54-9524e62907a8","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":498.0,"y":273.0,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
+    jsonDatas: '{"GUID":"e3318e7b-5469-424c-ab54-9524e62907a8","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":498.0,"y":273.0,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"83c994d8-6442-4e61-82e1-e83537229fda","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":499.0,"y":144.0,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
+    jsonDatas: '{"GUID":"83c994d8-6442-4e61-82e1-e83537229fda","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":499.0,"y":137.0,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
   edges:
   - GUID: 035ee169-e916-40b5-aecc-831d072ea9ab
     owner: {fileID: 11400000}
@@ -57,11 +57,17 @@ MonoBehaviour:
     inputFieldName: obj
     outputFieldName: outputRadians
   commentBlocks: []
-  pinnedWindows:
-  - position: {x: 0, y: 1}
+  pinnedElements:
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 395
+      width: 150
+      height: 200
     opened: 1
     editorType:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  position: {x: 74, y: 48, z: 0}
+  exposedParameters: []
+  position: {x: 58, y: 149, z: 0}
   scale: {x: 1, y: 1, z: 1}

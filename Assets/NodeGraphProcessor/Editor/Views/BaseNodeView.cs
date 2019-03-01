@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Experimental.UIElements.GraphView;
-using UnityEngine.Experimental.UIElements;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 using UnityEditor;
 using System.Reflection;
 using System;
 using System.Linq;
 using UnityEditorInternal;
 
-using StatusFlags = UnityEngine.Experimental.UIElements.DropdownMenu.MenuAction.StatusFlags;
-using NodeView = UnityEditor.Experimental.UIElements.GraphView.Node;
+using Status = UnityEngine.UIElements.DropdownMenuAction.Status;
+using NodeView = UnityEditor.Experimental.GraphView.Node;
 
 namespace GraphProcessor
 {
@@ -30,6 +30,8 @@ namespace GraphProcessor
 
 		Label									computeOrderLabel = new Label();
 
+		readonly string							baseNodeStyle = "GraphProcessorStyles/BaseNodeView";
+
 		#region  Initialization
 
 		public void Initialize(BaseGraphView owner, BaseNode node)
@@ -39,7 +41,7 @@ namespace GraphProcessor
 
 			owner.computeOrderUpdated += ComputeOrderUpdatedCallback;
 
-			AddStyleSheetPath("GraphProcessorStyles/BaseNodeView");
+			styleSheets.Add(Resources.Load<StyleSheet>(baseNodeStyle));
 
 			InitializePorts();
 			InitializeView();
@@ -205,9 +207,9 @@ namespace GraphProcessor
 				var controlLabel = new Label(field.Name);
                 controlsContainer.Add(controlLabel);
 
-				var element = FieldFactory.CreateField(field, field.GetValue(nodeTarget), (newValue) => {
-					field.SetValue(nodeTarget, newValue);
+				var element = FieldFactory.CreateField(field.FieldType, field.GetValue(nodeTarget), (newValue) => {
 					owner.RegisterCompleteObjectUndo("Updated " + newValue);
+					field.SetValue(nodeTarget, newValue);
 				});
 
 				if (element != null)
@@ -222,6 +224,7 @@ namespace GraphProcessor
 		{
 			base.SetPosition(newPos);
 
+			Undo.RegisterCompleteObjectUndo(owner.graph, "Moved graph node");
 			nodeTarget.position = newPos;
 		}
 
@@ -239,20 +242,28 @@ namespace GraphProcessor
 		{
 			evt.menu.AppendAction("Open Node Script", (e) => OpenNodeScript(), OpenNodeScriptStatus);
 			evt.menu.AppendAction("Open Node View Script", (e) => OpenNodeViewScript(), OpenNodeViewScriptStatus);
+			evt.menu.AppendAction("Debug", (e) => ToggleDebug(), DebugStatus);
 		}
 
-		StatusFlags OpenNodeScriptStatus(DropdownMenu.MenuAction action)
+		Status DebugStatus(DropdownMenuAction action)
+		{
+			if (nodeTarget.debug)
+				return Status.Checked;
+			return Status.Normal;
+		}
+
+		Status OpenNodeScriptStatus(DropdownMenuAction action)
 		{
 			if (NodeProvider.GetNodeScript(nodeTarget.GetType()) != null)
-				return StatusFlags.Normal;
-			return StatusFlags.Disabled;
+				return Status.Normal;
+			return Status.Disabled;
 		}
 
-		StatusFlags OpenNodeViewScriptStatus(DropdownMenu.MenuAction action)
+		Status OpenNodeViewScriptStatus(DropdownMenuAction action)
 		{
 			if (NodeProvider.GetNodeViewScript(GetType()) != null)
-				return StatusFlags.Normal;
-			return StatusFlags.Disabled;
+				return Status.Normal;
+			return Status.Disabled;
 		}
 
 		#endregion

@@ -36,6 +36,9 @@ namespace GraphProcessor
 		[NonSerialized]
 		public Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
 
+		[NonSerialized]
+		protected BaseGraph			graph;
+
 		public class NodeFieldInformation
 		{
 			public string		name;
@@ -54,6 +57,11 @@ namespace GraphProcessor
 			}
 		}
 
+		public static T CreateFromType< T >(Vector2 position) where T : BaseNode
+		{
+			return CreateFromType(typeof(T), position) as T;
+		}
+
 		public static BaseNode CreateFromType(Type nodeType, Vector2 position)
 		{
 			if (!nodeType.IsSubclassOf(typeof(BaseNode)))
@@ -70,11 +78,17 @@ namespace GraphProcessor
 
 		#region Initialization
 
+		// called by the BaseGraph when the node is added to the graph
+		public void Initialize(BaseGraph graph)
+		{
+			this.graph = graph;
+
+			Enable();
+		}
+
 		protected BaseNode()
 		{
 			InitializeInOutDatas();
-
-			Enable();
 
 			inputPorts = new NodeInputPortContainer(this);
 			outputPorts = new NodeOutputPortContainer(this);

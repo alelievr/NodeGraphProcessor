@@ -1,4 +1,5 @@
-using UnityEditor.Experimental.UIElements.GraphView;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 using UnityEngine;
 
 namespace GraphProcessor
@@ -6,12 +7,14 @@ namespace GraphProcessor
 	public class EdgeView : Edge
 	{
 		public bool					isConnected = false;
-		
+
 		public SerializableEdge		serializedEdge { get { return userData as SerializableEdge; } }
-	
+
+		readonly string				edgeStyle = "GraphProcessorStyles/EdgeView";
+
 		public EdgeView()
 		{
-			AddStyleSheetPath("GraphProcessorStyles/EdgeView");
+			styleSheets.Add(Resources.Load<StyleSheet>(edgeStyle));
 		}
 	}
 }

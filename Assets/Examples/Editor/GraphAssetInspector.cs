@@ -3,17 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using GraphProcessor;
+using UnityEngine.UIElements;
 
-[CustomEditor(typeof(BaseGraph))]
-public class GraphAssetInspector : Editor
+[CustomEditor(typeof(BaseGraph), true)]
+public class GraphAssetInspector : GraphInspector
 {
-	public override void OnInspectorGUI()
+	// protected override void CreateInspector()
+	// {
+	// }
+
+	protected override void CreateInspector()
 	{
-		if (GUILayout.Button("Open base graph window"))
-			DefaultGraphWindow.Open().InitializeGraph(target as BaseGraph);
-		if (GUILayout.Button("Open custom context menu graph window"))
-			CustomContextMenuGraphWindow.Open().InitializeGraph(target as BaseGraph);
-		if (GUILayout.Button("Open custom toolbar graph window"))
-			CustomToolbarGraphWindow.Open().InitializeGraph(target as BaseGraph);
+		base.CreateInspector();
+
+		root.Add(new Button(() => DefaultGraphWindow.Open().InitializeGraph(target as BaseGraph))
+		{
+			text = "Open base graph window"
+		});
+		root.Add(new Button(() => CustomContextMenuGraphWindow.Open().InitializeGraph(target as BaseGraph))
+		{
+			text = "Open custom context menu graph window"
+		});
+		root.Add(new Button(() => CustomToolbarGraphWindow.Open().InitializeGraph(target as BaseGraph))
+		{
+			text = "Open custom toolbar graph window"
+		});
+		root.Add(new Button(() => ExposedPropertiesGraphWindow.Open().InitializeGraph(target as BaseGraph))
+		{
+			text = "Open exposed properties graph window"
+		});
 	}
 }

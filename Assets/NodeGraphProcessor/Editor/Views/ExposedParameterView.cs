@@ -65,7 +65,7 @@ namespace GraphProcessor
 
             foreach (var param in graphView.graph.exposedParameters)
             {
-                content.Add(new ExposedParameterFieldView(param));
+                content.Add(new ExposedParameterFieldView(graphView, param));
             }
         }
 

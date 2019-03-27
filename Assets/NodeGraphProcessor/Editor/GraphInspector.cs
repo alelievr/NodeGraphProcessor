@@ -45,7 +45,7 @@ namespace GraphProcessor
         {
             if (graph.exposedParameters.Count != 0)
                 parameterContainer.Add(new Label("Exposed Parameters:"));
-            
+
             foreach (var param in graph.exposedParameters)
             {
                 VisualElement prop = new VisualElement();

@@ -15,16 +15,17 @@ namespace GraphProcessor
 
 		public ExposedParameter	parameter { get; private set; }
 
-		public ExposedParameterFieldView(ExposedParameter param) : base(null, param.name, "")
+		public ExposedParameterFieldView(BaseGraphView graphView, ExposedParameter param) : base(null, param.name, "")
 		{
+			this.graphView = graphView;
 			parameter = param;
 			this.AddManipulator(new ContextualMenuManipulator(BuildContextualMenu));
 
 			(this.Q("textField") as TextField).RegisterValueChangedCallback((e) => {
 				param.name = e.newValue;
 				text = e.newValue;
+				graphView.graph.UpdateExposedParameterName(param, e.newValue);
 			});
-			// TODO: handle parameter renaming
         }
 
 		void BuildContextualMenu(ContextualMenuPopulateEvent evt)

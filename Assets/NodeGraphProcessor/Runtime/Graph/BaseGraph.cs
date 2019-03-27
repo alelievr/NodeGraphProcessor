@@ -9,6 +9,7 @@ namespace GraphProcessor
 	[System.Serializable]
 	public class ExposedParameter
 	{
+		public string				guid; // unique id to keep track of the parameter
 		public string				name;
 		public string				type;
 		public SerializableObject	serializedValue;
@@ -175,15 +176,20 @@ namespace GraphProcessor
 				UpdateComputeOrder(0, node);
 		}
 
-		public void AddExposedParameter(string name, Type type, object value)
+		public string AddExposedParameter(string name, Type type, object value)
 		{
+			string guid = Guid.NewGuid().ToString(); // Generated once and unique per parameter
+
 			exposedParameters.Add(new ExposedParameter{
+				guid = guid,
 				name = name,
 				type = type.AssemblyQualifiedName,
 				serializedValue = new SerializableObject(value)
 			});
-			
+
 			onExposedParameterListChanged?.Invoke();
+
+			return guid;
 		}
 
 		public void RemoveExposedParameter(ExposedParameter ep)
@@ -193,15 +199,27 @@ namespace GraphProcessor
 			onExposedParameterListChanged?.Invoke();
 		}
 
-		public void UpdateExposedParameter(string name, object value)
+		public void RemoveExposedParameter(string guid)
 		{
-			var param = exposedParameters.Find(e => e.name == name);
+			if (exposedParameters.RemoveAll(e => e.guid == guid) != 0)
+				onExposedParameterListChanged?.Invoke();
+		}
+
+		public void UpdateExposedParameter(string guid, object value)
+		{
+			var param = exposedParameters.Find(e => e.guid == guid);
 			string valueType = value.GetType().AssemblyQualifiedName;
 
 			if (valueType != param.type)
 				throw new Exception("Type mismatch when updating parameter " + name + ": from " + param.type + " to " + valueType);
 
 			param.serializedValue.value = value;
+			onExposedParameterModified.Invoke(name);
+		}
+
+		public void UpdateExposedParameterName(ExposedParameter parameter, string name)
+		{
+			parameter.name = name;
 			onExposedParameterModified.Invoke(name);
 		}
 

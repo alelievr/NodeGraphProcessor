@@ -29,15 +29,13 @@ public class ParameterNode : BaseNode
 		graph.onExposedParameterModified += OnParamChanged;
 		if (onParameterChanged != null)
 			onParameterChanged?.Invoke();
-			
 	}
 
 	void LoadExposedParameter()
 	{
 		parameter = graph.GetExposedParameter(parameterName);
-		
+
 		if (parameter == null)
-		
 		{
 			Debug.Log("Property \"" + parameterName + "\" Can't be found !");
 			return ;

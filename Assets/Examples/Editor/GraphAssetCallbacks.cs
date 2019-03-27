@@ -29,7 +29,7 @@ public class GraphAssetCallbacks
 
 		if (asset is BaseGraph && AssetDatabase.GetAssetPath(asset).Contains("Examples"))
 		{
-			Debug.Log("To open the graph, use the buttons in the inspector");
+			AllGraphWindow.Open().InitializeGraph(asset as BaseGraph);
 			return true;
 		}
 		return false;

@@ -11,7 +11,7 @@ namespace GraphProcessor
 	public class PortView : Port
 	{
 		public bool				isMultiple;
-		public string			fieldName { get; protected set; }
+		public string			connectedFieldName { get; protected set; }
 		public new Type			portType;
         public BaseNodeView     owner { get; private set; }
 
@@ -42,7 +42,7 @@ namespace GraphProcessor
 			this.m_EdgeConnector = new EdgeConnector< EdgeView >(edgeConnectorListener);
 			this.AddManipulator(m_EdgeConnector);
 
-			fieldName = fieldInfo.Name;
+			connectedFieldName = fieldInfo.Name;
 			portType = fieldInfo.FieldType;
 
 			this.fieldInfo = fieldInfo;

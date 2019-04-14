@@ -438,9 +438,10 @@ namespace GraphProcessor
 
 		protected bool AddNode(BaseNode node)
 		{
-			var view = AddNodeView(node);
-
+			// This will initialize the node using the graph instance
 			graph.AddNode(node);
+
+			var view = AddNodeView(node);
 
 			UpdateComputeOrder();
 

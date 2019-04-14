@@ -438,11 +438,14 @@ namespace GraphProcessor
 
 		protected bool AddNode(BaseNode node)
 		{
-			AddNodeView(node).OnCreated();
+			var view = AddNodeView(node);
 
 			graph.AddNode(node);
 
 			UpdateComputeOrder();
+
+			// Call create after the node have been initialized
+			view.OnCreated();
 
 			return true;
 		}

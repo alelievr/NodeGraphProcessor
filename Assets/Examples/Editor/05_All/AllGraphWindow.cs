@@ -26,7 +26,6 @@ public class AllGraphWindow : BaseGraphWindow
 		rootView.Add(graphView);
 
 		graphView.Add(new CustomToolbarView(graphView));
-		graphView.Add(new MiniMapView(graphView));
 	}
 
 	protected override void InitializeGraphView(BaseGraphView view)

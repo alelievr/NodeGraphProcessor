@@ -12,8 +12,8 @@ namespace ProceduralWorlds.Editor
 	{
 		static readonly string		nodeBaseName = "Node.cs";
 		static readonly string		nodeViewBaseName = "NodeView.cs";
-        static readonly string      nodeTemplatePath = "Assets/NodeGraphProcessor/Editor/Callbacks/NodeTemplate.cs.txt";
-        static readonly string      nodeViewTemplatePath = "Assets/NodeGraphProcessor/Editor/Callbacks/NodeViewTemplate.cs.txt";
+        static readonly string      nodeTemplatePath = "NodeTemplate.cs";
+        static readonly string      nodeViewTemplatePath = "NodeViewTemplate.cs";
 
         static string GetCurrentPath()
         {
@@ -24,7 +24,7 @@ namespace ProceduralWorlds.Editor
                 return null;
 			else
 				path = AssetDatabase.GetAssetPath(obj.GetInstanceID());
-			
+
 			if (path.Length > 0)
 			{
 				if (Directory.Exists(path))
@@ -34,36 +34,42 @@ namespace ProceduralWorlds.Editor
 			}
 			return null;
         }
-	
-		[MenuItem("Assets/Create/Node C# Script", false, 20)]
+
+		[MenuItem("Assets/Create/Node C# Script", false, 81)]
 		private static void CreateNodeCSharpScritpt()
 		{
 			string	path = GetCurrentPath() + "/" + nodeBaseName;
 			path = AssetDatabase.GenerateUniqueAssetPath(path);
 
+			var template = Resources.Load<TextAsset>(nodeTemplatePath);
+			string templatePath = AssetDatabase.GetAssetPath(template);
+
 			ProjectWindowUtil.StartNameEditingIfProjectWindowExists(
 				0,
 				ScriptableObject.CreateInstance< DoCreateNodeScript >(),
 				path,
 				EditorGUIUtility.FindTexture("cs Script Icon"),
-				Path.GetFullPath(nodeTemplatePath)
+				Path.GetFullPath(templatePath)
 			);
 
 			AssetDatabase.Refresh();
 		}
-        
-		[MenuItem("Assets/Create/Node View C# Script", false, 21)]
+
+		[MenuItem("Assets/Create/Node View C# Script", false, 82)]
 		private static void CreateNodeViewCSharpScritpt()
 		{
 			string	path = GetCurrentPath() + "/" + nodeViewBaseName;
 			path = AssetDatabase.GenerateUniqueAssetPath(path);
 
+			var template = Resources.Load<TextAsset>(nodeViewTemplatePath);
+			string templatePath = AssetDatabase.GetAssetPath(template);
+
 			ProjectWindowUtil.StartNameEditingIfProjectWindowExists(
 				0,
 				ScriptableObject.CreateInstance< DoCreateNodeScript >(),
 				path,
 				EditorGUIUtility.FindTexture("cs Script Icon"),
-				Path.GetFullPath(nodeViewTemplatePath)
+				Path.GetFullPath(templatePath)
 			);
 
 			AssetDatabase.Refresh();

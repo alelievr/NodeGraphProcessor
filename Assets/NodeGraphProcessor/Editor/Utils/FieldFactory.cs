@@ -36,7 +36,9 @@ namespace GraphProcessor
 			AddDrawer(typeof(Bounds), typeof(BoundsField));
 			AddDrawer(typeof(Color), typeof(ColorField));
 			AddDrawer(typeof(Vector2), typeof(Vector2Field));
+			AddDrawer(typeof(Vector2Int), typeof(Vector2IntField));
 			AddDrawer(typeof(Vector3), typeof(Vector3Field));
+			AddDrawer(typeof(Vector3Int), typeof(Vector3IntField));
 			AddDrawer(typeof(Vector4), typeof(Vector4Field));
 			AddDrawer(typeof(AnimationCurve), typeof(CurveField));
 			AddDrawer(typeof(Enum), typeof(EnumField));

@@ -159,6 +159,7 @@ namespace GraphProcessor
 					}
 					else if (node != null)
 					{
+						node.OnRemoved();
 						graph.RemoveNode(node.nodeTarget);
 						RemoveElement(node);
 						return true;
@@ -437,16 +438,20 @@ namespace GraphProcessor
 
 		protected bool AddNode(BaseNode node)
 		{
-			AddNodeView(node);
-
+			// This will initialize the node using the graph instance
 			graph.AddNode(node);
 
+			var view = AddNodeView(node);
+
 			UpdateComputeOrder();
+
+			// Call create after the node have been initialized
+			view.OnCreated();
 
 			return true;
 		}
 
-		protected bool AddNodeView(BaseNode node)
+		protected BaseNodeView AddNodeView(BaseNode node)
 		{
 			var viewType = NodeProvider.GetNodeViewTypeFromType(node.GetType());
 
@@ -460,7 +465,7 @@ namespace GraphProcessor
 			nodeViews.Add(baseNodeView);
 			nodeViewsPerNode[node] = baseNodeView;
 
-			return true;
+			return baseNodeView;
 		}
 
 		void RemoveNodeViews()

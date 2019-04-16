@@ -220,6 +220,9 @@ namespace GraphProcessor
 		public virtual void OnPortConnected(PortView port) {}
 		public virtual void OnPortDisconnected(PortView port) {}
 
+		public virtual void OnRemoved() {}
+		public virtual void OnCreated() {}
+
 		public override void SetPosition(Rect newPos)
 		{
 			base.SetPosition(newPos);

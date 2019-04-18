@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Reflection;
+using UnityEditor;
 
 namespace GraphProcessor
 {
@@ -20,12 +21,12 @@ namespace GraphProcessor
 
 	public static class JsonSerializer
 	{
-		public static JsonElement	Serialize< T >(T obj)
+		public static JsonElement	Serialize(object obj)
 		{
 			JsonElement	elem = new JsonElement();
 
 			elem.type = obj.GetType().AssemblyQualifiedName;
-			elem.jsonDatas = JsonUtility.ToJson(obj);
+			elem.jsonDatas = EditorJsonUtility.ToJson(obj);
 
 			return elem;
 		}
@@ -35,7 +36,15 @@ namespace GraphProcessor
 			if (typeof(T) != Type.GetType(e.type))
 				throw new ArgumentException("Deserializing type is not the same than Json element type");
 
-			return JsonUtility.FromJson< T >(e.jsonDatas);
+			var obj = Activator.CreateInstance< T >();
+			EditorJsonUtility.FromJsonOverwrite(e.jsonDatas, obj);
+
+			return obj;
+		}
+
+		public static JsonElement	SerializeNode(BaseNode node)
+		{
+			return Serialize(node);
 		}
 
 		public static BaseNode	DeserializeNode(JsonElement e)
@@ -45,7 +54,10 @@ namespace GraphProcessor
 			if (e.jsonDatas == null)
 				return null;
 
-			return JsonUtility.FromJson(e.jsonDatas, baseNodeType) as BaseNode;
+			var node = Activator.CreateInstance(baseNodeType) as BaseNode;
+			EditorJsonUtility.FromJsonOverwrite(e.jsonDatas, node);
+
+			return node;
 		}
 	}
 }

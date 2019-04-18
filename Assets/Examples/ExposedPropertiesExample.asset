@@ -40,18 +40,18 @@ MonoBehaviour:
   pinnedElements:
   - position:
       serializedVersion: 2
-      x: 909
-      y: 288
+      x: 0
+      y: 249
       width: 150
-      height: 211
+      height: 200
     opened: 1
     editorType:
       serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - position:
       serializedVersion: 2
-      x: 47
-      y: 511
+      x: 854
+      y: 222
       width: 150
       height: 200
     opened: 1
@@ -59,17 +59,21 @@ MonoBehaviour:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters:
-  - name: float
+  - guid: 
+    name: float
     type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     serializedValue:
       serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      serializedName: 
       serializedValue: 42
     input: 1
-  - name: text
+  - guid: 
+    name: text
     type: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     serializedValue:
       serializedType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      serializedName: 
       serializedValue: '"Hello World !"'
     input: 1
-  position: {x: -182, y: -34, z: 0}
+  position: {x: -345, y: -282, z: 0}
   scale: {x: 1.3225, y: 1.3225, z: 1}

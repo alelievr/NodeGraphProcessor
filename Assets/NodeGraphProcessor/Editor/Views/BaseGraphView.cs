@@ -83,14 +83,15 @@ namespace GraphProcessor
 			foreach (var nodeView in elements.Where(e => e is BaseNodeView))
 			{
 				var node = ((nodeView) as BaseNodeView).nodeTarget;
-				data.copiedNodes.Add(JsonSerializer.Serialize< BaseNode >(node));
+				data.copiedNodes.Add(JsonSerializer.SerializeNode(node));
 			}
 
 			foreach (var commentBlockView in elements.Where(e => e is CommentBlockView))
 			{
 				var commentBlock = (commentBlockView as CommentBlockView).commentBlock;
-				data.copiedCommentBlocks.Add(JsonSerializer.Serialize< CommentBlock >(commentBlock));
+				data.copiedCommentBlocks.Add(JsonSerializer.Serialize(commentBlock));
 			}
+
 
 			ClearSelection();
 

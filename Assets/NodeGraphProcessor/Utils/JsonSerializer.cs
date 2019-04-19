@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Reflection;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
+
+// Warning, the current serialization code does not handle unity objects
+// in play mode outside of the editor (because of JsonUtility)
 
 namespace GraphProcessor
 {
@@ -26,7 +31,11 @@ namespace GraphProcessor
 			JsonElement	elem = new JsonElement();
 
 			elem.type = obj.GetType().AssemblyQualifiedName;
+#if UNITY_EDITOR
 			elem.jsonDatas = EditorJsonUtility.ToJson(obj);
+#else
+			elem.jsonDatas = JsonUtility.ToJson(obj);
+#endif
 
 			return elem;
 		}
@@ -37,7 +46,11 @@ namespace GraphProcessor
 				throw new ArgumentException("Deserializing type is not the same than Json element type");
 
 			var obj = Activator.CreateInstance< T >();
+#if UNITY_EDITOR
 			EditorJsonUtility.FromJsonOverwrite(e.jsonDatas, obj);
+#else
+			JsonUtility.FromJsonOverwrite(e.jsonDatas, obj);
+#endif
 
 			return obj;
 		}
@@ -55,7 +68,11 @@ namespace GraphProcessor
 				return null;
 
 			var node = Activator.CreateInstance(baseNodeType) as BaseNode;
+#if UNITY_EDITOR
 			EditorJsonUtility.FromJsonOverwrite(e.jsonDatas, node);
+#else
+			JsonUtility.FromJsonOverwrite(e.jsonDatas, node);
+#endif
 
 			return node;
 		}

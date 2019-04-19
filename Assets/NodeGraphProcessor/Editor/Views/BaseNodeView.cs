@@ -56,15 +56,9 @@ namespace GraphProcessor
 		{
 			foreach (var fieldInfo in nodeTarget.nodeFields)
 			{
-				// This will automatically create our visual ports
-				PortBehaviorFactory.CreatePortBehavior(
-					this,
-					fieldInfo.Value.info,
-					fieldInfo.Value.input ? Direction.Input : Direction.Output,
-					owner.connectorListener,
-					fieldInfo.Value.isMultiple,
-					fieldInfo.Value.name
-				);
+				if (fieldInfo.Value.)
+				// TODO: handle custom port behavior per node fields
+				nodeView.AddPort(fieldInfo, direction, listener, isMultiple, name);
 			}
 		}
 

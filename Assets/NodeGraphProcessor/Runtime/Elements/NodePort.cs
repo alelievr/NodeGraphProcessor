@@ -7,6 +7,16 @@ using System;
 
 namespace GraphProcessor
 {
+	// Class that describe port attributes for it's creation
+	public class PortData
+	{
+		public string	identifier;
+		public string	displayName;
+		public Type		displayType;
+		public bool		input;
+		// TODO: other fields
+	}
+
 	public class NodePort
 	{
 		public string				fieldName;

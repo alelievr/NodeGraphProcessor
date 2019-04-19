@@ -22,7 +22,7 @@ public class MultiAddNodeView : BaseNodeView
 		controlsContainer.Add(floatField);
 	}
 
-	[CustomPortView(nameof(MultiAdNode.inputs))]
+	[CustomPortView(nameof(MultiAddNode.inputs))]
 	public IEnumerable< PortView > Multiport(NodePort port, PortCreationAttributes attrs)
 	{
 		int index = 0;

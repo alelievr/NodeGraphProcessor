@@ -8,6 +8,8 @@ using System.Linq;
 
 namespace GraphProcessor
 {
+	public delegate IEnumerable< PortData > CustomPortBehaviorDelegate(List< SerializableEdge > edges);
+
 	[Serializable]
 	public abstract class BaseNode
 	{
@@ -41,19 +43,21 @@ namespace GraphProcessor
 
 		public class NodeFieldInformation
 		{
-			public string		name;
-			public string		fieldName;
-			public FieldInfo	info;
-			public bool			input;
-			public bool			isMultiple;
+			public string						name;
+			public string						fieldName;
+			public FieldInfo					info;
+			public bool							input;
+			public bool							isMultiple;
+			public CustomPortBehaviorDelegate	behavior;
 
-			public NodeFieldInformation(FieldInfo info, string name, bool input, bool isMultiple)
+			public NodeFieldInformation(FieldInfo info, string name, bool input, bool isMultiple, CustomPortBehaviorDelegate behavior)
 			{
 				this.input = input;
 				this.isMultiple = isMultiple;
 				this.info = info;
 				this.name = name;
 				this.fieldName = info.Name;
+				this.behavior = behavior;
 			}
 		}
 
@@ -115,6 +119,7 @@ namespace GraphProcessor
 		void InitializeInOutDatas()
 		{
 			var fields = GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			var methods = GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
 			foreach (var field in fields)
 			{
@@ -136,7 +141,30 @@ namespace GraphProcessor
 				if (!String.IsNullOrEmpty(outputAttribute?.name))
 					name = outputAttribute.name;
 
-				nodeFields[field.Name] = new NodeFieldInformation(field, name, input, isMultiple);
+				// By default we set the behavior to null, if the field have a custom behavior, it will be set in the loop just below
+				nodeFields[field.Name] = new NodeFieldInformation(field, name, input, isMultiple, null);
+			}
+
+			foreach (var method in methods)
+			{
+				var customPortBehaviorAttribute = method.GetCustomAttribute< CustomPortBehaviorAttribute >();
+				CustomPortBehaviorDelegate behavior = null;
+
+				if (customPortBehaviorAttribute == null)
+					continue ;
+
+				// Check if custom port behavior function is valid
+				try {
+					var referenceType = typeof(CustomPortBehaviorDelegate);
+					behavior = (CustomPortBehaviorDelegate)Delegate.CreateDelegate(referenceType, this, method, true);
+				} catch {
+					Debug.LogError("The function " + method + " can be converted to the required delegate format: " + typeof(CustomPortBehaviorDelegate));
+				}
+
+				if (nodeFields.ContainsKey(customPortBehaviorAttribute.fieldName))
+					nodeFields[customPortBehaviorAttribute.fieldName].behavior = behavior;
+				else
+					Debug.LogError("Invalid field name for custom port behavior: " + method + ", " + customPortBehaviorAttribute.fieldName);
 			}
 		}
 

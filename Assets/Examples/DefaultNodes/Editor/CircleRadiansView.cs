@@ -21,8 +21,9 @@ public class CircleRadiansView : BaseNodeView
         // Create your fields using node's variables and add them to the controlsContainer
 
 		controlsContainer.Add(listContainer);
+		onPortConnected += OnPortUpdate;
+		onPortDisconnected += OnPortUpdate;
 
-		// TODO: find a way to get PortView from here
 		UpdateOutputRadians(GetPortFromFieldName("outputRadians").connectionCount);
 	}
 
@@ -40,14 +41,9 @@ public class CircleRadiansView : BaseNodeView
 		}
 	}
 
-	public override void OnPortConnected(PortView port)
+	public new void OnPortUpdate(PortView port)
 	{
 		// There is only one port on this node so it can only be the output
-		UpdateOutputRadians(port.connectionCount);
-	}
-
-	public override void OnPortDisconnected(PortView port)
-	{
 		UpdateOutputRadians(port.connectionCount);
 	}
 }

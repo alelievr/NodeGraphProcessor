@@ -59,17 +59,19 @@ MonoBehaviour:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters:
-  - name: float
+  - guid: 
+    name: float
     type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     serializedValue:
       serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       serializedValue: 42
     input: 1
-  - name: text
+  - guid: 
+    name: text
     type: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     serializedValue:
       serializedType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       serializedValue: '"Hello World !"'
     input: 1
-  position: {x: -182, y: -34, z: 0}
+  position: {x: -436, y: -302, z: 0}
   scale: {x: 1.3225, y: 1.3225, z: 1}

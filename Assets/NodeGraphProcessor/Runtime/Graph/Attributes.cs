@@ -81,7 +81,7 @@ namespace GraphProcessor
 		}
 	}
 
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 	public class CustomPortBehaviorAttribute : Attribute
 	{
 		public string		fieldName;

@@ -22,6 +22,8 @@ public class PrintNodeView : BaseNodeView
 		controlsContainer.Add(printLabel);
 
 		nodeTarget.onProcessed += UpdatePrintLabel;
+		onPortConnected += (p) => UpdatePrintLabel();
+		onPortDisconnected += (p) => UpdatePrintLabel();
 
 		UpdatePrintLabel();
 	}
@@ -32,15 +34,5 @@ public class PrintNodeView : BaseNodeView
 			printLabel.text = printNode.obj.ToString();
 		else
 			printLabel.text = "null";
-	}
-
-	public override void OnPortConnected(PortView port)
-	{
-		UpdatePrintLabel();
-	}
-
-	public override void OnPortDisconnected(PortView port)
-	{
-		UpdatePrintLabel();
 	}
 }

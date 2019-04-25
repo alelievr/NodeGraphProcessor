@@ -12,6 +12,7 @@ namespace GraphProcessor
 	{
 		public bool				isMultiple;
 		public string			connectedFieldName { get; protected set; }
+		public string			fieldName => fieldInfo.Name;
 		public new Type			portType;
         public BaseNodeView     owner { get; private set; }
 

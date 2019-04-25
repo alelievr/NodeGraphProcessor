@@ -30,6 +30,9 @@ namespace GraphProcessor
 
 		Label									computeOrderLabel = new Label();
 
+		public event Action< PortView >			onPortConnected;
+		public event Action< PortView >			onPortDisconnected;
+
 		readonly string							baseNodeStyle = "GraphProcessorStyles/BaseNodeView";
 
 		#region  Initialization
@@ -54,11 +57,37 @@ namespace GraphProcessor
 
 		void InitializePorts()
 		{
-			foreach (var fieldInfo in nodeTarget.nodeFields)
+			var listener = owner.connectorListener;
+
+			foreach (var fieldInfoKP in nodeTarget.nodeFields)
 			{
-				if (fieldInfo.Value.)
-				// TODO: handle custom port behavior per node fields
-				nodeView.AddPort(fieldInfo, direction, listener, isMultiple, name);
+				var fieldInfo = fieldInfoKP.Value;
+				var direction = (fieldInfo.input) ? Direction.Input : Direction.Output;
+
+				if (fieldInfo.behavior != null)
+				{
+					UpdateNodePortsForField(fieldInfo);
+				}
+				else
+				{
+					AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, fieldInfo.name);
+				}
+			}
+		}
+
+		void UpdateNodePortsForField(BaseNode.NodeFieldInformation fieldInfo)
+		{
+			if (fieldInfo.behavior == null)
+				return ;
+
+			var listener = owner.connectorListener;
+			var direction = (fieldInfo.input) ? Direction.Input : Direction.Output;
+			var container = fieldInfo.input ? nodeTarget.inputPorts as NodePortContainer : nodeTarget.outputPorts as NodePortContainer;
+			var nodePort = container.FirstOrDefault(np => np.fieldName == fieldInfo.fieldName);
+
+			foreach (var portData in fieldInfo.behavior(nodePort.GetEdges()))
+			{
+				AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, portData.displayName);
 			}
 		}
 
@@ -211,8 +240,29 @@ namespace GraphProcessor
 			}
 		}
 
-		public virtual void OnPortConnected(PortView port) {}
-		public virtual void OnPortDisconnected(PortView port) {}
+		public void OnPortConnected(PortView port)
+		{
+			// TODO: if the port have a custom behavior, then update it's ports
+			var nodeField = nodeTarget.nodeFields.FirstOrDefault(n => n.Value.fieldName == port.fieldName).Value;
+
+			if (nodeField.behavior != null)
+			{
+				// Clear all the port of this field:
+				// RemovePort()
+				UpdateNodePortsForField(nodeField);
+			}
+
+			onPortConnected?.Invoke(port);
+		}
+
+		public void OnPortDisconnected(PortView port)
+		{
+			// TODO: if the port have a custom behavior, then update it's ports
+
+			onPortDisconnected?.Invoke(port);
+		}
+
+		// TODO: a function to force to reload the custom behavior ports (if we want to do a button to add ports for example)
 
 		public virtual void OnRemoved() {}
 		public virtual void OnCreated() {}

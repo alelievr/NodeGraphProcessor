@@ -66,7 +66,6 @@ namespace GraphProcessor
                 return ;
 
             serializedType = value.GetType().AssemblyQualifiedName;
-            Debug.Log("Serialized type: " + serializedType);
 
             if (value.GetType().IsPrimitive)
                 serializedValue = value.ToString();

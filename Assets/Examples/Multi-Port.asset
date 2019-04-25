@@ -12,10 +12,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
   m_Name: Multi-Port
   m_EditorClassIdentifier: 
-  serializedNodes: []
-  edges: []
+  serializedNodes:
+  - type: MultiAddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"50c3eea6-ac9e-4f87-8c1d-4db89bed3ef6","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":470.30084228515627,"y":-7.771687030792236,"width":125.0,"height":101.0},"expanded":false,"debug":false,"output":0.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"2f236b55-86f6-4620-9c5b-08ffcfce738b","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":214.9364471435547,"y":-122.57205200195313,"width":73.0,"height":101.0},"expanded":false,"debug":false,"output":42.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"fd0502d1-49cf-4491-aa43-1e22e5ad8d2c","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":214.98304748535157,"y":0.6059228777885437,"width":73.0,"height":101.0},"expanded":false,"debug":false,"output":21.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"e9d66bf0-09b9-40c9-a0ef-91532d921152","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":213.72882080078126,"y":127.56866455078125,"width":73.0,"height":101.0},"expanded":false,"debug":false,"output":10.5}'
+  edges:
+  - GUID: be9cf41a-a131-40c9-9c13-3f4c24427ec2
+    owner: {fileID: 11400000}
+    inputNodeGUID: 50c3eea6-ac9e-4f87-8c1d-4db89bed3ef6
+    outputNodeGUID: 2f236b55-86f6-4620-9c5b-08ffcfce738b
+    inputFieldName: inputs
+    outputFieldName: output
   commentBlocks: []
-  pinnedElements: []
+  pinnedElements:
+  - position:
+      serializedVersion: 2
+      x: 20
+      y: 201
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 13
+      y: 45
+      width: 150
+      height: 200
+    opened: 0
+    editorType:
+      serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: 0, y: 0, z: 0}
-  scale: {x: 1, y: 1, z: 1}
+  position: {x: 30, y: 179.5, z: 0}
+  scale: {x: 0.9402391, y: 0.9402391, z: 1}

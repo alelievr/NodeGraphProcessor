@@ -21,29 +21,4 @@ public class MultiAddNodeView : BaseNodeView
 
 		controlsContainer.Add(floatField);
 	}
-
-	[CustomPortView(nameof(MultiAddNode.inputs))]
-	public IEnumerable< PortView > Multiport(NodePort port, PortCreationAttributes attrs)
-	{
-		int index = 0;
-		string portName = "Input ";
-
-		foreach (var edge in port.GetEdges())
-		{
-			yield return AddPort(portName + index++, attrs);
-		}
-
-		yield return AddPort(portName + index, attrs);
-	}
-
-	public override void OnPortConnected(PortView port)
-	{
-		// re-create ports:
-
-	}
-
-	public override void OnPortDisconnected(PortView port)
-	{
-
-	}
 }

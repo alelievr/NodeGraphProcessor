@@ -99,7 +99,11 @@ namespace GraphProcessor
 
 			foreach (var nodeFieldKP in nodeFields)
 			{
-				AddPort(nodeFieldKP.Value.input, nodeFieldKP.Value.fieldName);
+				var nodeField = nodeFieldKP.Value;
+
+				// By default we only create one port, when the node view is initialized,
+				// it will create other port views for the processing
+				AddPort(nodeField.input, nodeField.fieldName, null);
 			}
 		}
 
@@ -211,12 +215,12 @@ namespace GraphProcessor
 
 		#region API and utils
 
-		public void AddPort(bool input, string fieldName)
+		public void AddPort(bool input, string fieldName, string identifier) // TODO: default value
 		{
 			if (input)
-				inputPorts.Add(new NodePort(this, fieldName));
+				inputPorts.Add(new NodePort(this, fieldName, identifier));
 			else
-				outputPorts.Add(new NodePort(this, fieldName));
+				outputPorts.Add(new NodePort(this, fieldName, identifier));
 		}
 
 		public void RemovePort(bool input, NodePort port)

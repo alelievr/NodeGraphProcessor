@@ -11,8 +11,9 @@ namespace GraphProcessor
 	public class PortView : Port
 	{
 		public bool				isMultiple;
-		public string			connectedFieldName { get; protected set; }
 		public string			fieldName => fieldInfo.Name;
+		public Type				fieldType => fieldInfo.FieldType;
+		public string			identifier;
 		public new Type			portType;
         public BaseNodeView     owner { get; private set; }
 
@@ -30,8 +31,8 @@ namespace GraphProcessor
 
 		readonly string portStyle = "GraphProcessorStyles/PortView";
 
-        public PortView(Orientation portOrientation, Direction direction, FieldInfo fieldInfo, EdgeConnectorListener edgeConnectorListener)
-            : base(portOrientation, direction, Capacity.Multi, fieldInfo.FieldType)
+        public PortView(Orientation portOrientation, Direction direction, FieldInfo fieldInfo, Type displayType, EdgeConnectorListener edgeConnectorListener, string identifier)
+            : base(portOrientation, direction, Capacity.Multi, displayType ?? fieldInfo.FieldType)
 		{
 			styleSheets.Add(Resources.Load<StyleSheet>(portStyle));
 
@@ -43,11 +44,10 @@ namespace GraphProcessor
 			this.m_EdgeConnector = new EdgeConnector< EdgeView >(edgeConnectorListener);
 			this.AddManipulator(m_EdgeConnector);
 
-			connectedFieldName = fieldInfo.Name;
-			portType = fieldInfo.FieldType;
-
 			this.fieldInfo = fieldInfo;
 			this.listener = edgeConnectorListener;
+			this.portType = displayType ?? fieldInfo.FieldType;
+			this.identifier = identifier;
 		}
 
 		public virtual void Initialize(BaseNodeView nodeView, bool isMultiple, string name)
@@ -56,8 +56,11 @@ namespace GraphProcessor
 			this.owner = nodeView;
 
 			// Correct port type if port accept multiple values (and so is a container)
-			if (isMultiple)
-				portType = portType.GetGenericArguments()[0];
+			if (isMultiple && portType == fieldType) // If the user haven't set a custom field type
+			{
+				Debug.Log("override display type: " + portType +  ", " + fieldType);
+				portType = fieldType.GetGenericArguments()[0];
+			}
 
 			if (name != null)
 				portName = name;

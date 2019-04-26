@@ -20,6 +20,7 @@ namespace GraphProcessor
 	public class NodePort
 	{
 		public string				fieldName;
+		public string				portIdentifier;
 		public BaseNode				owner;
 		List< SerializableEdge >	edges = new List< SerializableEdge >();
 		Dictionary< SerializableEdge, PushDataDelegate >	pushDataDelegates = new Dictionary< SerializableEdge, PushDataDelegate >();
@@ -30,10 +31,11 @@ namespace GraphProcessor
 
 		public delegate void PushDataDelegate();
 
-		public NodePort(BaseNode owner, string fieldName)
+		public NodePort(BaseNode owner, string fieldName, string identifier) //  TODO: identifier set to null by default
 		{
 			this.fieldName = fieldName;
 			this.owner = owner;
+			this.portIdentifier = identifier;
 
 			ourValueField = owner.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -71,8 +73,8 @@ namespace GraphProcessor
 			try
 			{
 				//Creation of the delegate to move the data from the input node to the output node:
-				FieldInfo inputField = edge.inputNode.GetType().GetField(edge.trueInputFieldName, BindingFlags.Public | BindingFlags.Instance);
-				FieldInfo outputField = edge.outputNode.GetType().GetField(edge.trueOutputFieldName, BindingFlags.Public | BindingFlags.Instance);
+				FieldInfo inputField = edge.inputNode.GetType().GetField(edge.inputFieldName, BindingFlags.Public | BindingFlags.Instance);
+				FieldInfo outputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Public | BindingFlags.Instance);
 
 // We keep slow checks inside the editor
 #if UNITY_EDITOR

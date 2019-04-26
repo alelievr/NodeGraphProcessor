@@ -23,7 +23,7 @@ namespace GraphProcessor
 
 		public BaseGraphView					owner { private set; get; }
 
-		protected Dictionary< string, PortView >portsPerFieldName = new Dictionary< string, PortView >();
+		protected Dictionary< string, List< PortView > > portsPerFieldName = new Dictionary< string, List< PortView > >();
 
         protected VisualElement 				controlsContainer;
 		protected VisualElement					debugContainer;
@@ -70,7 +70,7 @@ namespace GraphProcessor
 				}
 				else
 				{
-					AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, fieldInfo.name);
+					AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, new PortData { displayName = fieldInfo.name });
 				}
 			}
 		}
@@ -80,15 +80,62 @@ namespace GraphProcessor
 			if (fieldInfo.behavior == null)
 				return ;
 
+			#if true
+
+			List< string > finalPorts = new List< string >();
+			var currentPorts = GetPortViewsFromFieldName(fieldInfo.fieldName);
 			var listener = owner.connectorListener;
-			var direction = (fieldInfo.input) ? Direction.Input : Direction.Output;
+			var direction = fieldInfo.input ? Direction.Input : Direction.Output;
 			var container = fieldInfo.input ? nodeTarget.inputPorts as NodePortContainer : nodeTarget.outputPorts as NodePortContainer;
 			var nodePort = container.FirstOrDefault(np => np.fieldName == fieldInfo.fieldName);
 
 			foreach (var portData in fieldInfo.behavior(nodePort.GetEdges()))
 			{
-				AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, portData.displayName);
+				// Add only ports that are not currently here
+				if (currentPorts == null || !currentPorts.Any(p => p.identifier == portData.identifier))
+					AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, portData);
+				else
+				{
+					// TODO: patch the name of the ports
+
+				}
+				finalPorts.Add(portData.identifier);
 			}
+
+			// Remove only the ports that are no more in the list
+			if (currentPorts != null)
+			{
+				var currentPortsCopy = currentPorts.ToList();
+				foreach (var currentPort in currentPortsCopy)
+				{
+					// If the current port does not appear in the list of final ports, we remove it
+					if (!finalPorts.Any(id => id == currentPort.identifier))
+					{
+						RemovePort(currentPort);
+					}
+				}
+			}
+
+			#else
+
+			var currentPorts = GetPortViewsFromFieldName(fieldInfo.fieldName);
+			if (currentPorts != null)
+			{
+				var currentPortsCopy = currentPorts.ToList();
+				currentPortsCopy.ForEach(p => RemovePort(p));
+			}
+
+			var listener = owner.connectorListener;
+			var direction = fieldInfo.input ? Direction.Input : Direction.Output;
+			var container = fieldInfo.input ? nodeTarget.inputPorts as NodePortContainer : nodeTarget.outputPorts as NodePortContainer;
+			var nodePort = container.FirstOrDefault(np => np.fieldName == fieldInfo.fieldName);
+
+			foreach (var portData in fieldInfo.behavior(nodePort.GetEdges()))
+			{
+				AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, portData);
+			}
+
+			#endif
 		}
 
 		void InitializeView()
@@ -115,19 +162,31 @@ namespace GraphProcessor
 
 		#region API
 
-		public PortView GetPortFromFieldName(string fieldName)
+		public List< PortView > GetPortViewsFromFieldName(string fieldName)
 		{
-			PortView	ret;
+			List< PortView >	ret;
 
 			portsPerFieldName.TryGetValue(fieldName, out ret);
 
 			return ret;
 		}
 
-		public PortView AddPort(FieldInfo fieldInfo, Direction direction, EdgeConnectorListener listener, bool isMultiple = false, string name = null)
+		public PortView GetFirstPortViewFromFieldName(string fieldName)
+		{
+			return GetPortViewsFromFieldName(fieldName)?.First();
+		}
+
+		public PortView GetPortViewFromFieldName(string fieldName, string identifier)
+		{
+			return GetPortViewsFromFieldName(fieldName)?.FirstOrDefault(pv => {
+				return (pv.identifier == identifier) || (String.IsNullOrEmpty(pv.identifier) && String.IsNullOrEmpty(identifier));
+			});
+		}
+
+		public PortView AddPort(FieldInfo fieldInfo, Direction direction, EdgeConnectorListener listener, bool isMultiple = false, PortData portData = null)
 		{
 			// TODO: hardcoded value
-			PortView p = new PortView(Orientation.Horizontal, direction, fieldInfo, listener);
+			PortView p = new PortView(Orientation.Horizontal, direction, fieldInfo, portData?.displayType, listener, portData?.identifier);
 
 			if (p.direction == Direction.Input)
 			{
@@ -140,9 +199,16 @@ namespace GraphProcessor
 				outputContainer.Add(p);
 			}
 
-			p.Initialize(this, isMultiple, name);
+			p.Initialize(this, isMultiple, portData?.displayName);
 
-			portsPerFieldName[p.fieldName] = p;
+			List< PortView > ports;
+			portsPerFieldName.TryGetValue(p.fieldName, out ports);
+			if (ports == null)
+			{
+				ports = new List< PortView >();
+				portsPerFieldName[p.fieldName] = ports;
+			}
+			ports.Add(p);
 
 			return p;
 		}
@@ -153,7 +219,6 @@ namespace GraphProcessor
 			{
 				inputPorts.Remove(p);
 				inputContainer.Remove(p);
-
 			}
 			else
 			{
@@ -161,7 +226,9 @@ namespace GraphProcessor
 				outputContainer.Remove(p);
 			}
 
-			portsPerFieldName.Remove(p.fieldName);
+			List< PortView > ports;
+			portsPerFieldName.TryGetValue(p.fieldName, out ports);
+			ports.Remove(p);
 		}
 
 		public void OpenNodeViewScript()
@@ -242,23 +309,17 @@ namespace GraphProcessor
 
 		public void OnPortConnected(PortView port)
 		{
-			// TODO: if the port have a custom behavior, then update it's ports
 			var nodeField = nodeTarget.nodeFields.FirstOrDefault(n => n.Value.fieldName == port.fieldName).Value;
 
-			if (nodeField.behavior != null)
-			{
-				// Clear all the port of this field:
-				// RemovePort()
-				UpdateNodePortsForField(nodeField);
-			}
-
+			UpdateNodePortsForField(nodeField);
 			onPortConnected?.Invoke(port);
 		}
 
 		public void OnPortDisconnected(PortView port)
 		{
-			// TODO: if the port have a custom behavior, then update it's ports
+			var nodeField = nodeTarget.nodeFields.FirstOrDefault(n => n.Value.fieldName == port.fieldName).Value;
 
+			UpdateNodePortsForField(nodeField);
 			onPortDisconnected?.Invoke(port);
 		}
 

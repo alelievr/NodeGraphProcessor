@@ -35,9 +35,9 @@ namespace GraphProcessor
 		public string	inputFieldName;
 		public string	outputFieldName;
 
-		// TODO: very bad design, refactor (see with MultiPort to use another property to pass the id)
-		public string 	trueInputFieldName => inputFieldName.Split('|')[0];
-		public string 	trueOutputFieldName => outputFieldName.Split('|')[0];
+		// Use to store the id of the field that generate multiple ports
+		public string	inputPortIdentifier;
+		public string	outputPortIdentifier;
 
 		//Private constructor so we can't instantiate this class
 		private SerializableEdge() {}
@@ -54,6 +54,9 @@ namespace GraphProcessor
 			edge.outputFieldName = outputFieldName;
 			edge.inputPort = inputNode.GetPort(inputFieldName);
 			edge.outputPort = outputNode.GetPort(outputFieldName);
+			edge.inputPortIdentifier = edge.inputPort.portIdentifier;
+			edge.outputPortIdentifier = edge.outputPort.portIdentifier;
+			Debug.Log("Identifier: " + edge.outputPort.portIdentifier);
 
 			return edge;
 		}

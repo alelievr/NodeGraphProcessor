@@ -36,8 +36,8 @@ public class MultiAddNode : BaseNode
 		{
             // unique port key that will be serialized into the edges and used to re-connect the
             // the edges when the graph is reloaded
-            yield return new PortData{
-				displayName = "In " + index++,
+            yield return new PortData {
+				displayName = "In " + index,
 				displayType = typeof(float),
 				identifier = edgeOfInput.GUID,
 				input = true

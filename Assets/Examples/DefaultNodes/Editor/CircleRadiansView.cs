@@ -24,7 +24,7 @@ public class CircleRadiansView : BaseNodeView
 		onPortConnected += OnPortUpdate;
 		onPortDisconnected += OnPortUpdate;
 
-		UpdateOutputRadians(GetPortFromFieldName("outputRadians").connectionCount);
+		UpdateOutputRadians(GetFirstPortViewFromFieldName("outputRadians").connectionCount);
 	}
 
 	void UpdateOutputRadians(int count)

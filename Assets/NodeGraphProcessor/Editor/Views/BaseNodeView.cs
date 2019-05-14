@@ -70,72 +70,6 @@ namespace GraphProcessor
 			}
 		}
 
-		void UpdatePortViewsForField(string fieldName)
-		{
-			// TODO !
-			// if (fieldInfo.behavior == null)
-			// 	return ;
-
-			// #if true
-
-			// List< string > finalPorts = new List< string >();
-			// var currentPorts = GetPortViewsFromFieldName(fieldInfo.fieldName);
-			// var listener = owner.connectorListener;
-			// var direction = fieldInfo.input ? Direction.Input : Direction.Output;
-			// var container = fieldInfo.input ? nodeTarget.inputPorts as NodePortContainer : nodeTarget.outputPorts as NodePortContainer;
-			// var nodePort = container.FirstOrDefault(np => np.fieldName == fieldInfo.fieldName);
-
-			// foreach (var portData in fieldInfo.behavior(nodePort.GetEdges()))
-			// {
-			// 	// Add only ports that are not currently here
-			// 	if (currentPorts == null || !currentPorts.Any(p => p.identifier == portData.identifier))
-			// 	{
-			// 		AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, portData);
-			// 		Debug.Log("Added port with ID: " + portData.identifier + ", " + portData.input + ", " + portData.displayName);
-			// 	}
-			// 	else
-			// 	{
-			// 		// TODO: patch the name of the ports
-			// 	}
-			// 	finalPorts.Add(portData.identifier);
-			// }
-
-			// // Remove only the ports that are no more in the list
-			// if (currentPorts != null)
-			// {
-			// 	var currentPortsCopy = currentPorts.ToList();
-			// 	foreach (var currentPort in currentPortsCopy)
-			// 	{
-			// 		// If the current port does not appear in the list of final ports, we remove it
-			// 		if (!finalPorts.Any(id => id == currentPort.identifier))
-			// 		{
-			// 			RemovePort(currentPort);
-			// 		}
-			// 	}
-			// }
-
-			// #else
-
-			// var currentPorts = GetPortViewsFromFieldName(fieldInfo.fieldName);
-			// if (currentPorts != null)
-			// {
-			// 	var currentPortsCopy = currentPorts.ToList();
-			// 	currentPortsCopy.ForEach(p => RemovePort(p));
-			// }
-
-			// var listener = owner.connectorListener;
-			// var direction = fieldInfo.input ? Direction.Input : Direction.Output;
-			// var container = fieldInfo.input ? nodeTarget.inputPorts as NodePortContainer : nodeTarget.outputPorts as NodePortContainer;
-			// var nodePort = container.FirstOrDefault(np => np.fieldName == fieldInfo.fieldName);
-
-			// foreach (var portData in fieldInfo.behavior(nodePort.GetEdges()))
-			// {
-			// 	AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, portData);
-			// }
-
-			// #endif
-		}
-
 		void InitializeView()
 		{
             controlsContainer = new VisualElement{ name = "controls" };
@@ -307,13 +241,11 @@ namespace GraphProcessor
 
 		public void OnPortConnected(PortView port)
 		{
-			UpdatePortViewsForField(port.fieldName);
 			onPortConnected?.Invoke(port);
 		}
 
 		public void OnPortDisconnected(PortView port)
 		{
-			UpdatePortViewsForField(port.fieldName);
 			onPortDisconnected?.Invoke(port);
 		}
 
@@ -366,6 +298,34 @@ namespace GraphProcessor
 			if (NodeProvider.GetNodeViewScript(GetType()) != null)
 				return Status.Normal;
 			return Status.Disabled;
+		}
+
+		public new bool RefreshPorts()
+		{
+			var listener = owner.connectorListener;
+
+			// If a port behavior was attached to one port, then
+			// the port count might have been updated by the node
+			// so we have to refresh the list of port views.
+			if (nodeTarget.inputPorts.Count != inputPortViews.Count)
+			{
+				// TODO: update input port views
+			}
+			if (nodeTarget.outputPorts.Count != outputPortViews.Count)
+			{
+				// TODO: update output port views
+			}
+			// foreach (var inputPort in nodeTarget.inputPorts)
+			// {
+			// 	AddPort(inputPort.fieldInfo, Direction.Input, listener, inputPort.portData);
+			// }
+
+			// foreach (var outputPort in nodeTarget.outputPorts)
+			// {
+			// 	AddPort(outputPort.fieldInfo, Direction.Output, listener, outputPort.portData);
+			// }
+
+			return base.RefreshPorts();
 		}
 
 		#endregion

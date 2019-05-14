@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace GraphProcessor
 {
+    // TODO: remove this class
+    [Obsolete]
     public class MultiPorts
     {
         // The first MultiPortView class set this field to tell the other that she's controlling this MultiPort

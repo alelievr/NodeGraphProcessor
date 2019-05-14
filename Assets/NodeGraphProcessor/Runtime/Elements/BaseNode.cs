@@ -127,7 +127,14 @@ namespace GraphProcessor
 			// var container = fieldInfo.input ? nodeTarget.inputPorts as NodePortContainer : nodeTarget.outputPorts as NodePortContainer;
 			// var nodePort = container.FirstOrDefault(np => np.fieldName == fieldInfo.fieldName);
 
-			foreach (var portData in fieldInfo.behavior(null)) // we don't have access to the edges here since the port is not yet created
+			var portCollection = fieldInfo.input ? (NodePortContainer)inputPorts : outputPorts;
+
+			// Gather all fields for this port (before to modify them)
+			var nodePorts = portCollection.Where(p => p.fieldName == fieldName);
+			// Gather all edges connected to these fields:
+			var edges = nodePorts.SelectMany(n => n.GetEdges()).ToList();
+
+			foreach (var portData in fieldInfo.behavior(edges))
 			{
 				// Add only ports that are not currently here
 				// if (currentPorts == null || !currentPorts.Any(p => p.identifier == portData.identifier))
@@ -232,6 +239,8 @@ namespace GraphProcessor
 			NodePortContainer portCollection = (input) ? (NodePortContainer)inputPorts : outputPorts;
 
 			portCollection.Add(edge);
+
+			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
 		}
 
 		public void OnEdgeDisonnected(SerializableEdge edge)

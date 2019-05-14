@@ -81,6 +81,8 @@ namespace GraphProcessor
 		}
 	}
 
+	// Note: The attached function must have this prototype:
+	// IEnumerable< PortData > MyCustomPortFunction(List< SerializableEdge > edges);
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 	public class CustomPortBehaviorAttribute : Attribute
 	{

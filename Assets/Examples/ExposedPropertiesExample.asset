@@ -17,12 +17,12 @@ MonoBehaviour:
       PublicKeyToken=null
     jsonDatas: '{"GUID":"c116edb8-4c30-4cb6-8c00-4351ee3ea443","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":479.3951110839844,"y":217.76937866210938,"width":100.0,"height":100.0},"expanded":false,"debug":false,"parameterName":"float"}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"ceccedda-11b9-4594-b5e7-bcef01331c0a","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":648.4385375976563,"y":284.77886962890627,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
+    jsonDatas: '{"GUID":"ceccedda-11b9-4594-b5e7-bcef01331c0a","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":648.4385375976563,"y":284.77886962890627,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
   - type: ParameterNode, com.alelievr.NodeGraphProcessor, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     jsonDatas: '{"GUID":"5f801c8d-a64f-41ea-9c65-5815e694d505","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":476.9754333496094,"y":375.4593505859375,"width":68.0,"height":77.0},"expanded":false,"debug":false,"parameterName":"text"}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"44c26442-9671-481f-941a-a521ab9f2ea9","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":640.7334594726563,"y":428.19281005859377,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
+    jsonDatas: '{"GUID":"44c26442-9671-481f-941a-a521ab9f2ea9","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":640.7334594726563,"y":428.19281005859377,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
   edges:
   - GUID: 8666519c-9202-4b22-9288-99ab4cf3196b
     owner: {fileID: 11400000}
@@ -30,28 +30,32 @@ MonoBehaviour:
     outputNodeGUID: c116edb8-4c30-4cb6-8c00-4351ee3ea443
     inputFieldName: obj
     outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
   - GUID: 01287748-7d94-43c2-a0b1-52ab603cf3e7
     owner: {fileID: 11400000}
     inputNodeGUID: 44c26442-9671-481f-941a-a521ab9f2ea9
     outputNodeGUID: 5f801c8d-a64f-41ea-9c65-5815e694d505
     inputFieldName: obj
     outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
   commentBlocks: []
   pinnedElements:
   - position:
       serializedVersion: 2
-      x: 909
-      y: 288
+      x: 813
+      y: 281
       width: 150
-      height: 211
+      height: 200
     opened: 1
     editorType:
       serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - position:
       serializedVersion: 2
-      x: 47
-      y: 511
+      x: 49
+      y: 248
       width: 150
       height: 200
     opened: 1

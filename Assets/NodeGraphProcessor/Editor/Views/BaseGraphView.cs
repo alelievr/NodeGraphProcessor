@@ -507,7 +507,7 @@ namespace GraphProcessor
 				return false;
 
 			//If the input port does not support multi-connection, we remove them
-			if (autoDisconnectInputs && !(e.input as PortView).isMultiple)
+			if (autoDisconnectInputs && !(e.input as PortView).portData.acceptMultipleEdges)
 				foreach (var edge in edgeViews.Where(ev => ev.input == e.input))
 				{
 					// TODO: do not disconnect them if the connected port is the same than the old connected
@@ -518,21 +518,22 @@ namespace GraphProcessor
 
 			var inputNodeView = e.input.node as BaseNodeView;
 			var outputNodeView = e.output.node as BaseNodeView;
-
-			// Warning: if there is a custom behavior on the ports we are connecting
-			// These two calls may destroy the Port refereced in the edge instance
-			// So in case this happens, we keep the identifier of the port to re-find it
-			var inputPortIdentifier = (e.input as PortView).identifier;
-			var outputPortIdentifier = (e.output as PortView).identifier;
-			var inputPortFieldName = (e.input as PortView).fieldName;
-			var outputPortFieldName = (e.output as PortView).fieldName;
+			var inputPortView = e.input as PortView;
+			var outputPortView = e.output as PortView;
+			var inputPortIdentifier = inputPortView.portData.identifier;
+			var outputPortIdentifier = outputPortView.portData.identifier;
+			var inputPortFieldName = inputPortView.fieldName;
+			var outputPortFieldName = outputPortView.fieldName;
 
 			if (serializeToGraph)
 			{
-				e.userData = graph.Connect(
-					inputNodeView.nodeTarget, (e.input as PortView).fieldName,
-					outputNodeView.nodeTarget, (e.output as PortView).fieldName
-				);
+				NodePort inputPort = inputNodeView.nodeTarget.inputPorts.FirstOrDefault(o => o.portData.displayName == inputPortView.portData.displayName);
+				NodePort outputPort = outputNodeView.nodeTarget.outputPorts.FirstOrDefault(o => o.portData == outputPortView.portData);
+
+				Debug.Log("output port: " + outputPort.portData.displayName);
+				Debug.Log("input port: " + inputPort.portData.displayName);
+
+				e.userData = graph.Connect(inputPort, outputPort);
 			}
 
 			// Add the edge to the list of connected edges in the nodes

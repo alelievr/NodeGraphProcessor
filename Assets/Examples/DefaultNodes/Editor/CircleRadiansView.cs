@@ -41,7 +41,7 @@ public class CircleRadiansView : BaseNodeView
 		}
 	}
 
-	public new void OnPortUpdate(PortView port)
+	public void OnPortUpdate(PortView port)
 	{
 		// There is only one port on this node so it can only be the output
 		UpdateOutputRadians(port.connectionCount);

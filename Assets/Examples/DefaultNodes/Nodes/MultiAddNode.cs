@@ -29,20 +29,19 @@ public class MultiAddNode : BaseNode
 	[CustomPortBehavior(nameof(inputs))]
 	IEnumerable< PortData > GetPortsForInputs(List< SerializableEdge > edges)
 	{
-		PortData pd = new PortData();
 		int index = 0;
 
-		foreach (var edgeOfInput in edges)
-		{
-            // unique port key that will be serialized into the edges and used to re-connect the
-            // the edges when the graph is reloaded
-            yield return new PortData {
-				displayName = "In " + index,
-				displayType = typeof(float),
-				identifier = edgeOfInput.GUID,
-				input = true
-			};
-		}
+		// We wont have edges in the final API
+		// foreach (var edgeOfInput in edges)
+		// {
+        //     // unique port key that will be serialized into the edges and used to re-connect the
+        //     // the edges when the graph is reloaded
+        //     yield return new PortData {
+		// 		displayName = "In " + index,
+		// 		displayType = typeof(float),
+		// 		identifier = edgeOfInput.GUID
+		// 	};
+		// }
 
 		// Dummy last port to allow connecting additional edges
 		yield return new PortData{ displayName = "In " + index, displayType = typeof(float)};

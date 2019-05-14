@@ -80,9 +80,9 @@ namespace GraphProcessor
 			nodes.Remove(node);
 		}
 
-		public SerializableEdge Connect(BaseNode inputNode, string inputFieldName, BaseNode outputNode, string outputFieldName)
+		public SerializableEdge Connect(NodePort inputPort, NodePort outputPort)
 		{
-			var edge = SerializableEdge.CreateNewEdge(this, inputNode, inputFieldName, outputNode, outputFieldName);
+			var edge = SerializableEdge.CreateNewEdge(this, inputPort, outputPort);
 
 			edges.Add(edge);
 

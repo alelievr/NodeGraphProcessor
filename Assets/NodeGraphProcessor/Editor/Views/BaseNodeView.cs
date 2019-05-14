@@ -18,8 +18,8 @@ namespace GraphProcessor
 	{
 		public BaseNode							nodeTarget;
 
-		public List< Port >						inputPorts = new List< Port >();
-		public List< Port >						outputPorts = new List< Port >();
+		public List< PortView >					inputPortViews = new List< PortView >();
+		public List< PortView >					outputPortViews = new List< PortView >();
 
 		public BaseGraphView					owner { private set; get; }
 
@@ -59,83 +59,81 @@ namespace GraphProcessor
 		{
 			var listener = owner.connectorListener;
 
-			foreach (var fieldInfoKP in nodeTarget.nodeFields)
+			foreach (var inputPort in nodeTarget.inputPorts)
 			{
-				var fieldInfo = fieldInfoKP.Value;
-				var direction = (fieldInfo.input) ? Direction.Input : Direction.Output;
+				AddPort(inputPort.fieldInfo, Direction.Input, listener, inputPort.portData);
+			}
 
-				if (fieldInfo.behavior != null)
-				{
-					UpdateNodePortsForField(fieldInfo);
-				}
-				else
-				{
-					AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, new PortData { displayName = fieldInfo.name });
-				}
+			foreach (var outputPort in nodeTarget.outputPorts)
+			{
+				AddPort(outputPort.fieldInfo, Direction.Output, listener, outputPort.portData);
 			}
 		}
 
-		void UpdateNodePortsForField(BaseNode.NodeFieldInformation fieldInfo)
+		void UpdatePortViewsForField(string fieldName)
 		{
-			if (fieldInfo.behavior == null)
-				return ;
+			// TODO !
+			// if (fieldInfo.behavior == null)
+			// 	return ;
 
-			#if true
+			// #if true
 
-			List< string > finalPorts = new List< string >();
-			var currentPorts = GetPortViewsFromFieldName(fieldInfo.fieldName);
-			var listener = owner.connectorListener;
-			var direction = fieldInfo.input ? Direction.Input : Direction.Output;
-			var container = fieldInfo.input ? nodeTarget.inputPorts as NodePortContainer : nodeTarget.outputPorts as NodePortContainer;
-			var nodePort = container.FirstOrDefault(np => np.fieldName == fieldInfo.fieldName);
+			// List< string > finalPorts = new List< string >();
+			// var currentPorts = GetPortViewsFromFieldName(fieldInfo.fieldName);
+			// var listener = owner.connectorListener;
+			// var direction = fieldInfo.input ? Direction.Input : Direction.Output;
+			// var container = fieldInfo.input ? nodeTarget.inputPorts as NodePortContainer : nodeTarget.outputPorts as NodePortContainer;
+			// var nodePort = container.FirstOrDefault(np => np.fieldName == fieldInfo.fieldName);
 
-			foreach (var portData in fieldInfo.behavior(nodePort.GetEdges()))
-			{
-				// Add only ports that are not currently here
-				if (currentPorts == null || !currentPorts.Any(p => p.identifier == portData.identifier))
-					AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, portData);
-				else
-				{
-					// TODO: patch the name of the ports
+			// foreach (var portData in fieldInfo.behavior(nodePort.GetEdges()))
+			// {
+			// 	// Add only ports that are not currently here
+			// 	if (currentPorts == null || !currentPorts.Any(p => p.identifier == portData.identifier))
+			// 	{
+			// 		AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, portData);
+			// 		Debug.Log("Added port with ID: " + portData.identifier + ", " + portData.input + ", " + portData.displayName);
+			// 	}
+			// 	else
+			// 	{
+			// 		// TODO: patch the name of the ports
+			// 	}
+			// 	finalPorts.Add(portData.identifier);
+			// }
 
-				}
-				finalPorts.Add(portData.identifier);
-			}
+			// // Remove only the ports that are no more in the list
+			// if (currentPorts != null)
+			// {
+			// 	var currentPortsCopy = currentPorts.ToList();
+			// 	foreach (var currentPort in currentPortsCopy)
+			// 	{
+			// 		// If the current port does not appear in the list of final ports, we remove it
+			// 		if (!finalPorts.Any(id => id == currentPort.identifier))
+			// 		{
+			// 			RemovePort(currentPort);
+			// 		}
+			// 	}
+			// }
 
-			// Remove only the ports that are no more in the list
-			if (currentPorts != null)
-			{
-				var currentPortsCopy = currentPorts.ToList();
-				foreach (var currentPort in currentPortsCopy)
-				{
-					// If the current port does not appear in the list of final ports, we remove it
-					if (!finalPorts.Any(id => id == currentPort.identifier))
-					{
-						RemovePort(currentPort);
-					}
-				}
-			}
+			// #else
 
-			#else
+			// var currentPorts = GetPortViewsFromFieldName(fieldInfo.fieldName);
+			// if (currentPorts != null)
+			// {
+			// 	var currentPortsCopy = currentPorts.ToList();
+			// 	currentPortsCopy.ForEach(p => RemovePort(p));
+			// }
 
-			var currentPorts = GetPortViewsFromFieldName(fieldInfo.fieldName);
-			if (currentPorts != null)
-			{
-				var currentPortsCopy = currentPorts.ToList();
-				currentPortsCopy.ForEach(p => RemovePort(p));
-			}
+			// var listener = owner.connectorListener;
+			// var direction = fieldInfo.input ? Direction.Input : Direction.Output;
+			// var container = fieldInfo.input ? nodeTarget.inputPorts as NodePortContainer : nodeTarget.outputPorts as NodePortContainer;
+			// var nodePort = container.FirstOrDefault(np => np.fieldName == fieldInfo.fieldName);
 
-			var listener = owner.connectorListener;
-			var direction = fieldInfo.input ? Direction.Input : Direction.Output;
-			var container = fieldInfo.input ? nodeTarget.inputPorts as NodePortContainer : nodeTarget.outputPorts as NodePortContainer;
-			var nodePort = container.FirstOrDefault(np => np.fieldName == fieldInfo.fieldName);
+			// foreach (var portData in fieldInfo.behavior(nodePort.GetEdges()))
+			// {
+			// 	AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, portData);
+			// }
 
-			foreach (var portData in fieldInfo.behavior(nodePort.GetEdges()))
-			{
-				AddPort(fieldInfo.info, direction, listener, fieldInfo.isMultiple, portData);
-			}
-
-			#endif
+			// #endif
 		}
 
 		void InitializeView()
@@ -179,27 +177,27 @@ namespace GraphProcessor
 		public PortView GetPortViewFromFieldName(string fieldName, string identifier)
 		{
 			return GetPortViewsFromFieldName(fieldName)?.FirstOrDefault(pv => {
-				return (pv.identifier == identifier) || (String.IsNullOrEmpty(pv.identifier) && String.IsNullOrEmpty(identifier));
+				return (pv.portData.identifier == identifier) || (String.IsNullOrEmpty(pv.portData.identifier) && String.IsNullOrEmpty(identifier));
 			});
 		}
 
-		public PortView AddPort(FieldInfo fieldInfo, Direction direction, EdgeConnectorListener listener, bool isMultiple = false, PortData portData = null)
+		public PortView AddPort(FieldInfo fieldInfo, Direction direction, EdgeConnectorListener listener, PortData portData)
 		{
 			// TODO: hardcoded value
-			PortView p = new PortView(Orientation.Horizontal, direction, fieldInfo, portData?.displayType, listener, portData?.identifier);
+			PortView p = new PortView(Orientation.Horizontal, direction, fieldInfo, portData, listener);
 
 			if (p.direction == Direction.Input)
 			{
-				inputPorts.Add(p);
+				inputPortViews.Add(p);
 				inputContainer.Add(p);
 			}
 			else
 			{
-				outputPorts.Add(p);
+				outputPortViews.Add(p);
 				outputContainer.Add(p);
 			}
 
-			p.Initialize(this, isMultiple, portData?.displayName);
+			p.Initialize(this, portData?.displayName);
 
 			List< PortView > ports;
 			portsPerFieldName.TryGetValue(p.fieldName, out ports);
@@ -217,12 +215,12 @@ namespace GraphProcessor
 		{
 			if (p.direction == Direction.Input)
 			{
-				inputPorts.Remove(p);
+				inputPortViews.Remove(p);
 				inputContainer.Remove(p);
 			}
 			else
 			{
-				outputPorts.Remove(p);
+				outputPortViews.Remove(p);
 				outputContainer.Remove(p);
 			}
 
@@ -309,17 +307,13 @@ namespace GraphProcessor
 
 		public void OnPortConnected(PortView port)
 		{
-			var nodeField = nodeTarget.nodeFields.FirstOrDefault(n => n.Value.fieldName == port.fieldName).Value;
-
-			UpdateNodePortsForField(nodeField);
+			UpdatePortViewsForField(port.fieldName);
 			onPortConnected?.Invoke(port);
 		}
 
 		public void OnPortDisconnected(PortView port)
 		{
-			var nodeField = nodeTarget.nodeFields.FirstOrDefault(n => n.Value.fieldName == port.fieldName).Value;
-
-			UpdateNodePortsForField(nodeField);
+			UpdatePortViewsForField(port.fieldName);
 			onPortDisconnected?.Invoke(port);
 		}
 

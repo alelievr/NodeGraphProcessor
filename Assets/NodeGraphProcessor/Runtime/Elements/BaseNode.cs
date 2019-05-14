@@ -36,12 +36,12 @@ namespace GraphProcessor
 		public event ProcessDelegate	onProcessed;
 
 		[NonSerialized]
-		public Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
+		Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
 
 		[NonSerialized]
 		protected BaseGraph			graph;
 
-		public class NodeFieldInformation
+		class NodeFieldInformation
 		{
 			public string						name;
 			public string						fieldName;
@@ -101,10 +101,60 @@ namespace GraphProcessor
 			{
 				var nodeField = nodeFieldKP.Value;
 
-				// By default we only create one port, when the node view is initialized,
-				// it will create other port views for the processing
-				AddPort(nodeField.input, nodeField.fieldName, null);
+				if (nodeField.behavior != null)
+				{
+					UpdatePortsForField(nodeField.fieldName);
+				}
+				else
+				{
+					// If we don't have a custom behavor on the node, we just have to create a simple port
+					AddPort(nodeField.input, nodeField.fieldName, new PortData { acceptMultipleEdges = nodeField.isMultiple, displayName = nodeField.name });
+				}
 			}
+		}
+
+		void UpdatePortsForField(string fieldName)
+		{
+			var fieldInfo = nodeFields[fieldName];
+
+			if (fieldInfo.behavior == null)
+				return ;
+
+			// List< string > finalPorts = new List< string >();
+			// inputPorts.Select(p => p.fieldName == );
+			// var listener = owner.connectorListener;
+			// var direction = fieldInfo.input ? Direction.Input : Direction.Output;
+			// var container = fieldInfo.input ? nodeTarget.inputPorts as NodePortContainer : nodeTarget.outputPorts as NodePortContainer;
+			// var nodePort = container.FirstOrDefault(np => np.fieldName == fieldInfo.fieldName);
+
+			foreach (var portData in fieldInfo.behavior(null)) // we don't have access to the edges here since the port is not yet created
+			{
+				// Add only ports that are not currently here
+				// if (currentPorts == null || !currentPorts.Any(p => p.identifier == portData.identifier))
+				{
+					AddPort(fieldInfo.input, fieldName, portData);
+				}
+				// else
+				{
+					// TODO: patch the name of the ports
+				}
+				// finalPorts.Add(portData.identifier);
+			}
+
+			// TODO
+			// // Remove only the ports that are no more in the list
+			// if (currentPorts != null)
+			// {
+			// 	var currentPortsCopy = currentPorts.ToList();
+			// 	foreach (var currentPort in currentPortsCopy)
+			// 	{
+			// 		// If the current port does not appear in the list of final ports, we remove it
+			// 		if (!finalPorts.Any(id => id == currentPort.identifier))
+			// 		{
+			// 			RemovePort(currentPort);
+			// 		}
+			// 	}
+			// }
 		}
 
 		~BaseNode()
@@ -215,12 +265,12 @@ namespace GraphProcessor
 
 		#region API and utils
 
-		public void AddPort(bool input, string fieldName, string identifier) // TODO: default value
+		public void AddPort(bool input, string fieldName, PortData portData)
 		{
 			if (input)
-				inputPorts.Add(new NodePort(this, fieldName, identifier));
+				inputPorts.Add(new NodePort(this, fieldName, portData));
 			else
-				outputPorts.Add(new NodePort(this, fieldName, identifier));
+				outputPorts.Add(new NodePort(this, fieldName, portData));
 		}
 
 		public void RemovePort(bool input, NodePort port)

@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
   m_Name: ExposedPropertiesExample
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   serializedNodes:
   - type: ParameterNode, com.alelievr.NodeGraphProcessor, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
@@ -30,22 +30,22 @@ MonoBehaviour:
     outputNodeGUID: c116edb8-4c30-4cb6-8c00-4351ee3ea443
     inputFieldName: obj
     outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 
+    inputPortIdentifier:
+    outputPortIdentifier:
   - GUID: 01287748-7d94-43c2-a0b1-52ab603cf3e7
     owner: {fileID: 11400000}
     inputNodeGUID: 44c26442-9671-481f-941a-a521ab9f2ea9
     outputNodeGUID: 5f801c8d-a64f-41ea-9c65-5815e694d505
     inputFieldName: obj
     outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 
+    inputPortIdentifier:
+    outputPortIdentifier:
   commentBlocks: []
   pinnedElements:
   - position:
       serializedVersion: 2
-      x: 813
-      y: 281
+      x: 0
+      y: 249
       width: 150
       height: 200
     opened: 1
@@ -54,8 +54,8 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - position:
       serializedVersion: 2
-      x: 49
-      y: 248
+      x: 854
+      y: 222
       width: 150
       height: 200
     opened: 1
@@ -63,19 +63,21 @@ MonoBehaviour:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters:
-  - guid: 
+  - guid:
     name: float
     type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     serializedValue:
       serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      serializedName:
       serializedValue: 42
     input: 1
-  - guid: 
+  - guid:
     name: text
     type: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     serializedValue:
       serializedType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      serializedName:
       serializedValue: '"Hello World !"'
     input: 1
-  position: {x: -436, y: -302, z: 0}
+  position: {x: -345, y: -282, z: 0}
   scale: {x: 1.3225, y: 1.3225, z: 1}

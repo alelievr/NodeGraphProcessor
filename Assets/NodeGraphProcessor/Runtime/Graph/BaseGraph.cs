@@ -27,6 +27,7 @@ namespace GraphProcessor
 
 		[System.NonSerialized]
 		public List< BaseNode >							nodes = new List< BaseNode >();
+
 		[System.NonSerialized]
 		public Dictionary< string, BaseNode >			nodesPerGUID = new Dictionary< string, BaseNode >();
 
@@ -140,7 +141,7 @@ namespace GraphProcessor
 			serializedNodes.Clear();
 
 			foreach (var node in nodes)
-				serializedNodes.Add(JsonSerializer.Serialize(node));
+				serializedNodes.Add(JsonSerializer.SerializeNode(node));
 		}
 
 		// We can deserialize data here because it's called in a unity context

@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Reflection;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+// Warning, the current serialization code does not handle unity objects
+// in play mode outside of the editor (because of JsonUtility)
 
 namespace GraphProcessor
 {
@@ -20,12 +26,16 @@ namespace GraphProcessor
 
 	public static class JsonSerializer
 	{
-		public static JsonElement	Serialize< T >(T obj)
+		public static JsonElement	Serialize(object obj)
 		{
 			JsonElement	elem = new JsonElement();
 
 			elem.type = obj.GetType().AssemblyQualifiedName;
+#if UNITY_EDITOR
+			elem.jsonDatas = EditorJsonUtility.ToJson(obj);
+#else
 			elem.jsonDatas = JsonUtility.ToJson(obj);
+#endif
 
 			return elem;
 		}
@@ -35,7 +45,19 @@ namespace GraphProcessor
 			if (typeof(T) != Type.GetType(e.type))
 				throw new ArgumentException("Deserializing type is not the same than Json element type");
 
-			return JsonUtility.FromJson< T >(e.jsonDatas);
+			var obj = Activator.CreateInstance< T >();
+#if UNITY_EDITOR
+			EditorJsonUtility.FromJsonOverwrite(e.jsonDatas, obj);
+#else
+			JsonUtility.FromJsonOverwrite(e.jsonDatas, obj);
+#endif
+
+			return obj;
+		}
+
+		public static JsonElement	SerializeNode(BaseNode node)
+		{
+			return Serialize(node);
 		}
 
 		public static BaseNode	DeserializeNode(JsonElement e)
@@ -45,7 +67,14 @@ namespace GraphProcessor
 			if (e.jsonDatas == null)
 				return null;
 
-			return JsonUtility.FromJson(e.jsonDatas, baseNodeType) as BaseNode;
+			var node = Activator.CreateInstance(baseNodeType) as BaseNode;
+#if UNITY_EDITOR
+			EditorJsonUtility.FromJsonOverwrite(e.jsonDatas, node);
+#else
+			JsonUtility.FromJsonOverwrite(e.jsonDatas, node);
+#endif
+
+			return node;
 		}
 	}
 }

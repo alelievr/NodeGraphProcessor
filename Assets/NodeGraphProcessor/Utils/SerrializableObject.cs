@@ -15,13 +15,15 @@ namespace GraphProcessor
         }
 
         public string serializedType;
+        public string serializedName;
         public string serializedValue;
 
         public object value;
 
-        public SerializableObject(object value)
+        public SerializableObject(object value, string name = null)
         {
             this.value = value;
+            this.serializedName = name;
         }
 
         public void OnAfterDeserialize()
@@ -83,6 +85,8 @@ namespace GraphProcessor
             {
                 try {
                     serializedValue = JsonUtility.ToJson(value);
+                    if (String.IsNullOrEmpty(serializedValue))
+                        throw new Exception();
                 } catch {
                     Debug.LogError("Can't serialize type " + serializedType);
                 }

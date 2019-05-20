@@ -1,7 +1,0 @@
-#node {
-    background-color: rgba(0, 63, 63, 0.8);
-}
-
-#controls {
-    background-color: rgba(63, 63, 63, 0.8);
-}

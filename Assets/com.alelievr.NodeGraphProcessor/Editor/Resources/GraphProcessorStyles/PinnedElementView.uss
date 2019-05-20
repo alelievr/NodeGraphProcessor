@@ -1,0 +1,119 @@
+.pinnedElement {
+    position:absolute;
+    border-left-width: 1;
+    border-top-width: 1;
+    border-right-width: 1;
+    border-bottom-width: 1;
+    border-radius: 5;
+    flex-direction: column;
+    background-color: #2b2b2b;
+    border-color: #191919;
+    min-width: 100;
+    min-height: 100;
+}
+
+.pinnedElement.scrollable {
+    position: absolute;
+}
+
+.pinnedElement:selected {
+    border-color: #44C0FF;
+}
+
+.pinnedElement > .mainContainer {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.pinnedElement.scrollable > .mainContainer {
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+.pinnedElement > .mainContainer > #content {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.pinnedElement.scrollable > .mainContainer > #content {
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.pinnedElement > .mainContainer > #content > ScrollView {
+    flex: 1 0 0;
+}
+
+.pinnedElement > .mainContainer > #content > #contentContainer {
+    min-height: 50;
+    padding-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 6;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.pinnedElement > .mainContainer > #content > #header {
+    flex-direction: row;
+    align-items: stretch;
+    background-color: #393939;
+    border-bottom-width: 1;
+    border-color: #212121;
+    border-top-right-radius: 4;
+    border-top-left-radius: 4;
+    padding-left: 1;
+    padding-top: 4;
+    padding-bottom: 2;
+}
+
+.pinnedElement > .mainContainer > #content > #header > #labelContainer {
+    flex: 1 0 0;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.pinnedElement > .mainContainer > #content > #header > #addButton {
+    align-self:center;
+    font-size: 20px;
+    background-image: none;
+    padding-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+
+    margin-top:3px;
+    margin-bottom:3px;
+    margin-left:4px;
+    margin-right:4px;
+    border-left-width:6px;
+    border-top-width:4px;
+    border-right-width:6px;
+    border-bottom-width:4px;
+}
+
+.pinnedElement > .mainContainer > #content > #header > #addButton:hover {
+    background-image: resource("Builtin Skins/DarkSkin/Images/btn.png");
+}
+
+.pinnedElement > .mainContainer > #content > #header > #addButton:hover:active {
+    background-image: resource("Builtin Skins/DarkSkin/Images/btn act.png");
+}
+
+.pinnedElement > .mainContainer > #content > #header > #labelContainer > #titleLabel {
+    font-size : 14;
+    color: #c1c1c1;
+}
+
+.pinnedElement > .mainContainer > #content > #header > #labelContainer > #subTitleLabel {
+    font-size: 11;
+    color: #606060;
+}

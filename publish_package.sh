@@ -1,7 +1,7 @@
 version=`git rev-parse --short HEAD`
 tmp_path=/tmp/NodeGraphProcessor-${version}
 
-package_path=Assets/NodeGraphProcessor
+package_path=Assets/com.alelievr.NodeGraphProcessor
 sample1_path=Assets/Examples
 
 mkdir -p $tmp_path

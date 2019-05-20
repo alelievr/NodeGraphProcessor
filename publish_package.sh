@@ -17,7 +17,7 @@ sample1_path=$tmp_path"/Examples"
 # Go to the release branch
 git checkout upm
 
-rm -rf '*'
+rm -rf *
 
 cp -Rf $package_path .
 

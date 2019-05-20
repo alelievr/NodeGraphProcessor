@@ -7,26 +7,45 @@ using System;
 
 namespace GraphProcessor
 {
+	// Class that describe port attributes for it's creation
+	public class PortData : IEquatable< PortData >
+	{
+		public string	identifier;
+		public string	displayName;
+		public Type		displayType;
+		// public bool		input; // TODO: Is this useful ?
+		public bool		acceptMultipleEdges;
+
+        public bool Equals(PortData other)
+        {
+			return identifier == other.identifier
+				&& displayName == other.displayName
+				&& displayType == other.displayType
+				&& acceptMultipleEdges == other.acceptMultipleEdges;
+        }
+    }
+
 	public class NodePort
 	{
-
 		public string				fieldName;
 		public BaseNode				owner;
+		public FieldInfo			fieldInfo;
+		public PortData				portData;
 		List< SerializableEdge >	edges = new List< SerializableEdge >();
 		Dictionary< SerializableEdge, PushDataDelegate >	pushDataDelegates = new Dictionary< SerializableEdge, PushDataDelegate >();
 		List< SerializableEdge >	edgeWithRemoteCustomIO = new List< SerializableEdge >();
 
 		CustomPortIODelegate		customPortIOMethod;
-		FieldInfo					ourValueField;
 
 		public delegate void PushDataDelegate();
 
-		public NodePort(BaseNode owner, string fieldName)
+		public NodePort(BaseNode owner, string fieldName, PortData portData)
 		{
 			this.fieldName = fieldName;
 			this.owner = owner;
+			this.portData = portData;
 
-			ourValueField = owner.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			fieldInfo = owner.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
 			customPortIOMethod = CustomPortIO.GetCustomPortMethod(owner.GetType(), fieldName);
 		}
@@ -62,8 +81,8 @@ namespace GraphProcessor
 			try
 			{
 				//Creation of the delegate to move the data from the input node to the output node:
-				FieldInfo inputField = edge.inputNode.GetType().GetField(edge.trueInputFieldName, BindingFlags.Public | BindingFlags.Instance);
-				FieldInfo outputField = edge.outputNode.GetType().GetField(edge.trueOutputFieldName, BindingFlags.Public | BindingFlags.Instance);
+				FieldInfo inputField = edge.inputNode.GetType().GetField(edge.inputFieldName, BindingFlags.Public | BindingFlags.Instance);
+				FieldInfo outputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Public | BindingFlags.Instance);
 
 // We keep slow checks inside the editor
 #if UNITY_EDITOR
@@ -111,7 +130,7 @@ namespace GraphProcessor
 				return ;
 
 			//if there are custom IO implementation on the other ports, they'll need our value in the passThrough buffer
-			object ourValue = ourValueField.GetValue(owner);
+			object ourValue = fieldInfo.GetValue(owner);
 			foreach (var edge in edgeWithRemoteCustomIO)
 				edge.passThroughBuffer = ourValue;
 		}
@@ -131,7 +150,7 @@ namespace GraphProcessor
 
 			// Only one input connection is handled by this code, if you wany to
 			// take multiple inputs, you must create a custom input function see CustomPortsNode.cs
-			ourValueField.SetValue(owner, edges.First().passThroughBuffer);
+			fieldInfo.SetValue(owner, edges.First().passThroughBuffer);
 		}
 	}
 
@@ -152,7 +171,23 @@ namespace GraphProcessor
 		public void Add(SerializableEdge edge)
 		{
 			string portFieldName = (edge.inputNode == node) ? edge.inputFieldName : edge.outputFieldName;
-			var port = this.FirstOrDefault(p => p.fieldName == portFieldName);
+			string portIdentifier = (edge.inputNode == node) ? edge.inputPortIdentifier : edge.outputPortIdentifier;
+
+			// Force empty string to null since portIdentifier is a serialized value
+			if (String.IsNullOrEmpty(portIdentifier))
+				portIdentifier = null;
+
+			var port = this.FirstOrDefault(p =>
+			{
+				return p.fieldName == portFieldName && p.portData.identifier == portIdentifier;
+			});
+
+			if (port == null)
+			{
+				Debug.LogError("The edge can't be properly connected because it's ports can't be found");
+				return;
+			}
+
 			port.Add(edge);
 		}
 	}

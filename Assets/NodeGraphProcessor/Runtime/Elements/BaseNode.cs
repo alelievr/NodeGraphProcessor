@@ -8,6 +8,8 @@ using System.Linq;
 
 namespace GraphProcessor
 {
+	public delegate IEnumerable< PortData > CustomPortBehaviorDelegate(List< SerializableEdge > edges);
+
 	[Serializable]
 	public abstract class BaseNode
 	{
@@ -34,26 +36,28 @@ namespace GraphProcessor
 		public event ProcessDelegate	onProcessed;
 
 		[NonSerialized]
-		public Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
+		Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
 
 		[NonSerialized]
 		protected BaseGraph			graph;
 
-		public class NodeFieldInformation
+		class NodeFieldInformation
 		{
-			public string		name;
-			public string		fieldName;
-			public FieldInfo	info;
-			public bool			input;
-			public bool			isMultiple;
+			public string						name;
+			public string						fieldName;
+			public FieldInfo					info;
+			public bool							input;
+			public bool							isMultiple;
+			public CustomPortBehaviorDelegate	behavior;
 
-			public NodeFieldInformation(FieldInfo info, string name, bool input, bool isMultiple)
+			public NodeFieldInformation(FieldInfo info, string name, bool input, bool isMultiple, CustomPortBehaviorDelegate behavior)
 			{
 				this.input = input;
 				this.isMultiple = isMultiple;
 				this.info = info;
 				this.name = name;
 				this.fieldName = info.Name;
+				this.behavior = behavior;
 			}
 		}
 
@@ -95,7 +99,64 @@ namespace GraphProcessor
 
 			foreach (var nodeFieldKP in nodeFields)
 			{
-				AddPort(nodeFieldKP.Value.input, nodeFieldKP.Value.fieldName);
+				var nodeField = nodeFieldKP.Value;
+
+				if (nodeField.behavior != null)
+				{
+					UpdatePortsForField(nodeField.fieldName);
+				}
+				else
+				{
+					// If we don't have a custom behavor on the node, we just have to create a simple port
+					AddPort(nodeField.input, nodeField.fieldName, new PortData { acceptMultipleEdges = nodeField.isMultiple, displayName = nodeField.name });
+				}
+			}
+		}
+
+		void UpdatePortsForField(string fieldName)
+		{
+			var fieldInfo = nodeFields[fieldName];
+
+			if (fieldInfo.behavior == null)
+				return ;
+
+			List< string > finalPorts = new List< string >();
+
+			var portCollection = fieldInfo.input ? (NodePortContainer)inputPorts : outputPorts;
+
+			// Gather all fields for this port (before to modify them)
+			var nodePorts = portCollection.Where(p => p.fieldName == fieldName);
+			// Gather all edges connected to these fields:
+			var edges = nodePorts.SelectMany(n => n.GetEdges()).ToList();
+
+			foreach (var portData in fieldInfo.behavior(edges))
+			{
+				// Guard using the port identifier so we don't duplicate identifiers
+				if (!nodePorts.Any(n => n.portData.identifier == portData.identifier))
+				{
+					AddPort(fieldInfo.input, fieldName, portData);
+				}
+				else
+				{
+					// TODO: patch the name of the ports
+				}
+
+				finalPorts.Add(portData.identifier);
+			}
+
+			// TODO
+			// Remove only the ports that are no more in the list
+			if (nodePorts != null)
+			{
+				var currentPortsCopy = nodePorts.ToList();
+				foreach (var currentPort in currentPortsCopy)
+				{
+					// If the current port does not appear in the list of final ports, we remove it
+					if (!finalPorts.Any(id => id == currentPort.portData.identifier))
+					{
+						RemovePort(fieldInfo.input, currentPort);
+					}
+				}
 			}
 		}
 
@@ -115,6 +176,7 @@ namespace GraphProcessor
 		void InitializeInOutDatas()
 		{
 			var fields = GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			var methods = GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
 			foreach (var field in fields)
 			{
@@ -136,7 +198,30 @@ namespace GraphProcessor
 				if (!String.IsNullOrEmpty(outputAttribute?.name))
 					name = outputAttribute.name;
 
-				nodeFields[field.Name] = new NodeFieldInformation(field, name, input, isMultiple);
+				// By default we set the behavior to null, if the field have a custom behavior, it will be set in the loop just below
+				nodeFields[field.Name] = new NodeFieldInformation(field, name, input, isMultiple, null);
+			}
+
+			foreach (var method in methods)
+			{
+				var customPortBehaviorAttribute = method.GetCustomAttribute< CustomPortBehaviorAttribute >();
+				CustomPortBehaviorDelegate behavior = null;
+
+				if (customPortBehaviorAttribute == null)
+					continue ;
+
+				// Check if custom port behavior function is valid
+				try {
+					var referenceType = typeof(CustomPortBehaviorDelegate);
+					behavior = (CustomPortBehaviorDelegate)Delegate.CreateDelegate(referenceType, this, method, true);
+				} catch {
+					Debug.LogError("The function " + method + " can be converted to the required delegate format: " + typeof(CustomPortBehaviorDelegate));
+				}
+
+				if (nodeFields.ContainsKey(customPortBehaviorAttribute.fieldName))
+					nodeFields[customPortBehaviorAttribute.fieldName].behavior = behavior;
+				else
+					Debug.LogError("Invalid field name for custom port behavior: " + method + ", " + customPortBehaviorAttribute.fieldName);
 			}
 		}
 
@@ -150,6 +235,8 @@ namespace GraphProcessor
 			NodePortContainer portCollection = (input) ? (NodePortContainer)inputPorts : outputPorts;
 
 			portCollection.Add(edge);
+
+			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
 		}
 
 		public void OnEdgeDisonnected(SerializableEdge edge)
@@ -161,6 +248,8 @@ namespace GraphProcessor
 			NodePortContainer portCollection = (input) ? (NodePortContainer)inputPorts : outputPorts;
 
 			portCollection.Remove(edge);
+
+			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
 		}
 
 		public void OnProcess()
@@ -183,12 +272,12 @@ namespace GraphProcessor
 
 		#region API and utils
 
-		public void AddPort(bool input, string fieldName)
+		public void AddPort(bool input, string fieldName, PortData portData)
 		{
 			if (input)
-				inputPorts.Add(new NodePort(this, fieldName));
+				inputPorts.Add(new NodePort(this, fieldName, portData));
 			else
-				outputPorts.Add(new NodePort(this, fieldName));
+				outputPorts.Add(new NodePort(this, fieldName, portData));
 		}
 
 		public void RemovePort(bool input, NodePort port)

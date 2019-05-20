@@ -18,17 +18,20 @@ namespace GraphProcessor
 	{
 		public BaseNode							nodeTarget;
 
-		public List< Port >						inputPorts = new List< Port >();
-		public List< Port >						outputPorts = new List< Port >();
+		public List< PortView >					inputPortViews = new List< PortView >();
+		public List< PortView >					outputPortViews = new List< PortView >();
 
 		public BaseGraphView					owner { private set; get; }
 
-		protected Dictionary< string, PortView >portsPerFieldName = new Dictionary< string, PortView >();
+		protected Dictionary< string, List< PortView > > portsPerFieldName = new Dictionary< string, List< PortView > >();
 
         protected VisualElement 				controlsContainer;
 		protected VisualElement					debugContainer;
 
 		Label									computeOrderLabel = new Label();
+
+		public event Action< PortView >			onPortConnected;
+		public event Action< PortView >			onPortDisconnected;
 
 		readonly string							baseNodeStyle = "GraphProcessorStyles/BaseNodeView";
 
@@ -54,17 +57,16 @@ namespace GraphProcessor
 
 		void InitializePorts()
 		{
-			foreach (var fieldInfo in nodeTarget.nodeFields)
+			var listener = owner.connectorListener;
+
+			foreach (var inputPort in nodeTarget.inputPorts)
 			{
-				// This will automatically create our visual ports
-				PortBehaviorFactory.CreatePortBehavior(
-					this,
-					fieldInfo.Value.info,
-					fieldInfo.Value.input ? Direction.Input : Direction.Output,
-					owner.connectorListener,
-					fieldInfo.Value.isMultiple,
-					fieldInfo.Value.name
-				);
+				AddPort(inputPort.fieldInfo, Direction.Input, listener, inputPort.portData);
+			}
+
+			foreach (var outputPort in nodeTarget.outputPorts)
+			{
+				AddPort(outputPort.fieldInfo, Direction.Output, listener, outputPort.portData);
 			}
 		}
 
@@ -92,53 +94,77 @@ namespace GraphProcessor
 
 		#region API
 
-		public PortView GetPortFromFieldName(string fieldName)
+		public List< PortView > GetPortViewsFromFieldName(string fieldName)
 		{
-			PortView	ret;
+			List< PortView >	ret;
 
 			portsPerFieldName.TryGetValue(fieldName, out ret);
 
 			return ret;
 		}
 
-		public PortView AddPort(FieldInfo fieldInfo, Direction direction, EdgeConnectorListener listener, bool isMultiple = false, string name = null)
+		public PortView GetFirstPortViewFromFieldName(string fieldName)
+		{
+			return GetPortViewsFromFieldName(fieldName)?.First();
+		}
+
+		public PortView GetPortViewFromFieldName(string fieldName, string identifier)
+		{
+			return GetPortViewsFromFieldName(fieldName)?.FirstOrDefault(pv => {
+				return (pv.portData.identifier == identifier) || (String.IsNullOrEmpty(pv.portData.identifier) && String.IsNullOrEmpty(identifier));
+			});
+		}
+
+		public PortView AddPort(FieldInfo fieldInfo, Direction direction, EdgeConnectorListener listener, PortData portData)
 		{
 			// TODO: hardcoded value
-			PortView p = new PortView(Orientation.Horizontal, direction, fieldInfo, listener);
+			PortView p = new PortView(Orientation.Horizontal, direction, fieldInfo, portData, listener);
 
 			if (p.direction == Direction.Input)
 			{
-				inputPorts.Add(p);
+				inputPortViews.Add(p);
 				inputContainer.Add(p);
 			}
 			else
 			{
-				outputPorts.Add(p);
+				outputPortViews.Add(p);
 				outputContainer.Add(p);
 			}
 
-			p.Initialize(this, isMultiple, name);
+			p.Initialize(this, portData?.displayName);
 
-			portsPerFieldName[p.fieldName] = p;
+			List< PortView > ports;
+			portsPerFieldName.TryGetValue(p.fieldName, out ports);
+			if (ports == null)
+			{
+				ports = new List< PortView >();
+				portsPerFieldName[p.fieldName] = ports;
+			}
+			ports.Add(p);
 
 			return p;
 		}
 
 		public void RemovePort(PortView p)
 		{
+			// Remove all connected edges:
+			foreach (var e in p.GetEdges())
+				owner.Disconnect(e, refreshPorts: false);
+
 			if (p.direction == Direction.Input)
 			{
-				inputPorts.Remove(p);
+				inputPortViews.Remove(p);
 				inputContainer.Remove(p);
-
 			}
 			else
 			{
-				outputPorts.Remove(p);
+				outputPortViews.Remove(p);
 				outputContainer.Remove(p);
 			}
 
-			portsPerFieldName.Remove(p.fieldName);
+			List< PortView > ports;
+			portsPerFieldName.TryGetValue(p.fieldName, out ports);
+			ports.Remove(p);
 		}
 
 		public void OpenNodeViewScript()
@@ -217,8 +243,17 @@ namespace GraphProcessor
 			}
 		}
 
-		public virtual void OnPortConnected(PortView port) {}
-		public virtual void OnPortDisconnected(PortView port) {}
+		public void OnPortConnected(PortView port)
+		{
+			onPortConnected?.Invoke(port);
+		}
+
+		public void OnPortDisconnected(PortView port)
+		{
+			onPortDisconnected?.Invoke(port);
+		}
+
+		// TODO: a function to force to reload the custom behavior ports (if we want to do a button to add ports for example)
 
 		public virtual void OnRemoved() {}
 		public virtual void OnCreated() {}
@@ -267,6 +302,58 @@ namespace GraphProcessor
 			if (NodeProvider.GetNodeViewScript(GetType()) != null)
 				return Status.Normal;
 			return Status.Disabled;
+		}
+
+		void UpdatePortViews(IEnumerable< NodePort > ports, IEnumerable< PortView > portViews)
+		{
+			var listener = owner.connectorListener;
+
+			// Maybe not good to remove ports as edges are still connected :/
+			foreach (var pv in portViews)
+			{
+				// If the port have disepeared from the node datas, we remove the view:
+				// We can use the identifier here because this function will only be called when there is a custom port behavior
+				if (!ports.Any(p => p.portData.identifier == pv.portData.identifier))
+					RemovePort(pv);
+			}
+
+			foreach (var p in ports)
+			{
+				// Add missing port views
+				if (!portViews.Any(pv => p.portData.identifier == pv.portData.identifier))
+					AddPort(p.fieldInfo, Direction.Input, listener, p.portData);
+			}
+		}
+
+		public new bool RefreshPorts()
+		{
+			// If a port behavior was attached to one port, then
+			// the port count might have been updated by the node
+			// so we have to refresh the list of port views.
+			if (nodeTarget.inputPorts.Count != inputPortViews.Count)
+			{
+				var ports = nodeTarget.inputPorts.GroupBy(n => n.fieldName);
+				var portViews = inputPortViews.GroupBy(v => v.fieldName);
+				ports.Zip(portViews, (portPerFieldName, portViewPerFieldName) => {
+					if (portPerFieldName.Count() != portViewPerFieldName.Count())
+						UpdatePortViews(portPerFieldName, portViewPerFieldName);
+					// We don't care about the result, we just iterate over port and portView
+					return "";
+				}).ToList();
+			}
+			if (nodeTarget.outputPorts.Count != outputPortViews.Count)
+			{
+				var ports = nodeTarget.outputPorts.GroupBy(n => n.fieldName);
+				var portViews = outputPortViews.GroupBy(v => v.fieldName);
+				ports.Zip(portViews, (portPerFieldName, portViewPerFieldName) => {
+					if (portPerFieldName.Count() != portViewPerFieldName.Count())
+						UpdatePortViews(portPerFieldName, portViewPerFieldName);
+					// We don't care about the result, we just iterate over port and portView
+					return "";
+				});
+			}
+
+			return base.RefreshPorts();
 		}
 
 		#endregion

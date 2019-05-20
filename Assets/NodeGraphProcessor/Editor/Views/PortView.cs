@@ -10,10 +10,11 @@ namespace GraphProcessor
 {
 	public class PortView : Port
 	{
-		public bool				isMultiple;
-		public string			fieldName { get; protected set; }
-		public new Type			portType;
-        public BaseNodeView     owner { get; private set; }
+		public string				fieldName => fieldInfo.Name;
+		public Type					fieldType => fieldInfo.FieldType;
+		public new Type				portType;
+        public BaseNodeView     	owner { get; private set; }
+		public readonly PortData	portData;
 
 		public event Action< PortView, Edge >	OnConnected;
 		public event Action< PortView, Edge >	OnDisconnected;
@@ -29,8 +30,8 @@ namespace GraphProcessor
 
 		readonly string portStyle = "GraphProcessorStyles/PortView";
 
-        public PortView(Orientation portOrientation, Direction direction, FieldInfo fieldInfo, EdgeConnectorListener edgeConnectorListener)
-            : base(portOrientation, direction, Capacity.Multi, fieldInfo.FieldType)
+        public PortView(Orientation orientation, Direction direction, FieldInfo fieldInfo, PortData portData, EdgeConnectorListener edgeConnectorListener)
+            : base(orientation, direction, Capacity.Multi, portData.displayType ?? fieldInfo.FieldType)
 		{
 			styleSheets.Add(Resources.Load<StyleSheet>(portStyle));
 
@@ -42,21 +43,23 @@ namespace GraphProcessor
 			this.m_EdgeConnector = new EdgeConnector< EdgeView >(edgeConnectorListener);
 			this.AddManipulator(m_EdgeConnector);
 
-			fieldName = fieldInfo.Name;
-			portType = fieldInfo.FieldType;
-
 			this.fieldInfo = fieldInfo;
 			this.listener = edgeConnectorListener;
+			this.portType = portData.displayType ?? fieldInfo.FieldType;
+			this.portData = portData;
+			this.portName = fieldName;
 		}
 
-		public virtual void Initialize(BaseNodeView nodeView, bool isMultiple, string name)
+		public virtual void Initialize(BaseNodeView nodeView, string name)
 		{
-			this.isMultiple = isMultiple;
 			this.owner = nodeView;
 
 			// Correct port type if port accept multiple values (and so is a container)
-			if (isMultiple)
-				portType = portType.GetGenericArguments()[0];
+			if (portData.acceptMultipleEdges && portType == fieldType) // If the user haven't set a custom field type
+			{
+				Debug.Log("override display type: " + portType +  ", " + fieldType);
+				portType = fieldType.GetGenericArguments()[0];
+			}
 
 			if (name != null)
 				portName = name;

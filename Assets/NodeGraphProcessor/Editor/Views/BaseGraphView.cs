@@ -400,8 +400,8 @@ namespace GraphProcessor
 				var outputNodeView = nodeViewsPerNode[serializedEdge.outputNode];
 				var edgeView = new EdgeView() {
 					userData = serializedEdge,
-					input = inputNodeView.GetPortFromFieldName(serializedEdge.inputFieldName),
-					output = outputNodeView.GetPortFromFieldName(serializedEdge.outputFieldName)
+					input = inputNodeView.GetPortViewFromFieldName(serializedEdge.inputFieldName, serializedEdge.inputPortIdentifier),
+					output = outputNodeView.GetPortViewFromFieldName(serializedEdge.outputFieldName, serializedEdge.outputPortIdentifier)
 				};
 
 				Connect(edgeView, false);
@@ -502,13 +502,13 @@ namespace GraphProcessor
 			commentBlockViews.Clear();
 		}
 
-		public void Connect(EdgeView e, bool serializeToGraph = true, bool autoDisconnectInputs = true)
+		public bool Connect(EdgeView e, bool serializeToGraph = true, bool autoDisconnectInputs = true)
 		{
 			if (e.input == null || e.output == null)
-				return ;
+				return false;
 
 			//If the input port does not support multi-connection, we remove them
-			if (autoDisconnectInputs && !(e.input as PortView).isMultiple)
+			if (autoDisconnectInputs && !(e.input as PortView).portData.acceptMultipleEdges)
 				foreach (var edge in edgeViews.Where(ev => ev.input == e.input))
 				{
 					// TODO: do not disconnect them if the connected port is the same than the old connected
@@ -517,41 +517,60 @@ namespace GraphProcessor
 
 			AddElement(e);
 
+			var inputNodeView = e.input.node as BaseNodeView;
+			var outputNodeView = e.output.node as BaseNodeView;
+			var inputPortView = e.input as PortView;
+			var outputPortView = e.output as PortView;
+			var inputPortIdentifier = inputPortView.portData.identifier;
+			var outputPortIdentifier = outputPortView.portData.identifier;
+			var inputPortFieldName = inputPortView.fieldName;
+			var outputPortFieldName = outputPortView.fieldName;
+
+			if (serializeToGraph)
+			{
+				NodePort inputPort = inputNodeView.nodeTarget.inputPorts.FirstOrDefault(o => o.portData.displayName == inputPortView.portData.displayName);
+				NodePort outputPort = outputNodeView.nodeTarget.outputPorts.FirstOrDefault(o => o.portData == outputPortView.portData);
+
+				Debug.Log("output port: " + outputPort.portData.displayName);
+				Debug.Log("input port: " + inputPort.portData.displayName);
+
+				e.userData = graph.Connect(inputPort, outputPort);
+			}
+
+			// Add the edge to the list of connected edges in the nodes
+			inputNodeView.nodeTarget.OnEdgeConnected(e.userData as SerializableEdge);
+			outputNodeView.nodeTarget.OnEdgeConnected(e.userData as SerializableEdge);
+
 			e.input.Connect(e);
 			e.output.Connect(e);
 
-			var inputNodeView = e.input.node as BaseNodeView;
-			var outputNodeView = e.output.node as BaseNodeView;
+			// If the input port have been removed by the custom port behavior
+			// we try to find if it's still here
+			if (e.input == null)
+				e.input = inputNodeView.GetPortViewFromFieldName(inputPortFieldName, inputPortIdentifier);
+			if (e.output == null)
+				e.output = inputNodeView.GetPortViewFromFieldName(outputPortFieldName, outputPortIdentifier);
 
 			if (inputNodeView == null || outputNodeView == null)
 			{
 				Debug.LogError("Connect aborted !");
-				return ;
+				return false;
 			}
 
 			edgeViews.Add(e);
 
-			if (serializeToGraph)
-			{
-				e.userData = graph.Connect(
-					inputNodeView.nodeTarget, (e.input as PortView).fieldName,
-					outputNodeView.nodeTarget, (e.output as PortView).fieldName
-				);
-			}
-
 			inputNodeView.RefreshPorts();
 			outputNodeView.RefreshPorts();
-
-			inputNodeView.nodeTarget.OnEdgeConnected(e.userData as SerializableEdge);
-			outputNodeView.nodeTarget.OnEdgeConnected(e.userData as SerializableEdge);
 
 			e.isConnected = true;
 
 			if (serializeToGraph)
 				UpdateComputeOrder();
+
+			return true;
 		}
 
-		public void Disconnect(EdgeView e, bool serializeToGraph = true)
+		public void Disconnect(EdgeView e, bool serializeToGraph = true, bool refreshPorts = true)
 		{
 			var serializableEdge = e.userData as SerializableEdge;
 
@@ -562,14 +581,16 @@ namespace GraphProcessor
 				var inputNodeView = e.input.node as BaseNodeView;
 				e.input.Disconnect(e);
 				inputNodeView.nodeTarget.OnEdgeDisonnected(e.serializedEdge);
-				inputNodeView.RefreshPorts();
+				if (refreshPorts)
+					inputNodeView.RefreshPorts();
 			}
 			if (e?.output?.node != null)
 			{
 				var outputNodeView = e.output.node as BaseNodeView;
 				e.output.Disconnect(e);
 				outputNodeView.nodeTarget.OnEdgeDisonnected(e.serializedEdge);
-				outputNodeView.RefreshPorts();
+				if (refreshPorts)
+					outputNodeView.RefreshPorts();
 			}
 
 			// Remove the serialized edge if there was one

@@ -9,5 +9,11 @@
 		"UIElements",
         "unity"
     ],
+     "samples": [
+       {
+         "displayName": "Examples",
+         "description": "A bunch of examples using the NodeGraphProcessor API to create custom nodes and graphs",
+         "path": "Samples~/Examples"
+       },
     "category": "Unity"
 }

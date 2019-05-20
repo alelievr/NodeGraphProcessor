@@ -1,8 +1,8 @@
 version=`git rev-parse --short HEAD`
 tmp_path=/tmp/NodeGraphProcessor-${version}
 
-package_path=Assets/NodeGraphProcessor/
-sample1_path=Assets/Examples/
+package_path=Assets/NodeGraphProcessor
+sample1_path=Assets/Examples
 
 mkdir -p $tmp_path
 
@@ -22,8 +22,8 @@ rm -rf '*'
 cp -Rf $package_path .
 
 sample_path='Samples~'
-mkdir $sample_path
-mkdir $sample_path/"Examples"
+mkdir -p $sample_path
+mkdir -p $sample_path/"Examples"
 
 cp -Rf $sample1_path $sample_path"/Examples"
 

@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes:
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"ad1673a8-dc56-4495-84fa-6cd5c52f247f","computeOrder":5,"canProcess":true,"position":{"serializedVersion":"2","x":636.6217651367188,"y":99.60122680664063,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
+    jsonDatas: '{"GUID":"ad1673a8-dc56-4495-84fa-6cd5c52f247f","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":636.6217651367188,"y":99.60122680664063,"width":107.0,"height":117.0},"expanded":false,"debug":false}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"4ddedc62-453d-4d18-81bb-0b8cdb80556d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":61.0,"y":329.9599914550781,"width":73.0,"height":101.0},"expanded":false,"debug":false,"output":5.0}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"54814e54-d849-427c-bd54-4f84921ddb9a","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":53.0,"y":77.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"output":42.0}'
   - type: CustomPortsNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"3042d8e2-86c8-46bd-8773-a23db56c259d","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":336.0,"y":205.0,"width":141.0,"height":77.0},"expanded":false,"debug":false,"portCount":4}'
+    jsonDatas: '{"GUID":"3042d8e2-86c8-46bd-8773-a23db56c259d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":336.0,"y":205.0,"width":141.0,"height":77.0},"expanded":false,"debug":false,"inputs":[],"outputs":[],"portCount":4}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"d110a426-a040-4a9c-94f9-00c59e4f5a87","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":55.0,"y":207.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"output":0.0}'
   edges:
@@ -103,5 +103,5 @@ MonoBehaviour:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: 164, y: -26.5, z: 0}
+  position: {x: 182, y: -26.5, z: 0}
   scale: {x: 1, y: 1, z: 1}

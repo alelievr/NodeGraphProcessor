@@ -8,10 +8,10 @@ using System.Linq;
 public class CustomPortsNode : BaseNode
 {
     [Input]
-	public MultiPorts       	inputs;
+	public List< float >       	inputs;
 
 	[Output]
-	public MultiPorts			outputs;
+	public List< float >		outputs; // TODO: custom function for this one
 
 	List< object >				values;
 

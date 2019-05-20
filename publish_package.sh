@@ -11,7 +11,7 @@ cp -Rf $package_path $tmp_path
 cp -Rf $sample1_path $tmp_path
 
 # Override pathes
-package_path=$tmp_path"/com.alelievr.NodeGraphProcessor"
+package_path=$tmp_path"/com.alelievr.NodeGraphProcessor/"
 sample1_path=$tmp_path"/Examples"
 
 # Go to the release branch

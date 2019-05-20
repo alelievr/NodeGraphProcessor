@@ -1,0 +1,4 @@
+#headerColorPicker {
+    width: 50;
+    align: right;
+}

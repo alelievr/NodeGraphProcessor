@@ -23,9 +23,9 @@ cp -Rf $package_path .
 
 sample_path='Samples~'
 mkdir -p $sample_path
-mkdir -p $sample_path/"Examples"
+mkdir -p $sample_path
 
-cp -Rf $sample1_path $sample_path"/Examples"
+cp -Rf $sample1_path $sample_path
 
 git add -A
 git commit -m "Publish version ${version}"

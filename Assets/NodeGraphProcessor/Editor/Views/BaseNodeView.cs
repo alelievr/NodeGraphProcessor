@@ -147,6 +147,10 @@ namespace GraphProcessor
 
 		public void RemovePort(PortView p)
 		{
+			// Remove all connected edges:
+			foreach (var e in p.GetEdges())
+				owner.Disconnect(e, refreshPorts: false);
+
 			if (p.direction == Direction.Input)
 			{
 				inputPortViews.Remove(p);
@@ -300,30 +304,54 @@ namespace GraphProcessor
 			return Status.Disabled;
 		}
 
-		public new bool RefreshPorts()
+		void UpdatePortViews(IEnumerable< NodePort > ports, IEnumerable< PortView > portViews)
 		{
 			var listener = owner.connectorListener;
 
+			// Maybe not good to remove ports as edges are still connected :/
+			foreach (var pv in portViews)
+			{
+				// If the port have disepeared from the node datas, we remove the view:
+				// We can use the identifier here because this function will only be called when there is a custom port behavior
+				if (!ports.Any(p => p.portData.identifier == pv.portData.identifier))
+					RemovePort(pv);
+			}
+
+			foreach (var p in ports)
+			{
+				// Add missing port views
+				if (!portViews.Any(pv => p.portData.identifier == pv.portData.identifier))
+					AddPort(p.fieldInfo, Direction.Input, listener, p.portData);
+			}
+		}
+
+		public new bool RefreshPorts()
+		{
 			// If a port behavior was attached to one port, then
 			// the port count might have been updated by the node
 			// so we have to refresh the list of port views.
 			if (nodeTarget.inputPorts.Count != inputPortViews.Count)
 			{
-				// TODO: update input port views
+				var ports = nodeTarget.inputPorts.GroupBy(n => n.fieldName);
+				var portViews = inputPortViews.GroupBy(v => v.fieldName);
+				ports.Zip(portViews, (portPerFieldName, portViewPerFieldName) => {
+					if (portPerFieldName.Count() != portViewPerFieldName.Count())
+						UpdatePortViews(portPerFieldName, portViewPerFieldName);
+					// We don't care about the result, we just iterate over port and portView
+					return "";
+				}).ToList();
 			}
 			if (nodeTarget.outputPorts.Count != outputPortViews.Count)
 			{
-				// TODO: update output port views
+				var ports = nodeTarget.outputPorts.GroupBy(n => n.fieldName);
+				var portViews = outputPortViews.GroupBy(v => v.fieldName);
+				ports.Zip(portViews, (portPerFieldName, portViewPerFieldName) => {
+					if (portPerFieldName.Count() != portViewPerFieldName.Count())
+						UpdatePortViews(portPerFieldName, portViewPerFieldName);
+					// We don't care about the result, we just iterate over port and portView
+					return "";
+				});
 			}
-			// foreach (var inputPort in nodeTarget.inputPorts)
-			// {
-			// 	AddPort(inputPort.fieldInfo, Direction.Input, listener, inputPort.portData);
-			// }
-
-			// foreach (var outputPort in nodeTarget.outputPorts)
-			// {
-			// 	AddPort(outputPort.fieldInfo, Direction.Output, listener, outputPort.portData);
-			// }
 
 			return base.RefreshPorts();
 		}

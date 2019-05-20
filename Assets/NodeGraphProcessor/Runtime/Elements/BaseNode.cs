@@ -120,12 +120,7 @@ namespace GraphProcessor
 			if (fieldInfo.behavior == null)
 				return ;
 
-			// List< string > finalPorts = new List< string >();
-			// inputPorts.Select(p => p.fieldName == );
-			// var listener = owner.connectorListener;
-			// var direction = fieldInfo.input ? Direction.Input : Direction.Output;
-			// var container = fieldInfo.input ? nodeTarget.inputPorts as NodePortContainer : nodeTarget.outputPorts as NodePortContainer;
-			// var nodePort = container.FirstOrDefault(np => np.fieldName == fieldInfo.fieldName);
+			List< string > finalPorts = new List< string >();
 
 			var portCollection = fieldInfo.input ? (NodePortContainer)inputPorts : outputPorts;
 
@@ -136,32 +131,33 @@ namespace GraphProcessor
 
 			foreach (var portData in fieldInfo.behavior(edges))
 			{
-				// Add only ports that are not currently here
-				// if (currentPorts == null || !currentPorts.Any(p => p.identifier == portData.identifier))
+				// Guard using the port identifier so we don't duplicate identifiers
+				if (!nodePorts.Any(n => n.portData.identifier == portData.identifier))
 				{
 					AddPort(fieldInfo.input, fieldName, portData);
 				}
-				// else
+				else
 				{
 					// TODO: patch the name of the ports
 				}
-				// finalPorts.Add(portData.identifier);
+
+				finalPorts.Add(portData.identifier);
 			}
 
 			// TODO
-			// // Remove only the ports that are no more in the list
-			// if (currentPorts != null)
-			// {
-			// 	var currentPortsCopy = currentPorts.ToList();
-			// 	foreach (var currentPort in currentPortsCopy)
-			// 	{
-			// 		// If the current port does not appear in the list of final ports, we remove it
-			// 		if (!finalPorts.Any(id => id == currentPort.identifier))
-			// 		{
-			// 			RemovePort(currentPort);
-			// 		}
-			// 	}
-			// }
+			// Remove only the ports that are no more in the list
+			if (nodePorts != null)
+			{
+				var currentPortsCopy = nodePorts.ToList();
+				foreach (var currentPort in currentPortsCopy)
+				{
+					// If the current port does not appear in the list of final ports, we remove it
+					if (!finalPorts.Any(id => id == currentPort.portData.identifier))
+					{
+						RemovePort(fieldInfo.input, currentPort);
+					}
+				}
+			}
 		}
 
 		~BaseNode()
@@ -252,6 +248,8 @@ namespace GraphProcessor
 			NodePortContainer portCollection = (input) ? (NodePortContainer)inputPorts : outputPorts;
 
 			portCollection.Remove(edge);
+
+			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
 		}
 
 		public void OnProcess()

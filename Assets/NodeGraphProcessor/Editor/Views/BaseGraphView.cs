@@ -569,7 +569,7 @@ namespace GraphProcessor
 			return true;
 		}
 
-		public void Disconnect(EdgeView e, bool serializeToGraph = true)
+		public void Disconnect(EdgeView e, bool serializeToGraph = true, bool refreshPorts = true)
 		{
 			var serializableEdge = e.userData as SerializableEdge;
 
@@ -580,14 +580,16 @@ namespace GraphProcessor
 				var inputNodeView = e.input.node as BaseNodeView;
 				e.input.Disconnect(e);
 				inputNodeView.nodeTarget.OnEdgeDisonnected(e.serializedEdge);
-				inputNodeView.RefreshPorts();
+				if (refreshPorts)
+					inputNodeView.RefreshPorts();
 			}
 			if (e?.output?.node != null)
 			{
 				var outputNodeView = e.output.node as BaseNodeView;
 				e.output.Disconnect(e);
 				outputNodeView.nodeTarget.OnEdgeDisonnected(e.serializedEdge);
-				outputNodeView.RefreshPorts();
+				if (refreshPorts)
+					outputNodeView.RefreshPorts();
 			}
 
 			// Remove the serialized edge if there was one

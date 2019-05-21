@@ -88,14 +88,6 @@ namespace GraphProcessor
 			this.graph = graph;
 
 			Enable();
-		}
-
-		protected BaseNode()
-		{
-			InitializeInOutDatas();
-
-			inputPorts = new NodeInputPortContainer(this);
-			outputPorts = new NodeOutputPortContainer(this);
 
 			foreach (var nodeFieldKP in nodeFields)
 			{
@@ -113,7 +105,21 @@ namespace GraphProcessor
 			}
 		}
 
-		void UpdatePortsForField(string fieldName)
+		protected BaseNode()
+		{
+			inputPorts = new NodeInputPortContainer(this);
+			outputPorts = new NodeOutputPortContainer(this);
+
+			InitializeInOutDatas();
+		}
+
+		public void UpdateAllPorts()
+		{
+			foreach (var field in nodeFields)
+				UpdatePortsForField(field.Value.fieldName);
+		}
+
+		public void UpdatePortsForField(string fieldName)
 		{
 			var fieldInfo = nodeFields[fieldName];
 
@@ -310,9 +316,12 @@ namespace GraphProcessor
 					yield return edge.inputNode;
 		}
 
-		public NodePort	GetPort(string fieldName)
+		public NodePort	GetPort(string fieldName, string identifier)
 		{
-			return inputPorts.Concat(outputPorts).FirstOrDefault(p => p.fieldName == fieldName);
+			return inputPorts.Concat(outputPorts).FirstOrDefault(p => {
+				var bothNull = String.IsNullOrEmpty(identifier) && String.IsNullOrEmpty(p.portData.identifier);
+				return p.fieldName == fieldName && (bothNull || identifier == p.portData.identifier);
+			});
 		}
 
 		#endregion

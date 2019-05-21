@@ -148,7 +148,8 @@ namespace GraphProcessor
 		public void RemovePort(PortView p)
 		{
 			// Remove all connected edges:
-			foreach (var e in p.GetEdges())
+			var edgesCopy = p.GetEdges().ToList();
+			foreach (var e in edgesCopy)
 				owner.Disconnect(e, refreshPorts: false);
 
 			if (p.direction == Direction.Input)
@@ -309,7 +310,7 @@ namespace GraphProcessor
 			var listener = owner.connectorListener;
 
 			// Maybe not good to remove ports as edges are still connected :/
-			foreach (var pv in portViews)
+			foreach (var pv in portViews.ToList())
 			{
 				// If the port have disepeared from the node datas, we remove the view:
 				// We can use the identifier here because this function will only be called when there is a custom port behavior
@@ -332,28 +333,45 @@ namespace GraphProcessor
 			// so we have to refresh the list of port views.
 			if (nodeTarget.inputPorts.Count != inputPortViews.Count)
 			{
-				var ports = nodeTarget.inputPorts.GroupBy(n => n.fieldName);
-				var portViews = inputPortViews.GroupBy(v => v.fieldName);
-				ports.Zip(portViews, (portPerFieldName, portViewPerFieldName) => {
-					if (portPerFieldName.Count() != portViewPerFieldName.Count())
-						UpdatePortViews(portPerFieldName, portViewPerFieldName);
-					// We don't care about the result, we just iterate over port and portView
-					return "";
-				}).ToList();
+				var ports = nodeTarget.inputPorts;
+				var portViews = inputPortViews;
+				UpdatePortViewWithPorts(ports, portViews);
 			}
 			if (nodeTarget.outputPorts.Count != outputPortViews.Count)
 			{
-				var ports = nodeTarget.outputPorts.GroupBy(n => n.fieldName);
-				var portViews = outputPortViews.GroupBy(v => v.fieldName);
-				ports.Zip(portViews, (portPerFieldName, portViewPerFieldName) => {
-					if (portPerFieldName.Count() != portViewPerFieldName.Count())
-						UpdatePortViews(portPerFieldName, portViewPerFieldName);
-					// We don't care about the result, we just iterate over port and portView
-					return "";
-				});
+				var ports = nodeTarget.outputPorts;
+				var portViews = outputPortViews;
+				UpdatePortViewWithPorts(ports, portViews);
+			}
+
+			void UpdatePortViewWithPorts(NodePortContainer ports, List< PortView > portViews)
+			{
+				// When there is no current portviews, we can't zip the list so we just add all
+				if (portViews.Count == 0)
+					UpdatePortViews(ports, new PortView[]{});
+				else if (ports.Count == 0) // Same when there is no ports
+					UpdatePortViews(new NodePort[]{}, portViews);
+				else
+				{
+					var p = ports.GroupBy(n => n.fieldName);
+					var pv = portViews.GroupBy(v => v.fieldName);
+					p.Zip(pv, (portPerFieldName, portViewPerFieldName) => {
+						if (portPerFieldName.Count() != portViewPerFieldName.Count())
+							UpdatePortViews(portPerFieldName, portViewPerFieldName);
+						// We don't care about the result, we just iterate over port and portView
+						return "";
+					}).ToList();
+				}
 			}
 
 			return base.RefreshPorts();
+		}
+
+		protected void ForceUpdatePorts()
+		{
+			nodeTarget.UpdateAllPorts();
+
+			RefreshPorts();
 		}
 
 		#endregion

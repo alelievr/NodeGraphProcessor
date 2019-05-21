@@ -531,9 +531,6 @@ namespace GraphProcessor
 				NodePort inputPort = inputNodeView.nodeTarget.inputPorts.FirstOrDefault(o => o.portData.displayName == inputPortView.portData.displayName);
 				NodePort outputPort = outputNodeView.nodeTarget.outputPorts.FirstOrDefault(o => o.portData == outputPortView.portData);
 
-				Debug.Log("output port: " + outputPort.portData.displayName);
-				Debug.Log("input port: " + inputPort.portData.displayName);
-
 				e.userData = graph.Connect(inputPort, outputPort);
 			}
 

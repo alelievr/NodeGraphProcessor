@@ -73,8 +73,8 @@ namespace GraphProcessor
 		{
 			outputNode = owner.nodesPerGUID[outputNodeGUID];
 			inputNode = owner.nodesPerGUID[inputNodeGUID];
-			inputPort = inputNode.GetPort(inputFieldName);
-			outputPort = outputNode.GetPort(outputFieldName);
+			inputPort = inputNode.GetPort(inputFieldName, inputPortIdentifier);
+			outputPort = outputNode.GetPort(outputFieldName, outputPortIdentifier);
 		}
 	}
 }

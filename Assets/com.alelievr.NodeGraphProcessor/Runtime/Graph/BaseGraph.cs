@@ -157,10 +157,14 @@ namespace GraphProcessor
 				nodesPerGUID[node.GUID] = node;
 			}
 
-			foreach (var edge in edges)
+			foreach (var edge in edges.ToList()) // Copy
 			{
 				edge.Deserialize();
 				edgesPerGUID[edge.GUID] = edge;
+
+				// Sanity check for the edge:
+				if (edge.inputPort == null || edge.outputPort == null)
+					Disconnect(edge.GUID);
 			}
 		}
 

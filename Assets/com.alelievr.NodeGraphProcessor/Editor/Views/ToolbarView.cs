@@ -5,6 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using UnityEditor;
+using System.Linq;
 using System;
 
 using Status = UnityEngine.UIElements.DropdownMenuAction.Status;
@@ -55,6 +56,16 @@ namespace GraphProcessor
 			});
 		}
 
+		/// <summary>
+		/// Also works for toggles
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="left"></param>
+		protected void RemoveButton(string name, bool left)
+		{
+			((left) ? leftButtonDatas : rightButtonDatas).RemoveAll(b => b.name == name);
+		}
+
 		protected virtual void AddButtons()
 		{
 			AddButton("Center", graphView.ResetPositionAndZoom);
@@ -69,7 +80,7 @@ namespace GraphProcessor
 
 		void DrawImGUIButtonList(List< ToolbarButtonData > buttons)
 		{
-			foreach (var button in buttons)
+			foreach (var button in buttons.ToList())
 			{
 				if (button.toggle)
 				{

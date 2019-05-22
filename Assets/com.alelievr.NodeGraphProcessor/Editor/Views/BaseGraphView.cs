@@ -16,6 +16,8 @@ namespace GraphProcessor
 {
 	public class BaseGraphView : GraphView
 	{
+		public delegate void ComputeOrderUpdatedDelegate();
+
 		public BaseGraph							graph;
 
 		public EdgeConnectorListener				connectorListener;
@@ -27,7 +29,7 @@ namespace GraphProcessor
 
 		Dictionary< Type, PinnedElementView >		pinnedElements = new Dictionary< Type, PinnedElementView >();
 
-		public delegate void ComputeOrderUpdatedDelegate();
+		CreateNodeMenuWindow						createNodeMenu;
 
 		public event Action							initialized;
 		public event ComputeOrderUpdatedDelegate	computeOrderUpdated;
@@ -37,7 +39,7 @@ namespace GraphProcessor
 		public event Action				onExposedParameterListChanged;
 		public event Action< string >	onExposedParameterModified;
 
-		public BaseGraphView()
+		public BaseGraphView(EditorWindow window)
 		{
 			serializeGraphElements = SerializeGraphElementsCallback;
 			canPasteSerializedData = CanPasteSerializedDataCallback;
@@ -55,6 +57,9 @@ namespace GraphProcessor
 			SetupZoom(0.05f, 2f);
 
 			Undo.undoRedoPerformed += ReloadView;
+
+			createNodeMenu = ScriptableObject.CreateInstance< CreateNodeMenuWindow >();
+			createNodeMenu.Initialize(this, window);
 
 			this.StretchToParentSize();
 		}
@@ -283,7 +288,7 @@ namespace GraphProcessor
 
 		void KeyDownCallback(KeyDownEvent e)
 		{
-			if (e.keyCode == KeyCode.S)
+			if (e.keyCode == KeyCode.S && e.commandKey)
 			{
 				SaveGraphToDisk();
 				e.StopPropagation();
@@ -374,6 +379,8 @@ namespace GraphProcessor
 
 			if (initialized != null)
 				initialized();
+
+			InitializeView();
 		}
 
 		void InitializeGraphView()
@@ -382,6 +389,7 @@ namespace GraphProcessor
 			graph.onExposedParameterModified += (s) => onExposedParameterModified?.Invoke(s);
 			viewTransform.position = graph.position;
 			viewTransform.scale = graph.scale;
+			nodeCreationRequest = (c) => SearchWindow.Open(new SearchWindowContext(c.screenMousePosition), createNodeMenu);
 		}
 
 		void InitializeNodeViews()
@@ -437,7 +445,7 @@ namespace GraphProcessor
 
 		#region Graph content modification
 
-		protected bool AddNode(BaseNode node)
+		public bool AddNode(BaseNode node)
 		{
 			// This will initialize the node using the graph instance
 			graph.AddNode(node);
@@ -698,6 +706,17 @@ namespace GraphProcessor
 			graph.scale = Vector3.one;
 
 			UpdateViewTransform(graph.position, graph.scale);
+		}
+
+		protected virtual void InitializeView() {}
+
+		public virtual IEnumerable< KeyValuePair< string, Type > > FilterCreateNodeMenuEntries()
+		{
+			// By default we don't filter anything
+			foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries())
+				yield return nodeMenuItem;
+
+			// TODO: add exposed properties to this list
 		}
 
 		#endregion

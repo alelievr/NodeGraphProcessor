@@ -71,6 +71,9 @@ namespace GraphProcessor
 		//here our owner have been deserialized
 		public void Deserialize()
 		{
+			if (!owner.nodesPerGUID.ContainsKey(outputNodeGUID) || !owner.nodesPerGUID.ContainsKey(inputNodeGUID))
+				return ;
+
 			outputNode = owner.nodesPerGUID[outputNodeGUID];
 			inputNode = owner.nodesPerGUID[inputNodeGUID];
 			inputPort = inputNode.GetPort(inputFieldName, inputPortIdentifier);

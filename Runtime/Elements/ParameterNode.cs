@@ -11,11 +11,11 @@ public class ParameterNode : BaseNode
 	[Output]
 	public object				output;
 
-	public override string		name => "Parameter";
+	public override string		name => "huifehfgw";
 
-	// We serialize the name of the exposed parameter in the graph so we can retrieve the true ExposedParameter from the graph
+	// We serialize the GUID of the exposed parameter in the graph so we can retrieve the true ExposedParameter from the graph
 	[SerializeField, HideInInspector]
-	public string				parameterName;
+	public string				parameterGUID;
 
 	public ExposedParameter		parameter { get; private set; }
 
@@ -33,11 +33,14 @@ public class ParameterNode : BaseNode
 
 	void LoadExposedParameter()
 	{
-		parameter = graph.GetExposedParameter(parameterName);
+		parameter = graph.GetExposedParameterFromGUID(parameterGUID);
 
 		if (parameter == null)
 		{
-			Debug.Log("Property \"" + parameterName + "\" Can't be found !");
+			Debug.Log("Property \"" + parameterGUID + "\" Can't be found !");
+
+			// Delete this node as the property can't be found
+			graph.RemoveNode(this);
 			return ;
 		}
 
@@ -46,7 +49,7 @@ public class ParameterNode : BaseNode
 
 	void OnParamChanged(string modifiedParameterName)
 	{
-		if (parameterName == modifiedParameterName)
+		if (parameter?.name == modifiedParameterName)
 		{
 			onParameterChanged?.Invoke();
 		}

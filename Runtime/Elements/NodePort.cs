@@ -13,7 +13,6 @@ namespace GraphProcessor
 		public string	identifier;
 		public string	displayName;
 		public Type		displayType;
-		// public bool		input; // TODO: Is this useful ?
 		public bool		acceptMultipleEdges;
 
         public bool Equals(PortData other)

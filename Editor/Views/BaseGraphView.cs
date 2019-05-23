@@ -309,7 +309,7 @@ namespace GraphProcessor
 				foreach (var paramFieldView in exposedParameterFieldViews)
 				{
 					var paramNode = BaseNode.CreateFromType< ParameterNode >(mousePos);
-					paramNode.parameterName = paramFieldView.parameter.name;
+					paramNode.parameterGUID = paramFieldView.parameter.guid;
 					AddNode(paramNode);
 				}
 			}
@@ -377,8 +377,7 @@ namespace GraphProcessor
 
 			UpdateComputeOrder();
 
-			if (initialized != null)
-				initialized();
+			initialized?.Invoke();
 
 			InitializeView();
 		}
@@ -397,7 +396,9 @@ namespace GraphProcessor
 			graph.nodes.RemoveAll(n => n == null);
 
 			foreach (var node in graph.nodes)
-				AddNodeView(node);
+			{
+				var v = AddNodeView(node);
+			}
 		}
 
 		void InitializeEdgeViews()

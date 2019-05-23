@@ -90,7 +90,7 @@ namespace GraphProcessor
             var windowMousePosition = windowRoot.ChangeCoordinatesTo(windowRoot.parent, context.screenMousePosition - window.position.position);
             var graphMousePosition = graphView.contentViewContainer.WorldToLocal(windowMousePosition);
 
-            graphView.RegisterCompleteObjectUndo("Added " + searchTreeEntry.userData + " node");
+            graphView.RegisterCompleteObjectUndo("Added " + searchTreeEntry.userData);
             graphView.AddNode(BaseNode.CreateFromType((Type)searchTreeEntry.userData, graphMousePosition));
             return true;
         }

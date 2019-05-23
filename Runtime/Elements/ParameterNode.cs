@@ -8,7 +8,7 @@ using System;
 [System.Serializable]
 public class ParameterNode : BaseNode
 {
-	[Output(name = "Value")]
+	[Output]
 	public object				output;
 
 	public override string		name => "Parameter";
@@ -50,6 +50,16 @@ public class ParameterNode : BaseNode
 		{
 			onParameterChanged?.Invoke();
 		}
+	}
+
+	[CustomPortBehavior(nameof(output))]
+	IEnumerable< PortData > GetOutputPort(List< SerializableEdge > edges)
+	{
+		yield return new PortData{
+			identifier = "output",
+			displayName = "Value",
+			displayType = (parameter == null) ? typeof(object) : Type.GetType(parameter.type),
+		};
 	}
 
 	protected override void Process()

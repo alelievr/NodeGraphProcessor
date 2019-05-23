@@ -21,7 +21,7 @@ public class CustomContextMenuGraphWindow : BaseGraphWindow
 	{
 		titleContent = new GUIContent("Context Menu Graph");
 
-		var graphView = new CustomContextMenuGraphView();
+		var graphView = new CustomContextMenuGraphView(this);
 
 		rootView.Add(graphView);
 

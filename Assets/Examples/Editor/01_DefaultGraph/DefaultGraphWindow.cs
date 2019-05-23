@@ -21,7 +21,7 @@ public class DefaultGraphWindow : BaseGraphWindow
 	{
 		titleContent = new GUIContent("Default Graph");
 
-		var graphView = new BaseGraphView();
+		var graphView = new BaseGraphView(this);
 
 		rootView.Add(graphView);
 	}

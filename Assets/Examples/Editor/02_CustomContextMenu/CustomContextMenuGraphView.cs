@@ -3,9 +3,12 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using GraphProcessor;
 using System;
+using UnityEditor;
 
 public class CustomContextMenuGraphView : BaseGraphView
 {
+	public CustomContextMenuGraphView(EditorWindow window) : base(window) {}
+
 	public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 	{
 		evt.menu.AppendSeparator();

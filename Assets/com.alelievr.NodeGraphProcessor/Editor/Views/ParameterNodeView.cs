@@ -6,6 +6,7 @@ using UnityEditor.UIElements;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using GraphProcessor;
+using System.Linq;
 
 [NodeCustomEditor(typeof(ParameterNode))]
 public class ParameterNodeView : BaseNodeView

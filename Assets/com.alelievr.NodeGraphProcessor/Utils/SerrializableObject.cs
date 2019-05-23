@@ -2,6 +2,10 @@ using System;
 using UnityEngine;
 using System.Globalization;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace GraphProcessor
 {
     // Warning: this class only support the serialization of UnityObject and primitive
@@ -56,7 +60,8 @@ namespace GraphProcessor
                 try {
                     value = Activator.CreateInstance(type);
                     JsonUtility.FromJsonOverwrite(serializedValue, value);
-                } catch {
+                } catch (Exception e){
+                    Debug.LogError(e);
                     Debug.LogError("Can't serialize type " + serializedType);
                 }
             }

@@ -62,19 +62,22 @@ namespace GraphProcessor
 
 		public static BaseNode	DeserializeNode(JsonElement e)
 		{
-			var baseNodeType = Type.GetType(e.type);
+			try {
+				var baseNodeType = Type.GetType(e.type);
 
-			if (e.jsonDatas == null)
-				return null;
+				if (e.jsonDatas == null)
+					return null;
 
-			var node = Activator.CreateInstance(baseNodeType) as BaseNode;
+				var node = Activator.CreateInstance(baseNodeType) as BaseNode;
 #if UNITY_EDITOR
-			EditorJsonUtility.FromJsonOverwrite(e.jsonDatas, node);
+				EditorJsonUtility.FromJsonOverwrite(e.jsonDatas, node);
 #else
-			JsonUtility.FromJsonOverwrite(e.jsonDatas, node);
+				JsonUtility.FromJsonOverwrite(e.jsonDatas, node);
 #endif
-
-			return node;
+				return node;
+			} catch {
+				return null;
+			}
 		}
 	}
 }

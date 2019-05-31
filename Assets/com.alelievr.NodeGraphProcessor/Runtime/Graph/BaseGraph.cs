@@ -159,6 +159,11 @@ namespace GraphProcessor
 			foreach (var serializedNode in serializedNodes.ToList())
 			{
 				var node = JsonSerializer.DeserializeNode(serializedNode) as BaseNode;
+				if (node == null)
+				{
+					serializedNodes.Remove(serializedNode);
+					continue ;
+				}
 				AddNode(node);
 				nodesPerGUID[node.GUID] = node;
 			}

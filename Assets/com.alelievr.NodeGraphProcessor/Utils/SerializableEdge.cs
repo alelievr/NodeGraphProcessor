@@ -62,6 +62,9 @@ namespace GraphProcessor
 
 		public void OnBeforeSerialize()
 		{
+			if (outputNode == null || inputNode == null)
+				return;
+
 			outputNodeGUID = outputNode.GUID;
 			inputNodeGUID = inputNode.GUID;
 		}

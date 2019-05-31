@@ -122,6 +122,9 @@ namespace GraphProcessor
 			{
 				var node = JsonSerializer.DeserializeNode(serializedNode);
 
+				if (node == null)
+					continue ;
+
 				//Call OnNodeCreated on the new fresh copied node
 				node.OnNodeCreated();
 				//And move a bit the new node
@@ -537,7 +540,7 @@ namespace GraphProcessor
 
 			if (serializeToGraph)
 			{
-				NodePort inputPort = inputNodeView.nodeTarget.inputPorts.FirstOrDefault(o => o.portData.displayName == inputPortView.portData.displayName);
+				NodePort inputPort = inputNodeView.nodeTarget.inputPorts.FirstOrDefault(o => o.portData.identifier == inputPortView.portData.identifier);
 				NodePort outputPort = outputNodeView.nodeTarget.outputPorts.FirstOrDefault(o => o.portData == outputPortView.portData);
 
 				e.userData = graph.Connect(inputPort, outputPort);
@@ -629,6 +632,9 @@ namespace GraphProcessor
 
 		public void SaveGraphToDisk()
 		{
+			if (graph == null)
+				return ;
+
 			EditorUtility.SetDirty(graph);
 		}
 

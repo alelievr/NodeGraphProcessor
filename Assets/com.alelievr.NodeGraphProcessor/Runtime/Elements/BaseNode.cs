@@ -137,14 +137,16 @@ namespace GraphProcessor
 
 			foreach (var portData in fieldInfo.behavior(edges))
 			{
+				var port = nodePorts.FirstOrDefault(n => n.portData.identifier == portData.identifier);
 				// Guard using the port identifier so we don't duplicate identifiers
-				if (!nodePorts.Any(n => n.portData.identifier == portData.identifier))
+				if (port == null)
 				{
 					AddPort(fieldInfo.input, fieldName, portData);
 				}
 				else
 				{
-					// TODO: patch the name of the ports
+					// patch the port datas
+					port.portData = portData;
 				}
 
 				finalPorts.Add(portData.identifier);

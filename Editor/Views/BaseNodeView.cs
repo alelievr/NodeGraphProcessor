@@ -305,7 +305,7 @@ namespace GraphProcessor
 			return Status.Disabled;
 		}
 
-		void UpdatePortViews(IEnumerable< NodePort > ports, IEnumerable< PortView > portViews)
+		void SyncPortCounts(IEnumerable< NodePort > ports, IEnumerable< PortView > portViews)
 		{
 			var listener = owner.connectorListener;
 
@@ -331,36 +331,36 @@ namespace GraphProcessor
 			// If a port behavior was attached to one port, then
 			// the port count might have been updated by the node
 			// so we have to refresh the list of port views.
-			if (nodeTarget.inputPorts.Count != inputPortViews.Count)
-			{
-				var ports = nodeTarget.inputPorts;
-				var portViews = inputPortViews;
-				UpdatePortViewWithPorts(ports, portViews);
-			}
-			if (nodeTarget.outputPorts.Count != outputPortViews.Count)
-			{
-				var ports = nodeTarget.outputPorts;
-				var portViews = outputPortViews;
-				UpdatePortViewWithPorts(ports, portViews);
-			}
+			UpdatePortViewWithPorts(nodeTarget.inputPorts, inputPortViews);
+			UpdatePortViewWithPorts(nodeTarget.outputPorts, outputPortViews);
 
 			void UpdatePortViewWithPorts(NodePortContainer ports, List< PortView > portViews)
 			{
 				// When there is no current portviews, we can't zip the list so we just add all
 				if (portViews.Count == 0)
-					UpdatePortViews(ports, new PortView[]{});
+					SyncPortCounts(ports, new PortView[]{});
 				else if (ports.Count == 0) // Same when there is no ports
-					UpdatePortViews(new NodePort[]{}, portViews);
+					SyncPortCounts(new NodePort[]{}, portViews);
 				else
 				{
 					var p = ports.GroupBy(n => n.fieldName);
 					var pv = portViews.GroupBy(v => v.fieldName);
 					p.Zip(pv, (portPerFieldName, portViewPerFieldName) => {
 						if (portPerFieldName.Count() != portViewPerFieldName.Count())
-							UpdatePortViews(portPerFieldName, portViewPerFieldName);
+							SyncPortCounts(portPerFieldName, portViewPerFieldName);
 						// We don't care about the result, we just iterate over port and portView
 						return "";
 					}).ToList();
+				}
+
+				// Here we're sure that we have the same amout of port and portView
+				// so we can update the view with the new port datas (if the name of a port have been changed for example)
+
+				for (int i = 0; i < portViews.Count; i++)
+				{
+					var pv = portViews[i];
+
+					pv.UpdatePortView(ports[i].portData.displayName, ports[i].portData.displayType);
 				}
 			}
 

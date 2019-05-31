@@ -17,8 +17,10 @@ public class CustomPortsNode : BaseNode
 
 	public override string		name => "CustomPorts";
 
-	// We keep the max port count so it doesn't cause binding issues
-	[SerializeField, HideInInspector]
+    public override string      layoutStyle => "TestType";
+
+    // We keep the max port count so it doesn't cause binding issues
+    [SerializeField, HideInInspector]
 	int							portCount = 1;
 
 	protected override void Process()

@@ -44,7 +44,10 @@ namespace GraphProcessor
 
 			owner.computeOrderUpdated += ComputeOrderUpdatedCallback;
 
-			styleSheets.Add(Resources.Load<StyleSheet>(baseNodeStyle));
+            styleSheets.Add(Resources.Load<StyleSheet>(baseNodeStyle));
+
+            if (!string.IsNullOrEmpty(node.layoutStyle))
+                styleSheets.Add(Resources.Load<StyleSheet>(node.layoutStyle));
 
 			InitializePorts();
 			InitializeView();

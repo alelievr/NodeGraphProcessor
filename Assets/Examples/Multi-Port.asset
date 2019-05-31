@@ -20,68 +20,12 @@ MonoBehaviour:
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"e9d66bf0-09b9-40c9-a0ef-91532d921152","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":213.72882080078126,"y":127.56866455078125,"width":73.0,"height":101.0},"expanded":false,"debug":false,"output":10.5}'
   - type: CustomPortData, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"6905b57d-a5a7-4b09-a220-8be5fff7aa14","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":412.3138122558594,"y":96.92816925048828,"width":113.00000762939453,"height":149.00001525878907},"expanded":false,"debug":false,"output":0.0}'
+    jsonDatas: '{"GUID":"6905b57d-a5a7-4b09-a220-8be5fff7aa14","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":412.3138122558594,"y":96.92816925048828,"width":113.00000762939453,"height":149.00001525878907},"expanded":false,"debug":false,"output":0.0}'
   - type: PrefabNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"3bb6c7fa-55da-4b2d-9da9-f5b72a096c6e","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":187.2196044921875,"y":248.37338256835938,"width":136.0,"height":223.0},"expanded":false,"debug":false,"output":{"instanceID":11156}}'
+    jsonDatas: '{"GUID":"3bb6c7fa-55da-4b2d-9da9-f5b72a096c6e","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":187.2196044921875,"y":248.37338256835938,"width":136.0,"height":223.0},"expanded":false,"debug":false,"output":{"instanceID":0}}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"e33e83d3-9e78-414e-b9b2-ba99ca9b56ea","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":686.1111450195313,"y":113.64313507080078,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
+    jsonDatas: '{"GUID":"e33e83d3-9e78-414e-b9b2-ba99ca9b56ea","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":686.1111450195313,"y":113.64313507080078,"width":71.0,"height":95.0},"expanded":false,"debug":false}'
   edges:
-  - GUID: 3895d80a-222d-4cd4-a9ca-1e940fcfe8f2
-    owner: {fileID: 11400000}
-    inputNodeGUID: 6905b57d-a5a7-4b09-a220-8be5fff7aa14
-    outputNodeGUID: e9d66bf0-09b9-40c9-a0ef-91532d921152
-    inputFieldName: inputs
-    outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 
-  - GUID: 4e630b31-1c4c-41aa-9363-82dd2d6c2f9f
-    owner: {fileID: 11400000}
-    inputNodeGUID: 6905b57d-a5a7-4b09-a220-8be5fff7aa14
-    outputNodeGUID: e9d66bf0-09b9-40c9-a0ef-91532d921152
-    inputFieldName: inputs
-    outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 
-  - GUID: 66b51551-5b99-4b27-a73a-2e9e1557e389
-    owner: {fileID: 11400000}
-    inputNodeGUID: 6905b57d-a5a7-4b09-a220-8be5fff7aa14
-    outputNodeGUID: 3bb6c7fa-55da-4b2d-9da9-f5b72a096c6e
-    inputFieldName: inputs
-    outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 
-  - GUID: 328433f1-02da-44ba-9509-01c533fb38d4
-    owner: {fileID: 11400000}
-    inputNodeGUID: 6905b57d-a5a7-4b09-a220-8be5fff7aa14
-    outputNodeGUID: 3bb6c7fa-55da-4b2d-9da9-f5b72a096c6e
-    inputFieldName: inputs
-    outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 
-  - GUID: a2a3b7a0-6bc1-4ad0-9013-2d3c84a796f0
-    owner: {fileID: 11400000}
-    inputNodeGUID: 6905b57d-a5a7-4b09-a220-8be5fff7aa14
-    outputNodeGUID: 3bb6c7fa-55da-4b2d-9da9-f5b72a096c6e
-    inputFieldName: inputs
-    outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 
-  - GUID: 5918405a-3f40-44f0-bfec-19bfa4bfbb2a
-    owner: {fileID: 11400000}
-    inputNodeGUID: 6905b57d-a5a7-4b09-a220-8be5fff7aa14
-    outputNodeGUID: 3bb6c7fa-55da-4b2d-9da9-f5b72a096c6e
-    inputFieldName: inputs
-    outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 
-  - GUID: bf02ec12-f33c-43e3-ade2-98103a4b8de0
-    owner: {fileID: 11400000}
-    inputNodeGUID: 6905b57d-a5a7-4b09-a220-8be5fff7aa14
-    outputNodeGUID: 3bb6c7fa-55da-4b2d-9da9-f5b72a096c6e
-    inputFieldName: inputs
-    outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 
   - GUID: 7a99dd5b-eb88-41a9-a588-768cb9112be8
     owner: {fileID: 11400000}
     inputNodeGUID: 6905b57d-a5a7-4b09-a220-8be5fff7aa14

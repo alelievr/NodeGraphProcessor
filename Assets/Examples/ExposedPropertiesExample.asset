@@ -19,7 +19,7 @@ MonoBehaviour:
     jsonDatas: '{"GUID":"bd6e5486-333b-4d08-b049-1103e9b1dc20","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":216.17015075683595,"y":572.4877319335938,"width":72.0,"height":95.0},"expanded":false,"debug":false}'
   - type: ParameterNode, com.alelievr.NodeGraphProcessor, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"8bd321f8-b93c-4360-8b0c-d004d3604e97","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":-7.930046558380127,"y":629.9016723632813,"width":138.00001525878907,"height":77.0},"expanded":false,"debug":false,"parameterGUID":"fc2400e0-1461-4ba2-9d60-9533b6417d88"}'
+    jsonDatas: '{"GUID":"8bd321f8-b93c-4360-8b0c-d004d3604e97","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":45.368614196777347,"y":641.9660034179688,"width":100.0,"height":100.0},"expanded":false,"debug":false,"parameterGUID":"fc2400e0-1461-4ba2-9d60-9533b6417d88"}'
   - type: ParameterNode, com.alelievr.NodeGraphProcessor, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     jsonDatas: '{"GUID":"dab6d88a-b3dc-4dc9-bd5f-1240771222bf","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":46.88090133666992,"y":519.470703125,"width":100.0,"height":100.0},"expanded":false,"debug":false,"parameterGUID":"9ae7b637-72eb-4fcf-90d9-c9bd11336a2b"}'
@@ -89,5 +89,5 @@ MonoBehaviour:
       serializedName: 
       serializedValue: '{"r":1.0,"g":0.0,"b":0.0,"a":0.0}'
     input: 1
-  position: {x: 249, y: -565, z: 0}
-  scale: {x: 1.3225, y: 1.3225, z: 1}
+  position: {x: -105.5, y: -880.5, z: 0}
+  scale: {x: 2, y: 2, z: 1}

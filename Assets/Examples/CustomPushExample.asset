@@ -139,16 +139,6 @@ MonoBehaviour:
     editorType:
       serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  exposedParameters:
-  - guid: 142446f1-e533-4322-8433-9c52da904d4c
-    name: New ColorParam
-    type: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    serializedValue:
-      serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      serializedName: 
-      serializedValue: '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}'
-    input: 1
-  position: {x: 58, y: 266, z: 0}
+  exposedParameters: []
+  position: {x: -71.5, y: 150, z: 0}
   scale: {x: 1, y: 1, z: 1}

@@ -1,10 +1,7 @@
 #node {
-    background-color: rgba(0, 63,63, 0.8);
+    background-color: rgba(0, 63, 63, 0.8);
 }
 
 #controls {
     background-color: rgba(63, 63, 63, 0.8);
-}
-#title {
-    background-color: rgba(59, 83, 94, 0.8);
 }

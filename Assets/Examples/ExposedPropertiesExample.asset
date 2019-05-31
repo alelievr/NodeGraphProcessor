@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
   m_Name: ExposedPropertiesExample
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   serializedNodes:
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"39fdf09f-b7ff-49f5-bfe5-c59e221c30b6","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":227.00003051757813,"y":445.00006103515627,"width":72.0,"height":95.0},"expanded":true,"debug":false}'
@@ -30,7 +30,7 @@ MonoBehaviour:
     outputNodeGUID: 8bd321f8-b93c-4360-8b0c-d004d3604e97
     inputFieldName: obj
     outputFieldName: output
-    inputPortIdentifier: 
+    inputPortIdentifier:
     outputPortIdentifier: output
   - GUID: 3cab5bf1-528f-4325-849e-d82233fc7f62
     owner: {fileID: 11400000}
@@ -38,7 +38,7 @@ MonoBehaviour:
     outputNodeGUID: dab6d88a-b3dc-4dc9-bd5f-1240771222bf
     inputFieldName: obj
     outputFieldName: output
-    inputPortIdentifier: 
+    inputPortIdentifier:
     outputPortIdentifier: output
   commentBlocks: []
   pinnedElements:
@@ -68,7 +68,7 @@ MonoBehaviour:
     type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     serializedValue:
       serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-      serializedName: 
+      serializedName:
       serializedValue: 42
     input: 1
   - guid: 9ae7b637-72eb-4fcf-90d9-c9bd11336a2b
@@ -76,7 +76,7 @@ MonoBehaviour:
     type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     serializedValue:
       serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-      serializedName: 
+      serializedName:
       serializedValue: 21
     input: 1
   - guid: fc2400e0-1461-4ba2-9d60-9533b6417d88
@@ -86,9 +86,8 @@ MonoBehaviour:
     serializedValue:
       serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      serializedName: 
+      serializedName:
       serializedValue: '{"r":1.0,"g":0.0,"b":0.0,"a":0.0}'
     input: 1
-  position: {x: 405, y: -285, z: 0}
-  scale: {x: 0.8695652, y: 0.8695652, z: 1}
-
+  position: {x: 255, y: -577, z: 0}
+  scale: {x: 1.3225, y: 1.3225, z: 1}

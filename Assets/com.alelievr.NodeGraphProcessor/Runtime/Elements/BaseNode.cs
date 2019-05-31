@@ -15,6 +15,8 @@ namespace GraphProcessor
 	{
 		public virtual string       name => GetType().Name;
 
+        public virtual string       layoutStyle => string.Empty;
+
 		//id
 		public string				GUID;
 

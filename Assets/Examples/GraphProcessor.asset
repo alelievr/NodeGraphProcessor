@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes:
   - type: PrefabNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"d0e22884-b7b2-4000-9fbd-89787c0a2546","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":392.0,"y":210.0,"width":82.0,"height":159.0},"expanded":false,"debug":false,"output":{"fileID":1636575971871760,"guid":"f78111bdbdeaf6644806fc49fcaf1d30","type":3}}'
+    jsonDatas: '{"GUID":"d0e22884-b7b2-4000-9fbd-89787c0a2546","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":455.37054443359377,"y":113.31758880615235,"width":136.0,"height":224.0},"expanded":false,"debug":false,"output":{"fileID":1636575971871760,"guid":"f78111bdbdeaf6644806fc49fcaf1d30","type":3}}'
   edges: []
   commentBlocks: []
   pinnedElements:
@@ -29,5 +29,5 @@ MonoBehaviour:
       serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: 0, y: -12, z: 0}
-  scale: {x: 1, y: 1, z: 1}
+  position: {x: -120, y: -76, z: 0}
+  scale: {x: 1.3225, y: 1.3225, z: 1}

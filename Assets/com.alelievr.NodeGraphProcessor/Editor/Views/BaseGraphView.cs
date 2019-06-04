@@ -260,7 +260,7 @@ namespace GraphProcessor
 		protected void BuildCreateContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			Vector2 position = evt.mousePosition - (Vector2)viewTransform.position;
-            evt.menu.AppendAction("Create/Comment Block", (e) => AddCommentBlock(new CommentBlock("New Comment Block", position)), DropdownMenuAction.AlwaysEnabled);
+            evt.menu.AppendAction("Create/Comment Block", (e) => AddSelectionsToCommentBlock(AddCommentBlock(new CommentBlock("New Comment Block", position))), DropdownMenuAction.AlwaysEnabled);
 		}
 
 		protected void BuildViewContextualMenu(ContextualMenuPopulateEvent evt)
@@ -489,14 +489,14 @@ namespace GraphProcessor
 			nodeViewsPerNode.Clear();
 		}
 
-        public void AddCommentBlock(CommentBlock block)
+        public CommentBlockView AddCommentBlock(CommentBlock block)
         {
             graph.AddCommentBlock(block);
             block.OnCreated();
-            AddCommentBlockView(block);
+            return AddCommentBlockView(block);
         }
 
-		public void AddCommentBlockView(CommentBlock block)
+		public CommentBlockView AddCommentBlockView(CommentBlock block)
 		{
 			var c = new CommentBlockView();
 
@@ -505,7 +505,22 @@ namespace GraphProcessor
 			AddElement(c);
 
             commentBlockViews.Add(c);
+            return c;
 		}
+
+        public void AddSelectionsToCommentBlock(CommentBlockView view)
+        {
+            foreach (var selectedNode in selection)
+            {
+                if (selectedNode is BaseNodeView)
+                {
+                    if (commentBlockViews.Exists(x => x.ContainsElement(selectedNode as BaseNodeView)))
+                        continue;
+
+                    view.AddElement(selectedNode as BaseNodeView);
+                }
+            }
+        }
 
 		public void RemoveCommentBlocks()
 		{

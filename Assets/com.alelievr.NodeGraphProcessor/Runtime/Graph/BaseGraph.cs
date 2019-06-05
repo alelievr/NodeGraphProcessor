@@ -63,7 +63,7 @@ namespace GraphProcessor
 		bool _isEnabled = false;
 		public bool isEnabled { get => _isEnabled; private set => _isEnabled = value; }
 
-        void OnEnable()
+        protected virtual void OnEnable()
         {
 			Deserialize();
 

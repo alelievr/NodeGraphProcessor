@@ -81,7 +81,6 @@ namespace GraphProcessor
         {
             commentBlock.color = newColor;
             style.backgroundColor = newColor;
-            titleLabel.style.color = new Color(1 - newColor.r, 1 - newColor.g, 1 - newColor.b, 1);
         }
 
         void TitleChangedCallback(ChangeEvent< string > e)

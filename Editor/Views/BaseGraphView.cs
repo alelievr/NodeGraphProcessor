@@ -249,7 +249,7 @@ namespace GraphProcessor
 
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
-			BuildCreateContextualMenu(evt);
+			BuildCommentBlockContextualMenu(evt);
 			BuildViewContextualMenu(evt);
 			base.BuildContextualMenu(evt);
 			BuildSelectAssetContextualMenu(evt);
@@ -257,10 +257,10 @@ namespace GraphProcessor
 			BuildHelpContextualMenu(evt);
 		}
 
-		protected void BuildCreateContextualMenu(ContextualMenuPopulateEvent evt)
+		protected void BuildCommentBlockContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			Vector2 position = evt.mousePosition - (Vector2)viewTransform.position;
-            evt.menu.AppendAction("Create/Comment Block", (e) => AddSelectionsToCommentBlock(AddCommentBlock(new CommentBlock("New Comment Block", position))), DropdownMenuAction.AlwaysEnabled);
+            evt.menu.AppendAction("Comment Block", (e) => AddSelectionsToCommentBlock(AddCommentBlock(new CommentBlock("New Comment Block", position))), DropdownMenuAction.AlwaysEnabled);
 		}
 
 		protected void BuildViewContextualMenu(ContextualMenuPopulateEvent evt)

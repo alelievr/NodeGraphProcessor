@@ -4,7 +4,7 @@ Node graph editor framework focused on data processing using Unity UIElements an
 ### Unity Compatible versions
 
 This project requires at least Unity **2019.1** with a scripting runtime version of 4.x in player settings.
-The current Unity version used for the project is **2019.1b04**
+The current Unity version used for the project is **2019.1.5f1**
 
 ### Installation
 
@@ -15,6 +15,8 @@ To install using the package manager:
 - inside the package manager click the '+' button at the bottom to add a package from disk
 - then select the package.json file located in `Assets/NodeGraphProcessor`
 - package is installed :)
+
+Alternatively, you can use the [git address feature in the package manager](https://forum.unity.com/threads/git-support-on-package-manager.573673/) on the branch [#upm](https://github.com/alelievr/NodeGraphProcessor/tree/upm), it only contains the package but it may be out of sync compared to master.
 
 Note that you'll not have access to the examples provided in this repo because the package only include the core of NodeGraphProcessor.
 
@@ -27,6 +29,8 @@ Note that you'll not have access to the examples provided in this repo because t
 - Graph processor which execute node's logic with a dependency order
 - [Powerful C# API to add new nodes / graphs](https://github.com/alelievr/NodeGraphProcessor/wiki/Node-scripting-API)
 - Exposed parameters that can be set per-asset to customize the graph processing from scripts or the inspector
+- Search window to create new nodes
+- Colored comment blocks (node groups)
 
 ### Remaining to do
 
@@ -45,4 +49,6 @@ For more details consult our [trello](https://trello.com/b/Xk4rfnuV/node-graph-p
 ![](https://preview.ibb.co/hP0CvT/Screen_Shot_2018_06_24_at_18_05_50.png)
 ![](https://image.noelshack.com/fichiers/2018/35/7/1535906391-graph.png)
 ![](http://g.recordit.co/U1MAlFfuba.gif)
-![image](https://user-images.githubusercontent.com/6877923/53634256-0445a480-3c1a-11e9-99e5-d8f3616863bd.png)
+![](https://user-images.githubusercontent.com/6877923/53634256-0445a480-3c1a-11e9-99e5-d8f3616863bd.png)
+![](https://user-images.githubusercontent.com/6877923/58935692-3fea9000-876e-11e9-945e-8a874a4586a9.png)
+![](https://user-images.githubusercontent.com/6877923/58935811-893adf80-876e-11e9-9f69-69ce51a432b8.png)

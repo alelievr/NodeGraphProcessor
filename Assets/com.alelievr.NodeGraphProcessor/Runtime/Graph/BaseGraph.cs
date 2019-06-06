@@ -73,12 +73,14 @@ namespace GraphProcessor
 			onEnabled?.Invoke();
         }
 
-		public void AddNode(BaseNode node)
+		public BaseNode AddNode(BaseNode node)
 		{
 			nodes.Add(node);
 			node.Initialize(this);
 
 			onNodeAdded?.Invoke(node);
+
+			return node;
 		}
 
 		public void RemoveNode(BaseNode node)

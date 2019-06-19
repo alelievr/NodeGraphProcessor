@@ -1,8 +1,8 @@
 PortView {
-    height: 24;
+    height: 24px;
     align-items: center;
-    padding-left: 4;
-    padding-right: 4;
+    padding-left: 4px;
+    padding-right: 4px;
     port-color: rgb(200, 200, 00);
     disabled-port-color: rgb(0, 70, 70);
 }
@@ -18,18 +18,18 @@ PortView.output {
 PortView > #connector {
     border-color: rgb(255, 255, 0);
     background-color: #212121;
-    width: 8;
-    height: 8;
-    border-radius: 8;
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
     align-items: center;
     justify-content: center;
 
-    margin-left: 4;
-    margin-right: 4;
-    border-left-width:1;
-    border-top-width:1;
-    border-right-width:1;
-    border-bottom-width:1;
+    margin-left: 4px;
+    margin-right: 4px;
+    border-left-width:1px;
+    border-top-width:1px;
+    border-right-width:1px;
+    border-bottom-width:1px;
 }
 
 PortView > #connector:hover {
@@ -39,9 +39,9 @@ PortView > #connector:hover {
 PortView > #connector > #cap
 {
     background-color: #212121;
-    width: 4;
-    height: 4;
-    border-radius: 4;
+    width: 4px;
+    height: 4px;
+    border-radius: 4px;
 }
 
 PortView > #connector > #cap:hover

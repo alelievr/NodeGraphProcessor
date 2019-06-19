@@ -87,7 +87,15 @@ namespace GraphProcessor
 		{
 			Type	view;
 
-			nodeViewPerType.TryGetValue(nodeType, out view);
+			if (nodeViewPerType.TryGetValue(nodeType, out view))
+				return view;
+
+			// Allow for inheritance in node views: multiple C# node using the same view
+			foreach (var type in nodeViewPerType)
+			{
+				if (nodeType.IsSubclassOf(type.Key))
+					return type.Value;
+			}
 
 			return view;
 		}

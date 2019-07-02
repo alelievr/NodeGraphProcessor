@@ -33,7 +33,9 @@ namespace GraphProcessor
 		public event Action< PortView >			onPortConnected;
 		public event Action< PortView >			onPortDisconnected;
 
-		readonly string							baseNodeStyle = "GraphProcessorStyles/BaseNodeView";
+        public bool initializing = false; //Used for applying SetPosition on locked node at init.
+
+        readonly string							baseNodeStyle = "GraphProcessorStyles/BaseNodeView";
 
 		#region  Initialization
 
@@ -84,7 +86,9 @@ namespace GraphProcessor
 
 			title = (string.IsNullOrEmpty(nodeTarget.name)) ? nodeTarget.GetType().Name : nodeTarget.name;
 
-			SetPosition(nodeTarget.position);
+            initializing = true;
+
+            SetPosition(nodeTarget.position);
 		}
 
 		void InitializeDebug()
@@ -264,10 +268,14 @@ namespace GraphProcessor
 
 		public override void SetPosition(Rect newPos)
 		{
-			base.SetPosition(newPos);
+            if (initializing || !nodeTarget.isLocked)
+            {
+                initializing = false;
+                base.SetPosition(newPos);
 
-			Undo.RegisterCompleteObjectUndo(owner.graph, "Moved graph node");
-			nodeTarget.position = newPos;
+                Undo.RegisterCompleteObjectUndo(owner.graph, "Moved graph node");
+                nodeTarget.position = newPos;
+            }
 		}
 
 		public override bool	expanded
@@ -280,14 +288,26 @@ namespace GraphProcessor
 			}
 		}
 
-		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        public void ChangeLockStatus()
+        {
+            nodeTarget.nodeLock ^= true;
+        }
+
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			evt.menu.AppendAction("Open Node Script", (e) => OpenNodeScript(), OpenNodeScriptStatus);
 			evt.menu.AppendAction("Open Node View Script", (e) => OpenNodeViewScript(), OpenNodeViewScriptStatus);
 			evt.menu.AppendAction("Debug", (e) => ToggleDebug(), DebugStatus);
-		}
+            if (nodeTarget.unlockable)
+                evt.menu.AppendAction((nodeTarget.isLocked ? "Unlock" : "Lock"), (e) => ChangeLockStatus(), LockStatus);
+        }
 
-		Status DebugStatus(DropdownMenuAction action)
+        Status LockStatus(DropdownMenuAction action)
+        {
+            return Status.Normal;
+        }
+
+        Status DebugStatus(DropdownMenuAction action)
 		{
 			if (nodeTarget.debug)
 				return Status.Checked;

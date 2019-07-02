@@ -33,7 +33,11 @@ namespace GraphProcessor
 		public event Action< PortView >			onPortConnected;
 		public event Action< PortView >			onPortDisconnected;
 
+		protected virtual bool					hasSettings => false;
+
 		readonly string							baseNodeStyle = "GraphProcessorStyles/BaseNodeView";
+
+		bool									settingsExpanded = false;
 
 		#region  Initialization
 
@@ -54,6 +58,8 @@ namespace GraphProcessor
 			InitializeDebug();
 
 			Enable();
+
+			InitializeSettings();
 
 			this.RefreshPorts();
 		}
@@ -85,6 +91,56 @@ namespace GraphProcessor
 			title = (string.IsNullOrEmpty(nodeTarget.name)) ? nodeTarget.GetType().Name : nodeTarget.name;
 
 			SetPosition(nodeTarget.position);
+		}
+
+		void InitializeSettings()
+		{
+			// Initialize settings button:
+			if (hasSettings)
+				CreateSettingButton();
+		}
+
+		void CreateSettingButton()
+		{
+			var settingButton = new VisualElement {name = "settings-button"};
+			settingButton.Add(new VisualElement { name = "icon" });
+
+			var setting = new VisualElement();
+
+			// Add Node type specific settings
+			setting.Add(CreateSettingsView());
+
+			settingButton.style.width = 10;
+			settingButton.style.backgroundColor = Color.blue;
+			
+			// Add manipulators
+			settingButton.AddManipulator(new Clickable(() =>
+				{
+                    settingsExpanded = !settingsExpanded;
+                    if (settingsExpanded)
+                    {
+                        this.Add(setting);
+                        owner.ClearSelection();
+                        owner.AddToSelection(this);
+
+                        settingButton.AddToClassList("clicked");
+                    }
+                    else
+                    {
+                        setting.RemoveFromHierarchy();
+
+                        settingButton.RemoveFromClassList("clicked");
+                    }
+                }));
+
+			if (setting.childCount > 0)
+			{
+				var buttonContainer = new VisualElement { name = "button-container" };
+				buttonContainer.style.flexDirection = FlexDirection.Row;
+				buttonContainer.Add(settingButton);
+				buttonContainer.Add(m_CollapseButton);
+				titleContainer.Add(buttonContainer);
+			}
 		}
 
 		void InitializeDebug()
@@ -376,6 +432,8 @@ namespace GraphProcessor
 
 			RefreshPorts();
 		}
+		
+		protected virtual VisualElement CreateSettingsView() => new Label("Settings");
 
 		#endregion
     }

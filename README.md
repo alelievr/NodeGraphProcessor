@@ -52,3 +52,4 @@ For more details consult our [trello](https://trello.com/b/Xk4rfnuV/node-graph-p
 ![](https://user-images.githubusercontent.com/6877923/53634256-0445a480-3c1a-11e9-99e5-d8f3616863bd.png)
 ![](https://user-images.githubusercontent.com/6877923/58935692-3fea9000-876e-11e9-945e-8a874a4586a9.png)
 ![](https://user-images.githubusercontent.com/6877923/58935811-893adf80-876e-11e9-9f69-69ce51a432b8.png)
+![](https://user-images.githubusercontent.com/6877923/60680052-28481980-9e8a-11e9-89a1-6b73042086d3.gif)

@@ -234,16 +234,20 @@ namespace GraphProcessor
 		{
 			var scriptPath = NodeProvider.GetNodeViewScript(GetType());
 
+#pragma warning disable CS0618 // Deprecated function but no alternative :(
 			if (scriptPath != null)
 				InternalEditorUtility.OpenFileAtLineExternal(scriptPath, 0);
+#pragma warning restore CS0618
 		}
 
 		public void OpenNodeScript()
 		{
 			var scriptPath = NodeProvider.GetNodeScript(nodeTarget.GetType());
 
+#pragma warning disable CS0618 // Deprecated function but no alternative :(
 			if (scriptPath != null)
 				InternalEditorUtility.OpenFileAtLineExternal(scriptPath, 0);
+#pragma warning restore CS0618
 		}
 
 		public void ToggleDebug()

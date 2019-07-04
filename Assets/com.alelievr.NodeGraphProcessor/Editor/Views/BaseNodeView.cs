@@ -28,14 +28,21 @@ namespace GraphProcessor
         protected VisualElement 				controlsContainer;
 		protected VisualElement					debugContainer;
 
+		VisualElement							settings;
+		VisualElement							settingButton;
+
 		Label									computeOrderLabel = new Label();
 
 		public event Action< PortView >			onPortConnected;
 		public event Action< PortView >			onPortDisconnected;
 
+		protected virtual bool					hasSettings => false;
+
         public bool initializing = false; //Used for applying SetPosition on locked node at init.
 
         readonly string							baseNodeStyle = "GraphProcessorStyles/BaseNodeView";
+
+		bool									settingsExpanded = false;
 
 		#region  Initialization
 
@@ -56,6 +63,10 @@ namespace GraphProcessor
 			InitializeDebug();
 
 			Enable();
+
+			InitializeSettings();
+
+			RefreshExpandedState();
 
 			this.RefreshPorts();
 		}
@@ -89,6 +100,50 @@ namespace GraphProcessor
             initializing = true;
 
             SetPosition(nodeTarget.position);
+		}
+
+		void InitializeSettings()
+		{
+			// Initialize settings button:
+			if (hasSettings)
+				CreateSettingButton();
+		}
+		
+		void CreateSettingButton()
+		{
+			settingButton = new VisualElement {name = "settings-button"};
+			settingButton.Add(new VisualElement { name = "icon" });
+			settings = new VisualElement();
+
+			// Add Node type specific settings
+			settings.Add(CreateSettingsView());
+
+			// Add manipulators
+			settingButton.AddManipulator(new Clickable(ToggleSettings));
+
+			var buttonContainer = new VisualElement { name = "button-container" };
+			buttonContainer.style.flexDirection = FlexDirection.Row;
+			buttonContainer.Add(settingButton);
+			titleContainer.Add(buttonContainer);
+		}
+
+		void ToggleSettings()
+		{
+			settingsExpanded = !settingsExpanded;
+			if (settingsExpanded)
+			{
+				topContainer.parent.Insert(0, settings);
+				owner.ClearSelection();
+				owner.AddToSelection(this);
+
+				settingButton.AddToClassList("clicked");
+			}
+			else
+			{
+				settings.RemoveFromHierarchy();
+
+				settingButton.RemoveFromClassList("clicked");
+			}
 		}
 
 		void InitializeDebug()
@@ -396,6 +451,8 @@ namespace GraphProcessor
 
 			RefreshPorts();
 		}
+		
+		protected virtual VisualElement CreateSettingsView() => new Label("Settings");
 
 		#endregion
     }

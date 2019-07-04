@@ -25,7 +25,7 @@ public class SettingsNodeView : BaseNodeView
 	{
 		var settings = new VisualElement();
 
-		settings.Add(new EnumField(settingsNode.setting));
+		settings.Add(new EnumField("S", settingsNode.setting));
 
 		return settings;
 	}

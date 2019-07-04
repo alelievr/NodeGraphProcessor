@@ -28,6 +28,9 @@ namespace GraphProcessor
         protected VisualElement 				controlsContainer;
 		protected VisualElement					debugContainer;
 
+		VisualElement							settings;
+		VisualElement							settingButton;
+
 		Label									computeOrderLabel = new Label();
 
 		public event Action< PortView >			onPortConnected;
@@ -60,6 +63,8 @@ namespace GraphProcessor
 			Enable();
 
 			InitializeSettings();
+
+			RefreshExpandedState();
 
 			this.RefreshPorts();
 		}
@@ -99,47 +104,41 @@ namespace GraphProcessor
 			if (hasSettings)
 				CreateSettingButton();
 		}
-
+		
 		void CreateSettingButton()
 		{
-			var settingButton = new VisualElement {name = "settings-button"};
+			settingButton = new VisualElement {name = "settings-button"};
 			settingButton.Add(new VisualElement { name = "icon" });
-
-			var setting = new VisualElement();
+			settings = new VisualElement();
 
 			// Add Node type specific settings
-			setting.Add(CreateSettingsView());
+			settings.Add(CreateSettingsView());
 
-			settingButton.style.width = 10;
-			settingButton.style.backgroundColor = Color.blue;
-			
 			// Add manipulators
-			settingButton.AddManipulator(new Clickable(() =>
-				{
-                    settingsExpanded = !settingsExpanded;
-                    if (settingsExpanded)
-                    {
-                        this.Add(setting);
-                        owner.ClearSelection();
-                        owner.AddToSelection(this);
+			settingButton.AddManipulator(new Clickable(ToggleSettings));
 
-                        settingButton.AddToClassList("clicked");
-                    }
-                    else
-                    {
-                        setting.RemoveFromHierarchy();
+			var buttonContainer = new VisualElement { name = "button-container" };
+			buttonContainer.style.flexDirection = FlexDirection.Row;
+			buttonContainer.Add(settingButton);
+			titleContainer.Add(buttonContainer);
+		}
 
-                        settingButton.RemoveFromClassList("clicked");
-                    }
-                }));
-
-			if (setting.childCount > 0)
+		void ToggleSettings()
+		{
+			settingsExpanded = !settingsExpanded;
+			if (settingsExpanded)
 			{
-				var buttonContainer = new VisualElement { name = "button-container" };
-				buttonContainer.style.flexDirection = FlexDirection.Row;
-				buttonContainer.Add(settingButton);
-				buttonContainer.Add(m_CollapseButton);
-				titleContainer.Add(buttonContainer);
+				topContainer.parent.Insert(0, settings);
+				owner.ClearSelection();
+				owner.AddToSelection(this);
+
+				settingButton.AddToClassList("clicked");
+			}
+			else
+			{
+				settings.RemoveFromHierarchy();
+
+				settingButton.RemoveFromClassList("clicked");
 			}
 		}
 

@@ -5,3 +5,26 @@
 #controls {
     background-color: rgba(63, 63, 63, 0.8);
 }
+
+#settings-button {
+    align-self: center;
+    border-width: 2px;
+    width: 16px;
+    height: 16px;
+}
+
+#settings-button > #icon {
+    background-image : resource("Icons/SettingsIcons");
+    flex-grow: 1;
+}
+
+#settings-button:hover > #icon {
+    background-color: #2B2B2B;
+    background-image : resource("Icons/SettingsIcons");
+}
+
+#settings-button.clicked > #icon {
+    background-color: #2B2B2B;
+    background-image : resource("Icons/SettingsIcons");
+    visibility: visible;
+}

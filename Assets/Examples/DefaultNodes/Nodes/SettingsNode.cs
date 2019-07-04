@@ -17,5 +17,11 @@ public class SettingsNode : BaseNode
 	public Setting				setting;
 	public override string		name => "SettingsNode";
 
+	[Input]
+	public float			input;
+	
+	[Output]
+	public float			output;
+
 	protected override void Process() {}
 }

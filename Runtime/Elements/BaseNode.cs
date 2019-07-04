@@ -17,8 +17,12 @@ namespace GraphProcessor
 
         public virtual string       layoutStyle => string.Empty;
 
-		//id
-		public string				GUID;
+        public virtual bool         unlockable => true; 
+
+        public virtual bool         isLocked => nodeLock; 
+
+        //id
+        public string				GUID;
 
 		public int					computeOrder = -1;
 		public bool					canProcess = true;
@@ -32,8 +36,9 @@ namespace GraphProcessor
 		public Rect					position;
 		public bool					expanded;
 		public bool					debug;
+        public bool                 nodeLock;
 
-		public delegate void		ProcessDelegate();
+        public delegate void		ProcessDelegate();
 
 		public event ProcessDelegate	onProcessed;
 

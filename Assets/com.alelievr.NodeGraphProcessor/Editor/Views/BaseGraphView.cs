@@ -555,8 +555,8 @@ namespace GraphProcessor
 
 			if (serializeToGraph)
 			{
-				NodePort inputPort = inputNodeView.nodeTarget.inputPorts.FirstOrDefault(o => o.portData.identifier == inputPortView.portData.identifier);
-				NodePort outputPort = outputNodeView.nodeTarget.outputPorts.FirstOrDefault(o => o.portData == outputPortView.portData);
+				NodePort inputPort = inputNodeView.nodeTarget.GetPort(inputPortView.fieldName, inputPortView.portData.identifier);
+				NodePort outputPort = outputNodeView.nodeTarget.GetPort(outputPortView.fieldName, outputPortView.portData.identifier);
 
 				e.userData = graph.Connect(inputPort, outputPort);
 			}

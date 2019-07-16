@@ -394,7 +394,7 @@ namespace GraphProcessor
 			// Maybe not good to remove ports as edges are still connected :/
 			foreach (var pv in portViews.ToList())
 			{
-				// If the port have disepeared from the node datas, we remove the view:
+				// If the port have disappeared from the node data, we remove the view:
 				// We can use the identifier here because this function will only be called when there is a custom port behavior
 				if (!ports.Any(p => p.portData.identifier == pv.portData.identifier))
 					RemovePort(pv);
@@ -435,8 +435,8 @@ namespace GraphProcessor
 					}).ToList();
 				}
 
-				// Here we're sure that we have the same amout of port and portView
-				// so we can update the view with the new port datas (if the name of a port have been changed for example)
+				// Here we're sure that we have the same amount of port and portView
+				// so we can update the view with the new port data (if the name of a port have been changed for example)
 
 				for (int i = 0; i < portViews.Count; i++)
 				{

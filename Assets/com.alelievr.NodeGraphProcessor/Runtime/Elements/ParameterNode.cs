@@ -8,65 +8,98 @@ using System;
 [System.Serializable]
 public class ParameterNode : BaseNode
 {
-	[Output]
-	public object				output;
+    [Input]
+    public object input;
 
-	public override string		name => "huifehfgw";
+    [Output]
+    public object output;
 
-	// We serialize the GUID of the exposed parameter in the graph so we can retrieve the true ExposedParameter from the graph
-	[SerializeField, HideInInspector]
-	public string				parameterGUID;
+    public override string name => "huifehfgw";
 
-	public ExposedParameter		parameter { get; private set; }
+    // We serialize the GUID of the exposed parameter in the graph so we can retrieve the true ExposedParameter from the graph
+    [SerializeField, HideInInspector]
+    public string parameterGUID;
 
-	public event Action			onParameterChanged;
+    public ExposedParameter parameter { get; private set; }
 
-	protected override void Enable()
-	{
-		// load the parameter
-		LoadExposedParameter();
+    public event Action onParameterChanged;
 
-		graph.onExposedParameterModified += OnParamChanged;
-		if (onParameterChanged != null)
-			onParameterChanged?.Invoke();
-	}
+    public ParameterAccessor accessor;
 
-	void LoadExposedParameter()
-	{
-		parameter = graph.GetExposedParameterFromGUID(parameterGUID);
+    protected override void Enable()
+    {
+        // load the parameter
+        LoadExposedParameter();
 
-		if (parameter == null)
-		{
-			Debug.Log("Property \"" + parameterGUID + "\" Can't be found !");
+        graph.onExposedParameterModified += OnParamChanged;
+        if (onParameterChanged != null)
+            onParameterChanged?.Invoke();
+    }
 
-			// Delete this node as the property can't be found
-			graph.RemoveNode(this);
-			return ;
-		}
+    void LoadExposedParameter()
+    {
+        parameter = graph.GetExposedParameterFromGUID(parameterGUID);
 
-		output = parameter.serializedValue.value;
-	}
+        if (parameter == null)
+        {
+            Debug.Log("Property \"" + parameterGUID + "\" Can't be found !");
 
-	void OnParamChanged(string modifiedParameterName)
-	{
-		if (parameter?.name == modifiedParameterName)
-		{
-			onParameterChanged?.Invoke();
-		}
-	}
+            // Delete this node as the property can't be found
+            graph.RemoveNode(this);
+            return;
+        }
 
-	[CustomPortBehavior(nameof(output))]
-	IEnumerable< PortData > GetOutputPort(List< SerializableEdge > edges)
-	{
-		yield return new PortData{
-			identifier = "output",
-			displayName = "Value",
-			displayType = (parameter == null) ? typeof(object) : Type.GetType(parameter.type),
-		};
-	}
+        output = parameter.serializedValue.value;
+    }
 
-	protected override void Process()
-	{
-		output = parameter?.serializedValue.value;
-	}
+    void OnParamChanged(string modifiedParameterName)
+    {
+        if (parameter?.name == modifiedParameterName)
+        {
+            onParameterChanged?.Invoke();
+        }
+    }
+
+    [CustomPortBehavior(nameof(output))]
+    IEnumerable<PortData> GetOutputPort(List<SerializableEdge> edges)
+    {
+        if (accessor == ParameterAccessor.GET)
+        {
+            yield return new PortData
+            {
+                identifier = "output",
+                displayName = "Value",
+                displayType = (parameter == null) ? typeof(object) : Type.GetType(parameter.type),
+            };
+        }
+    }
+
+    [CustomPortBehavior(nameof(input))]
+    IEnumerable<PortData> GetInputPort(List<SerializableEdge> edges)
+    {
+        if (accessor == ParameterAccessor.SET)
+        {
+            yield return new PortData
+            {
+                identifier = "input",
+                displayName = "Value",
+                displayType = (parameter == null) ? typeof(object) : Type.GetType(parameter.type),
+            };
+        }
+    }
+
+
+    protected override void Process()
+    {
+        if (accessor == ParameterAccessor.GET)
+            output = parameter?.serializedValue.value;
+        else
+            parameter.serializedValue.value = input;
+    }
+}
+
+public enum ParameterAccessor
+{
+    GET,
+    SET
 }

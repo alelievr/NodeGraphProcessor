@@ -11,15 +11,25 @@ using System.Linq;
 [NodeCustomEditor(typeof(ParameterNode))]
 public class ParameterNodeView : BaseNodeView
 {
-	ParameterNode	parameterNode;
+    ParameterNode parameterNode;
 
-	public override void Enable()
-	{
-		parameterNode = nodeTarget as ParameterNode;
+    public override void Enable()
+    {
+        parameterNode = nodeTarget as ParameterNode;
+
+        EnumField accessorSelector = new EnumField(parameterNode.accessor);
+        accessorSelector.SetValueWithoutNotify(parameterNode.accessor);
+        accessorSelector.RegisterValueChangedCallback(evt =>
+        {
+            parameterNode.accessor = (ParameterAccessor)evt.newValue;
+            controlsContainer.MarkDirtyRepaint();
+            ForceUpdatePorts();
+        });
+        controlsContainer.Add(accessorSelector);
 
         parameterNode.onParameterChanged += UpdateView;
         UpdateView();
-	}
+    }
 
     void UpdateView()
     {

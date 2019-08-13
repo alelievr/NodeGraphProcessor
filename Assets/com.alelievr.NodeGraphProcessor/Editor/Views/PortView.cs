@@ -55,9 +55,8 @@ namespace GraphProcessor
 			this.owner = nodeView;
 
 			// Correct port type if port accept multiple values (and so is a container)
-			if (portData.acceptMultipleEdges && portType == fieldType) // If the user haven't set a custom field type
+			if (direction == Direction.Input && portData.acceptMultipleEdges && portType == fieldType) // If the user haven't set a custom field type
 			{
-				Debug.Log("override display type: " + portType +  ", " + fieldType);
 				portType = fieldType.GetGenericArguments()[0];
 			}
 

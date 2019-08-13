@@ -7,10 +7,10 @@ using System.Linq;
 [System.Serializable, NodeMenuItem("Custom/MultiAdd")]
 public class MultiAddNode : BaseNode
 {
-	[Input(name = "In Values", allowMultiple = true)]
+	[Input]
 	public IEnumerable< float >	inputs = null;
 
-	[Output]
+	[Output(allowMultiple = false)]
 	public float				output;
 
 	public override string		name => "Add";
@@ -44,7 +44,7 @@ public class MultiAddNode : BaseNode
 		// }
 
 		// Dummy last port to allow connecting additional edges
-		yield return new PortData{ displayName = "In " + index, displayType = typeof(float)};
+		yield return new PortData{ displayName = "In " + index, displayType = typeof(float), acceptMultipleEdges = true};
 	}
 
 	[CustomPortInput(nameof(inputs), typeof(float), allowCast = true)]

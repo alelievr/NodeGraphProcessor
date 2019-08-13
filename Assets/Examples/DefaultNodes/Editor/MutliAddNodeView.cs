@@ -19,6 +19,9 @@ public class MultiAddNodeView : BaseNodeView
 			value = floatNode.output
 		};
 
+		// Update the UI value after each processing
+		nodeTarget.onProcessed += () => floatField.value = floatNode.output;
+
 		controlsContainer.Add(floatField);
 	}
 }

@@ -536,11 +536,22 @@ namespace GraphProcessor
 
 			//If the input port does not support multi-connection, we remove them
 			if (autoDisconnectInputs && !(e.input as PortView).portData.acceptMultipleEdges)
+			{
 				foreach (var edge in edgeViews.Where(ev => ev.input == e.input))
 				{
 					// TODO: do not disconnect them if the connected port is the same than the old connected
 					Disconnect(edge, serializeToGraph);
 				}
+			}
+			// same for the output port:
+			if (autoDisconnectInputs && !(e.output as PortView).portData.acceptMultipleEdges)
+			{
+				foreach (var edge in edgeViews.Where(ev => ev.output == e.output))
+				{
+					// TODO: do not disconnect them if the connected port is the same than the old connected
+					Disconnect(edge, serializeToGraph);
+				}
+			}
 
 			AddElement(e);
 

@@ -404,7 +404,10 @@ namespace GraphProcessor
 			{
 				// Add missing port views
 				if (!portViews.Any(pv => p.portData.identifier == pv.portData.identifier))
-					AddPort(p.fieldInfo, Direction.Input, listener, p.portData);
+				{
+					Direction portDirection = nodeTarget.IsFieldInput(p.fieldName) ? Direction.Input : Direction.Output;
+					AddPort(p.fieldInfo, portDirection, listener, p.portData);
+				}
 			}
 		}
 

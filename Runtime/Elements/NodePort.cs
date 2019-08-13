@@ -53,7 +53,7 @@ namespace GraphProcessor
 		{
 			if (!edges.Contains(edge))
 				edges.Add(edge);
-
+				
 			if (edge.inputNode == owner)
 			{
 				if (edge.outputPort.customPortIOMethod != null)

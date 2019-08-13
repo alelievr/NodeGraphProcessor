@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Assertions;
@@ -25,6 +26,9 @@ namespace GraphProcessor
 		{
 			get { return graphView != null && graphView.graph != null; }
 		}
+
+		public event Action< BaseGraph >	graphLoaded;
+		public event Action< BaseGraph >	graphUnloaded;
 
 		protected void OnEnable()
 		{
@@ -57,6 +61,14 @@ namespace GraphProcessor
 
 		public void InitializeGraph(BaseGraph graph)
 		{
+			if (this.graph != null && graph != this.graph)
+			{
+				// Unload the graph
+				graphUnloaded?.Invoke(this.graph);
+				Resources.UnloadAsset(this.graph);
+			}
+
+			graphLoaded?.Invoke(graph);
 			this.graph = graph;
 
 			if (graphView != null)

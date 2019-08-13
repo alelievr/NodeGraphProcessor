@@ -6,7 +6,6 @@ using GraphProcessor;
 
 public class AllGraphWindow : BaseGraphWindow
 {
-
 	[MenuItem("Window/03_CustomContextMenu")]
 	public static BaseGraphWindow Open()
 	{
@@ -15,6 +14,13 @@ public class AllGraphWindow : BaseGraphWindow
 		graphWindow.Show();
 
 		return graphWindow;
+	}
+
+	protected new void OnEnable()
+	{
+		base.OnEnable();
+		// graphLoaded += g => Debug.Log("Load: " + g);
+		// graphUnloaded += g => Debug.Log("Unload: " + g);
 	}
 
 	protected override void InitializeWindow(BaseGraph graph)

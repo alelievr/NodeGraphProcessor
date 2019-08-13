@@ -13,7 +13,7 @@ public class CustomPortsNode : BaseNode
 	[Output]
 	public List< float >		outputs; // TODO: custom function for this one
 
-	List< object >				values;
+	List< object >				values = new List< object >();
 
 	public override string		name => "CustomPorts";
 
@@ -43,10 +43,12 @@ public class CustomPortsNode : BaseNode
 		}
 	}
 
+	// This function will be called once per port created from the `inputs` custom port function
+	// will in parameter the list of the edges connected to this port
 	[CustomPortInput(nameof(inputs), typeof(float))]
 	void PullInputs(List< SerializableEdge > inputEdges)
 	{
-		values = inputEdges.Select(e => e.passThroughBuffer).ToList();
+		values.AddRange(inputEdges.Select(e => e.passThroughBuffer).ToList());
 	}
 
 	[CustomPortOutput(nameof(outputs), typeof(float))]
@@ -54,6 +56,9 @@ public class CustomPortsNode : BaseNode
 	{
 		// Values length is supposed to match connected edges length
 		for (int i = 0; i < connectedEdges.Count; i++)
-			connectedEdges[i].passThroughBuffer = values[i];
+			connectedEdges[i].passThroughBuffer = values[Mathf.Max(i, values.Count - 1)];
+			
+		// once the outputs are pushed, we don't need the inputs data anymore
+		values.Clear();
 	}
 }

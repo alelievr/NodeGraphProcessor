@@ -229,10 +229,10 @@ namespace GraphProcessor
 			string valueType = value.GetType().AssemblyQualifiedName;
 
 			if (valueType != param.type)
-				throw new Exception("Type mismatch when updating parameter " + name + ": from " + param.type + " to " + valueType);
+				throw new Exception("Type mismatch when updating parameter " + param.name + ": from " + param.type + " to " + valueType);
 
 			param.serializedValue.value = value;
-			onExposedParameterModified.Invoke(name);
+			onExposedParameterModified.Invoke(param.guid);
 		}
 
 		public void UpdateExposedParameterName(ExposedParameter parameter, string name)

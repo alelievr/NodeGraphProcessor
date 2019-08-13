@@ -55,5 +55,5 @@ MonoBehaviour:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: 132, y: -18, z: 0}
-  scale: {x: 1, y: 1, z: 1}
+  position: {x: 208, y: 72, z: 0}
+  scale: {x: 0.65751624, y: 0.65751624, z: 1}

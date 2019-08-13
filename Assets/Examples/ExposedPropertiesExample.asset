@@ -14,38 +14,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes:
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"39fdf09f-b7ff-49f5-bfe5-c59e221c30b6","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":227.00003051757813,"y":445.00006103515627,"width":72.0,"height":95.0},"expanded":true,"debug":false}'
-  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"bd6e5486-333b-4d08-b049-1103e9b1dc20","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":216.17015075683595,"y":572.4877319335938,"width":72.0,"height":95.0},"expanded":false,"debug":false}'
-  - type: ParameterNode, com.alelievr.NodeGraphProcessor, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"8bd321f8-b93c-4360-8b0c-d004d3604e97","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":45.368614196777347,"y":641.9660034179688,"width":100.0,"height":100.0},"expanded":false,"debug":false,"parameterGUID":"fc2400e0-1461-4ba2-9d60-9533b6417d88"}'
-  - type: ParameterNode, com.alelievr.NodeGraphProcessor, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"dab6d88a-b3dc-4dc9-bd5f-1240771222bf","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":46.88090133666992,"y":519.470703125,"width":100.0,"height":100.0},"expanded":false,"debug":false,"parameterGUID":"9ae7b637-72eb-4fcf-90d9-c9bd11336a2b"}'
+    jsonDatas: '{"GUID":"39fdf09f-b7ff-49f5-bfe5-c59e221c30b6","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":415.0,"y":101.0,"width":72.0,"height":95.0},"expanded":true,"debug":false,"nodeLock":false}'
+  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"e04c1751-9d7c-42c1-b140-77cf41fad3a9","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":255.0,"y":108.0,"width":73.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"hguieowhg","accessor":0}'
+  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"3fd26d08-2596-42f5-996e-94c034f5a10b","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":417.0,"y":248.0,"width":83.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"9ae7b637-72eb-4fcf-90d9-c9bd11336a2b","accessor":1}'
+  - type: SubNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"1327efdb-6d08-421e-a601-67e39e1c4073","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":292.0,"y":271.0,"width":98.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"inputA":42.0,"inputB":12.0,"output":30.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"47e80399-61e7-4350-9ff3-aa91b54eabe3","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":191.0,"y":223.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":42.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"5a439c2f-4655-43ed-a6ae-e142b92b25ce","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":193.0,"y":326.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":12.0}'
   edges:
-  - GUID: 33779579-bb15-444c-ad93-9cdb4ddc8ea0
+  - GUID: 9da87722-5b0e-491d-af10-63206a3ca74e
     owner: {fileID: 11400000}
-    inputNodeGUID: bd6e5486-333b-4d08-b049-1103e9b1dc20
-    outputNodeGUID: 8bd321f8-b93c-4360-8b0c-d004d3604e97
-    inputFieldName: obj
+    inputNodeGUID: 1327efdb-6d08-421e-a601-67e39e1c4073
+    outputNodeGUID: 5a439c2f-4655-43ed-a6ae-e142b92b25ce
+    inputFieldName: inputB
     outputFieldName: output
     inputPortIdentifier: 
-    outputPortIdentifier: output
-  - GUID: 3cab5bf1-528f-4325-849e-d82233fc7f62
+    outputPortIdentifier: 
+  - GUID: cd6d29b2-5895-4265-bac2-12c7726ae674
+    owner: {fileID: 11400000}
+    inputNodeGUID: 1327efdb-6d08-421e-a601-67e39e1c4073
+    outputNodeGUID: 47e80399-61e7-4350-9ff3-aa91b54eabe3
+    inputFieldName: inputA
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: a8e11523-8a1b-4eb6-9aba-d35c0138a3da
     owner: {fileID: 11400000}
     inputNodeGUID: 39fdf09f-b7ff-49f5-bfe5-c59e221c30b6
-    outputNodeGUID: dab6d88a-b3dc-4dc9-bd5f-1240771222bf
+    outputNodeGUID: e04c1751-9d7c-42c1-b140-77cf41fad3a9
     inputFieldName: obj
     outputFieldName: output
     inputPortIdentifier: 
     outputPortIdentifier: output
+  - GUID: e3be1318-1249-4949-a2c9-1cacdd595afe
+    owner: {fileID: 11400000}
+    inputNodeGUID: 3fd26d08-2596-42f5-996e-94c034f5a10b
+    outputNodeGUID: 1327efdb-6d08-421e-a601-67e39e1c4073
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: input
+    outputPortIdentifier: 
   commentBlocks: []
   pinnedElements:
   - position:
       serializedVersion: 2
-      x: 0
-      y: 79
+      x: 6
+      y: 43
       width: 150
       height: 200
     opened: 1
@@ -54,8 +74,8 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - position:
       serializedVersion: 2
-      x: 822
-      y: 322
+      x: 0
+      y: 226
       width: 150
       height: 200
     opened: 1
@@ -77,7 +97,7 @@ MonoBehaviour:
     serializedValue:
       serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       serializedName: 
-      serializedValue: 21
+      serializedValue: 30
     input: 1
   - guid: fc2400e0-1461-4ba2-9d60-9533b6417d88
     name: New ColorParam
@@ -89,5 +109,5 @@ MonoBehaviour:
       serializedName: 
       serializedValue: '{"r":1.0,"g":0.0,"b":0.0,"a":0.0}'
     input: 1
-  position: {x: -105.5, y: -880.5, z: 0}
-  scale: {x: 2, y: 2, z: 1}
+  position: {x: 8, y: -51, z: 0}
+  scale: {x: 1, y: 1, z: 1}

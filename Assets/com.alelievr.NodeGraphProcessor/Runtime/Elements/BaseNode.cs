@@ -168,9 +168,7 @@ namespace GraphProcessor
 				{
 					// If the current port does not appear in the list of final ports, we remove it
 					if (!finalPorts.Any(id => id == currentPort.portData.identifier))
-					{
 						RemovePort(fieldInfo.input, currentPort);
-					}
 				}
 			}
 		}
@@ -332,6 +330,8 @@ namespace GraphProcessor
 				return p.fieldName == fieldName && (bothNull || identifier == p.portData.identifier);
 			});
 		}
+
+		public bool IsFieldInput(string fieldName) => nodeFields[fieldName].input;
 
 		#endregion
 	}

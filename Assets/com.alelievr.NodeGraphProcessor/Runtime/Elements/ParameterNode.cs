@@ -5,68 +5,104 @@ using GraphProcessor;
 using System.Linq;
 using System;
 
-[System.Serializable]
-public class ParameterNode : BaseNode
+namespace GraphProcessor
 {
-	[Output]
-	public object				output;
-
-	public override string		name => "huifehfgw";
-
-	// We serialize the GUID of the exposed parameter in the graph so we can retrieve the true ExposedParameter from the graph
-	[SerializeField, HideInInspector]
-	public string				parameterGUID;
-
-	public ExposedParameter		parameter { get; private set; }
-
-	public event Action			onParameterChanged;
-
-	protected override void Enable()
+	[System.Serializable]
+	public class ParameterNode : BaseNode
 	{
-		// load the parameter
-		LoadExposedParameter();
+		[Input]
+		public object input;
 
-		graph.onExposedParameterModified += OnParamChanged;
-		if (onParameterChanged != null)
-			onParameterChanged?.Invoke();
-	}
+		[Output]
+		public object output;
 
-	void LoadExposedParameter()
-	{
-		parameter = graph.GetExposedParameterFromGUID(parameterGUID);
+		public override string name => "Parameter";
 
-		if (parameter == null)
+		// We serialize the GUID of the exposed parameter in the graph so we can retrieve the true ExposedParameter from the graph
+		[SerializeField, HideInInspector]
+		public string parameterGUID;
+
+		public ExposedParameter parameter { get; private set; }
+
+		public event Action onParameterChanged;
+
+		public ParameterAccessor accessor;
+
+		protected override void Enable()
 		{
-			Debug.Log("Property \"" + parameterGUID + "\" Can't be found !");
+			// load the parameter
+			LoadExposedParameter();
 
-			// Delete this node as the property can't be found
-			graph.RemoveNode(this);
-			return ;
+			graph.onExposedParameterModified += OnParamChanged;
+			if (onParameterChanged != null)
+				onParameterChanged?.Invoke();
 		}
 
-		output = parameter.serializedValue.value;
-	}
-
-	void OnParamChanged(string modifiedParameterName)
-	{
-		if (parameter?.name == modifiedParameterName)
+		void LoadExposedParameter()
 		{
-			onParameterChanged?.Invoke();
+			parameter = graph.GetExposedParameterFromGUID(parameterGUID);
+
+			if (parameter == null)
+			{
+				Debug.Log("Property \"" + parameterGUID + "\" Can't be found !");
+
+				// Delete this node as the property can't be found
+				graph.RemoveNode(this);
+				return;
+			}
+
+			output = parameter.serializedValue.value;
+		}
+
+		void OnParamChanged(string modifiedParameterName)
+		{
+			if (parameter?.name == modifiedParameterName)
+			{
+				onParameterChanged?.Invoke();
+			}
+		}
+
+		[CustomPortBehavior(nameof(output))]
+		IEnumerable<PortData> GetOutputPort(List<SerializableEdge> edges)
+		{
+			if (accessor == ParameterAccessor.Get)
+			{
+				yield return new PortData
+				{
+					identifier = "output",
+					displayName = "Value",
+					displayType = (parameter == null) ? typeof(object) : Type.GetType(parameter.type),
+				};
+			}
+		}
+
+		[CustomPortBehavior(nameof(input))]
+		IEnumerable<PortData> GetInputPort(List<SerializableEdge> edges)
+		{
+			if (accessor == ParameterAccessor.Set)
+			{
+				yield return new PortData
+				{
+					identifier = "input",
+					displayName = "Value",
+					displayType = (parameter == null) ? typeof(object) : Type.GetType(parameter.type),
+				};
+			}
+		}
+
+
+		protected override void Process()
+		{
+			if (accessor == ParameterAccessor.Get)
+				output = parameter?.serializedValue.value;
+			else
+				graph.UpdateExposedParameter(parameter.guid, input);
 		}
 	}
 
-	[CustomPortBehavior(nameof(output))]
-	IEnumerable< PortData > GetOutputPort(List< SerializableEdge > edges)
+	public enum ParameterAccessor
 	{
-		yield return new PortData{
-			identifier = "output",
-			displayName = "Value",
-			displayType = (parameter == null) ? typeof(object) : Type.GetType(parameter.type),
-		};
-	}
-
-	protected override void Process()
-	{
-		output = parameter?.serializedValue.value;
+		Get,
+		Set
 	}
 }

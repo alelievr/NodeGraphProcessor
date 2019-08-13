@@ -17,11 +17,13 @@ namespace GraphProcessor
         {
             graph = target as BaseGraph;
             graph.onExposedParameterListChanged += UpdateExposedParameters;
+            graph.onExposedParameterModified += UpdateExposedParameters;
         }
 
         void OnDisable()
         {
             graph.onExposedParameterListChanged -= UpdateExposedParameters;
+            graph.onExposedParameterModified -= UpdateExposedParameters;
         }
 
         public sealed override VisualElement CreateInspectorGUI()
@@ -61,6 +63,8 @@ namespace GraphProcessor
             }
         }
 
+        void UpdateExposedParameters(string guid) => UpdateExposedParameters();
+		
         void UpdateExposedParameters()
         {
             parameterContainer.Clear();

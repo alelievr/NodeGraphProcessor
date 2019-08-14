@@ -19,6 +19,7 @@ public class GraphAssetCallbacks
 			path = AssetDatabase.GetAssetPath(obj.GetInstanceID());
 
 		var graph = ScriptableObject.CreateInstance< BaseGraph >();
+
 		ProjectWindowUtil.CreateAsset(graph, path + "/GraphProcessor.asset");
 	}
 

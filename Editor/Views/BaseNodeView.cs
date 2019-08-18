@@ -310,12 +310,12 @@ namespace GraphProcessor
 			}
 		}
 
-		public void OnPortConnected(PortView port)
+		internal void OnPortConnected(PortView port)
 		{
 			onPortConnected?.Invoke(port);
 		}
 
-		public void OnPortDisconnected(PortView port)
+		internal void OnPortDisconnected(PortView port)
 		{
 			onPortDisconnected?.Invoke(port);
 		}
@@ -411,6 +411,28 @@ namespace GraphProcessor
 			}
 		}
 
+		// void UpdatePortConnections(List< PortView > portViews)
+		// {
+		// 	foreach (var pv in portViews)
+		// 	{
+		// 		Debug.Log("pv: " + pv.portName);
+				
+		// 		// Go over all connected edges and disconnect them if the serialized edge have been removed
+		// 		// This can happens when the new port type is incompatible with the old one.
+		// 		foreach (var edge in pv.GetEdges().ToList())
+		// 		{
+		// 			// TODO: check edge connection compatibility !
+		// 			Debug.Log("Edge !");
+		// 			if (owner.graph.edges.Contains(edge.serializedEdge))
+		// 			{
+		// 				owner.Disconnect(edge);
+		// 				// owner.RemoveElement(edge);
+		// 				// base.RefreshPorts(); // We don't call this.RefreshPorts because it will cause an infinite loop
+		// 			}
+		// 		}
+		// 	}
+		// }
+
 		public new bool RefreshPorts()
 		{
 			// If a port behavior was attached to one port, then
@@ -433,6 +455,7 @@ namespace GraphProcessor
 					p.Zip(pv, (portPerFieldName, portViewPerFieldName) => {
 						if (portPerFieldName.Count() != portViewPerFieldName.Count())
 							SyncPortCounts(portPerFieldName, portViewPerFieldName);
+						// UpdatePortConnections(portViewPerFieldName.ToList());
 						// We don't care about the result, we just iterate over port and portView
 						return "";
 					}).ToList();

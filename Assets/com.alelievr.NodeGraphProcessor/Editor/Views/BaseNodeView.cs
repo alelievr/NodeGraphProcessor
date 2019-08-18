@@ -38,13 +38,16 @@ namespace GraphProcessor
 
 		protected virtual bool					hasSettings => false;
 
-        public bool initializing = false; //Used for applying SetPosition on locked node at init.
+        public bool								initializing = false; //Used for applying SetPosition on locked node at init.
 
         readonly string							baseNodeStyle = "GraphProcessorStyles/BaseNodeView";
 
 		bool									settingsExpanded = false;
 
-		#region  Initialization
+		[System.NonSerialized]
+		List< IconBadge >						badges = new List< IconBadge >();
+
+			#region  Initialization
 
 		public void Initialize(BaseGraphView owner, BaseNode node)
 		{
@@ -52,6 +55,8 @@ namespace GraphProcessor
 			this.owner = owner;
 
 			owner.computeOrderUpdated += ComputeOrderUpdatedCallback;
+			node.onMessageAdded += AddMessageView;
+			node.onMessageRemoved += RemoveMessageView;
 
             styleSheets.Add(Resources.Load<StyleSheet>(baseNodeStyle));
 
@@ -262,6 +267,54 @@ namespace GraphProcessor
 				mainContainer.Add(debugContainer);
 			else
 				mainContainer.Remove(debugContainer);
+		}
+
+		public void AddMessageView(string message, Texture icon, Color color)
+			=> AddBadge(new NodeBadgeView(message, icon, color));
+
+		public void AddMessageView(string message, NodeMessageType messageType)
+		{
+			IconBadge	badge = null;
+			switch (messageType)
+			{
+				case NodeMessageType.Warning:
+					badge = new NodeBadgeView(message, EditorGUIUtility.IconContent("Collab.Warning").image, Color.yellow);
+					break ;
+				case NodeMessageType.Error:	
+					badge = IconBadge.CreateError(message);
+					break ;
+				case NodeMessageType.Info:
+					badge = IconBadge.CreateComment(message);
+					break ;
+				default:
+				case NodeMessageType.None:
+					badge = new NodeBadgeView(message, null, Color.grey);
+					break ;
+			}
+			
+			AddBadge(badge);
+		}
+
+		void AddBadge(IconBadge badge)
+		{
+			badge.distance = (int)style.width.value.value;
+
+			Add(badge);
+			badges.Add(badge);
+			badge.AttachTo(topContainer, SpriteAlignment.TopRight);
+		}
+
+		public void RemoveMessageView(string message)
+		{
+			badges.RemoveAll(b => {
+				if (b.badgeText == message)
+				{
+					b.Detach();
+					b.RemoveFromHierarchy();
+					return true;
+				}
+				return false;
+			});
 		}
 
 		#endregion

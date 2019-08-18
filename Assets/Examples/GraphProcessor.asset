@@ -16,7 +16,7 @@ MonoBehaviour:
   - type: PrefabNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"d0e22884-b7b2-4000-9fbd-89787c0a2546","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":555.050048828125,"y":94.37001037597656,"width":136.0,"height":223.00003051757813},"expanded":false,"debug":false,"nodeLock":false,"output":{"fileID":1636575971871760,"guid":"f78111bdbdeaf6644806fc49fcaf1d30","type":3}}'
   - type: MultiAddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"0550468c-feb4-41bc-a68d-54ff890ed71f","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":300.1890563964844,"y":284.3100280761719,"width":100.0,"height":100.0},"expanded":false,"debug":false,"nodeLock":false,"output":84.0}'
+    jsonDatas: '{"GUID":"0550468c-feb4-41bc-a68d-54ff890ed71f","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":300.1890563964844,"y":284.3100280761719,"width":100.0,"height":100.0},"expanded":false,"debug":false,"nodeLock":false,"output":84.0}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"c0f7a068-db0c-48bc-bae1-acd2aeff6b32","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":155.5122833251953,"y":241.94142150878907,"width":74.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":42.0}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -24,9 +24,13 @@ MonoBehaviour:
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"76e484b5-cf6f-4e80-9660-aa806a1ec4de","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":155.56143188476563,"y":461.1947326660156,"width":74.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":21.0}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"929ae7d1-dc18-4fde-87ab-5058514aa7eb","computeOrder":5,"canProcess":true,"position":{"serializedVersion":"2","x":445.800048828125,"y":375.3479919433594,"width":71.0,"height":95.00000762939453},"expanded":false,"debug":false,"nodeLock":false}'
+    jsonDatas: '{"GUID":"929ae7d1-dc18-4fde-87ab-5058514aa7eb","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":445.800048828125,"y":375.3479919433594,"width":71.0,"height":95.00000762939453},"expanded":false,"debug":false,"nodeLock":false}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"c1be8783-9f9f-46ff-a094-356f4e658c8d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":454.300048828125,"y":251.7360382080078,"width":71.0,"height":95.00000762939453},"expanded":false,"debug":false,"nodeLock":false}'
+    jsonDatas: '{"GUID":"c1be8783-9f9f-46ff-a094-356f4e658c8d","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":459.2174072265625,"y":247.65219116210938,"width":72.0,"height":96.0},"expanded":false,"debug":false,"nodeLock":false}'
+  - type: TypeSwitchNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"7a163c7b-15aa-4f3c-97a5-ac8b15548f13","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":413.0,"y":515.0,"width":174.0,"height":95.0},"expanded":false,"debug":false,"nodeLock":false,"input":"","toggleType":false}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"fc42daf1-f4b7-45ba-8ba6-f478f56f82bd","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":241.0,"y":578.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":21.0}'
   edges:
   - GUID: 5044d13d-e053-4a5b-9a53-bd8a5a3db7e4
     owner: {fileID: 11400000}
@@ -60,12 +64,20 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: 
     outputPortIdentifier: 
+  - GUID: 3ce5dd91-2fb3-47f2-9272-25f9a91b2467
+    owner: {fileID: 11400000}
+    inputNodeGUID: c1be8783-9f9f-46ff-a094-356f4e658c8d
+    outputNodeGUID: 0550468c-feb4-41bc-a68d-54ff890ed71f
+    inputFieldName: obj
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
   commentBlocks: []
   pinnedElements:
   - position:
       serializedVersion: 2
       x: 0
-      y: 126
+      y: 119
       width: 150
       height: 200
     opened: 1
@@ -83,5 +95,5 @@ MonoBehaviour:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: -105, y: -71, z: 0}
-  scale: {x: 1, y: 1, z: 1}
+  position: {x: -156, y: -190, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}

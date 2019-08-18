@@ -3,7 +3,7 @@
 --- !u!129 &1
 PlayerSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 17
+  serializedVersion: 18
   productGUID: b8ad92c6ed6af41f1a692ca240a6097d
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
@@ -52,8 +52,8 @@ PlayerSettings:
   m_StackTraceTypes: 020000000200000001000000010000000200000001000000
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: -1
-  iosAppInBackgroundBehavior: 0
   displayResolutionDialog: 1
+  iosUseCustomAppBackgroundBehavior: 0
   iosAllowHTTPDownload: 1
   allowedAutorotateToPortrait: 1
   allowedAutorotateToPortraitUpsideDown: 1

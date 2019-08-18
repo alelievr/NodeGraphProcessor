@@ -126,6 +126,10 @@ namespace GraphProcessor
 				UpdatePortsForField(field.Value.fieldName);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="fieldName"></param>
 		public void UpdatePortsForField(string fieldName)
 		{
 			var fieldInfo = nodeFields[fieldName];
@@ -152,6 +156,13 @@ namespace GraphProcessor
 				}
 				else
 				{
+					// in case the port type have changed for an incompatible type, we disconnect all the edges attached to this port
+					if (!BaseGraph.TypesAreConnectable(port.portData.displayType, portData.displayType))
+					{
+						foreach (var edge in port.GetEdges().ToList())
+							graph.Disconnect(edge.GUID);
+					}
+
 					// patch the port datas
 					port.portData = portData;
 				}
@@ -228,7 +239,7 @@ namespace GraphProcessor
 					var referenceType = typeof(CustomPortBehaviorDelegate);
 					behavior = (CustomPortBehaviorDelegate)Delegate.CreateDelegate(referenceType, this, method, true);
 				} catch {
-					Debug.LogError("The function " + method + " can be converted to the required delegate format: " + typeof(CustomPortBehaviorDelegate));
+					Debug.LogError("The function " + method + " cannot be converted to the required delegate format: " + typeof(CustomPortBehaviorDelegate));
 				}
 
 				if (nodeFields.ContainsKey(customPortBehaviorAttribute.fieldName))

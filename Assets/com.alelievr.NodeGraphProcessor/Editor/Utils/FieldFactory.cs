@@ -28,6 +28,7 @@ namespace GraphProcessor
 			}
 
 			// щ(ºДºщ) ...
+            AddDrawer(typeof(bool), typeof(Toggle));
             AddDrawer(typeof(int), typeof(IntegerField));
             AddDrawer(typeof(long), typeof(LongField));
             AddDrawer(typeof(float), typeof(FloatField));

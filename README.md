@@ -4,7 +4,7 @@ Node graph editor framework focused on data processing using Unity UIElements an
 ### Unity Compatible versions
 
 This project requires at least Unity **2019.1** with a scripting runtime version of 4.x in player settings.
-The current Unity version used for the project is **2019.1.5f1**
+The current Unity version used for the project is **2019.2.0f1**
 
 ### Installation
 
@@ -29,14 +29,16 @@ Note that you'll not have access to the examples provided in this repo because t
 - Graph processor which execute node's logic with a dependency order
 - [Powerful C# API to add new nodes / graphs](https://github.com/alelievr/NodeGraphProcessor/wiki/Node-scripting-API)
 - Exposed parameters that can be set per-asset to customize the graph processing from scripts or the inspector
+- Parameter set mode, you can now output data from thegraph using exposed parameters. Their values will be updated when the graph is processed
 - Search window to create new nodes
 - Colored comment blocks (node groups)
+
+More details are available [in the Changelog](CHANGELOG.md)
 
 ### Remaining to do
 
 - Investigate for ECS/Jobs integration
 - More examples
-- Fast node creation menu
 - Node collapse feature
 - API to create the graph
 - Runtime processing without the editor

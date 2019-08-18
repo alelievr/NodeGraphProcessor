@@ -13,3 +13,7 @@
 .Port_GameObject {
 	--port-color: #FF0000;
 }
+
+.Port_String {
+	--port-color: #80FF80;
+}

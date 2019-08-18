@@ -41,9 +41,14 @@ namespace GraphProcessor
         public delegate void		ProcessDelegate();
 
 		public event ProcessDelegate	onProcessed;
+		public event Action< string, NodeMessageType >	onMessageAdded;
+		public event Action< string >					onMessageRemoved;
 
 		[NonSerialized]
 		Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
+
+		[NonSerialized]
+		List< string >				messages = new List< string >();
 
 		[NonSerialized]
 		protected BaseGraph			graph;
@@ -343,6 +348,21 @@ namespace GraphProcessor
 		}
 
 		public bool IsFieldInput(string fieldName) => nodeFields[fieldName].input;
+
+		public void AddMessage(string message, NodeMessageType messageType)
+		{
+			onMessageAdded?.Invoke(message, messageType);
+			messages.Add(message);
+		}
+
+		public void RemoveMessage(string message) => onMessageRemoved?.Invoke(message);
+
+		public void ClearMessages()
+		{
+			foreach (var message in messages)
+				onMessageRemoved?.Invoke(message);
+			messages.Clear();
+		}
 
 		#endregion
 	}

@@ -330,7 +330,7 @@ namespace GraphProcessor
 			foreach (var port in inputPorts)
 				foreach (var edge in port.GetEdges())
 					yield return edge.outputNode;
-		}
+			}
 
 		public IEnumerable< BaseNode > GetOutputNodes()
 		{

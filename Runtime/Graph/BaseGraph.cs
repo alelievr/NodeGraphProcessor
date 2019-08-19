@@ -106,7 +106,7 @@ namespace GraphProcessor
 			//If the input port does not support multi-connection, we remove them
 			if (autoDisconnectInputs && !inputPort.portData.acceptMultipleEdges)
 			{
-				foreach (var e in inputPort.GetEdges())
+				foreach (var e in inputPort.GetEdges().ToList())
 				{
 					// TODO: do not disconnect them if the connected port is the same than the old connected
 					Disconnect(e);
@@ -115,7 +115,7 @@ namespace GraphProcessor
 			// same for the output port:
 			if (autoDisconnectInputs && !outputPort.portData.acceptMultipleEdges)
 			{
-				foreach (var e in outputPort.GetEdges())
+				foreach (var e in outputPort.GetEdges().ToList())
 				{
 					// TODO: do not disconnect them if the connected port is the same than the old connected
 					Disconnect(e);
@@ -222,14 +222,21 @@ namespace GraphProcessor
 				nodesPerGUID[node.GUID] = node;
 			}
 
-			foreach (var edge in edges.ToList()) // Copy
+			foreach (var edge in edges.ToList())
 			{
 				edge.Deserialize();
 				edgesPerGUID[edge.GUID] = edge;
 
 				// Sanity check for the edge:
 				if (edge.inputPort == null || edge.outputPort == null)
+				{
 					Disconnect(edge.GUID);
+					continue;
+				}
+
+				// Add the edge to the non-serialized port datas
+				edge.inputPort.owner.OnEdgeConnected(edge);
+				edge.outputPort.owner.OnEdgeConnected(edge);
 			}
 		}
 

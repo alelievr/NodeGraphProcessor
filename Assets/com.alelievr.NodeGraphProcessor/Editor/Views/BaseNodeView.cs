@@ -297,8 +297,6 @@ namespace GraphProcessor
 
 		void AddBadge(IconBadge badge)
 		{
-			badge.distance = (int)style.width.value.value;
-
 			Add(badge);
 			badges.Add(badge);
 			badge.AttachTo(topContainer, SpriteAlignment.TopRight);

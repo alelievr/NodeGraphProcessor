@@ -1,5 +1,5 @@
 {
-    "name": "com.alelievr.NodeGraphProcessor",
+    "name": "com.alelievr.NodeGraphProcessor.Runtime",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

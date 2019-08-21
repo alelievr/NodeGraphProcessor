@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
+  m_Name: ExposedGetProperties
+  m_EditorClassIdentifier: 
+  serializedNodes:
+  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"1b4c4205-a083-42c6-815d-089394975a21","computeOrder":5,"canProcess":true,"position":{"serializedVersion":"2","x":460.0,"y":45.0,"width":84.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"581cdd8d-fee9-4d82-bc6f-cbacd7ddc15b","accessor":1}'
+  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"d27bb2f4-f1df-433b-a124-464d64479ebb","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":174.0,"y":-37.0,"width":74.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"ae7b8636-b4ca-4259-afac-f09ff0dc0ad4","accessor":0}'
+  - type: MultiAddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"73ecc83f-695a-45b9-baab-1577a4f64bcc","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":293.0,"y":79.0,"width":122.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":67.0}'
+  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"fddbdd73-775e-4b42-b959-90c91f0994ea","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":168.0,"y":81.0,"width":74.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"ae7b8636-b4ca-4259-afac-f09ff0dc0ad4","accessor":0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"7a99c438-c7a4-4119-8a43-3c97f352dd7d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":164.0,"y":192.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":21.0}'
+  edges:
+  - GUID: 81ad2a95-ee5f-4b8d-9d14-73caf3602feb
+    owner: {fileID: 11400000}
+    inputNodeGUID: 73ecc83f-695a-45b9-baab-1577a4f64bcc
+    outputNodeGUID: d27bb2f4-f1df-433b-a124-464d64479ebb
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: output
+  - GUID: 798ca1ac-1199-46cd-9c10-320004883af5
+    owner: {fileID: 11400000}
+    inputNodeGUID: 73ecc83f-695a-45b9-baab-1577a4f64bcc
+    outputNodeGUID: fddbdd73-775e-4b42-b959-90c91f0994ea
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: output
+  - GUID: a3c827ad-8b8b-4305-bb07-78f509362781
+    owner: {fileID: 11400000}
+    inputNodeGUID: 73ecc83f-695a-45b9-baab-1577a4f64bcc
+    outputNodeGUID: 7a99c438-c7a4-4119-8a43-3c97f352dd7d
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 200d5a0d-2f99-4a7a-9c25-fb55bbdbbe85
+    owner: {fileID: 11400000}
+    inputNodeGUID: 1b4c4205-a083-42c6-815d-089394975a21
+    outputNodeGUID: 73ecc83f-695a-45b9-baab-1577a4f64bcc
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: input
+    outputPortIdentifier: 
+  commentBlocks: []
+  pinnedElements:
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 226
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 90
+      width: 150
+      height: 137
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  exposedParameters:
+  - guid: ae7b8636-b4ca-4259-afac-f09ff0dc0ad4
+    name: Input
+    type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue:
+      serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      serializedName: 
+      serializedValue: 23
+    input: 1
+  - guid: 581cdd8d-fee9-4d82-bc6f-cbacd7ddc15b
+    name: Output
+    type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue:
+      serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      serializedName: 
+      serializedValue: 67
+    input: 1
+  position: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}

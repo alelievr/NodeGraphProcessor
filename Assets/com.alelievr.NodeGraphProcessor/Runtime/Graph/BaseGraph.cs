@@ -310,6 +310,22 @@ namespace GraphProcessor
 			return exposedParameters.FirstOrDefault(e => e.guid == guid);
 		}
 
+		public bool SetParameterValue(string name, object value)
+		{
+			var e = exposedParameters.FirstOrDefault(p => p.name == name);
+
+			if (e == null)
+				return false;
+
+			e.serializedValue.value = value;
+
+			return true;
+		}
+
+		public object GetParameterValue(string name) => exposedParameters.FirstOrDefault(p => p.name == name)?.serializedValue?.value;
+
+		public T GetParameterValue< T >(string name) => (T)GetParameterValue(name);
+
 		int UpdateComputeOrder(int depth, BaseNode node)
 		{
 			int computeOrder = 0;

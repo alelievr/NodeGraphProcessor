@@ -234,7 +234,7 @@ namespace GraphProcessor
 					continue;
 				}
 
-				// Add the edge to the non-serialized port datas
+				// Add the edge to the non-serialized port data
 				edge.inputPort.owner.OnEdgeConnected(edge);
 				edge.outputPort.owner.OnEdgeConnected(edge);
 			}
@@ -393,6 +393,8 @@ namespace GraphProcessor
 			//Check for type assignability
 			if (t2.IsReallyAssignableFrom(t1))
 				return true;
+			
+			if ()
 
 			return false;
 		}

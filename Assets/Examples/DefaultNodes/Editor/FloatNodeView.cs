@@ -16,12 +16,14 @@ public class FloatNodeView : BaseNodeView
 
 		DoubleField floatField = new DoubleField
 		{
-			value = floatNode.output
+			value = floatNode.input
 		};
 
+		floatNode.onProcessed += () => floatField.value = floatNode.input;
+
 		floatField.RegisterValueChangedCallback((v) => {
-			owner.RegisterCompleteObjectUndo("Updated floatNode output");
-			floatNode.output = (float)v.newValue;
+			owner.RegisterCompleteObjectUndo("Updated floatNode input");
+			floatNode.input = (float)v.newValue;
 		});
 
 		controlsContainer.Add(floatField);

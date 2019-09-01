@@ -156,7 +156,7 @@ namespace GraphProcessor
 				if (r.GUID == edgeGUID)
 				{
 					onGraphChanges?.Invoke(new GraphChanges{ removedEdge = r });
-					r.inputNode?.OnEdgeDisonnected(r);
+					r.inputNode?.OnEdgeDisconnected(r);
 				}
 				return r.GUID == edgeGUID;
 			});
@@ -393,8 +393,10 @@ namespace GraphProcessor
 			//Check for type assignability
 			if (t2.IsReallyAssignableFrom(t1))
 				return true;
-			
-			if ()
+
+			// User defined type convertions
+			if (TypeAdapter.AreAssignable(t1, t2))
+				return true;
 
 			return false;
 		}

@@ -56,8 +56,7 @@ namespace GraphProcessor
                 var field = FieldFactory.CreateField(paramType, param.serializedValue.value, (newValue) => {
 					Undo.RegisterCompleteObjectUndo(graph, "Changed Parameter " + param.name + " to " + newValue);
                     param.serializedValue.value = newValue;
-                });
-                prop.Add(new Label(param.name));
+                }, param.name);
                 prop.Add(field);
                 parameterContainer.Add(prop);
             }

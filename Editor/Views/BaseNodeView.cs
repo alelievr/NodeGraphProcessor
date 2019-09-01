@@ -330,7 +330,7 @@ namespace GraphProcessor
 			DrawDefaultInspector();
 		}
 
-		public virtual void DrawDefaultInspector()
+		protected virtual void DrawDefaultInspector()
 		{
 			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
@@ -348,14 +348,25 @@ namespace GraphProcessor
                 if (field.GetCustomAttribute(typeof(System.NonSerializedAttribute)) != null || field.GetCustomAttribute(typeof(HideInInspector)) != null)
                     continue ;
 
-				var element = FieldFactory.CreateField(field.FieldType, field.GetValue(nodeTarget), (newValue) => {
-					owner.RegisterCompleteObjectUndo("Updated " + newValue);
-					field.SetValue(nodeTarget, newValue);
-				}, field.Name);
-
-				if (element != null)
-					controlsContainer.Add(element);
+				AddControlField(field, field.Name);
 			}
+		}
+
+		protected void AddControlField(string fieldName, string label = null)
+			=> AddControlField(nodeTarget.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance), label);
+
+		protected void AddControlField(FieldInfo field, string label = null)
+		{
+			if (field == null)
+				return;
+	
+			var element = FieldFactory.CreateField(field.FieldType, field.GetValue(nodeTarget), (newValue) => {
+				owner.RegisterCompleteObjectUndo("Updated " + newValue);
+				field.SetValue(nodeTarget, newValue);
+			}, label);
+
+			if (element != null)
+				controlsContainer.Add(element);
 		}
 
 		internal void OnPortConnected(PortView port)

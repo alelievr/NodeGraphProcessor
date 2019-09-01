@@ -5,19 +5,6 @@ using System.Reflection;
 
 namespace GraphProcessor
 {
-    // [AttributeUsage(AttributeTargets.Method)]
-    // public class TypeAdapterAttribute : Attribute
-    // {
-    //     public Type    t1;
-    //     public Type    t2;
-
-    //     public TypeAdapterAttribute(Type t1, Type t2)
-    //     {
-    //         this.t1 = t1;
-    //         this.t2 = t2;
-    //     }
-    // }
-
     /// <summary>
     /// Implement this interface to use the inside your class to define type convertions to use inside the graph.
     /// Example:
@@ -34,7 +21,7 @@ namespace GraphProcessor
     public static class TypeAdapter
     {
         static Dictionary< (Type from, Type to), Func<object, object> > adapters = new Dictionary< (Type, Type), Func<object, object> >();
-        public static Dictionary< (Type from, Type to), MethodInfo > adapters2 = new Dictionary< (Type, Type), MethodInfo >();
+        static Dictionary< (Type from, Type to), MethodInfo > adapterMethods = new Dictionary< (Type, Type), MethodInfo >();
 
         [System.NonSerialized]
         static bool adaptersLoaded = false;
@@ -83,7 +70,7 @@ namespace GraphProcessor
                             var r = (Func<object, object>) ret;
 
                             adapters.Add((method.GetParameters()[0].ParameterType, method.ReturnType), r);
-                            adapters2.Add((method.GetParameters()[0].ParameterType, method.ReturnType), method);
+                            adapterMethods.Add((method.GetParameters()[0].ParameterType, method.ReturnType), method);
                         } catch (Exception e) {
                             Debug.LogError($"Failed to load the type convertion method: {method}\n{e}");
                         }
@@ -110,20 +97,16 @@ namespace GraphProcessor
             return adapters.ContainsKey((from, to));
         }
 
-        public static MethodInfo GetConvertionMethod(Type from, Type to)
-        {
-            return adapters2[(from, to)];
-        }
-
+        public static MethodInfo GetConvertionMethod(Type from, Type to) => adapterMethods[(from, to)];
 
         public static object Convert(object from, Type targetType)
         {
             if (!adaptersLoaded)
                 LoadAllAdapters();
 
-            // Delegate convertionFunction;
-            // if (adapters.TryGetValue((from.GetType(), targetType), out convertionFunction))
-                // return convertionFunction?.Invoke(from);
+            Func<object, object> convertionFunction;
+            if (adapters.TryGetValue((from.GetType(), targetType), out convertionFunction))
+                return convertionFunction?.Invoke(from);
 
             return null;
         }

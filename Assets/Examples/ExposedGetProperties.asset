@@ -25,7 +25,9 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"fddbdd73-775e-4b42-b959-90c91f0994ea","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":168.0,"y":81.0,"width":74.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"ae7b8636-b4ca-4259-afac-f09ff0dc0ad4","accessor":0}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"7a99c438-c7a4-4119-8a43-3c97f352dd7d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":164.0,"y":192.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":21.0}'
+    jsonDatas: '{"GUID":"7a99c438-c7a4-4119-8a43-3c97f352dd7d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":164.0,"y":192.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":21.0,"input":0.0}'
+  - type: MessageNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"fba0fb79-33b7-4750-a167-e5f8e7fdb269","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":203.98825073242188,"y":309.4784240722656,"width":227.0,"height":98.0},"expanded":false,"debug":false,"nodeLock":false,"input":0.0}'
   edges:
   - GUID: 81ad2a95-ee5f-4b8d-9d14-73caf3602feb
     owner: {fileID: 11400000}
@@ -64,7 +66,7 @@ MonoBehaviour:
   - position:
       serializedVersion: 2
       x: 0
-      y: 226
+      y: 334
       width: 150
       height: 200
     opened: 1
@@ -98,5 +100,5 @@ MonoBehaviour:
       serializedName: 
       serializedValue: 67
     input: 1
-  position: {x: 0, y: 0, z: 0}
-  scale: {x: 1, y: 1, z: 1}
+  position: {x: 178, y: 119, z: 0}
+  scale: {x: 1.520875, y: 1.520875, z: 1}

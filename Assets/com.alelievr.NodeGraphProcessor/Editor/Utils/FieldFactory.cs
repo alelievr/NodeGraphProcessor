@@ -91,14 +91,23 @@ namespace GraphProcessor
 			}
 			else
 			{
-				field = Activator.CreateInstance(drawerType,
-					BindingFlags.CreateInstance |
-                    BindingFlags.Public |
-                    BindingFlags.NonPublic |
-                    BindingFlags.Instance | 
-                    BindingFlags.OptionalParamBinding, null,
-					new object[]{ label, Type.Missing }, CultureInfo.CurrentCulture);
-
+				try {
+					field = Activator.CreateInstance(drawerType,
+						BindingFlags.CreateInstance |
+						BindingFlags.Public |
+						BindingFlags.NonPublic |
+						BindingFlags.Instance | 
+						BindingFlags.OptionalParamBinding, null,
+						new object[]{ label, Type.Missing }, CultureInfo.CurrentCulture);
+				} catch {
+					field = Activator.CreateInstance(drawerType,
+						BindingFlags.CreateInstance |
+						BindingFlags.Public |
+						BindingFlags.NonPublic |
+						BindingFlags.Instance | 
+						BindingFlags.OptionalParamBinding, null,
+						new object[]{ label }, CultureInfo.CurrentCulture);
+				}
 			}
 
 			// For mutiline

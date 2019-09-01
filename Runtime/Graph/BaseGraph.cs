@@ -156,7 +156,7 @@ namespace GraphProcessor
 				if (r.GUID == edgeGUID)
 				{
 					onGraphChanges?.Invoke(new GraphChanges{ removedEdge = r });
-					r.inputNode?.OnEdgeDisonnected(r);
+					r.inputNode?.OnEdgeDisconnected(r);
 				}
 				return r.GUID == edgeGUID;
 			});
@@ -234,7 +234,7 @@ namespace GraphProcessor
 					continue;
 				}
 
-				// Add the edge to the non-serialized port datas
+				// Add the edge to the non-serialized port data
 				edge.inputPort.owner.OnEdgeConnected(edge);
 				edge.outputPort.owner.OnEdgeConnected(edge);
 			}
@@ -392,6 +392,10 @@ namespace GraphProcessor
 
 			//Check for type assignability
 			if (t2.IsReallyAssignableFrom(t1))
+				return true;
+
+			// User defined type convertions
+			if (TypeAdapter.AreAssignable(t1, t2))
 				return true;
 
 			return false;

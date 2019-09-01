@@ -6,6 +6,7 @@ using UnityEditor.UIElements;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Globalization;
 
 namespace GraphProcessor
 {
@@ -61,12 +62,12 @@ namespace GraphProcessor
 			fieldDrawers[fieldType] = drawerType;
 		}
 
-		public static INotifyValueChanged< T > CreateField< T >()
+		public static INotifyValueChanged< T > CreateField< T >(T value, string label = null)
 		{
-			return CreateField(typeof(T)) as INotifyValueChanged< T >;
+			return CreateField(value != null ? value.GetType() : typeof(T), label) as INotifyValueChanged< T >;
 		}
 
-		public static VisualElement CreateField(Type t)
+		public static VisualElement CreateField(Type t, string label)
 		{
 			Type drawerType;
 
@@ -81,24 +82,37 @@ namespace GraphProcessor
 				return null;
 			}
 
-			var field = Activator.CreateInstance(drawerType);
+			// Call the constructor that have a label
+			object field;
+			
+			if (drawerType == typeof(EnumField))
+			{
+				field = new EnumField(label, Activator.CreateInstance(t) as Enum);
+			}
+			else
+			{
+				field = Activator.CreateInstance(drawerType,
+					BindingFlags.CreateInstance |
+                    BindingFlags.Public |
+                    BindingFlags.NonPublic |
+                    BindingFlags.Instance | 
+                    BindingFlags.OptionalParamBinding, null,
+					new object[]{ label, Type.Missing }, CultureInfo.CurrentCulture);
+
+			}
 
 			// For mutiline
-			if (field is TextField)
-			{
-				(field as TextField).multiline = true;
-			}
-			if (field is ObjectField)
-			{
-				(field as ObjectField).objectType = t;
-			}
-
+			if (field is TextField textField)
+				textField.multiline = true;
+			if (field is ObjectField objField)
+				objField.objectType = t;
+			
 			return field as VisualElement;
 		}
 
-		public static INotifyValueChanged< T > CreateFieldSpecific< T >(T value, Action< object > onValueChanged)
+		public static INotifyValueChanged< T > CreateFieldSpecific< T >(T value, Action< object > onValueChanged, string label)
 		{
-			var fieldDrawer = CreateField< T >();
+			var fieldDrawer = CreateField< T >(value, label);
 
 			if (fieldDrawer == null)
 				return null;
@@ -111,11 +125,14 @@ namespace GraphProcessor
 			return fieldDrawer as INotifyValueChanged< T >;
 		}
 
-		public static VisualElement CreateField(Type fieldType, object value, Action< object > onValueChanged)
+		public static VisualElement CreateField(Type fieldType, object value, Action< object > onValueChanged, string label)
 		{
+			if (typeof(Enum).IsAssignableFrom(fieldType))
+				fieldType = typeof(Enum);
+			
 			var createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(fieldType);
 
-			return createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged}) as VisualElement;
+			return createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged, label}) as VisualElement;
 		}
 	}
 }

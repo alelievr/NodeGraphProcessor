@@ -85,16 +85,24 @@ namespace GraphProcessor
 
 // We keep slow checks inside the editor
 #if UNITY_EDITOR
-				if (!inputField.FieldType.IsReallyAssignableFrom(outputField.FieldType))
+				if (!BaseGraph.TypesAreConnectable(inputField.FieldType, outputField.FieldType))
 				{
 					Debug.LogError("Can't convert from " + inputField.FieldType + " to " + outputField.FieldType + ", you must specify a custom port function (i.e CustomPortInput or CustomPortOutput) for non-implicit convertions");
 				}
 #endif
 
-				MemberExpression inputParamField = Expression.Field(Expression.Constant(edge.inputNode), inputField);
-				MemberExpression outputParamField = Expression.Field(Expression.Constant(edge.outputNode), outputField);
+				// TODO: TypeAdapter convertion method here
 
-				BinaryExpression assign = Expression.Assign(inputParamField, Expression.Convert(outputParamField, inputField.FieldType));
+				Expression inputParamField = Expression.Field(Expression.Constant(edge.inputNode), inputField);
+				Expression outputParamField = Expression.Field(Expression.Constant(edge.outputNode), outputField);
+
+				// If there is a user defined convertion function, then we call it
+				if (TypeAdapter.AreAssignable(outputField.FieldType, inputField.FieldType))
+					outputParamField = Expression.Call(TypeAdapter.GetConvertionMethod(outputField.FieldType, inputField.FieldType), outputParamField);
+				else // otherwise we cast
+					outputParamField = Expression.Convert(outputParamField, inputField.FieldType);
+
+				BinaryExpression assign = Expression.Assign(inputParamField, outputParamField);
 				return Expression.Lambda< PushDataDelegate >(assign).Compile();
 			} catch (Exception e) {
 				Debug.LogError(e);

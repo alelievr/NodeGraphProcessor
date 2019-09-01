@@ -268,7 +268,7 @@ namespace GraphProcessor
 			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
 		}
 
-		public void OnEdgeDisonnected(SerializableEdge edge)
+		public void OnEdgeDisconnected(SerializableEdge edge)
 		{
 			if (edge == null)
 				return ;

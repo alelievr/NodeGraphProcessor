@@ -56,7 +56,7 @@ public class CustomPortsNode : BaseNode
 	{
 		// Values length is supposed to match connected edges length
 		for (int i = 0; i < connectedEdges.Count; i++)
-			connectedEdges[i].passThroughBuffer = values[Mathf.Max(i, values.Count - 1)];
+			connectedEdges[i].passThroughBuffer = values[Mathf.Min(i, values.Count - 1)];
 			
 		// once the outputs are pushed, we don't need the inputs data anymore
 		values.Clear();

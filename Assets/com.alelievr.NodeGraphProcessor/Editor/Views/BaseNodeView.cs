@@ -348,13 +348,10 @@ namespace GraphProcessor
                 if (field.GetCustomAttribute(typeof(System.NonSerializedAttribute)) != null || field.GetCustomAttribute(typeof(HideInInspector)) != null)
                     continue ;
 
-				var controlLabel = new Label(field.Name);
-                controlsContainer.Add(controlLabel);
-
 				var element = FieldFactory.CreateField(field.FieldType, field.GetValue(nodeTarget), (newValue) => {
 					owner.RegisterCompleteObjectUndo("Updated " + newValue);
 					field.SetValue(nodeTarget, newValue);
-				});
+				}, field.Name);
 
 				if (element != null)
 					controlsContainer.Add(element);

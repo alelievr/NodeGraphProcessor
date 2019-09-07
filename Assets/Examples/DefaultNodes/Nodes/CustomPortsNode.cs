@@ -31,7 +31,7 @@ public class CustomPortsNode : BaseNode
 	[CustomPortBehavior(nameof(inputs))]
 	IEnumerable< PortData > ListPortBehavior(List< SerializableEdge > edges)
 	{
-		portCount = Mathf.Max(portCount, edges.Count + 1);
+		portCount = edges.Count + 1;
 
 		for (int i = 0; i < portCount; i++)
 		{

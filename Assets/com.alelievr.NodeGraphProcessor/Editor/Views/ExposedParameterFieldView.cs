@@ -31,7 +31,7 @@ namespace GraphProcessor
 		void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             evt.menu.AppendAction("Rename", (a) => OpenTextEditor(), DropdownMenuAction.AlwaysEnabled);
-            evt.menu.AppendAction("Delete", (a) => parent.Remove(this), DropdownMenuAction.AlwaysEnabled);
+            evt.menu.AppendAction("Delete", (a) => graphView.graph.RemoveExposedParameter(parameter), DropdownMenuAction.AlwaysEnabled);
 
             evt.StopPropagation();
         }

@@ -584,9 +584,6 @@ namespace GraphProcessor
 
 			edgeViews.Add(e);
 
-			inputNodeView.RefreshPorts();
-			outputNodeView.RefreshPorts();
-
 			e.isConnected = true;
 
 			return true;
@@ -608,6 +605,11 @@ namespace GraphProcessor
 
 			UpdateComputeOrder();
 
+			inputNodeView.nodeTarget.UpdateAllPorts();
+			outputNodeView.nodeTarget.UpdateAllPorts();
+			inputNodeView.RefreshPorts();
+			outputNodeView.RefreshPorts();
+
 			return true;
 		}
 
@@ -622,13 +624,19 @@ namespace GraphProcessor
 			{
 				e.input.Disconnect(e);
 				if (refreshPorts)
+				{
+					inputNodeView.nodeTarget.UpdateAllPorts();
 					inputNodeView.RefreshPorts();
+				}
 			}
 			if (e?.output?.node is BaseNodeView outputNodeView)
 			{
 				e.output.Disconnect(e);
 				if (refreshPorts)
+				{
+					outputNodeView.nodeTarget.UpdateAllPorts();
 					outputNodeView.RefreshPorts();
+				}
 			}
 
 			edgeViews.Remove(e);

@@ -222,6 +222,7 @@ namespace GraphProcessor
 				nodesPerGUID[node.GUID] = node;
 			}
 
+			List<BaseNode> nodeToUpdate = new List<BaseNode>();
 			foreach (var edge in edges.ToList())
 			{
 				edge.Deserialize();
@@ -235,8 +236,16 @@ namespace GraphProcessor
 				}
 
 				// Add the edge to the non-serialized port data
-				edge.inputPort.owner.OnEdgeConnected(edge);
-				edge.outputPort.owner.OnEdgeConnected(edge);
+				// TODO: update ports for fields only after every edges have been added
+				edge.inputPort.owner.OnEdgeConnected(edge, false);
+				edge.outputPort.owner.OnEdgeConnected(edge, false);
+				nodeToUpdate.Add(edge.inputPort.owner);
+				nodeToUpdate.Add(edge.outputPort.owner);
+			}
+
+			foreach (var node in nodeToUpdate)
+			{
+				node.UpdateAllPorts();
 			}
 		}
 

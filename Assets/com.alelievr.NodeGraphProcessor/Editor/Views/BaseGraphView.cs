@@ -624,19 +624,13 @@ namespace GraphProcessor
 			{
 				e.input.Disconnect(e);
 				if (refreshPorts)
-				{
-					inputNodeView.nodeTarget.UpdateAllPorts();
 					inputNodeView.RefreshPorts();
-				}
 			}
 			if (e?.output?.node is BaseNodeView outputNodeView)
 			{
 				e.output.Disconnect(e);
 				if (refreshPorts)
-				{
-					outputNodeView.nodeTarget.UpdateAllPorts();
 					outputNodeView.RefreshPorts();
-				}
 			}
 
 			edgeViews.Remove(e);
@@ -644,14 +638,19 @@ namespace GraphProcessor
 
 		public void Disconnect(EdgeView e, bool refreshPorts = true)
 		{
-			DisconnectView(e, refreshPorts);
-
 			// Remove the serialized edge if there is one
 			if (e.userData is SerializableEdge serializableEdge)
 			{
 				graph.Disconnect(serializableEdge.GUID);
 				UpdateComputeOrder();
 			}
+
+			if (e?.input?.node is BaseNodeView inputNodeView)
+				inputNodeView.nodeTarget.UpdateAllPorts();
+			if (e?.output?.node is BaseNodeView outputNodeView)
+				outputNodeView.nodeTarget.UpdateAllPorts();
+			
+			DisconnectView(e, refreshPorts);
 		}
 
 		public void RemoveEdges()

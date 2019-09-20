@@ -222,7 +222,8 @@ namespace GraphProcessor
 			if (p.direction == Direction.Input)
 			{
 				inputPortViews.Remove(p);
-				inputContainer.Remove(p);
+				if (inputContainer.Contains(p))
+					inputContainer.Remove(p);
 			}
 			else
 			{
@@ -450,7 +451,6 @@ namespace GraphProcessor
 		{
 			var listener = owner.connectorListener;
 
-			// Maybe not good to remove ports as edges are still connected :/
 			foreach (var pv in portViews.ToList())
 			{
 				// If the port have disappeared from the node data, we remove the view:
@@ -469,28 +469,6 @@ namespace GraphProcessor
 				}
 			}
 		}
-
-		// void UpdatePortConnections(List< PortView > portViews)
-		// {
-		// 	foreach (var pv in portViews)
-		// 	{
-		// 		Debug.Log("pv: " + pv.portName);
-				
-		// 		// Go over all connected edges and disconnect them if the serialized edge have been removed
-		// 		// This can happens when the new port type is incompatible with the old one.
-		// 		foreach (var edge in pv.GetEdges().ToList())
-		// 		{
-		// 			// TODO: check edge connection compatibility !
-		// 			Debug.Log("Edge !");
-		// 			if (owner.graph.edges.Contains(edge.serializedEdge))
-		// 			{
-		// 				owner.Disconnect(edge);
-		// 				// owner.RemoveElement(edge);
-		// 				// base.RefreshPorts(); // We don't call this.RefreshPorts because it will cause an infinite loop
-		// 			}
-		// 		}
-		// 	}
-		// }
 
 		public new bool RefreshPorts()
 		{
@@ -514,7 +492,6 @@ namespace GraphProcessor
 					p.Zip(pv, (portPerFieldName, portViewPerFieldName) => {
 						if (portPerFieldName.Count() != portViewPerFieldName.Count())
 							SyncPortCounts(portPerFieldName, portViewPerFieldName);
-						// UpdatePortConnections(portViewPerFieldName.ToList());
 						// We don't care about the result, we just iterate over port and portView
 						return "";
 					}).ToList();

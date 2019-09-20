@@ -258,14 +258,15 @@ namespace GraphProcessor
 
 		#region Events and Processing
 
-		public void OnEdgeConnected(SerializableEdge edge)
+		public void OnEdgeConnected(SerializableEdge edge, bool updatePorts = true)
 		{
 			bool input = edge.inputNode == this;
 			NodePortContainer portCollection = (input) ? (NodePortContainer)inputPorts : outputPorts;
 
 			portCollection.Add(edge);
 
-			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
+			if (updatePorts)
+				UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
 		}
 
 		public void OnEdgeDisconnected(SerializableEdge edge)

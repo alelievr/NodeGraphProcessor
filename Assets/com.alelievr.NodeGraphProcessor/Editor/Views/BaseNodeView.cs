@@ -47,7 +47,7 @@ namespace GraphProcessor
 		[System.NonSerialized]
 		List< IconBadge >						badges = new List< IconBadge >();
 
-			#region  Initialization
+		#region  Initialization
 
 		public void Initialize(BaseGraphView owner, BaseNode node)
 		{
@@ -302,10 +302,10 @@ namespace GraphProcessor
 			badge.AttachTo(topContainer, SpriteAlignment.TopRight);
 		}
 
-		public void RemoveMessageView(string message)
+		void RemoveBadge(Func<IconBadge, bool> callback)
 		{
 			badges.RemoveAll(b => {
-				if (b.badgeText == message)
+				if (callback(b))
 				{
 					b.Detach();
 					b.RemoveFromHierarchy();
@@ -314,6 +314,10 @@ namespace GraphProcessor
 				return false;
 			});
 		}
+
+		public void RemoveMessageViewContains(string message) => RemoveBadge(b => b.badgeText.Contains(message));
+		
+		public void RemoveMessageView(string message) => RemoveBadge(b => b.badgeText == message);
 
 		#endregion
 

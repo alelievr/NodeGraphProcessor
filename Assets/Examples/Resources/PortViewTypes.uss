@@ -17,3 +17,7 @@
 .Port_String {
 	--port-color: #80FF80;
 }
+
+.Port_Boolean{
+	--port-color: #FFFF30;
+}

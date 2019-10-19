@@ -351,11 +351,25 @@ namespace GraphProcessor
 
 		public void AddMessage(string message, NodeMessageType messageType)
 		{
+			if (messages.Contains(message))
+				return;
+
 			onMessageAdded?.Invoke(message, messageType);
 			messages.Add(message);
 		}
 
-		public void RemoveMessage(string message) => onMessageRemoved?.Invoke(message);
+		public void RemoveMessage(string message)
+		{
+			onMessageRemoved?.Invoke(message);
+			messages.Remove(message);
+		}
+
+		public void RemoveMessageContains(string subMessage)
+		{
+			string toRemove = messages.Find(m => m.Contains(subMessage));
+			messages.Remove(toRemove);
+			onMessageRemoved?.Invoke(toRemove);
+		}
 
 		public void ClearMessages()
 		{

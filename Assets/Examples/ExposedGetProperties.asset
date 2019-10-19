@@ -100,5 +100,5 @@ MonoBehaviour:
       serializedName: 
       serializedValue: 67
     input: 1
-  position: {x: 178, y: 119, z: 0}
-  scale: {x: 1.520875, y: 1.520875, z: 1}
+  position: {x: 104, y: 204, z: 0}
+  scale: {x: 1.3225, y: 1.3225, z: 1}

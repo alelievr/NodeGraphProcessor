@@ -455,10 +455,10 @@ namespace GraphProcessor
 
 			var view = AddNodeView(node);
 
-			UpdateComputeOrder();
-
 			// Call create after the node have been initialized
 			view.OnCreated();
+
+			UpdateComputeOrder();
 
 			return true;
 		}
@@ -640,10 +640,9 @@ namespace GraphProcessor
 
 			// Remove the serialized edge if there is one
 			if (e.userData is SerializableEdge serializableEdge)
-			{
 				graph.Disconnect(serializableEdge.GUID);
-				UpdateComputeOrder();
-			}
+
+			UpdateComputeOrder();
 		}
 
 		public void RemoveEdges()

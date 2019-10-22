@@ -236,7 +236,6 @@ namespace GraphProcessor
 				}
 
 				// Add the edge to the non-serialized port data
-				// TODO: update ports for fields only after every edges have been added
 				edge.inputPort.owner.OnEdgeConnected(edge, false);
 				edge.outputPort.owner.OnEdgeConnected(edge, false);
 				nodeToUpdate.Add(edge.inputPort.owner);

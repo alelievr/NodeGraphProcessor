@@ -219,7 +219,7 @@ namespace GraphProcessor
 					continue ;
 
 				//check if field is a collection type
-				isMultiple = (inputAttribute != null) ? inputAttribute.allowMultiple : (outputAttribute.allowMultiple);
+				isMultiple = (inputAttribute != null) ? inputAttribute.allowMultiple : outputAttribute.allowMultiple;
 				input = inputAttribute != null;
 
 				if (!String.IsNullOrEmpty(inputAttribute?.name))

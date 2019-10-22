@@ -31,10 +31,12 @@ public class CustomPortsNode : BaseNode
 	[CustomPortBehavior(nameof(inputs))]
 	IEnumerable< PortData > ListPortBehavior(List< SerializableEdge > edges)
 	{
+		Debug.Log("Edges Input: " + edges.Count);
 		portCount = edges.Count + 1;
 
 		for (int i = 0; i < portCount; i++)
 		{
+			Debug.Log("Generated Port Data: " + i);
 			yield return new PortData {
 				displayName = "In " + i,
 				displayType = typeof(float),

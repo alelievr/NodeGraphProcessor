@@ -563,11 +563,14 @@ namespace GraphProcessor
 			// same for the output port:
 			if (autoDisconnectInputs && !(e.output as PortView).portData.acceptMultipleEdges)
 			{
-				foreach (var edge in edgeViews.Where(ev => ev.output == e.output).ToList())
-				{
-					// TODO: do not disconnect them if the connected port is the same than the old connected
-					DisconnectView(edge);
-				}
+				// If there is any edge that is already connected to the port and it does not support multiple connection, then we discard the connection
+				if (edgeViews.Any(ev => ev.output == e.output))
+					return false;
+				// foreach (var edge in edgeViews.Where(ev => ev.output == e.output).ToList())
+				// {
+				// 	// TODO: do not disconnect them if the connected port is the same than the old connected
+				// 	DisconnectView(edge);
+				// }
 			}
 
 			AddElement(e);

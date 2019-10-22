@@ -184,6 +184,8 @@ namespace GraphProcessor
 			if (String.IsNullOrEmpty(portIdentifier))
 				portIdentifier = null;
 
+			Debug.Log("Requested identifier: " + portIdentifier + ", " + portFieldName + " | on node: " + node);
+
 			var port = this.FirstOrDefault(p =>
 			{
 				return p.fieldName == portFieldName && p.portData.identifier == portIdentifier;

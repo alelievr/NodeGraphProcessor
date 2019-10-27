@@ -28,7 +28,7 @@ public class CustomPortsNode : BaseNode
 		// do things with values
 	}
 
-	[CustomPortBehavior(nameof(inputs))]
+	[CustomPortBehavior(nameof(inputs), true)]
 	IEnumerable< PortData > ListPortBehavior(List< SerializableEdge > edges)
 	{
 		Debug.Log("Edges Input: " + edges.Count);

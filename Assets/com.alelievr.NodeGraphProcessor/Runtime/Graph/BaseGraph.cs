@@ -148,6 +148,41 @@ namespace GraphProcessor
 			});
 		}
 
+		// void ReorderPorts(string fieldName, List<PortData> portDataList)
+		// {
+		// 	var fieldInfo = nodeFields[fieldName];
+
+		// 	bool needsFillGap = false;
+		// 	NodePort freePort = null;
+		// 	// gather edges connected to the ports:
+		// 	var edgesConnectedToPorts = portDataList.SelectMany(p => GetPort(fieldName, p.identifier).GetEdges());
+		// 	foreach (var portData in portDataList) // Iterate in the order of the ports
+		// 	{
+		// 		var portView = GetPort(fieldName, portData.identifier);
+		// 		if (portView != null && portView.GetEdges().Count == 0 && portData != portDataList.Last())
+		// 		{
+		// 			needsFillGap = true;
+		// 			freePort = portView;
+		// 		}
+		// 	}
+
+		// 	if (needsFillGap)
+		// 	{
+		// 		// if we're here, it means that the last edge of the port have been deleted
+		// 		// In that case, we want to move the edges that are connected to the last port
+		// 		// to the free port:
+		// 		var lastPortView = GetPort(fieldName, portDataList.Last().identifier);
+
+		// 		foreach (var edge in lastPortView.GetEdges().ToList())
+		// 		{
+		// 			// TODO: this does not work with input ports
+		// 			Debug.Log("Connect: " + edge.outputPort.portData + " -> " + freePort.portData);
+		// 			Connect(edge.outputPort, freePort, false);
+		// 			Disconnect(edge);
+		// 		}
+		// 	}
+		// }
+
 		public void Disconnect(SerializableEdge edge) => Disconnect(edge.GUID);
 
 		public void Disconnect(string edgeGUID)
@@ -156,6 +191,8 @@ namespace GraphProcessor
 				if (r.GUID == edgeGUID)
 				{
 					onGraphChanges?.Invoke(new GraphChanges{ removedEdge = r });
+					// TODO: reorder edges that support it here
+					// ReorderPorts(r.);
 					r.inputNode?.OnEdgeDisconnected(r);
 				}
 				return r.GUID == edgeGUID;

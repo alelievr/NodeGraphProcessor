@@ -61,8 +61,9 @@ namespace GraphProcessor
 			public bool							input;
 			public bool							isMultiple;
 			public CustomPortBehaviorDelegate	behavior;
+			public bool							allowReordering;
 
-			public NodeFieldInformation(FieldInfo info, string name, bool input, bool isMultiple, CustomPortBehaviorDelegate behavior)
+			public NodeFieldInformation(FieldInfo info, string name, bool input, bool isMultiple, CustomPortBehaviorDelegate behavior, bool allowReordering)
 			{
 				this.input = input;
 				this.isMultiple = isMultiple;
@@ -70,6 +71,7 @@ namespace GraphProcessor
 				this.name = name;
 				this.fieldName = info.Name;
 				this.behavior = behavior;
+				this.allowReordering = allowReordering;
 			}
 		}
 
@@ -131,10 +133,6 @@ namespace GraphProcessor
 				UpdatePortsForField(field.Value.fieldName);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="fieldName"></param>
 		public void UpdatePortsForField(string fieldName)
 		{
 			var fieldInfo = nodeFields[fieldName];
@@ -151,7 +149,9 @@ namespace GraphProcessor
 			// Gather all edges connected to these fields:
 			var edges = nodePorts.SelectMany(n => n.GetEdges()).ToList();
 
-			foreach (var portData in fieldInfo.behavior(edges))
+			var portDataList = fieldInfo.behavior(edges).ToList();
+
+			foreach (var portData in portDataList)
 			{
 				var port = nodePorts.FirstOrDefault(n => n.portData.identifier == portData.identifier);
 				// Guard using the port identifier so we don't duplicate identifiers
@@ -168,7 +168,7 @@ namespace GraphProcessor
 							graph.Disconnect(edge.GUID);
 					}
 
-					// patch the port datas
+					// patch the port data
 					port.portData = portData;
 				}
 
@@ -228,7 +228,7 @@ namespace GraphProcessor
 					name = outputAttribute.name;
 
 				// By default we set the behavior to null, if the field have a custom behavior, it will be set in the loop just below
-				nodeFields[field.Name] = new NodeFieldInformation(field, name, input, isMultiple, null);
+				nodeFields[field.Name] = new NodeFieldInformation(field, name, input, isMultiple, null, false);
 			}
 
 			foreach (var method in methods)
@@ -248,7 +248,10 @@ namespace GraphProcessor
 				}
 
 				if (nodeFields.ContainsKey(customPortBehaviorAttribute.fieldName))
+				{
 					nodeFields[customPortBehaviorAttribute.fieldName].behavior = behavior;
+					nodeFields[customPortBehaviorAttribute.fieldName].allowReordering = customPortBehaviorAttribute.allowReordering;
+				}
 				else
 					Debug.LogError("Invalid field name for custom port behavior: " + method + ", " + customPortBehaviorAttribute.fieldName);
 			}

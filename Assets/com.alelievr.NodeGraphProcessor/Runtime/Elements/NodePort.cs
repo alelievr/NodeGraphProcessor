@@ -22,6 +22,8 @@ namespace GraphProcessor
 				&& displayType == other.displayType
 				&& acceptMultipleEdges == other.acceptMultipleEdges;
         }
+
+		public override string ToString() => $"{displayName} ({displayType?.Name} #{identifier})";
     }
 
 	public class NodePort

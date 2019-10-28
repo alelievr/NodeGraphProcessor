@@ -25,8 +25,10 @@ namespace GraphProcessor
 			//If the edge was already existing, remove it
 			if (!edge.isGhostEdge)
 				graphView.Disconnect(edge as EdgeView);
-
-			//TODO: open new nodes selector and connect the created node if there is one
+            else
+            {
+                //TODO: open new nodes selector and connect the created node if there is one
+            }
         }
 
         public void OnDrop(GraphView graphView, Edge edge)
@@ -37,7 +39,7 @@ namespace GraphProcessor
 			if (edgeView?.input == null || edgeView?.output == null)
 				return ;
 
-			//If the edge was moved to another port
+			//If the edge was moved from another port
 			if (edgeView.isConnected)
 			{
                 if (edgeInputPorts.ContainsKey(edge) && edgeOutputPorts.ContainsKey(edge))

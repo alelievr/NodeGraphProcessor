@@ -192,6 +192,19 @@ namespace GraphProcessor
 		
 		void GraphChangesCallback(GraphChanges changes)
 		{
+			if (changes.addedEdge != null)
+			{
+				var edgeView = edgeViews.Find(e => e.serializedEdge == changes.addedEdge);
+
+				if (edgeView == null)
+				{
+					foreach ( var ed in edgeViews)
+						Debug.Log("Edge: " + ed.input.portName + " -> " + ed.output.portName + " | " + ed.GetHashCode());
+					Debug.Log("addedEdge: " + changes.addedEdge.GetHashCode());
+					edgeView = CreateNewEdgeView(changes.addedEdge);
+					ConnectView(edgeView, false);
+				}
+			}
 			if (changes.removedEdge != null)
 			{
 				var edge = edgeViews.FirstOrDefault(e => e.serializedEdge == changes.removedEdge);
@@ -407,16 +420,23 @@ namespace GraphProcessor
 		{
 			foreach (var serializedEdge in graph.edges)
 			{
-				var inputNodeView = nodeViewsPerNode[serializedEdge.inputNode];
-				var outputNodeView = nodeViewsPerNode[serializedEdge.outputNode];
-				var edgeView = new EdgeView() {
-					userData = serializedEdge,
-					input = inputNodeView.GetPortViewFromFieldName(serializedEdge.inputFieldName, serializedEdge.inputPortIdentifier),
-					output = outputNodeView.GetPortViewFromFieldName(serializedEdge.outputFieldName, serializedEdge.outputPortIdentifier)
-				};
-
-				ConnectView(edgeView);
+				ConnectView(CreateNewEdgeView(serializedEdge));
 			}
+		}
+
+		EdgeView CreateNewEdgeView(SerializableEdge serializableEdge)
+		{
+			var foundEdge = edgeViews.Find(e => e.serializedEdge == serializableEdge);
+			if (foundEdge != null)
+				return foundEdge;
+			
+			var inputNodeView = nodeViewsPerNode[serializableEdge.inputNode];
+			var outputNodeView = nodeViewsPerNode[serializableEdge.outputNode];
+			return new EdgeView() {
+				userData = serializableEdge,
+				input = inputNodeView.GetPortViewFromFieldName(serializableEdge.inputFieldName, serializableEdge.inputPortIdentifier),
+				output = outputNodeView.GetPortViewFromFieldName(serializableEdge.outputFieldName, serializableEdge.outputPortIdentifier)
+			};
 		}
 
 		void InitializeViews()
@@ -550,7 +570,7 @@ namespace GraphProcessor
 				Debug.LogError("Connect aborted !");
 				return false;
 			}
-				
+
 			//If the input port does not support multi-connection, we remove them
 			if (autoDisconnectInputs && !(e.input as PortView).portData.acceptMultipleEdges)
 			{
@@ -594,9 +614,6 @@ namespace GraphProcessor
 
 		public bool Connect(EdgeView e, bool autoDisconnectInputs = true)
 		{
-			if (!ConnectView(e, autoDisconnectInputs))
-				return false;
-
 			var inputPortView = e.input as PortView;
 			var outputPortView = e.output as PortView;
 			var inputNodeView = inputPortView.node as BaseNodeView;

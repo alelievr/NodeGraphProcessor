@@ -148,52 +148,18 @@ namespace GraphProcessor
 			});
 		}
 
-		// void ReorderPorts(string fieldName, List<PortData> portDataList)
-		// {
-		// 	var fieldInfo = nodeFields[fieldName];
+		public void Disconnect(SerializableEdge edge, bool allowReordering = true) => Disconnect(edge.GUID, allowReordering);
 
-		// 	bool needsFillGap = false;
-		// 	NodePort freePort = null;
-		// 	// gather edges connected to the ports:
-		// 	var edgesConnectedToPorts = portDataList.SelectMany(p => GetPort(fieldName, p.identifier).GetEdges());
-		// 	foreach (var portData in portDataList) // Iterate in the order of the ports
-		// 	{
-		// 		var portView = GetPort(fieldName, portData.identifier);
-		// 		if (portView != null && portView.GetEdges().Count == 0 && portData != portDataList.Last())
-		// 		{
-		// 			needsFillGap = true;
-		// 			freePort = portView;
-		// 		}
-		// 	}
-
-		// 	if (needsFillGap)
-		// 	{
-		// 		// if we're here, it means that the last edge of the port have been deleted
-		// 		// In that case, we want to move the edges that are connected to the last port
-		// 		// to the free port:
-		// 		var lastPortView = GetPort(fieldName, portDataList.Last().identifier);
-
-		// 		foreach (var edge in lastPortView.GetEdges().ToList())
-		// 		{
-		// 			// TODO: this does not work with input ports
-		// 			Debug.Log("Connect: " + edge.outputPort.portData + " -> " + freePort.portData);
-		// 			Connect(edge.outputPort, freePort, false);
-		// 			Disconnect(edge);
-		// 		}
-		// 	}
-		// }
-
-		public void Disconnect(SerializableEdge edge) => Disconnect(edge.GUID);
-
-		public void Disconnect(string edgeGUID)
+		public void Disconnect(string edgeGUID, bool allowReordering = true)
 		{
 			edges.RemoveAll(r => {
 				if (r.GUID == edgeGUID)
 				{
 					onGraphChanges?.Invoke(new GraphChanges{ removedEdge = r });
-					// TODO: reorder edges that support it here
-					// ReorderPorts(r.);
 					r.inputNode?.OnEdgeDisconnected(r);
+					// TODO: support reordering for output multi-ports too
+					if (allowReordering && r.inputNode.IsFieldReorderable(r.inputFieldName))
+						r.inputNode.ReorderEdges(r.inputFieldName);
 				}
 				return r.GUID == edgeGUID;
 			});
@@ -278,6 +244,9 @@ namespace GraphProcessor
 				nodeToUpdate.Add(edge.inputPort.owner);
 				nodeToUpdate.Add(edge.outputPort.owner);
 			}
+			
+			// Sanitize edge data
+			edges.RemoveAll(e => e.inputNode == null || e.outputNode == null);
 
 			foreach (var node in nodeToUpdate)
 			{

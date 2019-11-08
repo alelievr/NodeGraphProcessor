@@ -14,6 +14,13 @@ namespace GraphProcessor
 		public string				type;
 		public SerializableObject	serializedValue;
 		public bool					input = true;
+		public ExposedParameterSettings settings;
+	}
+	
+	[Serializable]
+	public class ExposedParameterSettings
+	{
+		public bool  isHidden       = false;
 	}
 
 	public class GraphChanges
@@ -261,7 +268,8 @@ namespace GraphProcessor
 				guid = guid,
 				name = name,
 				type = type.AssemblyQualifiedName,
-				serializedValue = new SerializableObject(value)
+				settings = new ExposedParameterSettings(),
+				serializedValue = new SerializableObject(value, type)
 			});
 
 			onExposedParameterListChanged?.Invoke();
@@ -297,6 +305,12 @@ namespace GraphProcessor
 		public void UpdateExposedParameterName(ExposedParameter parameter, string name)
 		{
 			parameter.name = name;
+			onExposedParameterModified.Invoke(name);
+		}
+		
+		public void UpdateExposedParameterVisibility(ExposedParameter parameter, bool isHidden)
+		{
+			parameter.settings.isHidden = isHidden;
 			onExposedParameterModified.Invoke(name);
 		}
 

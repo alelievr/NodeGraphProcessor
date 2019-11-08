@@ -713,6 +713,8 @@ namespace GraphProcessor
 
 			if (!Contains(view))
 				Add(view);
+			
+			onExposedParameterListChanged.Invoke();
 		}
 
 		public void ClosePinned< T >(PinnedElementView view) where T : PinnedElementView

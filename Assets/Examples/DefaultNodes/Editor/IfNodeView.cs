@@ -16,6 +16,6 @@ public class IfNodeView : BaseNodeView
 
         // Create your fields using node's variables and add them to the controlsContainer
 
-		controlsContainer.Add(new Label("Hello World !"));
+		controlsContainer.Add(new Label($"Last Evaluation: {node.condition}"));
 	}
 }

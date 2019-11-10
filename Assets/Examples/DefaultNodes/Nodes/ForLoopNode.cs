@@ -5,18 +5,26 @@ using GraphProcessor;
 using System.Linq;
 
 [System.Serializable, NodeMenuItem("Conditional/ForLoop")]
-public class ForLoopNode : BaseNode
+public class ForLoopNode : ConditionalNode
 {
-	[Input(name = "In")]
-    public float                input;
+	[Output(name = "Loop Body")]
+	public ConditionalLink		loopBody;
+	
+	[Output(name = "Loop Completed")]
+	public ConditionalLink		loopCompleted;
 
-	[Output(name = "Out")]
-	public float				output;
+	[Output]
+	public int					index;
 
 	public override string		name => "ForLoop";
 
 	protected override void Process()
 	{
-	    output = input * 42;
+		// TODO
+	}
+
+	public override IEnumerable< ConditionalNode >	GetExecutedNodes()
+	{
+		yield break;
 	}
 }

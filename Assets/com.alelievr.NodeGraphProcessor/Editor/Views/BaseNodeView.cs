@@ -319,6 +319,16 @@ namespace GraphProcessor
 		
 		public void RemoveMessageView(string message) => RemoveBadge(b => b.badgeText == message);
 
+		public void Highlight()
+		{
+			AddToClassList("Highlight");
+		}
+
+		public void UnHighlight()
+		{
+			RemoveFromClassList("Highlight");
+		}
+
 		#endregion
 
 		#region Callbacks & Overrides

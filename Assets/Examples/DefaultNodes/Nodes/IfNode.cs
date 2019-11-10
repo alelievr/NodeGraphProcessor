@@ -5,30 +5,27 @@ using GraphProcessor;
 using System.Linq;
 using UnityEngine.Rendering;
 
-[System.Serializable, NodeMenuItem("Conditional/If")]
-public class IfNode : BaseNode
+[System.Serializable, NodeMenuItem("Conditional/If"), NodeMenuItem("Conditional/Branch")]
+public class IfNode : ConditionalNode
 {
 	[Input(name = "Condition")]
-    public float    c;
+    public bool				condition;
 
 	[Output(name = "True")]
-	public float	@true;
+	public ConditionalLink	@true;
 	[Output(name = "False")]
-	public float	@false;
+	public ConditionalLink	@false;
 
 	public CompareFunction		compareOperator;
 
 	public override string		name => "If";
 
-	protected override void Process()
+	public override IEnumerable< ConditionalNode >	GetExecutedNodes()
 	{
-		switch (compareOperator)
-		{
-			case CompareFunction.Disabled:
-			case CompareFunction.Always:
-				@true = c; break;
-			case CompareFunction.Never:
-				@false = c; break;
-		}
+		string fieldName = condition ? nameof(@true) : nameof(@false);
+
+		// Return all the nodes connected to either the true or false node
+		return outputPorts.FirstOrDefault(n => n.fieldName == fieldName)
+			.GetEdges().Select(e => e.inputNode as ConditionalNode);
 	}
 }

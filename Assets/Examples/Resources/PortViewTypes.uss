@@ -18,6 +18,10 @@
 	--port-color: #80FF80;
 }
 
-.Port_Boolean{
+.Port_Boolean {
+	--port-color: #30FFFF;
+}
+
+.Port_ConditionalLink {
 	--port-color: #FFFF30;
 }

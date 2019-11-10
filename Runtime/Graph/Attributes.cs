@@ -31,7 +31,7 @@ namespace GraphProcessor
 		}
 	}
 
-	[AttributeUsage(AttributeTargets.Class)]
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 	public class NodeMenuItemAttribute : Attribute
 	{
 		public string	menuTitle;

@@ -43,6 +43,8 @@ namespace GraphProcessor
 		public event ProcessDelegate	onProcessed;
 		public event Action< string, NodeMessageType >	onMessageAdded;
 		public event Action< string >					onMessageRemoved;
+		public event Action< SerializableEdge >			onAfterEdgeConnected;
+		public event Action< SerializableEdge >			onAfterEdgeDisconnected;
 
 		[NonSerialized]
 		Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
@@ -137,6 +139,9 @@ namespace GraphProcessor
 		/// <param name="fieldName"></param>
 		public void UpdatePortsForField(string fieldName)
 		{
+			if (!nodeFields.ContainsKey(fieldName))
+				return ;
+
 			var fieldInfo = nodeFields[fieldName];
 
 			if (fieldInfo.behavior == null)
@@ -266,6 +271,8 @@ namespace GraphProcessor
 			portCollection.Add(edge);
 
 			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
+
+			onAfterEdgeConnected?.Invoke(edge);
 		}
 
 		public void OnEdgeDisconnected(SerializableEdge edge)
@@ -279,6 +286,8 @@ namespace GraphProcessor
 			portCollection.Remove(edge);
 
 			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
+
+			onAfterEdgeDisconnected?.Invoke(edge);
 		}
 
 		public void OnProcess()

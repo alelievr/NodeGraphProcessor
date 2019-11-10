@@ -48,3 +48,31 @@ PortView > #connector > #cap:hover
 {
     background-color: #f0f0f0;
 }
+
+.Port_Boolean {
+    --port-color: #ff6d29;
+}
+
+.Port_Single {
+    --port-color: #2080FF;
+}
+
+.Port_Int32 {
+    --port-color: #325dff;
+}
+
+.Port_Object {
+    --port-color: #80FF00;
+}
+
+.Port_String {
+    --port-color: #80FF80;
+}
+
+.Port_GameObject {
+    --port-color: #FF0000;
+}
+
+.Port_Color {
+    --port-color: #FF00FF;
+}

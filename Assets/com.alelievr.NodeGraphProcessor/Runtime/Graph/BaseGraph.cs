@@ -20,7 +20,7 @@ namespace GraphProcessor
 	[Serializable]
 	public class ExposedParameterSettings
 	{
-		public bool  isHidden       = false;
+		public bool  isHidden;
 	}
 
 	public class GraphChanges

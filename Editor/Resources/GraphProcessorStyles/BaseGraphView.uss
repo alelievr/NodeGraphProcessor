@@ -2,33 +2,3 @@
 {
     background-color: #101010;
 }
-
-ExposedParameterPropertyView {
-    padding-left: 13px;
-}
-
-ExposedParameterPropertyView FloatField {
-    margin-left: 16px;
-}
-
-ExposedParameterPropertyView FloatField > Label {
-    min-width: 90px;
-}
-
-ExposedParameterView #contentContainer {
-    padding-bottom: 12px;
-    padding-top: 2px;
-}
-
-ExposedParameterView #titleLabel {
-    padding-left: 6px;
-}
-
-ExposedParameterView #header Button {
-    margin-right: 6px;
-}
-
-ExposedParameterFieldView #contentItem > Label {
-    padding-right: 0;
-    margin-right: 0;
-}

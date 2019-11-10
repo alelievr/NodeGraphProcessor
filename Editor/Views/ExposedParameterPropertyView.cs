@@ -10,7 +10,7 @@ namespace GraphProcessor
 
 		public Toggle     hideInInspector { get; private set; }
 
-		public ExposedParameterPropertyView(BaseGraphView graphView, ExposedParameter param) : base()
+		public ExposedParameterPropertyView(BaseGraphView graphView, ExposedParameter param)
 		{
 			baseGraphView = graphView;
 			parameter      = param;

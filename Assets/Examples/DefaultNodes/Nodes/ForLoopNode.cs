@@ -13,6 +13,9 @@ public class ForLoopNode : ConditionalNode
 	[Output(name = "Loop Completed")]
 	public ConditionalLink		loopCompleted;
 
+	public int					start = 0;
+	public int					end = 10;
+
 	[Output]
 	public int					index;
 

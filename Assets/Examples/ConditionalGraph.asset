@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes:
   - type: ForLoopNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"d5ca5207-95e0-48d1-a3a8-a3a01ede32ff","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":1096.0,"y":384.0,"width":194.0,"height":144.0},"expanded":false,"debug":false,"nodeLock":false,"index":0}'
+    jsonDatas: '{"GUID":"d5ca5207-95e0-48d1-a3a8-a3a01ede32ff","computeOrder":23,"canProcess":true,"position":{"serializedVersion":"2","x":1715.5386962890625,"y":2.243854522705078,"width":215.0,"height":138.00001525878907},"expanded":false,"debug":false,"nodeLock":false,"start":0,"end":10,"index":0}'
   - type: IfNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"0b887ee0-c1bb-4ebd-9d59-dfad6ca5d169","computeOrder":6,"canProcess":true,"position":{"serializedVersion":"2","x":903.000244140625,"y":-43.728031158447269,"width":144.0,"height":120.00001525878906},"expanded":false,"debug":false,"nodeLock":false,"condition":false,"compareOperator":0}'
   - type: IfNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -47,6 +47,15 @@ MonoBehaviour:
     jsonDatas: '{"GUID":"6c6cd171-20ee-4cf9-bec7-58920ae38bb0","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":1130.0,"y":-321.0,"width":228.0,"height":141.0},"expanded":false,"debug":false,"nodeLock":false,"inA":42.0,"inB":0.0,"compared":false,"compareFunction":4}'
   - type: StartNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"dbe73687-385c-4287-83b4-74ad6a2333a4","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":336.1000061035156,"y":105.09999084472656,"width":82.0,"height":77.00001525878906},"expanded":false,"debug":false,"nodeLock":false}'
+  - type: ConditionalPrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"02938362-e7d5-4446-b4ce-e740710062d3","computeOrder":47,"canProcess":true,"position":{"serializedVersion":"2","x":2257.975341796875,"y":10.215508460998536,"width":176.0,"height":114.0},"expanded":false,"debug":false,"nodeLock":false}'
+  - type: ConditionalPrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"ab35bbd6-77b3-4047-89c3-65e89faebd54","computeOrder":25,"canProcess":true,"position":{"serializedVersion":"2","x":2143.098388671875,"y":202.92626953125,"width":176.0,"height":114.0},"expanded":false,"debug":false,"nodeLock":false}'
+  - type: StringNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"60483d14-2e65-48f0-8c6a-828ed62a7401","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":1765.65234375,"y":224.52175903320313,"width":256.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"output":"Loop
+      is done !"}'
   edges:
   - GUID: a71011e7-132b-4cbb-929f-8a9a4025ec32
     owner: {fileID: 11400000}
@@ -168,6 +177,54 @@ MonoBehaviour:
     outputFieldName: executes
     inputPortIdentifier: 
     outputPortIdentifier: 
+  - GUID: cf7202ef-b75c-45dc-b406-57fe16322ec9
+    owner: {fileID: 11400000}
+    inputNodeGUID: d5ca5207-95e0-48d1-a3a8-a3a01ede32ff
+    outputNodeGUID: 575b566d-578e-4d1c-8278-3fe61059696a
+    inputFieldName: executed
+    outputFieldName: false
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 093f56b5-f27c-4e24-903d-b90bda1c6a38
+    owner: {fileID: 11400000}
+    inputNodeGUID: d5ca5207-95e0-48d1-a3a8-a3a01ede32ff
+    outputNodeGUID: 057208a7-faeb-41f9-b152-b2cfa3843888
+    inputFieldName: executed
+    outputFieldName: false
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 45f4f738-4334-4379-bca8-bfff23a90b12
+    owner: {fileID: 11400000}
+    inputNodeGUID: 02938362-e7d5-4446-b4ce-e740710062d3
+    outputNodeGUID: d5ca5207-95e0-48d1-a3a8-a3a01ede32ff
+    inputFieldName: executed
+    outputFieldName: loopBody
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 91163516-0f7c-4ac3-bf73-4b3affe902dc
+    owner: {fileID: 11400000}
+    inputNodeGUID: 02938362-e7d5-4446-b4ce-e740710062d3
+    outputNodeGUID: d5ca5207-95e0-48d1-a3a8-a3a01ede32ff
+    inputFieldName: obj
+    outputFieldName: index
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 551f4048-86f7-4bd8-8497-6895e1bc0b3c
+    owner: {fileID: 11400000}
+    inputNodeGUID: ab35bbd6-77b3-4047-89c3-65e89faebd54
+    outputNodeGUID: d5ca5207-95e0-48d1-a3a8-a3a01ede32ff
+    inputFieldName: executed
+    outputFieldName: loopCompleted
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 2920d9b2-c919-49a6-bf89-31a741542df4
+    owner: {fileID: 11400000}
+    inputNodeGUID: ab35bbd6-77b3-4047-89c3-65e89faebd54
+    outputNodeGUID: 60483d14-2e65-48f0-8c6a-828ed62a7401
+    inputFieldName: obj
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
   commentBlocks: []
   pinnedElements:
   - position:
@@ -201,5 +258,5 @@ MonoBehaviour:
       serializedType: ConditionalProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: -1439, y: -345, z: 0}
-  scale: {x: 2, y: 2, z: 1}
+  position: {x: -1555, y: 245, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}

@@ -705,6 +705,8 @@ namespace GraphProcessor
 			if (!pinnedElements.ContainsKey(type))
 			{
 				view = Activator.CreateInstance(type) as PinnedElementView;
+				if (view == null)
+					return ;
 				pinnedElements[type] = view;
 				view.InitializeGraphView(elem, this);
 			}

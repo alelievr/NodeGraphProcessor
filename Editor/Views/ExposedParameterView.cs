@@ -72,7 +72,7 @@ namespace GraphProcessor
 
             foreach (var param in graphView.graph.exposedParameters)
             {
-                content.Add(new BlackboardRow(new ExposedParameterFieldView(graphView, param, GetParameterShortType(param.type)), new ExposedParameterPropertyView(graphView, param)));
+                content.Add(new BlackboardRow(new ExposedParameterFieldView(graphView, param), new ExposedParameterPropertyView(graphView, param)));
             }
         }
 
@@ -90,11 +90,5 @@ namespace GraphProcessor
                 text = "+"
             });
         }
-        
-        protected string GetParameterShortType(string type)
-        {
-            return type.Split(new[] {','})[0].Split(new[] {'.'})[1];
-        }
-        
     }
 }

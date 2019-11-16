@@ -15,6 +15,7 @@ namespace GraphProcessor
 		public SerializableObject	serializedValue;
 		public bool					input = true;
 		public ExposedParameterSettings settings;
+		public string shortType => Type.GetType(type)?.Name;
 	}
 	
 	[Serializable]

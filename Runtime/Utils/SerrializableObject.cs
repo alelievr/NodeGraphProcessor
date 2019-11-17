@@ -24,10 +24,11 @@ namespace GraphProcessor
 
         public object value;
 
-        public SerializableObject(object value, string name = null)
+        public SerializableObject(object value, Type type, string name = null)
         {
             this.value = value;
             this.serializedName = name;
+            this.serializedType = type.AssemblyQualifiedName;
         }
 
         public void OnAfterDeserialize()
@@ -54,7 +55,7 @@ namespace GraphProcessor
                 value = obj.value;
             }
             else if (type == typeof(string))
-                value = serializedValue.Substring(1, serializedValue.Length - 2).Replace("\\\"", "\"");
+                value = serializedValue.Length > 1 ? serializedValue.Substring(1, serializedValue.Length - 2).Replace("\\\"", "\"") : "";
             else
             {
                 try {

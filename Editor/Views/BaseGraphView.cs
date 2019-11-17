@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using System.Linq;
 using System;
+using UnityEditor.SceneManagement;
 
 using Status = UnityEngine.UIElements.DropdownMenuAction.Status;
 
@@ -370,6 +371,9 @@ namespace GraphProcessor
 
             connectorListener = new EdgeConnectorListener(this);
 
+			// When pressing ctrl-s, we save the graph
+			EditorSceneManager.sceneSaved += _ => SaveGraphToDisk();
+
 			InitializeGraphView();
 			InitializeNodeViews();
 			InitializeEdgeViews();
@@ -407,8 +411,11 @@ namespace GraphProcessor
 		{
 			foreach (var serializedEdge in graph.edges)
 			{
-				var inputNodeView = nodeViewsPerNode[serializedEdge.inputNode];
-				var outputNodeView = nodeViewsPerNode[serializedEdge.outputNode];
+				nodeViewsPerNode.TryGetValue(serializedEdge.inputNode, out var inputNodeView);
+				nodeViewsPerNode.TryGetValue(serializedEdge.outputNode, out var outputNodeView);
+				if (inputNodeView == null || outputNodeView == null)
+					continue;
+
 				var edgeView = new EdgeView() {
 					userData = serializedEdge,
 					input = inputNodeView.GetPortViewFromFieldName(serializedEdge.inputFieldName, serializedEdge.inputPortIdentifier),

@@ -285,10 +285,11 @@ namespace GraphProcessor
 		public void UpdateExposedParameter(string guid, object value)
 		{
 			var param = exposedParameters.Find(e => e.guid == guid);
-			string valueType = value.GetType().AssemblyQualifiedName;
+			if (param == null)
+				return;
 
-			if (valueType != param.type)
-				throw new Exception("Type mismatch when updating parameter " + param.name + ": from " + param.type + " to " + valueType);
+			if (value != null && value.GetType().AssemblyQualifiedName != param.type)
+				throw new Exception("Type mismatch when updating parameter " + param.name + ": from " + param.type + " to " + value.GetType().AssemblyQualifiedName);
 
 			param.serializedValue.value = value;
 			onExposedParameterModified.Invoke(param.guid);

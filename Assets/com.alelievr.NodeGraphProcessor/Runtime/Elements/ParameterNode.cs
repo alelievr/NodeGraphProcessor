@@ -72,6 +72,7 @@ namespace GraphProcessor
 					identifier = "output",
 					displayName = "Value",
 					displayType = (parameter == null) ? typeof(object) : Type.GetType(parameter.type),
+					acceptMultipleEdges = true
 				};
 			}
 		}

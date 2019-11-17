@@ -50,6 +50,9 @@ namespace GraphProcessor
 
             foreach (var param in graph.exposedParameters)
             {
+                if(param.settings.isHidden)
+                    continue;
+                
                 VisualElement prop = new VisualElement();
                 prop.style.display = DisplayStyle.Flex;
                 Type paramType = Type.GetType(param.type);

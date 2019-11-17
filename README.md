@@ -1,6 +1,8 @@
 # NodeGraphProcessor
 Node graph editor framework focused on data processing using Unity UIElements and C# 4.7
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4c62ece874d14a0b965b92cb163e3146)](https://www.codacy.com/manual/alelievr/NodeGraphProcessor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alelievr/NodeGraphProcessor&amp;utm_campaign=Badge_Grade)
+
 ### Unity Compatible versions
 
 This project requires at least Unity **2019.1** with a scripting runtime version of 4.x in player settings.

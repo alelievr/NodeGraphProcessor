@@ -15,6 +15,13 @@ namespace GraphProcessor
 		protected BaseGraphView	graphView;
 
 		new const string title = "Parameters";
+        
+        readonly string exposedParameterViewStyle = "GraphProcessorStyles/ExposedParameterView";
+
+        public ExposedParameterView()
+        {
+            styleSheets.Add(Resources.Load<StyleSheet>(exposedParameterViewStyle));
+        }
 
         protected virtual void OnAddClicked()
         {
@@ -65,7 +72,7 @@ namespace GraphProcessor
 
             foreach (var param in graphView.graph.exposedParameters)
             {
-                content.Add(new ExposedParameterFieldView(graphView, param));
+                content.Add(new BlackboardRow(new ExposedParameterFieldView(graphView, param), new ExposedParameterPropertyView(graphView, param)));
             }
         }
 
@@ -77,6 +84,8 @@ namespace GraphProcessor
 
             graphView.onExposedParameterListChanged += UpdateParameterList;
             graphView.initialized += UpdateParameterList;
+
+            UpdateParameterList();
 
             // Add exposed parameter button
             header.Add(new Button(OnAddClicked){

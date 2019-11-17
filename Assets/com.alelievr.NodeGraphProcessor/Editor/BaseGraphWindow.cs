@@ -63,6 +63,9 @@ namespace GraphProcessor
 		{
 			if (this.graph != null && graph != this.graph)
 			{
+				// Save the graph to the disk
+				EditorUtility.SetDirty(this.graph);
+				AssetDatabase.SaveAssets();
 				// Unload the graph
 				graphUnloaded?.Invoke(this.graph);
 				Resources.UnloadAsset(this.graph);

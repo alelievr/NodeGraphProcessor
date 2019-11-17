@@ -91,14 +91,22 @@ namespace GraphProcessor
 				}
 #endif
 
-				// TODO: TypeAdapter convertion method here
-
 				Expression inputParamField = Expression.Field(Expression.Constant(edge.inputNode), inputField);
 				Expression outputParamField = Expression.Field(Expression.Constant(edge.outputNode), outputField);
+				
+				var inType = edge.inputPort.portData.displayType ?? inputField.FieldType;
+				var outType = edge.outputPort.portData.displayType ?? outputField.FieldType;
 
 				// If there is a user defined convertion function, then we call it
-				if (TypeAdapter.AreAssignable(outputField.FieldType, inputField.FieldType))
-					outputParamField = Expression.Call(TypeAdapter.GetConvertionMethod(outputField.FieldType, inputField.FieldType), outputParamField);
+				if (TypeAdapter.AreAssignable(outType, inType))
+				{
+					// We add a cast in case there we're calling the conversion method with a base class parameter (like object)
+					var convertedParam = Expression.Convert(outputParamField, outType);
+					outputParamField = Expression.Call(TypeAdapter.GetConvertionMethod(outType, inType), convertedParam);
+					// In case there is a custom port behavior in the output, then we need to re-cast to the base type because
+					// the convertion method return type is not always assignable directly:
+					outputParamField = Expression.Convert(outputParamField, inputField.FieldType);
+				}
 				else // otherwise we cast
 					outputParamField = Expression.Convert(outputParamField, inputField.FieldType);
 

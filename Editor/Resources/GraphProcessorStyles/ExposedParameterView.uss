@@ -1,0 +1,69 @@
+ExposedParameterPropertyView {
+	padding-left: 13px;
+}
+
+ExposedParameterPropertyView FloatField {
+	margin-left: 16px;
+}
+
+ExposedParameterPropertyView FloatField > Label {
+	min-width: 90px;
+}
+
+ExposedParameterView #contentContainer {
+	padding-bottom: 12px;
+	padding-top: 2px;
+}
+
+ExposedParameterView #titleLabel {
+	padding-left: 6px;
+}
+
+ExposedParameterView #header Button {
+	margin-right: 6px;
+}
+
+ExposedParameterFieldView #contentItem > Label {
+	padding-right: 0;
+	margin-right: 0;
+}
+
+ExposedParameterFieldView .pill #contents > #top > #icon {
+	width: 4px;
+	height: 4px;
+	border-radius: 2px;
+	margin-top: 0;
+	margin-left: 2px;
+}
+
+ExposedParameterFieldView Image {
+	background-color: #ffffff;
+}
+
+.parameter-Boolean {
+	background-color: #ff6d29;
+}
+
+.parameter-Single {
+	background-color: #2080FF;
+}
+
+.parameter-Int32 {
+	background-color: #325dff;
+}
+
+.parameter-Object {
+	background-color: #80FF00;
+}
+
+.parameter-String {
+	background-color: #80FF80;
+}
+
+.parameter-GameObject {
+	background-color: #FF0000;
+}
+
+.parameter-Color {
+	background-color: #FF00FF;
+}

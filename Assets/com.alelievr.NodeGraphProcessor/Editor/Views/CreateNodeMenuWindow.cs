@@ -50,31 +50,33 @@ namespace GraphProcessor
 
 			foreach (var nodeMenuItem in nodeEntries)
 			{
-                string  nodePath = nodeMenuItem.Key;
-                int     pos = nodePath.LastIndexOf("/", StringComparison.Ordinal);
-                string  title = null;
-                int     level = nodePath.Count(c => c == '/');
-                string  nodeName = nodePath;
+                var nodePath = nodeMenuItem.Key;
+                var nodeName = nodePath;
+                var level    = 0;
+                var parts    = nodePath.Split('/');
 
-                if (pos > 0)
+                if(parts.Length > 1)
                 {
-                    title = nodePath.Substring(0, pos);
-                    nodeName = nodePath.Substring(pos + 1);
+                    level++;
+                    nodeName = parts[parts.Length - 1];
+                    for(var i = 0; i < parts.Length - 1; i++)
+                    {
+                        var title = parts[i];
+                        level = i + 1;
+                        // Add section title if the node is in subcategory
+                        if (!titles.Contains(title))
+                        {
+                            tree.Add(new SearchTreeGroupEntry(new GUIContent(title)){
+                                level = level
+                            });
+                            titles.Add(title);
+                        }
+                    }
                 }
-
-                // Add section title if the node is in subcategory
-                if (title != null && !titles.Contains(title))
-                {
-                    level = nodePath.Count(c => c == '/');
-                    tree.Add(new SearchTreeGroupEntry(new GUIContent(title)){
-                        level = level,
-                    });
-                    titles.Add(title);
-                }
-
+                
                 tree.Add(new SearchTreeEntry(new GUIContent(nodeName, icon))
                 {
-                    level = level + 1,
+                    level    = level + 1,
                     userData = nodeMenuItem.Value
                 });
 			}

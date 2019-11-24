@@ -207,9 +207,12 @@ namespace GraphProcessor
 			GUID = Guid.NewGuid().ToString();
 		}
 
+		public virtual FieldInfo[] GetNodeFields()
+			=> GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
 		void InitializeInOutDatas()
 		{
-			var fields = GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			var fields = GetNodeFields();
 			var methods = GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
 			foreach (var field in fields)

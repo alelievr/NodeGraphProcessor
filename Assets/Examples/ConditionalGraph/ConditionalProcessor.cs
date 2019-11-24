@@ -85,6 +85,7 @@ public class ConditionalProcessor : BaseGraphProcessor
         {
             Stack<BaseNode>     nodeToExecute = new  Stack<BaseNode>();
             HashSet<BaseNode>   nodeDependenciesGathered = new HashSet<BaseNode>();
+            HashSet<BaseNode>   skipConditionalHandling = new HashSet<BaseNode>();
 
             // Add all the start nodes to the execution stack
             startNodeList.ForEach(s => nodeToExecute.Push(s));
@@ -95,7 +96,7 @@ public class ConditionalProcessor : BaseGraphProcessor
                 // TODO: maxExecutionTimeMS
 
                 // In case the node is conditional, then we need to execute it's non-conditional dependencies first
-                if (node is IConditionalNode)
+                if (node is IConditionalNode && !skipConditionalHandling.Contains(node))
                 {
                     // Gather non-conditional deps: TODO, move to the cache:
                     if (nodeDependenciesGathered.Contains(node))
@@ -109,7 +110,17 @@ public class ConditionalProcessor : BaseGraphProcessor
                         {
                             // special code path for the loop node as it will execute multiple times the same nodes
                             case ForLoopNode forLoopNode:
-                                forLoopNode.GetExecutedNodes();
+                                forLoopNode.index = forLoopNode.start - 1; // Initialize the start index
+                                foreach (var n in forLoopNode.GetExecutedNodesLoopCompleted())
+                                        nodeToExecute.Push(n);
+                                for (int i = forLoopNode.start; i < forLoopNode.end; i++)
+                                {
+                                    foreach (var n in forLoopNode.GetExecutedNodesLoopBody())
+                                        nodeToExecute.Push(n);
+
+                                    nodeToExecute.Push(node); // Increment the counter
+                                }
+                                skipConditionalHandling.Add(node);
                                 break;
                             case IConditionalNode cNode:
                                 foreach (var n in cNode.GetExecutedNodes())

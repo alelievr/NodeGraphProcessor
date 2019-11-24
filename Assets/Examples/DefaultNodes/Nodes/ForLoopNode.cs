@@ -21,13 +21,21 @@ public class ForLoopNode : ConditionalNode
 
 	public override string		name => "ForLoop";
 
-	protected override void Process()
+	protected override void Process() => index++; // Implement all logic that affects the loop inner fields
+
+	public override IEnumerable< ConditionalNode >	GetExecutedNodes() => throw new System.Exception("Do not use GetExecutedNoes in for loop to get it's dependencies");
+
+	public IEnumerable< ConditionalNode >	GetExecutedNodesLoopBody()
 	{
-		// TODO
+		// Return all the nodes connected to the executes port
+		return outputPorts.FirstOrDefault(n => n.fieldName == nameof(loopBody))
+			.GetEdges().Select(e => e.inputNode as ConditionalNode);
 	}
 
-	public override IEnumerable< ConditionalNode >	GetExecutedNodes()
+	public IEnumerable< ConditionalNode >	GetExecutedNodesLoopCompleted()
 	{
-		yield break;
+		// Return all the nodes connected to the executes port
+		return outputPorts.FirstOrDefault(n => n.fieldName == nameof(loopCompleted))
+			.GetEdges().Select(e => e.inputNode as ConditionalNode);
 	}
 }

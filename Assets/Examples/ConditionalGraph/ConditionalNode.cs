@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using System.Reflection;
+using System;
 
 [System.Serializable]
 /// <summary>
@@ -15,6 +17,14 @@ public abstract class ConditionalNode : BaseNode, IConditionalNode
     public ConditionalLink	executed;
 
 	public abstract IEnumerable< ConditionalNode >	GetExecutedNodes();
+
+	// Assure that the executed field is always at the top of the node port section
+	public override FieldInfo[] GetNodeFields()
+	{
+		var fields = base.GetNodeFields();
+		Array.Sort(fields, (f1, f2) => f1.Name == nameof(executed) ? -1 : 1);
+		return fields;
+	}
 }
 
 [System.Serializable]

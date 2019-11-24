@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
+using System.Reflection;
 
 [System.Serializable, NodeMenuItem("Conditional/Start")]
 public class StartNode : BaseNode, IConditionalNode
@@ -17,4 +18,6 @@ public class StartNode : BaseNode, IConditionalNode
 		// Return all the nodes connected to the executes port
 		return GetOutputNodes().Where(n => n is ConditionalNode).Select(n => n as ConditionalNode);
 	}
+
+	public override FieldInfo[] GetNodeFields() => base.GetNodeFields();
 }

@@ -26,9 +26,9 @@ public class GraphAssetCallbacks
 	[OnOpenAsset(0)]
 	public static bool OnBaseGraphOpened(int instanceID, int line)
 	{
-		var asset = EditorUtility.InstanceIDToObject(instanceID);
+		var asset = EditorUtility.InstanceIDToObject(instanceID) as BaseGraph;
 
-		if (asset is BaseGraph && AssetDatabase.GetAssetPath(asset).Contains("Examples"))
+		if (asset != null && AssetDatabase.GetAssetPath(asset).Contains("Examples"))
 		{
 			AllGraphWindow.Open().InitializeGraph(asset as BaseGraph);
 			return true;

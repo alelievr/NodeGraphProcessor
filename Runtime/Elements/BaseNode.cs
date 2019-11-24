@@ -43,6 +43,8 @@ namespace GraphProcessor
 		public event ProcessDelegate	onProcessed;
 		public event Action< string, NodeMessageType >	onMessageAdded;
 		public event Action< string >					onMessageRemoved;
+		public event Action< SerializableEdge >			onAfterEdgeConnected;
+		public event Action< SerializableEdge >			onAfterEdgeDisconnected;
 
 		[NonSerialized]
 		Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
@@ -137,6 +139,9 @@ namespace GraphProcessor
 		/// <param name="fieldName"></param>
 		public void UpdatePortsForField(string fieldName)
 		{
+			if (!nodeFields.ContainsKey(fieldName))
+				return ;
+
 			var fieldInfo = nodeFields[fieldName];
 
 			if (fieldInfo.behavior == null)
@@ -202,9 +207,12 @@ namespace GraphProcessor
 			GUID = Guid.NewGuid().ToString();
 		}
 
+		public virtual FieldInfo[] GetNodeFields()
+			=> GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
 		void InitializeInOutDatas()
 		{
-			var fields = GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			var fields = GetNodeFields();
 			var methods = GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
 			foreach (var field in fields)
@@ -266,6 +274,8 @@ namespace GraphProcessor
 			portCollection.Add(edge);
 
 			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
+
+			onAfterEdgeConnected?.Invoke(edge);
 		}
 
 		public void OnEdgeDisconnected(SerializableEdge edge)
@@ -279,6 +289,8 @@ namespace GraphProcessor
 			portCollection.Remove(edge);
 
 			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
+
+			onAfterEdgeDisconnected?.Invoke(edge);
 		}
 
 		public void OnProcess()
@@ -351,11 +363,25 @@ namespace GraphProcessor
 
 		public void AddMessage(string message, NodeMessageType messageType)
 		{
+			if (messages.Contains(message))
+				return;
+
 			onMessageAdded?.Invoke(message, messageType);
 			messages.Add(message);
 		}
 
-		public void RemoveMessage(string message) => onMessageRemoved?.Invoke(message);
+		public void RemoveMessage(string message)
+		{
+			onMessageRemoved?.Invoke(message);
+			messages.Remove(message);
+		}
+
+		public void RemoveMessageContains(string subMessage)
+		{
+			string toRemove = messages.Find(m => m.Contains(subMessage));
+			messages.Remove(toRemove);
+			onMessageRemoved?.Invoke(toRemove);
+		}
 
 		public void ClearMessages()
 		{

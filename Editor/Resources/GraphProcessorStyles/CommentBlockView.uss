@@ -1,3 +1,5 @@
 #headerColorPicker {
+    position: absolute;
+    margin: 8px;
     width: 50px;
 }

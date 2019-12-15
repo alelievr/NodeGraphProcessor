@@ -8,7 +8,7 @@ namespace GraphProcessor
 	public class CommentBlock
 	{
 		public string			title;
-		public Color			color = Color.black;
+		public Color			color = new Color(0, 0, 0, 0.3f);
 		public Rect				position;
         public Vector2          size;
 
@@ -22,7 +22,7 @@ namespace GraphProcessor
 
         public virtual void OnCreated()
         {
-            size = new Vector2(300, 100);
+            size = new Vector2(400, 200);
             position.size = size;
         }
 	}

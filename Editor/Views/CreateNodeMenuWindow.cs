@@ -10,6 +10,7 @@ using UnityEditor;
 
 namespace GraphProcessor
 {
+    // TODO: replace this by the new UnityEditor.Searcher package
     class CreateNodeMenuWindow : ScriptableObject, ISearchWindowProvider
     {
         BaseGraphView   graphView;

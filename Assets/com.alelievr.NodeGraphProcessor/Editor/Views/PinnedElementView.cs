@@ -79,7 +79,6 @@ namespace GraphProcessor
             hierarchy.Add(main);
 
             capabilities |= Capabilities.Movable | Capabilities.Resizable;
-            cacheAsBitmap = true;
             style.overflow = Overflow.Hidden;
 
             ClearClassList();

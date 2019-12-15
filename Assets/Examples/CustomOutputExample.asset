@@ -25,9 +25,11 @@ MonoBehaviour:
     jsonDatas: '{"GUID":"d110a426-a040-4a9c-94f9-00c59e4f5a87","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":55.0,"y":207.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":21.0,"input":21.0}'
   - type: CircleRadians, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"344fdef8-b64e-4059-9aad-c59d868c421d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":37.85444259643555,"y":431.0964050292969,"width":118.0,"height":113.00000762939453},"expanded":true,"debug":false,"nodeLock":false,"outputRadians":[0.0,3.1415927410125734]}'
-  - type: AbstractNodeChild1, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - type: AbstractNodeChild1, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
     jsonDatas: '{"GUID":"a0cd8589-db49-45a9-95f0-b8a563fa3872","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":269.1209716796875,"y":573.8790283203125,"width":123.0,"height":96.0},"expanded":false,"debug":false,"nodeLock":false,"input":0.0,"output":0.0}'
-  - type: AbstractNodeChild2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - type: AbstractNodeChild2, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
     jsonDatas: '{"GUID":"20c41dd3-8def-4ccc-8983-5b20912544c3","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":458.5123596191406,"y":513.6805419921875,"width":123.0,"height":96.0},"expanded":false,"debug":false,"nodeLock":false,"input":0.0,"output":0.0}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"88150667-ebd8-4c1f-b50a-a26ee09c79cb","computeOrder":7,"canProcess":true,"position":{"serializedVersion":"2","x":669.8790893554688,"y":162.9981231689453,"width":71.0,"height":95.0},"expanded":false,"debug":false,"nodeLock":false}'

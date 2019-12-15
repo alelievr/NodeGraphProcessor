@@ -17,7 +17,7 @@ public class ConditionalProcessor : BaseGraphProcessor
 
     public IEnumerator<BaseNode> currentGraphExecution { get; private set; } = null;
 
-    static readonly float   maxExecutionTimeMS = 100; // 100 ms max execution time to avoid infinite loops
+    // static readonly float   maxExecutionTimeMS = 100; // 100 ms max execution time to avoid infinite loops
 
     /// <summary>
     /// Manage graph scheduling and processing

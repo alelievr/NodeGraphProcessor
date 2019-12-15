@@ -49,11 +49,12 @@ namespace GraphProcessor
 			viewTransformChanged = ViewTransformChangedCallback;
             elementResized = ElementResizedCallback;
 
-			InitializeManipulators();
-
 			RegisterCallback< KeyDownEvent >(KeyDownCallback);
 			RegisterCallback< DragPerformEvent >(DragPerformedCallback);
 			RegisterCallback< DragUpdatedEvent >(DragUpdatedCallback);
+			RegisterCallback< MouseDownEvent >(MouseDownCallback);
+
+			InitializeManipulators();
 
 			SetupZoom(0.05f, 2f);
 
@@ -297,6 +298,16 @@ namespace GraphProcessor
 			}
 		}
 
+		void MouseDownCallback(MouseDownEvent e)
+		{
+			// When left clicking on the graph (not a node or something else)
+			if (e.button == 0)
+			{
+				// Close all settings windows:
+				nodeViews.ForEach(v => v.CloseSettings());
+			}
+		}
+
 		void DragPerformedCallback(DragPerformEvent e)
 		{
 			var mousePos = (e.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, e.localMousePosition);
@@ -446,7 +457,6 @@ namespace GraphProcessor
 			this.AddManipulator(new ContentDragger());
 			this.AddManipulator(new SelectionDragger());
 			this.AddManipulator(new RectangleSelector());
-			this.AddManipulator(new ClickSelector());
 		}
 
 		protected virtual void Reload() {}

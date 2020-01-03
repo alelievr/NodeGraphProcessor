@@ -39,27 +39,68 @@ namespace GraphProcessor
 	{
 		static readonly int			maxComputeOrderDepth = 1000;
 
-		//JSon datas contaning all elements of the graph
+		/// <summary>
+		/// Json list of nodes (Serialized)
+		/// </summary>
+		/// <typeparam name="JsonElement"></typeparam>
+		/// <returns></returns>
 		[SerializeField]
 		public List< JsonElement >						serializedNodes = new List< JsonElement >();
 
+		/// <summary>
+		/// List of all the nodes in the graph.
+		/// </summary>
+		/// <typeparam name="BaseNode"></typeparam>
+		/// <returns></returns>
 		[System.NonSerialized]
 		public List< BaseNode >							nodes = new List< BaseNode >();
 
+		/// <summary>
+		/// Dictionary to access node per GUID, faster than a search in a list
+		/// </summary>
+		/// <typeparam name="string"></typeparam>
+		/// <typeparam name="BaseNode"></typeparam>
+		/// <returns></returns>
 		[System.NonSerialized]
 		public Dictionary< string, BaseNode >			nodesPerGUID = new Dictionary< string, BaseNode >();
 
+		/// <summary>
+		/// Json list of edges
+		/// </summary>
+		/// <typeparam name="SerializableEdge"></typeparam>
+		/// <returns></returns>
 		[SerializeField]
 		public List< SerializableEdge >					edges = new List< SerializableEdge >();
+		/// <summary>
+		/// Dictionary of edges per GUID, faster than a search in a list
+		/// </summary>
+		/// <typeparam name="string"></typeparam>
+		/// <typeparam name="SerializableEdge"></typeparam>
+		/// <returns></returns>
 		[System.NonSerialized]
 		public Dictionary< string, SerializableEdge >	edgesPerGUID = new Dictionary< string, SerializableEdge >();
 
+		/// <summary>
+		/// All groups in the graph
+		/// </summary>
+		/// <typeparam name="CommentBlock"></typeparam>
+		/// <returns></returns>
         [SerializeField]
         public List< CommentBlock >                     commentBlocks = new List< CommentBlock >();
 
+		/// <summary>
+		/// All pinned elements in the graph
+		/// </summary>
+		/// <typeparam name="PinnedElement"></typeparam>
+		/// <returns></returns>
 		[SerializeField]
 		public List< PinnedElement >					pinnedElements = new List< PinnedElement >();
 
+		/// <summary>
+		/// All exposed parameters in the graph
+		/// </summary>
+		/// <typeparam name="ExposedParameter"></typeparam>
+		/// <returns></returns>
 		[SerializeField]
 		public List< ExposedParameter >					exposedParameters = new List< ExposedParameter >();
 
@@ -70,10 +111,19 @@ namespace GraphProcessor
 		public Vector3					position = Vector3.zero;
 		public Vector3					scale = Vector3.one;
 
+		/// <summary>
+		/// Triggered when something is changed in the list of exposed parameters
+		/// </summary>
 		public event Action				onExposedParameterListChanged;
 		public event Action< string >	onExposedParameterModified;
+		/// <summary>
+		/// Triggered when the graph is enabled
+		/// </summary>
 		public event Action				onEnabled;
 
+		/// <summary>
+		/// Triggered when the graph is changed
+		/// </summary>
 		public event Action< GraphChanges > onGraphChanges;
 
 		[System.NonSerialized]
@@ -90,6 +140,11 @@ namespace GraphProcessor
 			onEnabled?.Invoke();
         }
 
+		/// <summary>
+		/// Adds a node to the graph
+		/// </summary>
+		/// <param name="node"></param>
+		/// <returns></returns>
 		public BaseNode AddNode(BaseNode node)
 		{
 			nodes.Add(node);
@@ -100,6 +155,10 @@ namespace GraphProcessor
 			return node;
 		}
 
+		/// <summary>
+		/// Removes a node from the graph
+		/// </summary>
+		/// <param name="node"></param>
 		public void RemoveNode(BaseNode node)
 		{
 			nodes.Remove(node);
@@ -107,6 +166,13 @@ namespace GraphProcessor
 			onGraphChanges?.Invoke(new GraphChanges{ removedNode = node });
 		}
 
+		/// <summary>
+		/// Connect two ports with an edge
+		/// </summary>
+		/// <param name="inputPort">input port</param>
+		/// <param name="outputPort">output port</param>
+		/// <param name="DisconnectInputs">is the edge allowed to disconnect another edge</param>
+		/// <returns>the connecting edge</returns>
 		public SerializableEdge Connect(NodePort inputPort, NodePort outputPort, bool autoDisconnectInputs = true)
 		{
 			var edge = SerializableEdge.CreateNewEdge(this, inputPort, outputPort);
@@ -141,6 +207,13 @@ namespace GraphProcessor
 			return edge;
 		}
 
+		/// <summary>
+		/// Disconnect two ports
+		/// </summary>
+		/// <param name="inputNode">input node</param>
+		/// <param name="inputFieldName">input field name</param>
+		/// <param name="outputNode">output node</param>
+		/// <param name="outputFieldName">output field name</param>
 		public void Disconnect(BaseNode inputNode, string inputFieldName, BaseNode outputNode, string outputFieldName)
 		{
 			edges.RemoveAll(r => {
@@ -156,8 +229,16 @@ namespace GraphProcessor
 			});
 		}
 
+		/// <summary>
+		/// Disconnect an edge
+		/// </summary>
+		/// <param name="edge"></param>
 		public void Disconnect(SerializableEdge edge) => Disconnect(edge.GUID);
 
+		/// <summary>
+		/// Disconnect an edge
+		/// </summary>
+		/// <param name="edgeGUID"></param>
 		public void Disconnect(string edgeGUID)
 		{
 			edges.RemoveAll(r => {
@@ -170,18 +251,31 @@ namespace GraphProcessor
 			});
 		}
 
+		/// <summary>
+		/// Add a group
+		/// </summary>
+		/// <param name="block"></param>
         public void AddCommentBlock(CommentBlock block)
         {
             commentBlocks.Add(block);
 			onGraphChanges?.Invoke(new GraphChanges{ addedCommentBlock = block });
         }
 
+		/// <summary>
+		/// Removes a group
+		/// </summary>
+		/// <param name="block"></param>
         public void RemoveCommentBlock(CommentBlock block)
         {
             commentBlocks.Remove(block);
 			onGraphChanges?.Invoke(new GraphChanges{ removedCommentBlock = block });
         }
 
+		/// <summary>
+		/// Open a pinned element of type viewType
+		/// </summary>
+		/// <param name="viewType">type of the pinned element</param>
+		/// <returns>the pinned element</returns>
 		public PinnedElement OpenPinned(Type viewType)
 		{
 			var pinned = pinnedElements.Find(p => p.editorType.type == viewType);
@@ -197,6 +291,10 @@ namespace GraphProcessor
 			return pinned;
 		}
 
+		/// <summary>
+		/// Closes a pinned element of type viewType
+		/// </summary>
+		/// <param name="viewType">type of the pinned element</param>
 		public void ClosePinned(Type viewType)
 		{
 			var pinned = pinnedElements.Find(p => p.editorType.type == viewType);
@@ -250,6 +348,9 @@ namespace GraphProcessor
 
 		public void OnAfterDeserialize() {}
 
+		/// <summary>
+		/// Update the compute order of the nodes in the graph
+		/// </summary>
 		public void UpdateComputeOrder()
 		{
 			if (nodes.Count == 0)
@@ -261,6 +362,13 @@ namespace GraphProcessor
 				UpdateComputeOrder(0, node);
 		}
 
+		/// <summary>
+		/// Add an exposed parameter
+		/// </summary>
+		/// <param name="name">parameter name</param>
+		/// <param name="type">parameter type</param>
+		/// <param name="value">default value</param>
+		/// <returns></returns>
 		public string AddExposedParameter(string name, Type type, object value)
 		{
 			string guid = Guid.NewGuid().ToString(); // Generated once and unique per parameter
@@ -278,6 +386,10 @@ namespace GraphProcessor
 			return guid;
 		}
 
+		/// <summary>
+		/// Remove an exposed parameter
+		/// </summary>
+		/// <param name="ep">the parameter to remove</param>
 		public void RemoveExposedParameter(ExposedParameter ep)
 		{
 			exposedParameters.Remove(ep);
@@ -285,12 +397,21 @@ namespace GraphProcessor
 			onExposedParameterListChanged?.Invoke();
 		}
 
+		/// <summary>
+		/// Remove an exposed parameter
+		/// </summary>
+		/// <param name="guid">GUID of the parameter</param>
 		public void RemoveExposedParameter(string guid)
 		{
 			if (exposedParameters.RemoveAll(e => e.guid == guid) != 0)
 				onExposedParameterListChanged?.Invoke();
 		}
 
+		/// <summary>
+		/// Update an exposed parameter value
+		/// </summary>
+		/// <param name="guid">GUID of the parameter</param>
+		/// <param name="value">new value</param>
 		public void UpdateExposedParameter(string guid, object value)
 		{
 			var param = exposedParameters.Find(e => e.guid == guid);
@@ -304,28 +425,54 @@ namespace GraphProcessor
 			onExposedParameterModified.Invoke(param.guid);
 		}
 
+		/// <summary>
+		/// Update the exposed parameter name
+		/// </summary>
+		/// <param name="parameter">The parameter</param>
+		/// <param name="name">new name</param>
 		public void UpdateExposedParameterName(ExposedParameter parameter, string name)
 		{
 			parameter.name = name;
 			onExposedParameterModified.Invoke(name);
 		}
-		
+
+		/// <summary>
+		/// Update parameter visibility
+		/// </summary>
+		/// <param name="parameter">The parameter</param>
+		/// <param name="isHidden">is Hidden</param>
 		public void UpdateExposedParameterVisibility(ExposedParameter parameter, bool isHidden)
 		{
 			parameter.settings.isHidden = isHidden;
 			onExposedParameterModified.Invoke(name);
 		}
 
+		/// <summary>
+		/// Get the exposed parameter from name
+		/// </summary>
+		/// <param name="name">name</param>
+		/// <returns>the parameter or null</returns>
 		public ExposedParameter GetExposedParameter(string name)
 		{
 			return exposedParameters.FirstOrDefault(e => e.name == name);
 		}
 
+		/// <summary>
+		/// Get exposed parameter from GUID
+		/// </summary>
+		/// <param name="guid">GUID of the parameter</param>
+		/// <returns>The parameter</returns>
 		public ExposedParameter GetExposedParameterFromGUID(string guid)
 		{
 			return exposedParameters.FirstOrDefault(e => e.guid == guid);
 		}
 
+		/// <summary>
+		/// Set parameter value from name. (Warning: the parameter name can be changed by the user)
+		/// </summary>
+		/// <param name="name">name of the parameter</param>
+		/// <param name="value">new value</param>
+		/// <returns>true if the value have been assigned</returns>
 		public bool SetParameterValue(string name, object value)
 		{
 			var e = exposedParameters.FirstOrDefault(p => p.name == name);
@@ -338,8 +485,19 @@ namespace GraphProcessor
 			return true;
 		}
 
+		/// <summary>
+		/// Get the parameter value
+		/// </summary>
+		/// <param name="name">parameter name</param>
+		/// <returns>value</returns>
 		public object GetParameterValue(string name) => exposedParameters.FirstOrDefault(p => p.name == name)?.serializedValue?.value;
 
+		/// <summary>
+		/// Get the parameter value template
+		/// </summary>
+		/// <param name="name">parameter name</param>
+		/// <typeparam name="T">type of the parameter</typeparam>
+		/// <returns>value</returns>
 		public T GetParameterValue< T >(string name) => (T)GetParameterValue(name);
 
 		int UpdateComputeOrder(int depth, BaseNode node)
@@ -416,6 +574,5 @@ namespace GraphProcessor
 
 			return false;
 		}
-
 	}
 }

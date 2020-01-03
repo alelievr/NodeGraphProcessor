@@ -13,12 +13,26 @@ namespace GraphProcessor
 	[Serializable]
 	public abstract class BaseNode
 	{
+		/// <summary>
+		/// Name of the node, it will be displayed in the title section
+		/// </summary>
+		/// <returns></returns>
 		public virtual string       name => GetType().Name;
 
+		/// <summary>
+		/// Set a custom uss file for the node. We use a Resources.Load to get the stylesheet so be sure to put the correct resources path
+		/// https://docs.unity3d.com/ScriptReference/Resources.Load.html
+		/// </summary>
         public virtual string       layoutStyle => string.Empty;
 
+		/// <summary>
+		/// If the node can be locked or not
+		/// </summary>
         public virtual bool         unlockable => true; 
 
+		/// <summary>
+		/// Is the node is locked (if locked it can't be moved)
+		/// </summary>
         public virtual bool         isLocked => nodeLock; 
 
         //id
@@ -27,23 +41,47 @@ namespace GraphProcessor
 		public int					computeOrder = -1;
 		public bool					canProcess = true;
 
+		/// <summary>
+		/// Container of input ports
+		/// </summary>
 		[NonSerialized]
 		public readonly NodeInputPortContainer	inputPorts;
+		/// <summary>
+		/// Container of output ports
+		/// </summary>
 		[NonSerialized]
 		public readonly NodeOutputPortContainer	outputPorts;
 
 		//Node view datas
 		public Rect					position;
+		/// <summary>
+		/// Is the node expanded
+		/// </summary>
 		public bool					expanded;
+		/// <summary>
+		/// Is debug visible
+		/// </summary>
 		public bool					debug;
+		/// <summary>
+		/// Node locked state
+		/// </summary>
         public bool                 nodeLock;
 
         public delegate void		ProcessDelegate();
 
+		/// <summary>
+		/// Triggered when the node is processes
+		/// </summary>
 		public event ProcessDelegate	onProcessed;
 		public event Action< string, NodeMessageType >	onMessageAdded;
 		public event Action< string >					onMessageRemoved;
+		/// <summary>
+		/// Triggered after an edge was connected on the node
+		/// </summary>
 		public event Action< SerializableEdge >			onAfterEdgeConnected;
+		/// <summary>
+		/// Triggered after an edge was disconnected on the node
+		/// </summary>
 		public event Action< SerializableEdge >			onAfterEdgeDisconnected;
 
 		[NonSerialized]
@@ -75,11 +113,23 @@ namespace GraphProcessor
 			}
 		}
 
+		/// <summary>
+		/// Creates a node of type T at a certain position
+		/// </summary>
+		/// <param name="position">position in the graph in pixels</param>
+		/// <typeparam name="T">type of the node</typeparam>
+		/// <returns>the node instance</returns>
 		public static T CreateFromType< T >(Vector2 position) where T : BaseNode
 		{
 			return CreateFromType(typeof(T), position) as T;
 		}
 
+		/// <summary>
+		/// Creates a node of type nodeType at a certain position
+		/// </summary>
+		/// <param name="position">position in the graph in pixels</param>
+		/// <typeparam name="nodeType">type of the node</typeparam>
+		/// <returns>the node instance</returns>
 		public static BaseNode CreateFromType(Type nodeType, Vector2 position)
 		{
 			if (!nodeType.IsSubclassOf(typeof(BaseNode)))
@@ -127,6 +177,9 @@ namespace GraphProcessor
 			InitializeInOutDatas();
 		}
 
+		/// <summary>
+		/// Update all ports of the node
+		/// </summary>
 		public void UpdateAllPorts()
 		{
 			foreach (var field in nodeFields)
@@ -134,7 +187,7 @@ namespace GraphProcessor
 		}
 
 		/// <summary>
-		/// 
+		/// Update the ports related to one C# property field
 		/// </summary>
 		/// <param name="fieldName"></param>
 		public void UpdatePortsForField(string fieldName)
@@ -194,18 +247,12 @@ namespace GraphProcessor
 			}
 		}
 
-		~BaseNode()
-		{
-			Disable();
-		}
+		~BaseNode() => Disable();
 
 		/// <summary>
 		/// Called only when the node is created, not when instantiated
 		/// </summary>
-		public virtual void	OnNodeCreated()
-		{
-			GUID = Guid.NewGuid().ToString();
-		}
+		public virtual void	OnNodeCreated() => GUID = Guid.NewGuid().ToString();
 
 		public virtual FieldInfo[] GetNodeFields()
 			=> GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -304,15 +351,30 @@ namespace GraphProcessor
 			outputPorts.PushDatas();
 		}
 
+		/// <summary>
+		/// Called when the node is enabled
+		/// </summary>
 		protected virtual void Enable() {}
+		/// <summary>
+		/// Called when the node is disabled
+		/// </summary>
 		protected virtual void Disable() {}
 
+		/// <summary>
+		/// Override this method to implement custom processing
+		/// </summary>
 		protected virtual void Process() {}
 
 		#endregion
 
 		#region API and utils
 
+		/// <summary>
+		/// Add a port
+		/// </summary>
+		/// <param name="input">is input port</param>
+		/// <param name="fieldName">C# field name</param>
+		/// <param name="portData">Data of the port</param>
 		public void AddPort(bool input, string fieldName, PortData portData)
 		{
 			if (input)
@@ -321,6 +383,11 @@ namespace GraphProcessor
 				outputPorts.Add(new NodePort(this, fieldName, portData));
 		}
 
+		/// <summary>
+		/// Remove a port
+		/// </summary>
+		/// <param name="input">is input port</param>
+		/// <param name="port">the port to delete</param>
 		public void RemovePort(bool input, NodePort port)
 		{
 			if (input)
@@ -329,6 +396,11 @@ namespace GraphProcessor
 				outputPorts.Remove(port);
 		}
 
+		/// <summary>
+		/// Remove port(s) from field name
+		/// </summary>
+		/// <param name="input">is input</param>
+		/// <param name="fieldName">C# field name</param>
 		public void RemovePort(bool input, string fieldName)
 		{
 			if (input)
@@ -337,13 +409,21 @@ namespace GraphProcessor
 				outputPorts.RemoveAll(p => p.fieldName == fieldName);
 		}
 
+		/// <summary>
+		/// Get all the nodes connected to the input ports of this node
+		/// </summary>
+		/// <returns>an enumerable of node</returns>
 		public IEnumerable< BaseNode > GetInputNodes()
 		{
 			foreach (var port in inputPorts)
 				foreach (var edge in port.GetEdges())
 					yield return edge.outputNode;
-			}
+		}
 
+		/// <summary>
+		/// Get all the nodes connected to the output ports of this node
+		/// </summary>
+		/// <returns>an enumerable of node</returns>
 		public IEnumerable< BaseNode > GetOutputNodes()
 		{
 			foreach (var port in outputPorts)
@@ -351,6 +431,12 @@ namespace GraphProcessor
 					yield return edge.inputNode;
 		}
 
+		/// <summary>
+		/// Get the port from field name and identifier
+		/// </summary>
+		/// <param name="fieldName">C# field name</param>
+		/// <param name="identifier">Unique port identifier</param>
+		/// <returns></returns>
 		public NodePort	GetPort(string fieldName, string identifier)
 		{
 			return inputPorts.Concat(outputPorts).FirstOrDefault(p => {
@@ -359,8 +445,18 @@ namespace GraphProcessor
 			});
 		}
 
+		/// <summary>
+		/// Is the port an input
+		/// </summary>
+		/// <param name="fieldName"></param>
+		/// <returns></returns>
 		public bool IsFieldInput(string fieldName) => nodeFields[fieldName].input;
 
+		/// <summary>
+		/// Add a message on the node
+		/// </summary>
+		/// <param name="message"></param>
+		/// <param name="messageType"></param>
 		public void AddMessage(string message, NodeMessageType messageType)
 		{
 			if (messages.Contains(message))
@@ -370,12 +466,20 @@ namespace GraphProcessor
 			messages.Add(message);
 		}
 
+		/// <summary>
+		/// Remove a message on the node
+		/// </summary>
+		/// <param name="message"></param>
 		public void RemoveMessage(string message)
 		{
 			onMessageRemoved?.Invoke(message);
 			messages.Remove(message);
 		}
 
+		/// <summary>
+		/// Remove a message that contains
+		/// </summary>
+		/// <param name="subMessage"></param>
 		public void RemoveMessageContains(string subMessage)
 		{
 			string toRemove = messages.Find(m => m.Contains(subMessage));
@@ -383,6 +487,9 @@ namespace GraphProcessor
 			onMessageRemoved?.Invoke(toRemove);
 		}
 
+		/// <summary>
+		/// Remove all messages on the node
+		/// </summary>
 		public void ClearMessages()
 		{
 			foreach (var message in messages)

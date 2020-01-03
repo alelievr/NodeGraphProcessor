@@ -4,6 +4,9 @@ using System;
 
 namespace GraphProcessor
 {
+	/// <summary>
+	/// Element that overlays the graph like the blackboard
+	/// </summary>
 	[System.Serializable]
 	public class PinnedElement
 	{

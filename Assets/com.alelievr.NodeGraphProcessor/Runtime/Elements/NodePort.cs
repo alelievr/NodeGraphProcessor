@@ -7,12 +7,26 @@ using System;
 
 namespace GraphProcessor
 {
-	// Class that describe port attributes for it's creation
+	/// <summary>
+	/// Class that describe port attributes for it's creation
+	/// </summary>
 	public class PortData : IEquatable< PortData >
 	{
+		/// <summary>
+		/// Unique identifier for the port
+		/// </summary>
 		public string	identifier;
+		/// <summary>
+		/// Display name on the node
+		/// </summary>
 		public string	displayName;
+		/// <summary>
+		/// The type that will be used for coloring with the type stylesheet
+		/// </summary>
 		public Type		displayType;
+		/// <summary>
+		/// If the port accept multiple connection
+		/// </summary>
 		public bool		acceptMultipleEdges;
 
         public bool Equals(PortData other)
@@ -24,11 +38,26 @@ namespace GraphProcessor
         }
     }
 
+	/// <summary>
+	/// Runtime class that stores all info about one port that is needed for the processing
+	/// </summary>
 	public class NodePort
 	{
+		/// <summary>
+		/// The actual name of the property behind the port (must be exact, it is used for Reflection)
+		/// </summary>
 		public string				fieldName;
+		/// <summary>
+		/// The node on which the port is
+		/// </summary>
 		public BaseNode				owner;
+		/// <summary>
+		/// The fieldInfo from the fieldName
+		/// </summary>
 		public FieldInfo			fieldInfo;
+		/// <summary>
+		/// Data of the port
+		/// </summary>
 		public PortData				portData;
 		List< SerializableEdge >	edges = new List< SerializableEdge >();
 		Dictionary< SerializableEdge, PushDataDelegate >	pushDataDelegates = new Dictionary< SerializableEdge, PushDataDelegate >();
@@ -36,8 +65,19 @@ namespace GraphProcessor
 
 		CustomPortIODelegate		customPortIOMethod;
 
+		/// <summary>
+		/// Delegate that is made to send the data from this port to another port connected through an edge
+		/// This is an optimization compared to dynamically setting values using Reflection (which is really slow)
+		/// More info: https://codeblog.jonskeet.uk/2008/08/09/making-reflection-fly-and-exploring-delegates/
+		/// </summary>
 		public delegate void PushDataDelegate();
 
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="owner">owner node</param>
+		/// <param name="fieldName">the C# property name</param>
+		/// <param name="portData">Data of the port</param>
 		public NodePort(BaseNode owner, string fieldName, PortData portData)
 		{
 			this.fieldName = fieldName;
@@ -49,6 +89,10 @@ namespace GraphProcessor
 			customPortIOMethod = CustomPortIO.GetCustomPortMethod(owner.GetType(), fieldName);
 		}
 
+		/// <summary>
+		/// Connect an edge to this port
+		/// </summary>
+		/// <param name="edge"></param>
 		public void Add(SerializableEdge edge)
 		{
 			if (!edges.Contains(edge))
@@ -118,18 +162,26 @@ namespace GraphProcessor
 			}
 		}
 
+		/// <summary>
+		/// Disconnect an Edge from this port
+		/// </summary>
+		/// <param name="edge"></param>
 		public void Remove(SerializableEdge edge)
 		{
 			pushDataDelegates.Remove(edge);
 			edges.Remove(edge);
 		}
 
-		public List< SerializableEdge > GetEdges()
-		{
-			return edges;
-		}
+		/// <summary>
+		/// Get all the edges connected to this port
+		/// </summary>
+		/// <returns></returns>
+		public List< SerializableEdge > GetEdges() => edges;
 
-		//This method can only be called on output ports
+		/// <summary>
+		/// Push the value of the port through the edges
+		/// This method can only be called on output ports
+		/// </summary>
 		public void PushData()
 		{
 			if (customPortIOMethod != null)
@@ -150,7 +202,10 @@ namespace GraphProcessor
 				edge.passThroughBuffer = ourValue;
 		}
 
-		// This method can only be called on input ports
+		/// <summary>
+		/// Pull values from the edge (in case of a custom convertion method)
+		/// This method can only be called on input ports
+		/// </summary>
 		public void PullData()
 		{
 			if (customPortIOMethod != null)
@@ -169,6 +224,9 @@ namespace GraphProcessor
 		}
 	}
 
+	/// <summary>
+	/// Container of ports and the edges connected to these ports
+	/// </summary>
 	public abstract class NodePortContainer : List< NodePort >
 	{
 		protected BaseNode node;
@@ -178,11 +236,19 @@ namespace GraphProcessor
 			this.node = node;
 		}
 
+		/// <summary>
+		/// Remove an edge that is connected to one of the node in the container
+		/// </summary>
+		/// <param name="edge"></param>
 		public void Remove(SerializableEdge edge)
 		{
 			ForEach(p => p.Remove(edge));
 		}
 
+		/// <summary>
+		/// Add an edge that is connected to one of the node in the container
+		/// </summary>
+		/// <param name="edge"></param>
 		public void Add(SerializableEdge edge)
 		{
 			string portFieldName = (edge.inputNode == node) ? edge.inputFieldName : edge.outputFieldName;
@@ -207,6 +273,7 @@ namespace GraphProcessor
 		}
 	}
 
+	/// <inheritdoc/>
 	public class NodeInputPortContainer : NodePortContainer
 	{
 		public NodeInputPortContainer(BaseNode node) : base(node) {}
@@ -217,6 +284,7 @@ namespace GraphProcessor
 		}
 	}
 
+	/// <inheritdoc/>
 	public class NodeOutputPortContainer : NodePortContainer
 	{
 		public NodeOutputPortContainer(BaseNode node) : base(node) {}

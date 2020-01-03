@@ -5,12 +5,20 @@ using System;
 
 namespace GraphProcessor
 {
+	/// <summary>
+	/// Tell that this field is will generate an input port
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
 	public class InputAttribute : Attribute
 	{
 		public string		name;
 		public bool			allowMultiple = false;
 
+		/// <summary>
+		/// Mark the field as an input port
+		/// </summary>
+		/// <param name="name">display name</param>
+		/// <param name="allowMultiple">is connecting multiple edges allowed</param>
 		public InputAttribute(string name = null, bool allowMultiple = false)
 		{
 			this.name = name;
@@ -18,12 +26,20 @@ namespace GraphProcessor
 		}
 	}
 
+	/// <summary>
+	/// Tell that this field is will generate an output port
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
 	public class OutputAttribute : Attribute
 	{
 		public string		name;
 		public bool			allowMultiple = true;
 
+		/// <summary>
+		/// Mark the field as an output port
+		/// </summary>
+		/// <param name="name">display name</param>
+		/// <param name="allowMultiple">is connecting multiple edges allowed</param>
 		public OutputAttribute(string name = null, bool allowMultiple = true)
 		{
 			this.name = name;
@@ -31,28 +47,45 @@ namespace GraphProcessor
 		}
 	}
 
+	/// <summary>
+	/// Register the node in the NodeProvider class. The node will also be available in the node creation window.
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 	public class NodeMenuItemAttribute : Attribute
 	{
 		public string	menuTitle;
 
+		/// <summary>
+		/// Register the node in the NodeProvider class. The node will also be available in the node creation window.
+		/// </summary>
+		/// <param name="menuTitle">Path in the menu, use / as folder separators</param>
 		public NodeMenuItemAttribute(string menuTitle = null)
 		{
 			this.menuTitle = menuTitle;
 		}
 	}
 
+	/// <summary>
+	/// Set a custom drawer for a field. It can then be created using the FieldFactory
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 	public class FieldDrawerAttribute : Attribute
 	{
 		public Type		fieldType;
 
+		/// <summary>
+		/// Register a custom view for a type in the FieldFactory class
+		/// </summary>
+		/// <param name="fieldType"></param>
 		public FieldDrawerAttribute(Type fieldType)
 		{
 			this.fieldType = fieldType;
 		}
 	}
 
+	/// <summary>
+	/// Allow you to customize the input function of a port
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 	public class CustomPortInputAttribute : Attribute
 	{
@@ -60,6 +93,13 @@ namespace GraphProcessor
 		public Type		inputType;
 		public bool		allowCast;
 
+		/// <summary>
+		/// Allow you to customize the input function of a port.
+		/// See CustomPortsNode example in Samples.
+		/// </summary>
+		/// <param name="fieldName">local field of the node</param>
+		/// <param name="inputType">type of input of the port</param>
+		/// <param name="allowCast">if cast is allowed when connecting an edge</param>
 		public CustomPortInputAttribute(string fieldName, Type inputType, bool allowCast = true)
 		{
 			this.fieldName = fieldName;
@@ -68,6 +108,9 @@ namespace GraphProcessor
 		}
 	}
 
+	/// <summary>
+	/// Allow you to customize the input function of a port
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 	public class CustomPortOutputAttribute : Attribute
 	{
@@ -75,6 +118,13 @@ namespace GraphProcessor
 		public Type		outputType;
 		public bool		allowCast;
 
+		/// <summary>
+		/// Allow you to customize the output function of a port.
+		/// See CustomPortsNode example in Samples.
+		/// </summary>
+		/// <param name="fieldName">local field of the node</param>
+		/// <param name="inputType">type of input of the port</param>
+		/// <param name="allowCast">if cast is allowed when connecting an edge</param>
 		public CustomPortOutputAttribute(string fieldName, Type outputType, bool allowCast = true)
 		{
 			this.fieldName = fieldName;
@@ -83,13 +133,20 @@ namespace GraphProcessor
 		}
 	}
 
-	// Note: The attached function must have this prototype:
-	// IEnumerable< PortData > MyCustomPortFunction(List< SerializableEdge > edges);
+	/// <summary>
+	/// Allow you to modify the generated port view from a field. Can be used to generate multiple ports from one field.
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 	public class CustomPortBehaviorAttribute : Attribute
 	{
 		public string		fieldName;
 
+		/// <summary>
+		/// Allow you to modify the generated port view from a field. Can be used to generate multiple ports from one field.
+		/// You must add this attribute on a function of this signature
+		/// IEnumerable< PortData > MyCustomPortFunction(List< SerializableEdge > edges);
+		/// </summary>
+		/// <param name="fieldName">local node field name</param>
 		public CustomPortBehaviorAttribute(string fieldName)
 		{
 			this.fieldName = fieldName;

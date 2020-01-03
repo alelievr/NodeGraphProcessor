@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace GraphProcessor
 {
+	/// <summary>
+	/// Group the selected node when created
+	/// </summary>
 	[System.Serializable]
 	public class CommentBlock
 	{

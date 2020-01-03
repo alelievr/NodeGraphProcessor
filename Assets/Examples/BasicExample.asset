@@ -167,5 +167,5 @@ MonoBehaviour:
     input: 1
     settings:
       isHidden: 0
-  position: {x: 451, y: -79, z: 0}
-  scale: {x: 1.520875, y: 1.520875, z: 1}
+  position: {x: 377, y: 149, z: 0}
+  scale: {x: 1, y: 1, z: 1}

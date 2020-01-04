@@ -144,7 +144,9 @@ namespace GraphProcessor
 		/// <summary>
 		/// Allow you to modify the generated port view from a field. Can be used to generate multiple ports from one field.
 		/// You must add this attribute on a function of this signature
-		/// IEnumerable< PortData > MyCustomPortFunction(List< SerializableEdge > edges);
+		/// <code>
+		/// IEnumerable&lt;PortData&gt; MyCustomPortFunction(List&lt;SerializableEdge&gt; edges);
+		/// </code>
 		/// </summary>
 		/// <param name="fieldName">local node field name</param>
 		public CustomPortBehaviorAttribute(string fieldName)

@@ -38,6 +38,12 @@ Note that you'll not have access to the examples provided in this repo because t
 
 More details are available [in the Changelog](CHANGELOG.md)
 
+### Documentation
+
+API doc is available here: [alelievr.github.io/NodeGraphProcessor](https://alelievr.github.io/NodeGraphProcessor/api/index.html)
+
+The user manual is hosted using [Github Wiki](https://github.com/alelievr/NodeGraphProcessor/wiki).
+
 ### Remaining to do
 
 - Investigate for ECS/Jobs integration

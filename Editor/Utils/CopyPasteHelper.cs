@@ -9,6 +9,6 @@ namespace GraphProcessor
 	{
 		public List< JsonElement >	copiedNodes = new List< JsonElement >();
 
-		public List< JsonElement >	copiedCommentBlocks = new List< JsonElement >();
+		public List< JsonElement >	copiedGroups = new List< JsonElement >();
 	}
 }

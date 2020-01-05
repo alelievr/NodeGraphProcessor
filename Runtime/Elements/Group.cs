@@ -8,7 +8,7 @@ namespace GraphProcessor
 	/// Group the selected node when created
 	/// </summary>
 	[System.Serializable]
-	public class CommentBlock
+	public class Group
 	{
 		public string			title;
 		public Color			color = new Color(0, 0, 0, 0.3f);
@@ -17,7 +17,7 @@ namespace GraphProcessor
 
 		public List< string >	innerNodeGUIDs = new List< string >();
 
-        public CommentBlock(string title, Vector2 position)
+        public Group(string title, Vector2 position)
 		{
 			this.title = title;
             this.position.position = position;

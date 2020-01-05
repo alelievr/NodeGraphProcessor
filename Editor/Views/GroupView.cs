@@ -7,24 +7,24 @@ using System.Collections.Generic;
 
 namespace GraphProcessor
 {
-    public class CommentBlockView : Group
+    public class GroupView : UnityEditor.Experimental.GraphView.Group
 	{
 		public BaseGraphView	owner;
-		public CommentBlock		commentBlock;
+		public Group		group;
 
         Label                   titleLabel;
         ColorField              colorField;
 
-        readonly string         commentBlockStyle = "GraphProcessorStyles/CommentBlockView";
+        readonly string         groupStyle = "GraphProcessorStyles/GroupView";
 
-        public CommentBlockView()
+        public GroupView()
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(commentBlockStyle));
+            styleSheets.Add(Resources.Load<StyleSheet>(groupStyle));
 		}
 
-		public void Initialize(BaseGraphView graphView, CommentBlock block)
+		public void Initialize(BaseGraphView graphView, Group block)
 		{
-			commentBlock = block;
+			group = block;
 			owner = graphView;
 
             title = block.title;
@@ -33,12 +33,12 @@ namespace GraphProcessor
             headerContainer.Q<TextField>().RegisterCallback<ChangeEvent<string>>(TitleChangedCallback);
             titleLabel = headerContainer.Q<Label>();
 
-            colorField = new ColorField{ value = commentBlock.color, name = "headerColorPicker" };
+            colorField = new ColorField{ value = group.color, name = "headerColorPicker" };
             colorField.RegisterValueChangedCallback(e =>
             {
-                UpdateCommentBlockColor(e.newValue);
+                UpdateGroupColor(e.newValue);
             });
-            UpdateCommentBlockColor(commentBlock.color);
+            UpdateGroupColor(group.color);
 
             headerContainer.Add(colorField);
 
@@ -47,7 +47,7 @@ namespace GraphProcessor
 
         void InitializeInnerNodes()
         {
-            foreach (var nodeGUID in commentBlock.innerNodeGUIDs)
+            foreach (var nodeGUID in group.innerNodeGUIDs)
             {
                 if (!owner.graph.nodesPerGUID.ContainsKey(nodeGUID))
                 {
@@ -71,28 +71,28 @@ namespace GraphProcessor
                 if (node == null)
                     throw new System.ArgumentException("Adding another thing than node is not currently supported");
 
-                if (!commentBlock.innerNodeGUIDs.Contains(node.nodeTarget.GUID))
-                    commentBlock.innerNodeGUIDs.Add(node.nodeTarget.GUID);
+                if (!group.innerNodeGUIDs.Contains(node.nodeTarget.GUID))
+                    group.innerNodeGUIDs.Add(node.nodeTarget.GUID);
             }
             base.OnElementsAdded(elements);
         }
 
-        public void UpdateCommentBlockColor(Color newColor)
+        public void UpdateGroupColor(Color newColor)
         {
-            commentBlock.color = newColor;
+            group.color = newColor;
             style.backgroundColor = newColor;
         }
 
         void TitleChangedCallback(ChangeEvent< string > e)
         {
-            commentBlock.title = e.newValue;
+            group.title = e.newValue;
         }
 
 		public override void SetPosition(Rect newPos)
 		{
 			base.SetPosition(newPos);
 
-			commentBlock.position = newPos;
+			group.position = newPos;
 		}
 	}
 }

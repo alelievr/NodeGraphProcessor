@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System;
+using UnityEngine.Serialization;
 
 namespace GraphProcessor
 {
@@ -30,8 +31,8 @@ namespace GraphProcessor
 		public SerializableEdge	addedEdge;
 		public BaseNode			removedNode;
 		public BaseNode			addedNode;
-		public CommentBlock		addedCommentBlock;
-		public CommentBlock		removedCommentBlock;
+		public Group			addedGroups;
+		public Group			removedGroups;
 	}
 
 	[System.Serializable]
@@ -83,10 +84,10 @@ namespace GraphProcessor
 		/// <summary>
 		/// All groups in the graph
 		/// </summary>
-		/// <typeparam name="CommentBlock"></typeparam>
+		/// <typeparam name="Group"></typeparam>
 		/// <returns></returns>
-        [SerializeField]
-        public List< CommentBlock >                     commentBlocks = new List< CommentBlock >();
+        [SerializeField, FormerlySerializedAs("commentBlocks")]
+        public List< Group >                     		groups = new List< Group >();
 
 		/// <summary>
 		/// All pinned elements in the graph
@@ -255,20 +256,20 @@ namespace GraphProcessor
 		/// Add a group
 		/// </summary>
 		/// <param name="block"></param>
-        public void AddCommentBlock(CommentBlock block)
+        public void AddGroup(Group block)
         {
-            commentBlocks.Add(block);
-			onGraphChanges?.Invoke(new GraphChanges{ addedCommentBlock = block });
+            groups.Add(block);
+			onGraphChanges?.Invoke(new GraphChanges{ addedGroups = block });
         }
 
 		/// <summary>
 		/// Removes a group
 		/// </summary>
 		/// <param name="block"></param>
-        public void RemoveCommentBlock(CommentBlock block)
+        public void RemoveGroup(Group block)
         {
-            commentBlocks.Remove(block);
-			onGraphChanges?.Invoke(new GraphChanges{ removedCommentBlock = block });
+            groups.Remove(block);
+			onGraphChanges?.Invoke(new GraphChanges{ removedGroups = block });
         }
 
 		/// <summary>

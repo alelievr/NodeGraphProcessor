@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: ExposedGetProperties
   m_EditorClassIdentifier: 
   serializedNodes:
-  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"1b4c4205-a083-42c6-815d-089394975a21","computeOrder":5,"canProcess":true,"position":{"serializedVersion":"2","x":460.0,"y":45.0,"width":84.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"581cdd8d-fee9-4d82-bc6f-cbacd7ddc15b","accessor":1}'
-  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"d27bb2f4-f1df-433b-a124-464d64479ebb","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":174.0,"y":-37.0,"width":74.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"ae7b8636-b4ca-4259-afac-f09ff0dc0ad4","accessor":0}'
   - type: MultiAddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"73ecc83f-695a-45b9-baab-1577a4f64bcc","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":293.0,"y":79.0,"width":122.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":46.0}'
-  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"fddbdd73-775e-4b42-b959-90c91f0994ea","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":168.0,"y":81.0,"width":74.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"ae7b8636-b4ca-4259-afac-f09ff0dc0ad4","accessor":0}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"7a99c438-c7a4-4119-8a43-3c97f352dd7d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":164.0,"y":192.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0,"input":0.0}'
@@ -185,7 +185,7 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: 
     outputPortIdentifier: 
-  commentBlocks: []
+  groups: []
   pinnedElements:
   - position:
       serializedVersion: 2
@@ -217,22 +217,38 @@ MonoBehaviour:
     editorType:
       serializedType: ConditionalProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters:
   - guid: ae7b8636-b4ca-4259-afac-f09ff0dc0ad4
     name: Input
     type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     serializedValue:
-      serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
       serializedName: 
       serializedValue: 23
     input: 1
+    settings:
+      isHidden: 0
   - guid: 581cdd8d-fee9-4d82-bc6f-cbacd7ddc15b
     name: Output
     type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     serializedValue:
-      serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
       serializedName: 
       serializedValue: 46
     input: 1
+    settings:
+      isHidden: 0
   position: {x: -348, y: -369, z: 0}
   scale: {x: 1.15, y: 1.15, z: 1}

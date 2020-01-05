@@ -26,7 +26,7 @@ namespace GraphProcessor
 		public List< BaseNodeView >					nodeViews = new List< BaseNodeView >();
 		public Dictionary< BaseNode, BaseNodeView >	nodeViewsPerNode = new Dictionary< BaseNode, BaseNodeView >();
 		public List< EdgeView >						edgeViews = new List< EdgeView >();
-        public List< CommentBlockView >         	commentBlockViews = new List< CommentBlockView >();
+        public List< GroupView >         			groupViews = new List< GroupView >();
 
 		Dictionary< Type, PinnedElementView >		pinnedElements = new Dictionary< Type, PinnedElementView >();
 
@@ -75,12 +75,12 @@ namespace GraphProcessor
 
 		protected override bool canCopySelection
 		{
-            get { return selection.Any(e => e is BaseNodeView || e is CommentBlockView); }
+            get { return selection.Any(e => e is BaseNodeView || e is GroupView); }
 		}
 
 		protected override bool canCutSelection
 		{
-            get { return selection.Any(e => e is BaseNodeView || e is CommentBlockView); }
+            get { return selection.Any(e => e is BaseNodeView || e is GroupView); }
 		}
 
 		string SerializeGraphElementsCallback(IEnumerable<GraphElement> elements)
@@ -93,10 +93,10 @@ namespace GraphProcessor
 				data.copiedNodes.Add(JsonSerializer.SerializeNode(node));
 			}
 
-			foreach (var commentBlockView in elements.Where(e => e is CommentBlockView))
+			foreach (var groupView in elements.Where(e => e is GroupView))
 			{
-				var commentBlock = (commentBlockView as CommentBlockView).commentBlock;
-				data.copiedCommentBlocks.Add(JsonSerializer.Serialize(commentBlock));
+				var group = (groupView as GroupView).group;
+				data.copiedGroups.Add(JsonSerializer.Serialize(group));
 			}
 
 
@@ -138,15 +138,15 @@ namespace GraphProcessor
 				AddToSelection(nodeViewsPerNode[node]);
 			}
 
-            foreach (var serializedCommentBlock in data.copiedCommentBlocks)
+            foreach (var serializedGroup in data.copiedGroups)
             {
-                var commentBlock = JsonSerializer.Deserialize<CommentBlock>(serializedCommentBlock);
+                var group = JsonSerializer.Deserialize<Group>(serializedGroup);
 
                 //Same than for node
-                commentBlock.OnCreated();
-                commentBlock.position.position += new Vector2(20, 20);
+                group.OnCreated();
+                group.position.position += new Vector2(20, 20);
 
-                AddCommentBlock(commentBlock);
+                AddGroup(group);
             }
 		}
 
@@ -160,7 +160,7 @@ namespace GraphProcessor
 				changes.elementsToRemove.RemoveAll(e => {
 					var edge = e as EdgeView;
 					var node = e as BaseNodeView;
-                    var commentBlock = e as CommentBlockView;
+                    var group = e as GroupView;
 					var blackboardField = e as ExposedParameterFieldView;
 
 					if (edge != null)
@@ -175,10 +175,10 @@ namespace GraphProcessor
 						RemoveElement(node);
 						return true;
 					}
-                    else if (commentBlock != null)
+                    else if (group != null)
                     {
-                        graph.RemoveCommentBlock(commentBlock.commentBlock);
-                        RemoveElement(commentBlock);
+                        graph.RemoveGroup(group.group);
+                        RemoveElement(group);
                         return true;
                     }
 					else if (blackboardField != null)
@@ -213,10 +213,10 @@ namespace GraphProcessor
 
         void ElementResizedCallback(VisualElement elem)
         {
-            var commentBlockView = elem as CommentBlockView;
+            var groupView = elem as GroupView;
 
-            if (commentBlockView != null)
-                commentBlockView.commentBlock.size = commentBlockView.GetPosition().size;
+            if (groupView != null)
+                groupView.group.size = groupView.GetPosition().size;
         }
 
 		public override List< Port > GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -242,14 +242,14 @@ namespace GraphProcessor
 
 			return compatiblePorts;
 		}
-		
+
 		/// <summary>
 		/// Build the contextual menu shown when right clicking inside the graph view
 		/// </summary>
 		/// <param name="evt"></param>
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
-			BuildCommentBlockContextualMenu(evt);
+			BuildGroupContextualMenu(evt);
 			BuildViewContextualMenu(evt);
 			base.BuildContextualMenu(evt);
 			BuildSelectAssetContextualMenu(evt);
@@ -257,10 +257,10 @@ namespace GraphProcessor
 			BuildHelpContextualMenu(evt);
 		}
 
-		protected void BuildCommentBlockContextualMenu(ContextualMenuPopulateEvent evt)
+		protected void BuildGroupContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			Vector2 position = evt.mousePosition - (Vector2)viewTransform.position;
-            evt.menu.AppendAction("Comment Block", (e) => AddSelectionsToCommentBlock(AddCommentBlock(new CommentBlock("New Comment Block", position))), DropdownMenuAction.AlwaysEnabled);
+            evt.menu.AppendAction("Group", (e) => AddSelectionsToGroup(AddGroup(new Group("New Group", position))), DropdownMenuAction.AlwaysEnabled);
 		}
 
 		protected void BuildViewContextualMenu(ContextualMenuPopulateEvent evt)
@@ -361,12 +361,12 @@ namespace GraphProcessor
 			// Remove everything
 			RemoveNodeViews();
 			RemoveEdges();
-			RemoveCommentBlocks();
+			RemoveGroups();
 
 			// And re-add with new up to date datas
 			InitializeNodeViews();
 			InitializeEdgeViews();
-            InitializeCommentBlocks();
+            InitializeGroups();
 
 			Reload();
 
@@ -389,7 +389,7 @@ namespace GraphProcessor
 			InitializeNodeViews();
 			InitializeEdgeViews();
 			InitializeViews();
-            InitializeCommentBlocks();
+            InitializeGroups();
 
 			UpdateComputeOrder();
 
@@ -446,10 +446,10 @@ namespace GraphProcessor
 			}
 		}
 
-        void InitializeCommentBlocks()
+        void InitializeGroups()
         {
-            foreach (var commentBlock in graph.commentBlocks)
-                AddCommentBlockView(commentBlock);
+            foreach (var group in graph.groups)
+                AddGroupView(group);
         }
 
 		protected virtual void InitializeManipulators()
@@ -512,32 +512,32 @@ namespace GraphProcessor
 			nodeViewsPerNode.Clear();
 		}
 
-        public CommentBlockView AddCommentBlock(CommentBlock block)
+        public GroupView AddGroup(Group block)
         {
-            graph.AddCommentBlock(block);
+            graph.AddGroup(block);
             block.OnCreated();
-            return AddCommentBlockView(block);
+            return AddGroupView(block);
         }
 
-		public CommentBlockView AddCommentBlockView(CommentBlock block)
+		public GroupView AddGroupView(Group block)
 		{
-			var c = new CommentBlockView();
+			var c = new GroupView();
 
 			c.Initialize(this, block);
 
 			AddElement(c);
 
-            commentBlockViews.Add(c);
+            groupViews.Add(c);
             return c;
 		}
 
-        public void AddSelectionsToCommentBlock(CommentBlockView view)
+        public void AddSelectionsToGroup(GroupView view)
         {
             foreach (var selectedNode in selection)
             {
                 if (selectedNode is BaseNodeView)
                 {
-                    if (commentBlockViews.Exists(x => x.ContainsElement(selectedNode as BaseNodeView)))
+                    if (groupViews.Exists(x => x.ContainsElement(selectedNode as BaseNodeView)))
                         continue;
 
                     view.AddElement(selectedNode as BaseNodeView);
@@ -545,11 +545,11 @@ namespace GraphProcessor
             }
         }
 
-		public void RemoveCommentBlocks()
+		public void RemoveGroups()
 		{
-			foreach (var commentBlockView in commentBlockViews)
-				RemoveElement(commentBlockView);
-			commentBlockViews.Clear();
+			foreach (var groupView in groupViews)
+				RemoveElement(groupView);
+			groupViews.Clear();
 		}
 
 		public bool ConnectView(EdgeView e, bool autoDisconnectInputs = true)

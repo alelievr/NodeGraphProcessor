@@ -33,8 +33,9 @@ Note that you'll not have access to the examples provided in this repo because t
 - Exposed parameters that can be set per-asset to customize the graph processing from scripts or the inspector
 - Parameter set mode, you can now output data from thegraph using exposed parameters. Their values will be updated when the graph is processed
 - Search window to create new nodes
-- Colored comment blocks (node groups)
+- Colored groups
 - Node messages (small message with it's icon beside the node)
+- Stack Nodes
 
 More details are available [in the Changelog](CHANGELOG.md)
 
@@ -66,3 +67,5 @@ For more details consult our [trello](https://trello.com/b/Xk4rfnuV/node-graph-p
 ![](https://user-images.githubusercontent.com/6877923/71757124-c34e9a00-2e93-11ea-900c-63ecd772af3f.gif)
 ![](https://user-images.githubusercontent.com/6877923/63230815-51dabb80-c212-11e9-9d54-382e649e77f1.png)
 ![](https://user-images.githubusercontent.com/6877923/69500269-e469b580-0ef9-11ea-9c4b-f58e793f7ecd.gif)
+![](https://user-images.githubusercontent.com/6877923/71782933-25b4b100-2fe0-11ea-9b57-0198f7161535.gif)
+

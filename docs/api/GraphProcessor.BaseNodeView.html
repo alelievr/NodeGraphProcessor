@@ -1,0 +1,1967 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class BaseNodeView
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class BaseNodeView
+   ">
+    <meta name="generator" content="docfx 2.48.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="GraphProcessor.BaseNodeView">
+  
+  
+  <h1 id="GraphProcessor_BaseNodeView" data-uid="GraphProcessor.BaseNodeView" class="text-break">Class BaseNodeView
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">UnityEngine.UIElements.CallbackEventHandler</span></div>
+    <div class="level2"><span class="xref">UnityEngine.UIElements.Focusable</span></div>
+    <div class="level3"><span class="xref">UnityEngine.UIElements.VisualElement</span></div>
+    <div class="level4"><span class="xref">UnityEditor.Experimental.GraphView.GraphElement</span></div>
+    <div class="level5"><span class="xref">UnityEditor.Experimental.GraphView.Node</span></div>
+    <div class="level6"><span class="xref">BaseNodeView</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">UnityEngine.UIElements.IEventHandler</span></div>
+    <div><span class="xref">UnityEngine.UIElements.ITransform</span></div>
+    <div><span class="xref">UnityEngine.UIElements.Experimental.ITransitionAnimations</span></div>
+    <div><span class="xref">UnityEngine.UIElements.IExperimentalFeatures</span></div>
+    <div><span class="xref">UnityEngine.UIElements.IVisualElementScheduler</span></div>
+    <div><span class="xref">UnityEngine.UIElements.IResolvedStyle</span></div>
+    <div><span class="xref">UnityEditor.Experimental.GraphView.ISelectable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.m_CollapseButton</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.m_ButtonContainer</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.RefreshExpandedState()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.GetPosition()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.OnPortRemoved(UnityEditor.Experimental.GraphView.Port)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.InstantiatePort(UnityEditor.Experimental.GraphView.Orientation, UnityEditor.Experimental.GraphView.Direction, UnityEditor.Experimental.GraphView.Port.Capacity, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.ToggleCollapse()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.UseDefaultStyling()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.mainContainer</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.titleContainer</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.inputContainer</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.outputContainer</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.titleButtonContainer</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.topContainer</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.extensionContainer</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.Node.title</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.ResetLayer()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.OnCustomStyleResolved(UnityEngine.UIElements.ICustomStyle)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.IsSelectable()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.IsMovable()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.IsResizable()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.IsDroppable()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.IsAscendable()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.IsRenamable()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.GetGlobalCenter()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.UpdatePresenterPosition()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.OnSelected()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.OnUnselected()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.HitTest(UnityEngine.Vector2)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.Select(UnityEngine.UIElements.VisualElement, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.Unselect(UnityEngine.UIElements.VisualElement)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.IsSelected(UnityEngine.UIElements.VisualElement)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.elementTypeColor</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.layer</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.capabilities</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.GraphElement.selected</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.disabledUssClassName</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.ExecuteDefaultAction(UnityEngine.UIElements.EventBase)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.Focus()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.SendEvent(UnityEngine.UIElements.EventBase)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.SetEnabledFromHierarchy(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.SetEnabled(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.MarkDirtyRepaint()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.ContainsPoint(UnityEngine.Vector2)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.Overlaps(UnityEngine.Rect)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.DoMeasure(System.Single, UnityEngine.UIElements.VisualElement.MeasureMode, System.Single, UnityEngine.UIElements.VisualElement.MeasureMode)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.GetClasses()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.ClearClassList()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.AddToClassList(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.RemoveFromClassList(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.ToggleInClassList(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.EnableInClassList(System.String, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.ClassListContains(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.FindAncestorUserData()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(System.Single, System.Single, System.Int32, System.Action&lt;UnityEngine.UIElements.VisualElement, System.Single&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(UnityEngine.Rect, UnityEngine.Rect, System.Int32, System.Action&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Rect&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(UnityEngine.Color, UnityEngine.Color, System.Int32, System.Action&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Color&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(UnityEngine.Vector3, UnityEngine.Vector3, System.Int32, System.Action&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Vector3&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(UnityEngine.Vector2, UnityEngine.Vector2, System.Int32, System.Action&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Vector2&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(UnityEngine.Quaternion, UnityEngine.Quaternion, System.Int32, System.Action&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Quaternion&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(UnityEngine.UIElements.Experimental.StyleValues, UnityEngine.UIElements.Experimental.StyleValues, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(System.Func&lt;UnityEngine.UIElements.VisualElement, System.Single&gt;, System.Single, System.Int32, System.Action&lt;UnityEngine.UIElements.VisualElement, System.Single&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(System.Func&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Rect&gt;, UnityEngine.Rect, System.Int32, System.Action&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Rect&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(System.Func&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Color&gt;, UnityEngine.Color, System.Int32, System.Action&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Color&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(System.Func&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Vector3&gt;, UnityEngine.Vector3, System.Int32, System.Action&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Vector3&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(System.Func&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Vector2&gt;, UnityEngine.Vector2, System.Int32, System.Action&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Vector2&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(System.Func&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Quaternion&gt;, UnityEngine.Quaternion, System.Int32, System.Action&lt;UnityEngine.UIElements.VisualElement, UnityEngine.Quaternion&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Start(UnityEngine.UIElements.Experimental.StyleValues, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Layout(UnityEngine.Rect, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.TopLeft(UnityEngine.Vector2, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Size(UnityEngine.Vector2, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Scale(System.Single, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Position(UnityEngine.Vector3, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.Experimental.ITransitionAnimations.Rotation(UnityEngine.Quaternion, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.Add(UnityEngine.UIElements.VisualElement)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.Insert(System.Int32, UnityEngine.UIElements.VisualElement)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.Remove(UnityEngine.UIElements.VisualElement)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.RemoveAt(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.Clear()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.ElementAt(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.IndexOf(UnityEngine.UIElements.VisualElement)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.Children()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.Sort(System.Comparison&lt;UnityEngine.UIElements.VisualElement&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.BringToFront()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.SendToBack()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.PlaceBehind(UnityEngine.UIElements.VisualElement)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.PlaceInFront(UnityEngine.UIElements.VisualElement)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.RemoveFromHierarchy()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.GetFirstOfType&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.GetFirstAncestorOfType&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.Contains(UnityEngine.UIElements.VisualElement)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.FindCommonAncestor(UnityEngine.UIElements.VisualElement)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IVisualElementScheduler.Execute(System.Action&lt;UnityEngine.UIElements.TimerState&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IVisualElementScheduler.Execute(System.Action)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.viewDataKey</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.userData</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.canGrabFocus</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.focusController</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.usageHints</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.transform</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.ITransform.position</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.ITransform.rotation</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.ITransform.scale</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.ITransform.matrix</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.layout</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.contentRect</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.paddingRect</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.worldBound</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.localBound</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.worldTransform</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.pickingMode</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.name</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.enabledInHierarchy</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.enabledSelf</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.visible</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.generateVisualContent</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.experimental</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IExperimentalFeatures.animation</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.hierarchy</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.cacheAsBitmap</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.parent</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.panel</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.contentContainer</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.Item[System.Int32]</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.childCount</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.schedule</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.style</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.customStyle</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.resolvedStyle</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.width</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.height</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.maxWidth</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.maxHeight</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.minWidth</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.minHeight</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.flexBasis</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.flexGrow</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.flexShrink</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.flexDirection</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.flexWrap</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.left</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.top</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.right</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.bottom</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.marginLeft</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.marginTop</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.marginRight</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.marginBottom</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.paddingLeft</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.paddingTop</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.paddingRight</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.paddingBottom</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.position</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.alignSelf</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.unityTextAlign</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.unityFontStyleAndWeight</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.fontSize</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.whiteSpace</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.color</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.backgroundColor</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.borderColor</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.unityFont</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.unityBackgroundScaleMode</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.unityBackgroundImageTintColor</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.alignItems</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.alignContent</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.justifyContent</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.borderLeftColor</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.borderRightColor</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.borderTopColor</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.borderBottomColor</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.borderLeftWidth</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.borderRightWidth</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.borderTopWidth</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.borderBottomWidth</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.borderTopLeftRadius</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.borderTopRightRadius</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.borderBottomLeftRadius</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.borderBottomRightRadius</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.unitySliceLeft</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.unitySliceTop</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.unitySliceRight</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.unitySliceBottom</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.opacity</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.visibility</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.UnityEngine.UIElements.IResolvedStyle.display</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.styleSheets</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.VisualElement.tooltip</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.Focusable.Blur()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.Focusable.focusable</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.Focusable.tabIndex</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.Focusable.delegatesFocus</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.CallbackEventHandler.RegisterCallback&lt;TEventType&gt;(UnityEngine.UIElements.EventCallback&lt;TEventType&gt;, UnityEngine.UIElements.TrickleDown)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.CallbackEventHandler.RegisterCallback&lt;TEventType, TUserArgsType&gt;(UnityEngine.UIElements.EventCallback&lt;TEventType, TUserArgsType&gt;, TUserArgsType, UnityEngine.UIElements.TrickleDown)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.CallbackEventHandler.UnregisterCallback&lt;TEventType&gt;(UnityEngine.UIElements.EventCallback&lt;TEventType&gt;, UnityEngine.UIElements.TrickleDown)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.CallbackEventHandler.UnregisterCallback&lt;TEventType, TUserArgsType&gt;(UnityEngine.UIElements.EventCallback&lt;TEventType, TUserArgsType&gt;, UnityEngine.UIElements.TrickleDown)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.CallbackEventHandler.HandleEvent(UnityEngine.UIElements.EventBase)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.CallbackEventHandler.HasTrickleDownHandlers()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.CallbackEventHandler.HasBubbleUpHandlers()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.UIElements.CallbackEventHandler.ExecuteDefaultActionAtTarget(UnityEngine.UIElements.EventBase)</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="GraphProcessor.html">GraphProcessor</a></h6>
+  <h6><strong>Assembly</strong>: com.alelievr.NodeGraphProcessor.Editor.dll</h6>
+  <h5 id="GraphProcessor_BaseNodeView_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[NodeCustomEditor(typeof(BaseNode))]
+public class BaseNodeView : Node, IEventHandler, ITransform, ITransitionAnimations, IExperimentalFeatures, IVisualElementScheduler, IResolvedStyle, ISelectable</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_controlsContainer.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.controlsContainer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L28">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseNodeView_controlsContainer" data-uid="GraphProcessor.BaseNodeView.controlsContainer">controlsContainer</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected VisualElement controlsContainer</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.UIElements.VisualElement</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_debugContainer.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.debugContainer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L29">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseNodeView_debugContainer" data-uid="GraphProcessor.BaseNodeView.debugContainer">debugContainer</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected VisualElement debugContainer</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.UIElements.VisualElement</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_initializing.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.initializing%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L42">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseNodeView_initializing" data-uid="GraphProcessor.BaseNodeView.initializing">initializing</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool initializing</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_inputPortViews.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.inputPortViews%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L21">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseNodeView_inputPortViews" data-uid="GraphProcessor.BaseNodeView.inputPortViews">inputPortViews</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;PortView&gt; inputPortViews</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="GraphProcessor.PortView.html">PortView</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_nodeTarget.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.nodeTarget%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L19">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseNodeView_nodeTarget" data-uid="GraphProcessor.BaseNodeView.nodeTarget">nodeTarget</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BaseNode nodeTarget</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.BaseNode.html">BaseNode</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_outputPortViews.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.outputPortViews%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L22">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseNodeView_outputPortViews" data-uid="GraphProcessor.BaseNodeView.outputPortViews">outputPortViews</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;PortView&gt; outputPortViews</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="GraphProcessor.PortView.html">PortView</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_portsPerFieldName.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.portsPerFieldName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L26">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseNodeView_portsPerFieldName" data-uid="GraphProcessor.BaseNodeView.portsPerFieldName">portsPerFieldName</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Dictionary&lt;string, List&lt;PortView&gt;&gt; portsPerFieldName</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="GraphProcessor.PortView.html">PortView</a>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_expanded.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.expanded%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L447">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_expanded_" data-uid="GraphProcessor.BaseNodeView.expanded*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_expanded" data-uid="GraphProcessor.BaseNodeView.expanded">expanded</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool expanded { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">UnityEditor.Experimental.GraphView.Node.expanded</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_hasSettings.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.hasSettings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L40">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_hasSettings_" data-uid="GraphProcessor.BaseNodeView.hasSettings*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_hasSettings" data-uid="GraphProcessor.BaseNodeView.hasSettings">hasSettings</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual bool hasSettings { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_owner.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.owner%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L24">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_owner_" data-uid="GraphProcessor.BaseNodeView.owner*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_owner" data-uid="GraphProcessor.BaseNodeView.owner">owner</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BaseGraphView owner { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.BaseGraphView.html">BaseGraphView</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_AddControlField_System_Reflection_FieldInfo_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.AddControlField(System.Reflection.FieldInfo%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L406">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_AddControlField_" data-uid="GraphProcessor.BaseNodeView.AddControlField*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_AddControlField_System_Reflection_FieldInfo_System_String_" data-uid="GraphProcessor.BaseNodeView.AddControlField(System.Reflection.FieldInfo,System.String)">AddControlField(FieldInfo, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void AddControlField(FieldInfo field, string label = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Reflection.FieldInfo</span></td>
+        <td><span class="parametername">field</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">label</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_AddControlField_System_String_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.AddControlField(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L403">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_AddControlField_" data-uid="GraphProcessor.BaseNodeView.AddControlField*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_AddControlField_System_String_System_String_" data-uid="GraphProcessor.BaseNodeView.AddControlField(System.String,System.String)">AddControlField(String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void AddControlField(string fieldName, string label = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">fieldName</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">label</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_AddMessageView_System_String_GraphProcessor_NodeMessageType_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.AddMessageView(System.String%2CGraphProcessor.NodeMessageType)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L309">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_AddMessageView_" data-uid="GraphProcessor.BaseNodeView.AddMessageView*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_AddMessageView_System_String_GraphProcessor_NodeMessageType_" data-uid="GraphProcessor.BaseNodeView.AddMessageView(System.String,GraphProcessor.NodeMessageType)">AddMessageView(String, NodeMessageType)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddMessageView(string message, NodeMessageType messageType)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.NodeMessageType.html">NodeMessageType</a></td>
+        <td><span class="parametername">messageType</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_AddMessageView_System_String_UnityEngine_Texture_UnityEngine_Color_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.AddMessageView(System.String%2CUnityEngine.Texture%2CUnityEngine.Color)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L306">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_AddMessageView_" data-uid="GraphProcessor.BaseNodeView.AddMessageView*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_AddMessageView_System_String_UnityEngine_Texture_UnityEngine_Color_" data-uid="GraphProcessor.BaseNodeView.AddMessageView(System.String,UnityEngine.Texture,UnityEngine.Color)">AddMessageView(String, Texture, Color)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddMessageView(string message, Texture icon, Color color)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">UnityEngine.Texture</span></td>
+        <td><span class="parametername">icon</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">UnityEngine.Color</span></td>
+        <td><span class="parametername">color</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_AddPort_System_Reflection_FieldInfo_UnityEditor_Experimental_GraphView_Direction_GraphProcessor_EdgeConnectorListener_GraphProcessor_PortData_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.AddPort(System.Reflection.FieldInfo%2CUnityEditor.Experimental.GraphView.Direction%2CGraphProcessor.EdgeConnectorListener%2CGraphProcessor.PortData)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L219">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_AddPort_" data-uid="GraphProcessor.BaseNodeView.AddPort*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_AddPort_System_Reflection_FieldInfo_UnityEditor_Experimental_GraphView_Direction_GraphProcessor_EdgeConnectorListener_GraphProcessor_PortData_" data-uid="GraphProcessor.BaseNodeView.AddPort(System.Reflection.FieldInfo,UnityEditor.Experimental.GraphView.Direction,GraphProcessor.EdgeConnectorListener,GraphProcessor.PortData)">AddPort(FieldInfo, Direction, EdgeConnectorListener, PortData)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PortView AddPort(FieldInfo fieldInfo, Direction direction, EdgeConnectorListener listener, PortData portData)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Reflection.FieldInfo</span></td>
+        <td><span class="parametername">fieldInfo</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">UnityEditor.Experimental.GraphView.Direction</span></td>
+        <td><span class="parametername">direction</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.EdgeConnectorListener.html">EdgeConnectorListener</a></td>
+        <td><span class="parametername">listener</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.PortData.html">PortData</a></td>
+        <td><span class="parametername">portData</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.PortView.html">PortView</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_BuildContextualMenu_UnityEngine_UIElements_ContextualMenuPopulateEvent_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L462">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_BuildContextualMenu_" data-uid="GraphProcessor.BaseNodeView.BuildContextualMenu*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_BuildContextualMenu_UnityEngine_UIElements_ContextualMenuPopulateEvent_" data-uid="GraphProcessor.BaseNodeView.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)">BuildContextualMenu(ContextualMenuPopulateEvent)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.UIElements.ContextualMenuPopulateEvent</span></td>
+        <td><span class="parametername">evt</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">UnityEditor.Experimental.GraphView.Node.BuildContextualMenu(UnityEngine.UIElements.ContextualMenuPopulateEvent)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_ChangeLockStatus.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.ChangeLockStatus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L457">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_ChangeLockStatus_" data-uid="GraphProcessor.BaseNodeView.ChangeLockStatus*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_ChangeLockStatus" data-uid="GraphProcessor.BaseNodeView.ChangeLockStatus">ChangeLockStatus()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ChangeLockStatus()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_CloseSettings.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.CloseSettings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L178">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_CloseSettings_" data-uid="GraphProcessor.BaseNodeView.CloseSettings*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_CloseSettings" data-uid="GraphProcessor.BaseNodeView.CloseSettings">CloseSettings()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CloseSettings()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_CreateSettingsView.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.CreateSettingsView%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L592">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_CreateSettingsView_" data-uid="GraphProcessor.BaseNodeView.CreateSettingsView*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_CreateSettingsView" data-uid="GraphProcessor.BaseNodeView.CreateSettingsView">CreateSettingsView()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual VisualElement CreateSettingsView()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.UIElements.VisualElement</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_DrawDefaultInspector.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.DrawDefaultInspector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L381">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_DrawDefaultInspector_" data-uid="GraphProcessor.BaseNodeView.DrawDefaultInspector*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_DrawDefaultInspector" data-uid="GraphProcessor.BaseNodeView.DrawDefaultInspector">DrawDefaultInspector()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void DrawDefaultInspector()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_Enable.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.Enable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L376">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_Enable_" data-uid="GraphProcessor.BaseNodeView.Enable*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_Enable" data-uid="GraphProcessor.BaseNodeView.Enable">Enable()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void Enable()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_ForceUpdatePorts.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.ForceUpdatePorts%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L585">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_ForceUpdatePorts_" data-uid="GraphProcessor.BaseNodeView.ForceUpdatePorts*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_ForceUpdatePorts" data-uid="GraphProcessor.BaseNodeView.ForceUpdatePorts">ForceUpdatePorts()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void ForceUpdatePorts()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_GetFirstPortViewFromFieldName_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.GetFirstPortViewFromFieldName(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L207">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_GetFirstPortViewFromFieldName_" data-uid="GraphProcessor.BaseNodeView.GetFirstPortViewFromFieldName*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_GetFirstPortViewFromFieldName_System_String_" data-uid="GraphProcessor.BaseNodeView.GetFirstPortViewFromFieldName(System.String)">GetFirstPortViewFromFieldName(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PortView GetFirstPortViewFromFieldName(string fieldName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">fieldName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.PortView.html">PortView</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_GetPortViewFromFieldName_System_String_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.GetPortViewFromFieldName(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L212">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_GetPortViewFromFieldName_" data-uid="GraphProcessor.BaseNodeView.GetPortViewFromFieldName*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_GetPortViewFromFieldName_System_String_System_String_" data-uid="GraphProcessor.BaseNodeView.GetPortViewFromFieldName(System.String,System.String)">GetPortViewFromFieldName(String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PortView GetPortViewFromFieldName(string fieldName, string identifier)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">fieldName</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">identifier</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.PortView.html">PortView</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_GetPortViewsFromFieldName_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.GetPortViewsFromFieldName(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L198">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_GetPortViewsFromFieldName_" data-uid="GraphProcessor.BaseNodeView.GetPortViewsFromFieldName*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_GetPortViewsFromFieldName_System_String_" data-uid="GraphProcessor.BaseNodeView.GetPortViewsFromFieldName(System.String)">GetPortViewsFromFieldName(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;PortView&gt; GetPortViewsFromFieldName(string fieldName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">fieldName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="GraphProcessor.PortView.html">PortView</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_Highlight.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.Highlight%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L356">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_Highlight_" data-uid="GraphProcessor.BaseNodeView.Highlight*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_Highlight" data-uid="GraphProcessor.BaseNodeView.Highlight">Highlight()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Highlight()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_Initialize_GraphProcessor_BaseGraphView_GraphProcessor_BaseNode_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.Initialize(GraphProcessor.BaseGraphView%2CGraphProcessor.BaseNode)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L53">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_Initialize_" data-uid="GraphProcessor.BaseNodeView.Initialize*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_Initialize_GraphProcessor_BaseGraphView_GraphProcessor_BaseNode_" data-uid="GraphProcessor.BaseNodeView.Initialize(GraphProcessor.BaseGraphView,GraphProcessor.BaseNode)">Initialize(BaseGraphView, BaseNode)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Initialize(BaseGraphView owner, BaseNode node)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.BaseGraphView.html">BaseGraphView</a></td>
+        <td><span class="parametername">owner</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.BaseNode.html">BaseNode</a></td>
+        <td><span class="parametername">node</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_OnCreated.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.OnCreated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L433">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_OnCreated_" data-uid="GraphProcessor.BaseNodeView.OnCreated*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_OnCreated" data-uid="GraphProcessor.BaseNodeView.OnCreated">OnCreated()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnCreated()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_OnRemoved.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.OnRemoved%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L432">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_OnRemoved_" data-uid="GraphProcessor.BaseNodeView.OnRemoved*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_OnRemoved" data-uid="GraphProcessor.BaseNodeView.OnRemoved">OnRemoved()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnRemoved()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_OpenNodeScript.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.OpenNodeScript%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L282">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_OpenNodeScript_" data-uid="GraphProcessor.BaseNodeView.OpenNodeScript*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_OpenNodeScript" data-uid="GraphProcessor.BaseNodeView.OpenNodeScript">OpenNodeScript()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OpenNodeScript()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_OpenNodeViewScript.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.OpenNodeViewScript%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L272">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_OpenNodeViewScript_" data-uid="GraphProcessor.BaseNodeView.OpenNodeViewScript*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_OpenNodeViewScript" data-uid="GraphProcessor.BaseNodeView.OpenNodeViewScript">OpenNodeViewScript()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OpenNodeViewScript()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_OpenSettings.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.OpenSettings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L165">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_OpenSettings_" data-uid="GraphProcessor.BaseNodeView.OpenSettings*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_OpenSettings" data-uid="GraphProcessor.BaseNodeView.OpenSettings">OpenSettings()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OpenSettings()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_RefreshPorts.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.RefreshPorts%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L543">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_RefreshPorts_" data-uid="GraphProcessor.BaseNodeView.RefreshPorts*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_RefreshPorts" data-uid="GraphProcessor.BaseNodeView.RefreshPorts">RefreshPorts()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool RefreshPorts()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_RemoveMessageView_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.RemoveMessageView(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L354">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_RemoveMessageView_" data-uid="GraphProcessor.BaseNodeView.RemoveMessageView*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_RemoveMessageView_System_String_" data-uid="GraphProcessor.BaseNodeView.RemoveMessageView(System.String)">RemoveMessageView(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveMessageView(string message)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_RemoveMessageViewContains_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.RemoveMessageViewContains(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L352">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_RemoveMessageViewContains_" data-uid="GraphProcessor.BaseNodeView.RemoveMessageViewContains*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_RemoveMessageViewContains_System_String_" data-uid="GraphProcessor.BaseNodeView.RemoveMessageViewContains(System.String)">RemoveMessageViewContains(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveMessageViewContains(string message)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_RemovePort_GraphProcessor_PortView_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.RemovePort(GraphProcessor.PortView)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L249">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_RemovePort_" data-uid="GraphProcessor.BaseNodeView.RemovePort*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_RemovePort_GraphProcessor_PortView_" data-uid="GraphProcessor.BaseNodeView.RemovePort(GraphProcessor.PortView)">RemovePort(PortView)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemovePort(PortView p)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.PortView.html">PortView</a></td>
+        <td><span class="parametername">p</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_SetPosition_UnityEngine_Rect_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.SetPosition(UnityEngine.Rect)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L435">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_SetPosition_" data-uid="GraphProcessor.BaseNodeView.SetPosition*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_SetPosition_UnityEngine_Rect_" data-uid="GraphProcessor.BaseNodeView.SetPosition(UnityEngine.Rect)">SetPosition(Rect)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void SetPosition(Rect newPos)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Rect</span></td>
+        <td><span class="parametername">newPos</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">UnityEditor.Experimental.GraphView.Node.SetPosition(UnityEngine.Rect)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_ToggleDebug.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.ToggleDebug%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L292">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_ToggleDebug_" data-uid="GraphProcessor.BaseNodeView.ToggleDebug*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_ToggleDebug" data-uid="GraphProcessor.BaseNodeView.ToggleDebug">ToggleDebug()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ToggleDebug()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_UnHighlight.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.UnHighlight%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L361">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_UnHighlight_" data-uid="GraphProcessor.BaseNodeView.UnHighlight*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_UnHighlight" data-uid="GraphProcessor.BaseNodeView.UnHighlight">UnHighlight()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UnHighlight()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_UpdateDebugView.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.UpdateDebugView%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L298">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseNodeView_UpdateDebugView_" data-uid="GraphProcessor.BaseNodeView.UpdateDebugView*"></a>
+  <h4 id="GraphProcessor_BaseNodeView_UpdateDebugView" data-uid="GraphProcessor.BaseNodeView.UpdateDebugView">UpdateDebugView()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpdateDebugView()</code></pre>
+  </div>
+  <h3 id="events">Events
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_onPortConnected.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.onPortConnected%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L37">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseNodeView_onPortConnected" data-uid="GraphProcessor.BaseNodeView.onPortConnected">onPortConnected</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action&lt;PortView&gt; onPortConnected</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;<a class="xref" href="GraphProcessor.PortView.html">PortView</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView_onPortDisconnected.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView.onPortDisconnected%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L38">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseNodeView_onPortDisconnected" data-uid="GraphProcessor.BaseNodeView.onPortDisconnected">onPortDisconnected</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action&lt;PortView&gt; onPortDisconnected</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;<a class="xref" href="GraphProcessor.PortView.html">PortView</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">UnityEngine.UIElements.IEventHandler</span>
+  </div>
+  <div>
+      <span class="xref">UnityEngine.UIElements.ITransform</span>
+  </div>
+  <div>
+      <span class="xref">UnityEngine.UIElements.Experimental.ITransitionAnimations</span>
+  </div>
+  <div>
+      <span class="xref">UnityEngine.UIElements.IExperimentalFeatures</span>
+  </div>
+  <div>
+      <span class="xref">UnityEngine.UIElements.IVisualElementScheduler</span>
+  </div>
+  <div>
+      <span class="xref">UnityEngine.UIElements.IResolvedStyle</span>
+  </div>
+  <div>
+      <span class="xref">UnityEditor.Experimental.GraphView.ISelectable</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseNodeView.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseNodeView%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Editor/Views/BaseNodeView.cs/#L16" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

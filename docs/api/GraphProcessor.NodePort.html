@@ -1,0 +1,434 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class NodePort
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class NodePort
+   ">
+    <meta name="generator" content="docfx 2.48.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="GraphProcessor.NodePort">
+  
+  
+  <h1 id="GraphProcessor_NodePort" data-uid="GraphProcessor.NodePort" class="text-break">Class NodePort
+  </h1>
+  <div class="markdown level0 summary"><p>Runtime class that stores all info about one port that is needed for the processing</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">NodePort</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="GraphProcessor.html">GraphProcessor</a></h6>
+  <h6><strong>Assembly</strong>: com.alelievr.NodeGraphProcessor.Runtime.dll</h6>
+  <h5 id="GraphProcessor_NodePort_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class NodePort</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_NodePort__ctor_GraphProcessor_BaseNode_System_String_GraphProcessor_PortData_.md&amp;value=---%0Auid%3A%20GraphProcessor.NodePort.%23ctor(GraphProcessor.BaseNode%2CSystem.String%2CGraphProcessor.PortData)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Elements/NodePort.cs/#L81">View Source</a>
+  </span>
+  <a id="GraphProcessor_NodePort__ctor_" data-uid="GraphProcessor.NodePort.#ctor*"></a>
+  <h4 id="GraphProcessor_NodePort__ctor_GraphProcessor_BaseNode_System_String_GraphProcessor_PortData_" data-uid="GraphProcessor.NodePort.#ctor(GraphProcessor.BaseNode,System.String,GraphProcessor.PortData)">NodePort(BaseNode, String, PortData)</h4>
+  <div class="markdown level1 summary"><p>Constructor</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public NodePort(BaseNode owner, string fieldName, PortData portData)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.BaseNode.html">BaseNode</a></td>
+        <td><span class="parametername">owner</span></td>
+        <td><p>owner node</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">fieldName</span></td>
+        <td><p>the C# property name</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.PortData.html">PortData</a></td>
+        <td><span class="parametername">portData</span></td>
+        <td><p>Data of the port</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_NodePort_fieldInfo.md&amp;value=---%0Auid%3A%20GraphProcessor.NodePort.fieldInfo%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Elements/NodePort.cs/#L57">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_NodePort_fieldInfo" data-uid="GraphProcessor.NodePort.fieldInfo">fieldInfo</h4>
+  <div class="markdown level1 summary"><p>The fieldInfo from the fieldName</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FieldInfo fieldInfo</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Reflection.FieldInfo</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_NodePort_fieldName.md&amp;value=---%0Auid%3A%20GraphProcessor.NodePort.fieldName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Elements/NodePort.cs/#L49">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_NodePort_fieldName" data-uid="GraphProcessor.NodePort.fieldName">fieldName</h4>
+  <div class="markdown level1 summary"><p>The actual name of the property behind the port (must be exact, it is used for Reflection)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string fieldName</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_NodePort_owner.md&amp;value=---%0Auid%3A%20GraphProcessor.NodePort.owner%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Elements/NodePort.cs/#L53">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_NodePort_owner" data-uid="GraphProcessor.NodePort.owner">owner</h4>
+  <div class="markdown level1 summary"><p>The node on which the port is</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BaseNode owner</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.BaseNode.html">BaseNode</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_NodePort_portData.md&amp;value=---%0Auid%3A%20GraphProcessor.NodePort.portData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Elements/NodePort.cs/#L61">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_NodePort_portData" data-uid="GraphProcessor.NodePort.portData">portData</h4>
+  <div class="markdown level1 summary"><p>Data of the port</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PortData portData</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.PortData.html">PortData</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_NodePort_Add_GraphProcessor_SerializableEdge_.md&amp;value=---%0Auid%3A%20GraphProcessor.NodePort.Add(GraphProcessor.SerializableEdge)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Elements/NodePort.cs/#L96">View Source</a>
+  </span>
+  <a id="GraphProcessor_NodePort_Add_" data-uid="GraphProcessor.NodePort.Add*"></a>
+  <h4 id="GraphProcessor_NodePort_Add_GraphProcessor_SerializableEdge_" data-uid="GraphProcessor.NodePort.Add(GraphProcessor.SerializableEdge)">Add(SerializableEdge)</h4>
+  <div class="markdown level1 summary"><p>Connect an edge to this port</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Add(SerializableEdge edge)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.SerializableEdge.html">SerializableEdge</a></td>
+        <td><span class="parametername">edge</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_NodePort_GetEdges.md&amp;value=---%0Auid%3A%20GraphProcessor.NodePort.GetEdges%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Elements/NodePort.cs/#L179">View Source</a>
+  </span>
+  <a id="GraphProcessor_NodePort_GetEdges_" data-uid="GraphProcessor.NodePort.GetEdges*"></a>
+  <h4 id="GraphProcessor_NodePort_GetEdges" data-uid="GraphProcessor.NodePort.GetEdges">GetEdges()</h4>
+  <div class="markdown level1 summary"><p>Get all the edges connected to this port</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;SerializableEdge&gt; GetEdges()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="GraphProcessor.SerializableEdge.html">SerializableEdge</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_NodePort_PullData.md&amp;value=---%0Auid%3A%20GraphProcessor.NodePort.PullData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Elements/NodePort.cs/#L209">View Source</a>
+  </span>
+  <a id="GraphProcessor_NodePort_PullData_" data-uid="GraphProcessor.NodePort.PullData*"></a>
+  <h4 id="GraphProcessor_NodePort_PullData" data-uid="GraphProcessor.NodePort.PullData">PullData()</h4>
+  <div class="markdown level1 summary"><p>Pull values from the edge (in case of a custom convertion method)
+This method can only be called on input ports</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void PullData()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_NodePort_PushData.md&amp;value=---%0Auid%3A%20GraphProcessor.NodePort.PushData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Elements/NodePort.cs/#L185">View Source</a>
+  </span>
+  <a id="GraphProcessor_NodePort_PushData_" data-uid="GraphProcessor.NodePort.PushData*"></a>
+  <h4 id="GraphProcessor_NodePort_PushData" data-uid="GraphProcessor.NodePort.PushData">PushData()</h4>
+  <div class="markdown level1 summary"><p>Push the value of the port through the edges
+This method can only be called on output ports</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void PushData()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_NodePort_Remove_GraphProcessor_SerializableEdge_.md&amp;value=---%0Auid%3A%20GraphProcessor.NodePort.Remove(GraphProcessor.SerializableEdge)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Elements/NodePort.cs/#L169">View Source</a>
+  </span>
+  <a id="GraphProcessor_NodePort_Remove_" data-uid="GraphProcessor.NodePort.Remove*"></a>
+  <h4 id="GraphProcessor_NodePort_Remove_GraphProcessor_SerializableEdge_" data-uid="GraphProcessor.NodePort.Remove(GraphProcessor.SerializableEdge)">Remove(SerializableEdge)</h4>
+  <div class="markdown level1 summary"><p>Disconnect an Edge from this port</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Remove(SerializableEdge edge)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.SerializableEdge.html">SerializableEdge</a></td>
+        <td><span class="parametername">edge</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_NodePort.md&amp;value=---%0Auid%3A%20GraphProcessor.NodePort%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Elements/NodePort.cs/#L44" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

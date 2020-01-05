@@ -1,0 +1,1769 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class BaseGraph
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class BaseGraph
+   ">
+    <meta name="generator" content="docfx 2.48.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="GraphProcessor.BaseGraph">
+  
+  
+  <h1 id="GraphProcessor_BaseGraph" data-uid="GraphProcessor.BaseGraph" class="text-break">Class BaseGraph
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">UnityEngine.Object</span></div>
+    <div class="level2"><span class="xref">UnityEngine.ScriptableObject</span></div>
+    <div class="level3"><span class="xref">BaseGraph</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">UnityEngine.ISerializationCallbackReceiver</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">UnityEngine.ScriptableObject.SetDirty()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.ScriptableObject.CreateInstance(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.ScriptableObject.CreateInstance(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.ScriptableObject.CreateInstance&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.GetInstanceID()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Vector3, UnityEngine.Quaternion)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Vector3, UnityEngine.Quaternion, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Transform, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Vector3, UnityEngine.Quaternion)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Vector3, UnityEngine.Quaternion, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Transform, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Destroy(UnityEngine.Object, System.Single)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Destroy(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyImmediate(UnityEngine.Object, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyImmediate(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DontDestroyOnLoad(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyObject(UnityEngine.Object, System.Single)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyObject(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindSceneObjectsOfType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfTypeIncludingAssets(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfType&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectOfType&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfTypeAll(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectOfType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.name</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.hideFlags</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="GraphProcessor.html">GraphProcessor</a></h6>
+  <h6><strong>Assembly</strong>: com.alelievr.NodeGraphProcessor.Runtime.dll</h6>
+  <h5 id="GraphProcessor_BaseGraph_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Serializable]
+public class BaseGraph : ScriptableObject, ISerializationCallbackReceiver</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_commentBlocks.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.commentBlocks%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L89">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_commentBlocks" data-uid="GraphProcessor.BaseGraph.commentBlocks">commentBlocks</h4>
+  <div class="markdown level1 summary"><p>All groups in the graph</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SerializeField]
+public List&lt;CommentBlock&gt; commentBlocks</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="GraphProcessor.CommentBlock.html">CommentBlock</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_edges.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.edges%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L73">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_edges" data-uid="GraphProcessor.BaseGraph.edges">edges</h4>
+  <div class="markdown level1 summary"><p>Json list of edges</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SerializeField]
+public List&lt;SerializableEdge&gt; edges</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="GraphProcessor.SerializableEdge.html">SerializableEdge</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_edgesPerGUID.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.edgesPerGUID%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L81">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_edgesPerGUID" data-uid="GraphProcessor.BaseGraph.edgesPerGUID">edgesPerGUID</h4>
+  <div class="markdown level1 summary"><p>Dictionary of edges per GUID, faster than a search in a list</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[NonSerialized]
+public Dictionary&lt;string, SerializableEdge&gt; edgesPerGUID</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <a class="xref" href="GraphProcessor.SerializableEdge.html">SerializableEdge</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_exposedParameters.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.exposedParameters%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L105">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_exposedParameters" data-uid="GraphProcessor.BaseGraph.exposedParameters">exposedParameters</h4>
+  <div class="markdown level1 summary"><p>All exposed parameters in the graph</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SerializeField]
+public List&lt;ExposedParameter&gt; exposedParameters</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="GraphProcessor.ExposedParameter.html">ExposedParameter</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_nodes.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.nodes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L56">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_nodes" data-uid="GraphProcessor.BaseGraph.nodes">nodes</h4>
+  <div class="markdown level1 summary"><p>List of all the nodes in the graph.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[NonSerialized]
+public List&lt;BaseNode&gt; nodes</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="GraphProcessor.BaseNode.html">BaseNode</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_nodesPerGUID.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.nodesPerGUID%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L65">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_nodesPerGUID" data-uid="GraphProcessor.BaseGraph.nodesPerGUID">nodesPerGUID</h4>
+  <div class="markdown level1 summary"><p>Dictionary to access node per GUID, faster than a search in a list</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[NonSerialized]
+public Dictionary&lt;string, BaseNode&gt; nodesPerGUID</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <a class="xref" href="GraphProcessor.BaseNode.html">BaseNode</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_pinnedElements.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.pinnedElements%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L97">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_pinnedElements" data-uid="GraphProcessor.BaseGraph.pinnedElements">pinnedElements</h4>
+  <div class="markdown level1 summary"><p>All pinned elements in the graph</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SerializeField]
+public List&lt;PinnedElement&gt; pinnedElements</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="GraphProcessor.PinnedElement.html">PinnedElement</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_position.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.position%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L111">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_position" data-uid="GraphProcessor.BaseGraph.position">position</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector3 position</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_scale.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.scale%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L112">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_scale" data-uid="GraphProcessor.BaseGraph.scale">scale</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector3 scale</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_serializedNodes.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.serializedNodes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L48">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_serializedNodes" data-uid="GraphProcessor.BaseGraph.serializedNodes">serializedNodes</h4>
+  <div class="markdown level1 summary"><p>Json list of nodes (Serialized)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SerializeField]
+public List&lt;JsonElement&gt; serializedNodes</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="GraphProcessor.JsonElement.html">JsonElement</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_isEnabled.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.isEnabled%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L131">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_isEnabled_" data-uid="GraphProcessor.BaseGraph.isEnabled*"></a>
+  <h4 id="GraphProcessor_BaseGraph_isEnabled" data-uid="GraphProcessor.BaseGraph.isEnabled">isEnabled</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool isEnabled { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_AddCommentBlock_GraphProcessor_CommentBlock_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.AddCommentBlock(GraphProcessor.CommentBlock)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L258">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_AddCommentBlock_" data-uid="GraphProcessor.BaseGraph.AddCommentBlock*"></a>
+  <h4 id="GraphProcessor_BaseGraph_AddCommentBlock_GraphProcessor_CommentBlock_" data-uid="GraphProcessor.BaseGraph.AddCommentBlock(GraphProcessor.CommentBlock)">AddCommentBlock(CommentBlock)</h4>
+  <div class="markdown level1 summary"><p>Add a group</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddCommentBlock(CommentBlock block)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.CommentBlock.html">CommentBlock</a></td>
+        <td><span class="parametername">block</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_AddExposedParameter_System_String_System_Type_System_Object_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.AddExposedParameter(System.String%2CSystem.Type%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L372">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_AddExposedParameter_" data-uid="GraphProcessor.BaseGraph.AddExposedParameter*"></a>
+  <h4 id="GraphProcessor_BaseGraph_AddExposedParameter_System_String_System_Type_System_Object_" data-uid="GraphProcessor.BaseGraph.AddExposedParameter(System.String,System.Type,System.Object)">AddExposedParameter(String, Type, Object)</h4>
+  <div class="markdown level1 summary"><p>Add an exposed parameter</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string AddExposedParameter(string name, Type type, object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>parameter name</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Type</span></td>
+        <td><span class="parametername">type</span></td>
+        <td><p>parameter type</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>default value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_AddNode_GraphProcessor_BaseNode_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.AddNode(GraphProcessor.BaseNode)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L148">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_AddNode_" data-uid="GraphProcessor.BaseGraph.AddNode*"></a>
+  <h4 id="GraphProcessor_BaseGraph_AddNode_GraphProcessor_BaseNode_" data-uid="GraphProcessor.BaseGraph.AddNode(GraphProcessor.BaseNode)">AddNode(BaseNode)</h4>
+  <div class="markdown level1 summary"><p>Adds a node to the graph</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BaseNode AddNode(BaseNode node)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.BaseNode.html">BaseNode</a></td>
+        <td><span class="parametername">node</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.BaseNode.html">BaseNode</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_ClosePinned_System_Type_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.ClosePinned(System.Type)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L298">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_ClosePinned_" data-uid="GraphProcessor.BaseGraph.ClosePinned*"></a>
+  <h4 id="GraphProcessor_BaseGraph_ClosePinned_System_Type_" data-uid="GraphProcessor.BaseGraph.ClosePinned(System.Type)">ClosePinned(Type)</h4>
+  <div class="markdown level1 summary"><p>Closes a pinned element of type viewType</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClosePinned(Type viewType)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Type</span></td>
+        <td><span class="parametername">viewType</span></td>
+        <td><p>type of the pinned element</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_Connect_GraphProcessor_NodePort_GraphProcessor_NodePort_System_Boolean_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.Connect(GraphProcessor.NodePort%2CGraphProcessor.NodePort%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L176">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_Connect_" data-uid="GraphProcessor.BaseGraph.Connect*"></a>
+  <h4 id="GraphProcessor_BaseGraph_Connect_GraphProcessor_NodePort_GraphProcessor_NodePort_System_Boolean_" data-uid="GraphProcessor.BaseGraph.Connect(GraphProcessor.NodePort,GraphProcessor.NodePort,System.Boolean)">Connect(NodePort, NodePort, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Connect two ports with an edge</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SerializableEdge Connect(NodePort inputPort, NodePort outputPort, bool autoDisconnectInputs = true)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.NodePort.html">NodePort</a></td>
+        <td><span class="parametername">inputPort</span></td>
+        <td><p>input port</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.NodePort.html">NodePort</a></td>
+        <td><span class="parametername">outputPort</span></td>
+        <td><p>output port</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">autoDisconnectInputs</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.SerializableEdge.html">SerializableEdge</a></td>
+        <td><p>the connecting edge</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_Deserialize.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.Deserialize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L315">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_Deserialize_" data-uid="GraphProcessor.BaseGraph.Deserialize*"></a>
+  <h4 id="GraphProcessor_BaseGraph_Deserialize" data-uid="GraphProcessor.BaseGraph.Deserialize">Deserialize()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Deserialize()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_Disconnect_GraphProcessor_BaseNode_System_String_GraphProcessor_BaseNode_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.Disconnect(GraphProcessor.BaseNode%2CSystem.String%2CGraphProcessor.BaseNode%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L217">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_Disconnect_" data-uid="GraphProcessor.BaseGraph.Disconnect*"></a>
+  <h4 id="GraphProcessor_BaseGraph_Disconnect_GraphProcessor_BaseNode_System_String_GraphProcessor_BaseNode_System_String_" data-uid="GraphProcessor.BaseGraph.Disconnect(GraphProcessor.BaseNode,System.String,GraphProcessor.BaseNode,System.String)">Disconnect(BaseNode, String, BaseNode, String)</h4>
+  <div class="markdown level1 summary"><p>Disconnect two ports</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Disconnect(BaseNode inputNode, string inputFieldName, BaseNode outputNode, string outputFieldName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.BaseNode.html">BaseNode</a></td>
+        <td><span class="parametername">inputNode</span></td>
+        <td><p>input node</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">inputFieldName</span></td>
+        <td><p>input field name</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.BaseNode.html">BaseNode</a></td>
+        <td><span class="parametername">outputNode</span></td>
+        <td><p>output node</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">outputFieldName</span></td>
+        <td><p>output field name</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_Disconnect_GraphProcessor_SerializableEdge_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.Disconnect(GraphProcessor.SerializableEdge)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L236">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_Disconnect_" data-uid="GraphProcessor.BaseGraph.Disconnect*"></a>
+  <h4 id="GraphProcessor_BaseGraph_Disconnect_GraphProcessor_SerializableEdge_" data-uid="GraphProcessor.BaseGraph.Disconnect(GraphProcessor.SerializableEdge)">Disconnect(SerializableEdge)</h4>
+  <div class="markdown level1 summary"><p>Disconnect an edge</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Disconnect(SerializableEdge edge)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.SerializableEdge.html">SerializableEdge</a></td>
+        <td><span class="parametername">edge</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_Disconnect_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.Disconnect(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L242">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_Disconnect_" data-uid="GraphProcessor.BaseGraph.Disconnect*"></a>
+  <h4 id="GraphProcessor_BaseGraph_Disconnect_System_String_" data-uid="GraphProcessor.BaseGraph.Disconnect(System.String)">Disconnect(String)</h4>
+  <div class="markdown level1 summary"><p>Disconnect an edge</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Disconnect(string edgeGUID)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">edgeGUID</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_GetExposedParameter_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.GetExposedParameter(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L455">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_GetExposedParameter_" data-uid="GraphProcessor.BaseGraph.GetExposedParameter*"></a>
+  <h4 id="GraphProcessor_BaseGraph_GetExposedParameter_System_String_" data-uid="GraphProcessor.BaseGraph.GetExposedParameter(System.String)">GetExposedParameter(String)</h4>
+  <div class="markdown level1 summary"><p>Get the exposed parameter from name</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ExposedParameter GetExposedParameter(string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>name</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.ExposedParameter.html">ExposedParameter</a></td>
+        <td><p>the parameter or null</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_GetExposedParameterFromGUID_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.GetExposedParameterFromGUID(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L465">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_GetExposedParameterFromGUID_" data-uid="GraphProcessor.BaseGraph.GetExposedParameterFromGUID*"></a>
+  <h4 id="GraphProcessor_BaseGraph_GetExposedParameterFromGUID_System_String_" data-uid="GraphProcessor.BaseGraph.GetExposedParameterFromGUID(System.String)">GetExposedParameterFromGUID(String)</h4>
+  <div class="markdown level1 summary"><p>Get exposed parameter from GUID</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ExposedParameter GetExposedParameterFromGUID(string guid)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">guid</span></td>
+        <td><p>GUID of the parameter</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.ExposedParameter.html">ExposedParameter</a></td>
+        <td><p>The parameter</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_GetParameterValue_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.GetParameterValue(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L493">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_GetParameterValue_" data-uid="GraphProcessor.BaseGraph.GetParameterValue*"></a>
+  <h4 id="GraphProcessor_BaseGraph_GetParameterValue_System_String_" data-uid="GraphProcessor.BaseGraph.GetParameterValue(System.String)">GetParameterValue(String)</h4>
+  <div class="markdown level1 summary"><p>Get the parameter value</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object GetParameterValue(string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>parameter name</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><p>value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_GetParameterValue__1_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.GetParameterValue%60%601(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L501">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_GetParameterValue_" data-uid="GraphProcessor.BaseGraph.GetParameterValue*"></a>
+  <h4 id="GraphProcessor_BaseGraph_GetParameterValue__1_System_String_" data-uid="GraphProcessor.BaseGraph.GetParameterValue``1(System.String)">GetParameterValue&lt;T&gt;(String)</h4>
+  <div class="markdown level1 summary"><p>Get the parameter value template</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public T GetParameterValue&lt;T&gt;(string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>parameter name</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td><p>value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>type of the parameter</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_OnAfterDeserialize.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.OnAfterDeserialize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L349">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_OnAfterDeserialize_" data-uid="GraphProcessor.BaseGraph.OnAfterDeserialize*"></a>
+  <h4 id="GraphProcessor_BaseGraph_OnAfterDeserialize" data-uid="GraphProcessor.BaseGraph.OnAfterDeserialize">OnAfterDeserialize()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnAfterDeserialize()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_OnBeforeSerialize.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.OnBeforeSerialize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L305">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_OnBeforeSerialize_" data-uid="GraphProcessor.BaseGraph.OnBeforeSerialize*"></a>
+  <h4 id="GraphProcessor_BaseGraph_OnBeforeSerialize" data-uid="GraphProcessor.BaseGraph.OnBeforeSerialize">OnBeforeSerialize()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnBeforeSerialize()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_OnEnable.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.OnEnable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L133">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_OnEnable_" data-uid="GraphProcessor.BaseGraph.OnEnable*"></a>
+  <h4 id="GraphProcessor_BaseGraph_OnEnable" data-uid="GraphProcessor.BaseGraph.OnEnable">OnEnable()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void OnEnable()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_OpenPinned_System_Type_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.OpenPinned(System.Type)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L279">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_OpenPinned_" data-uid="GraphProcessor.BaseGraph.OpenPinned*"></a>
+  <h4 id="GraphProcessor_BaseGraph_OpenPinned_System_Type_" data-uid="GraphProcessor.BaseGraph.OpenPinned(System.Type)">OpenPinned(Type)</h4>
+  <div class="markdown level1 summary"><p>Open a pinned element of type viewType</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PinnedElement OpenPinned(Type viewType)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Type</span></td>
+        <td><span class="parametername">viewType</span></td>
+        <td><p>type of the pinned element</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.PinnedElement.html">PinnedElement</a></td>
+        <td><p>the pinned element</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_RemoveCommentBlock_GraphProcessor_CommentBlock_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.RemoveCommentBlock(GraphProcessor.CommentBlock)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L268">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_RemoveCommentBlock_" data-uid="GraphProcessor.BaseGraph.RemoveCommentBlock*"></a>
+  <h4 id="GraphProcessor_BaseGraph_RemoveCommentBlock_GraphProcessor_CommentBlock_" data-uid="GraphProcessor.BaseGraph.RemoveCommentBlock(GraphProcessor.CommentBlock)">RemoveCommentBlock(CommentBlock)</h4>
+  <div class="markdown level1 summary"><p>Removes a group</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveCommentBlock(CommentBlock block)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.CommentBlock.html">CommentBlock</a></td>
+        <td><span class="parametername">block</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_RemoveExposedParameter_GraphProcessor_ExposedParameter_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.RemoveExposedParameter(GraphProcessor.ExposedParameter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L393">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_RemoveExposedParameter_" data-uid="GraphProcessor.BaseGraph.RemoveExposedParameter*"></a>
+  <h4 id="GraphProcessor_BaseGraph_RemoveExposedParameter_GraphProcessor_ExposedParameter_" data-uid="GraphProcessor.BaseGraph.RemoveExposedParameter(GraphProcessor.ExposedParameter)">RemoveExposedParameter(ExposedParameter)</h4>
+  <div class="markdown level1 summary"><p>Remove an exposed parameter</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveExposedParameter(ExposedParameter ep)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.ExposedParameter.html">ExposedParameter</a></td>
+        <td><span class="parametername">ep</span></td>
+        <td><p>the parameter to remove</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_RemoveExposedParameter_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.RemoveExposedParameter(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L404">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_RemoveExposedParameter_" data-uid="GraphProcessor.BaseGraph.RemoveExposedParameter*"></a>
+  <h4 id="GraphProcessor_BaseGraph_RemoveExposedParameter_System_String_" data-uid="GraphProcessor.BaseGraph.RemoveExposedParameter(System.String)">RemoveExposedParameter(String)</h4>
+  <div class="markdown level1 summary"><p>Remove an exposed parameter</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveExposedParameter(string guid)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">guid</span></td>
+        <td><p>GUID of the parameter</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_RemoveNode_GraphProcessor_BaseNode_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.RemoveNode(GraphProcessor.BaseNode)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L162">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_RemoveNode_" data-uid="GraphProcessor.BaseGraph.RemoveNode*"></a>
+  <h4 id="GraphProcessor_BaseGraph_RemoveNode_GraphProcessor_BaseNode_" data-uid="GraphProcessor.BaseGraph.RemoveNode(GraphProcessor.BaseNode)">RemoveNode(BaseNode)</h4>
+  <div class="markdown level1 summary"><p>Removes a node from the graph</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveNode(BaseNode node)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.BaseNode.html">BaseNode</a></td>
+        <td><span class="parametername">node</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_SetParameterValue_System_String_System_Object_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.SetParameterValue(System.String%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L476">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_SetParameterValue_" data-uid="GraphProcessor.BaseGraph.SetParameterValue*"></a>
+  <h4 id="GraphProcessor_BaseGraph_SetParameterValue_System_String_System_Object_" data-uid="GraphProcessor.BaseGraph.SetParameterValue(System.String,System.Object)">SetParameterValue(String, Object)</h4>
+  <div class="markdown level1 summary"><p>Set parameter value from name. (Warning: the parameter name can be changed by the user)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool SetParameterValue(string name, object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>name of the parameter</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>new value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>true if the value have been assigned</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_TypesAreConnectable_System_Type_System_Type_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.TypesAreConnectable(System.Type%2CSystem.Type)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L561">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_TypesAreConnectable_" data-uid="GraphProcessor.BaseGraph.TypesAreConnectable*"></a>
+  <h4 id="GraphProcessor_BaseGraph_TypesAreConnectable_System_Type_System_Type_" data-uid="GraphProcessor.BaseGraph.TypesAreConnectable(System.Type,System.Type)">TypesAreConnectable(Type, Type)</h4>
+  <div class="markdown level1 summary"><p>Tell if two types can be connected in the context of a graph</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool TypesAreConnectable(Type t1, Type t2)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Type</span></td>
+        <td><span class="parametername">t1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Type</span></td>
+        <td><span class="parametername">t2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_UpdateComputeOrder.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.UpdateComputeOrder%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L354">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_UpdateComputeOrder_" data-uid="GraphProcessor.BaseGraph.UpdateComputeOrder*"></a>
+  <h4 id="GraphProcessor_BaseGraph_UpdateComputeOrder" data-uid="GraphProcessor.BaseGraph.UpdateComputeOrder">UpdateComputeOrder()</h4>
+  <div class="markdown level1 summary"><p>Update the compute order of the nodes in the graph</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpdateComputeOrder()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_UpdateExposedParameter_System_String_System_Object_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.UpdateExposedParameter(System.String%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L415">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_UpdateExposedParameter_" data-uid="GraphProcessor.BaseGraph.UpdateExposedParameter*"></a>
+  <h4 id="GraphProcessor_BaseGraph_UpdateExposedParameter_System_String_System_Object_" data-uid="GraphProcessor.BaseGraph.UpdateExposedParameter(System.String,System.Object)">UpdateExposedParameter(String, Object)</h4>
+  <div class="markdown level1 summary"><p>Update an exposed parameter value</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpdateExposedParameter(string guid, object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">guid</span></td>
+        <td><p>GUID of the parameter</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>new value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_UpdateExposedParameterName_GraphProcessor_ExposedParameter_System_String_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.UpdateExposedParameterName(GraphProcessor.ExposedParameter%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L433">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_UpdateExposedParameterName_" data-uid="GraphProcessor.BaseGraph.UpdateExposedParameterName*"></a>
+  <h4 id="GraphProcessor_BaseGraph_UpdateExposedParameterName_GraphProcessor_ExposedParameter_System_String_" data-uid="GraphProcessor.BaseGraph.UpdateExposedParameterName(GraphProcessor.ExposedParameter,System.String)">UpdateExposedParameterName(ExposedParameter, String)</h4>
+  <div class="markdown level1 summary"><p>Update the exposed parameter name</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpdateExposedParameterName(ExposedParameter parameter, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.ExposedParameter.html">ExposedParameter</a></td>
+        <td><span class="parametername">parameter</span></td>
+        <td><p>The parameter</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>new name</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_UpdateExposedParameterVisibility_GraphProcessor_ExposedParameter_System_Boolean_.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.UpdateExposedParameterVisibility(GraphProcessor.ExposedParameter%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L444">View Source</a>
+  </span>
+  <a id="GraphProcessor_BaseGraph_UpdateExposedParameterVisibility_" data-uid="GraphProcessor.BaseGraph.UpdateExposedParameterVisibility*"></a>
+  <h4 id="GraphProcessor_BaseGraph_UpdateExposedParameterVisibility_GraphProcessor_ExposedParameter_System_Boolean_" data-uid="GraphProcessor.BaseGraph.UpdateExposedParameterVisibility(GraphProcessor.ExposedParameter,System.Boolean)">UpdateExposedParameterVisibility(ExposedParameter, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Update parameter visibility</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpdateExposedParameterVisibility(ExposedParameter parameter, bool isHidden)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="GraphProcessor.ExposedParameter.html">ExposedParameter</a></td>
+        <td><span class="parametername">parameter</span></td>
+        <td><p>The parameter</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">isHidden</span></td>
+        <td><p>is Hidden</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="events">Events
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_onEnabled.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.onEnabled%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L122">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_onEnabled" data-uid="GraphProcessor.BaseGraph.onEnabled">onEnabled</h4>
+  <div class="markdown level1 summary"><p>Triggered when the graph is enabled</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action onEnabled</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_onExposedParameterListChanged.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.onExposedParameterListChanged%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L117">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_onExposedParameterListChanged" data-uid="GraphProcessor.BaseGraph.onExposedParameterListChanged">onExposedParameterListChanged</h4>
+  <div class="markdown level1 summary"><p>Triggered when something is changed in the list of exposed parameters</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action onExposedParameterListChanged</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_onExposedParameterModified.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.onExposedParameterModified%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L118">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_onExposedParameterModified" data-uid="GraphProcessor.BaseGraph.onExposedParameterModified">onExposedParameterModified</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action&lt;string&gt; onExposedParameterModified</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph_onGraphChanges.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph.onGraphChanges%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L127">View Source</a>
+  </span>
+  <h4 id="GraphProcessor_BaseGraph_onGraphChanges" data-uid="GraphProcessor.BaseGraph.onGraphChanges">onGraphChanges</h4>
+  <div class="markdown level1 summary"><p>Triggered when the graph is changed</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action&lt;GraphChanges&gt; onGraphChanges</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;<a class="xref" href="GraphProcessor.GraphChanges.html">GraphChanges</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">UnityEngine.ISerializationCallbackReceiver</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/alelievr/NodeGraphProcessor/new/master/apiSpec/new?filename=GraphProcessor_BaseGraph.md&amp;value=---%0Auid%3A%20GraphProcessor.BaseGraph%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/alelievr/NodeGraphProcessor/blob/master/Assets/com.alelievr.NodeGraphProcessor/Runtime/Graph/BaseGraph.cs/#L37" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

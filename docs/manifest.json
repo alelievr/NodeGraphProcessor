@@ -1,0 +1,894 @@
+{
+  "homepages": [],
+  "source_base_path": "/Users/Infotech/Unity/NodeGraphProcessor/docs/docfx",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.AppDomainExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.AppDomainExtension.html",
+          "hash": "3CEkoJhVCRllIfcoo4MqBQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.BaseGraph.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.BaseGraph.html",
+          "hash": "zsejTEgrESYPOuWJobBr1Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.BaseGraphProcessor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.BaseGraphProcessor.html",
+          "hash": "Vf6njDwhcNjheEMrQ2asLQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.BaseGraphView.ComputeOrderUpdatedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.BaseGraphView.ComputeOrderUpdatedDelegate.html",
+          "hash": "WiX/WHJjDm6JRIuUgJz/GA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.BaseGraphView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.BaseGraphView.html",
+          "hash": "KlmFV82oGOOO9Dsf4zpOig=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.BaseGraphWindow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.BaseGraphWindow.html",
+          "hash": "lNSy/wSjbNLlveRn2ADmag=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.BaseNode.ProcessDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.BaseNode.ProcessDelegate.html",
+          "hash": "RevdftaFRwNnByWv1+vUZQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.BaseNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.BaseNode.html",
+          "hash": "Sq/FWvNdwlQBvx4/VCD4ag=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.BaseNodeView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.BaseNodeView.html",
+          "hash": "mBUDm1qEDSDCqy1jkMg7Mg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.CommentBlock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.CommentBlock.html",
+          "hash": "BcQiyvMFGcvcCzFmVAvn7w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.CommentBlockView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.CommentBlockView.html",
+          "hash": "bmO/g10BQd8/4HyJx85wwg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.CopyPasteHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.CopyPasteHelper.html",
+          "hash": "F83uQoE8Uk4siFtHCQOG8Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.CustomPortBehaviorAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.CustomPortBehaviorAttribute.html",
+          "hash": "LUnVMkyUaoiRTi8pYdh8JQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.CustomPortBehaviorDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.CustomPortBehaviorDelegate.html",
+          "hash": "TQGkqVLaCanCzcSoXTR7wg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.CustomPortIO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.CustomPortIO.html",
+          "hash": "ODD5etT7f5PEJAwgYJRefQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.CustomPortIODelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.CustomPortIODelegate.html",
+          "hash": "HZBqvfIyKsfRQ/C1fjapFw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.CustomPortInputAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.CustomPortInputAttribute.html",
+          "hash": "5wq/5U1opsZDp0yk2KIEqw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.CustomPortOutputAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.CustomPortOutputAttribute.html",
+          "hash": "w5m3NdP3MWbwjd1BwhJeMA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.DeleteCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.DeleteCallback.html",
+          "hash": "6LftgKaZI66aBZSUOfKF4Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.EdgeConnectorListener.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.EdgeConnectorListener.html",
+          "hash": "CJed+NWNzrVijmGq6CyfHw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.EdgeView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.EdgeView.html",
+          "hash": "LgIFLoZElOd8AbJVt9CUXw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.ExposedParameter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.ExposedParameter.html",
+          "hash": "3MufTxQTpXNU96BdH6H4Xw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.ExposedParameterFieldView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.ExposedParameterFieldView.html",
+          "hash": "Yvb9OquLR1ZlHgC3DsPZHg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.ExposedParameterPropertyView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.ExposedParameterPropertyView.html",
+          "hash": "zvVnTJ2rK/iFwN1NFiEKpw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.ExposedParameterSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.ExposedParameterSettings.html",
+          "hash": "OhibNFJxMWcltbfraOzcLA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.ExposedParameterView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.ExposedParameterView.html",
+          "hash": "8E65Ml0LVGEzlEDvsnW18A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.FieldDrawerAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.FieldDrawerAttribute.html",
+          "hash": "B8H3jOj4Xs/4vC60i1HLMQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.FieldFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.FieldFactory.html",
+          "hash": "K7bLhitzMs/Z7X2T/GiMfw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.GraphChanges.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.GraphChanges.html",
+          "hash": "3ew0I/A48/6qaXlfO5efsg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.GraphInspector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.GraphInspector.html",
+          "hash": "u6bvqi6JIeyVyyAtMjZ0gg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.ITypeAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.ITypeAdapter.html",
+          "hash": "ae9bPOIqAJbBdt8buRLDFQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.InputAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.InputAttribute.html",
+          "hash": "MQ22basOO/jhnvxy1xYw8Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.JobGraphProcessor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.JobGraphProcessor.html",
+          "hash": "F7ahJS+F5ESaKiQCYFXAug=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.JsonElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.JsonElement.html",
+          "hash": "Hkiy1mFzZHOxu0Ru9pktRA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.JsonSerializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.JsonSerializer.html",
+          "hash": "9UR7OEPY+9RDq3yA01iF/w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.MiniMapView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.MiniMapView.html",
+          "hash": "AWpYHq0UkEe525lyvfiKNg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.NodeBadgeView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.NodeBadgeView.html",
+          "hash": "dAg1b+nfnXu4VHw0IibZXw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.NodeCustomEditor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.NodeCustomEditor.html",
+          "hash": "B8C3ljdahOboi0q+obhxUw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.NodeGraphProcessorMenuItems.MenuItemPosition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.NodeGraphProcessorMenuItems.MenuItemPosition.html",
+          "hash": "Xsohs37F6zwnAn27Qc5B4g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.NodeGraphProcessorMenuItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.NodeGraphProcessorMenuItems.html",
+          "hash": "bCxB8rWl7B8uMseVP/HTWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.NodeInputPortContainer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.NodeInputPortContainer.html",
+          "hash": "co6KW510Fi3kFFplXHJdBA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.NodeMenuItemAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.NodeMenuItemAttribute.html",
+          "hash": "TOqx5Wa0nBV7Y/ZWnn/kLw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.NodeMessageType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.NodeMessageType.html",
+          "hash": "QP0poV2hrMnAwk9BwSuHag=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.NodeOutputPortContainer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.NodeOutputPortContainer.html",
+          "hash": "M/6y8ApjEYjtur6yydiTpg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.NodePort.PushDataDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.NodePort.PushDataDelegate.html",
+          "hash": "xw0ksLJ7VSmbOTURSj+ytQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.NodePort.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.NodePort.html",
+          "hash": "zxE6u4n+oAvAkRzx6kacdw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.NodePortContainer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.NodePortContainer.html",
+          "hash": "koBkjylR+cw3qb7Vw3cF7w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.NodeProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.NodeProvider.html",
+          "hash": "lj9MHKtnTCwJiRUQS1qrCg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.OutputAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.OutputAttribute.html",
+          "hash": "W6hVFoZClDCu92z/C364bg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.ParameterAccessor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.ParameterAccessor.html",
+          "hash": "IKjsh4k9XbowwzVHlob2JA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.ParameterNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.ParameterNode.html",
+          "hash": "GVhmcYbAqTv7wmWpG/YD+A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.PinnedElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.PinnedElement.html",
+          "hash": "ekdQdt4cUeli7zDZVVs+dQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.PinnedElementView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.PinnedElementView.html",
+          "hash": "rdxNBw439/Wvmt1vgH3xZg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.PortData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.PortData.html",
+          "hash": "+VZDWq9lsR4PMul6YzZMUA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.PortView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.PortView.html",
+          "hash": "EXen6ACdiBSzDcj7h9uijA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.ProcessGraphProcessor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.ProcessGraphProcessor.html",
+          "hash": "7U6NhMpLYRyvezyjqxVC5A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.ProcessorView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.ProcessorView.html",
+          "hash": "SPUvG5L020dMSyLf85VncQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.SerializableEdge.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.SerializableEdge.html",
+          "hash": "qgx1OwcdrMg36pU/SPICNg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.SerializableObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.SerializableObject.html",
+          "hash": "fAdCwCskZslZci9jLceVMQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.SerializableType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.SerializableType.html",
+          "hash": "1dQpD8jxpJyvyRpRgd1NTQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.ToolbarView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.ToolbarView.html",
+          "hash": "VtuUV68mP+fBTkAKsRpPag=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.TypeAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.TypeAdapter.html",
+          "hash": "U9JFhYv8SEGEP9mqAWTJpw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.TypeExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.TypeExtension.html",
+          "hash": "5VDqv0izct0nZLMVFKbXVQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/GraphProcessor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GraphProcessor.html",
+          "hash": "YoL6/x5JsxYabQdseodHiw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "6Q4wabGKrnVVXMtzxXoDHQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "iyQVrt1TjMDtLuu+oroR/A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "vNZpJB0mEKlakeeEA8r2hg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "gB8AESyvNru97tzIZofEEg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "W4wg9mV7fDVM7+4o044BQw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "mySWXlGUu+LCcMXo0qDcXQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 3,
+          "skipped_file_count": 3
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 64,
+          "skipped_file_count": 9
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

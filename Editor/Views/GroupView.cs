@@ -10,7 +10,7 @@ namespace GraphProcessor
     public class GroupView : UnityEditor.Experimental.GraphView.Group
 	{
 		public BaseGraphView	owner;
-		public Group		group;
+		public Group		    group;
 
         Label                   titleLabel;
         ColorField              colorField;

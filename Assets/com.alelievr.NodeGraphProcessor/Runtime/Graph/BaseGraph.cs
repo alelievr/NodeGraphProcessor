@@ -33,6 +33,8 @@ namespace GraphProcessor
 		public BaseNode			addedNode;
 		public Group			addedGroups;
 		public Group			removedGroups;
+		public BaseStackNode	addedStackNode;
+		public BaseStackNode	removedStackNode;
 	}
 
 	[System.Serializable]
@@ -88,6 +90,14 @@ namespace GraphProcessor
 		/// <returns></returns>
         [SerializeField, FormerlySerializedAs("commentBlocks")]
         public List< Group >                     		groups = new List< Group >();
+
+		/// <summary>
+		/// All Stack Nodes in the graph
+		/// </summary>
+		/// <typeparam name="stackNodes"></typeparam>
+		/// <returns></returns>
+		[SerializeField]
+		public List< BaseStackNode >					stackNodes = new List< BaseStackNode >();
 
 		/// <summary>
 		/// All pinned elements in the graph
@@ -271,6 +281,26 @@ namespace GraphProcessor
             groups.Remove(block);
 			onGraphChanges?.Invoke(new GraphChanges{ removedGroups = block });
         }
+
+		/// <summary>
+		/// Add a StackNode
+		/// </summary>
+		/// <param name="stackNode"></param>
+		public void AddStackNode(BaseStackNode stackNode)
+		{
+			stackNodes.Add(stackNode);
+			onGraphChanges?.Invoke(new GraphChanges{ addedStackNode = stackNode });
+		}
+		
+		/// <summary>
+		/// Remove a StackNode
+		/// </summary>
+		/// <param name="stackNode"></param>
+		public void RemoveStackNode(BaseStackNode stackNode)
+		{
+			stackNodes.Remove(stackNode);
+			onGraphChanges?.Invoke(new GraphChanges{ removedStackNode = stackNode });
+		}
 
 		/// <summary>
 		/// Open a pinned element of type viewType

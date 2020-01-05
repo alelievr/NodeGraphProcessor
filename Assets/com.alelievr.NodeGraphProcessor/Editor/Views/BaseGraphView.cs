@@ -10,34 +10,89 @@ using System;
 using UnityEditor.SceneManagement;
 
 using Status = UnityEngine.UIElements.DropdownMenuAction.Status;
-
 using Object = UnityEngine.Object;
 
 namespace GraphProcessor
 {
+	/// <summary>
+	/// Base class to write a custom view for a node
+	/// </summary>
 	public class BaseGraphView : GraphView
 	{
 		public delegate void ComputeOrderUpdatedDelegate();
 
+		/// <summary>
+		/// Graph that owns of the node
+		/// </summary>
 		public BaseGraph							graph;
 
+		/// <summary>
+		/// Connector listener that will create the edges between ports
+		/// </summary>
 		public EdgeConnectorListener				connectorListener;
 
+		/// <summary>
+		/// List of all node views in the graph
+		/// </summary>
+		/// <typeparam name="BaseNodeView"></typeparam>
+		/// <returns></returns>
 		public List< BaseNodeView >					nodeViews = new List< BaseNodeView >();
+
+		/// <summary>
+		/// Dictionary of the node views accessed view the node instance, faster than a Find in the node view list
+		/// </summary>
+		/// <typeparam name="BaseNode"></typeparam>
+		/// <typeparam name="BaseNodeView"></typeparam>
+		/// <returns></returns>
 		public Dictionary< BaseNode, BaseNodeView >	nodeViewsPerNode = new Dictionary< BaseNode, BaseNodeView >();
+
+		/// <summary>
+		/// List of all edge views in the graph
+		/// </summary>
+		/// <typeparam name="EdgeView"></typeparam>
+		/// <returns></returns>
 		public List< EdgeView >						edgeViews = new List< EdgeView >();
+
+		/// <summary>
+		/// List of all group views in the graph
+		/// </summary>
+		/// <typeparam name="GroupView"></typeparam>
+		/// <returns></returns>
         public List< GroupView >         			groupViews = new List< GroupView >();
+
+		/// <summary>
+		/// List of all stack node views in the graph
+		/// </summary>
+		/// <typeparam name="BaseStackNodeView"></typeparam>
+		/// <returns></returns>
+		public List< BaseStackNodeView >			stackNodeViews = new List< BaseStackNodeView >();
 
 		Dictionary< Type, PinnedElementView >		pinnedElements = new Dictionary< Type, PinnedElementView >();
 
 		CreateNodeMenuWindow						createNodeMenu;
 
+		/// <summary>
+		/// Triggered just after the graph is initialized
+		/// </summary>
 		public event Action							initialized;
+
+		/// <summary>
+		/// Triggered just after the compute order of the graph is updated
+		/// </summary>
 		public event ComputeOrderUpdatedDelegate	computeOrderUpdated;
 
 		// Safe event relay from BaseGraph (safe because you are sure to always point on a valid BaseGraph
 		// when one of these events is called), a graph switch can occur between two call tho
+		/// <summary>
+		/// Same event than BaseGraph.onExposedParameterListChanged
+		/// Safe event (not triggered in case the graph is null).
+		/// </summary>
 		public event Action				onExposedParameterListChanged;
+		
+		/// <summary>
+		/// Same event than BaseGraph.onExposedParameterModified
+		/// Safe event (not triggered in case the graph is null).
+		/// </summary>
 		public event Action< string >	onExposedParameterModified;
 
 		public BaseGraphView(EditorWindow window)
@@ -158,33 +213,30 @@ namespace GraphProcessor
 
 				//Handle ourselves the edge and node remove
 				changes.elementsToRemove.RemoveAll(e => {
-					var edge = e as EdgeView;
-					var node = e as BaseNodeView;
-                    var group = e as GroupView;
-					var blackboardField = e as ExposedParameterFieldView;
 
-					if (edge != null)
+					switch (e)
 					{
-						Disconnect(edge);
-						return true;
+						case EdgeView edge:
+							Disconnect(edge);
+							return true;
+						case BaseNodeView node:
+							node.OnRemoved();
+							graph.RemoveNode(node.nodeTarget);
+							RemoveElement(node);
+							return true;
+						case GroupView group:
+							graph.RemoveGroup(group.group);
+							RemoveElement(group);
+							return true;
+						case ExposedParameterFieldView blackboardField:
+							graph.RemoveExposedParameter(blackboardField.parameter);
+							return true;
+						case BaseStackNodeView stackNodeView:
+							graph.RemoveStackNode(stackNodeView.stackNode);
+							RemoveElement(stackNodeView);
+							return true;
 					}
-					else if (node != null)
-					{
-						node.OnRemoved();
-						graph.RemoveNode(node.nodeTarget);
-						RemoveElement(node);
-						return true;
-					}
-                    else if (group != null)
-                    {
-                        graph.RemoveGroup(group.group);
-                        RemoveElement(group);
-                        return true;
-                    }
-					else if (blackboardField != null)
-					{
-						graph.RemoveExposedParameter(blackboardField.parameter);
-					}
+
 					return false;
 				});
 			}
@@ -250,30 +302,46 @@ namespace GraphProcessor
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			BuildGroupContextualMenu(evt);
-			BuildViewContextualMenu(evt);
 			base.BuildContextualMenu(evt);
+			BuildViewContextualMenu(evt);
 			BuildSelectAssetContextualMenu(evt);
 			BuildSaveAssetContextualMenu(evt);
 			BuildHelpContextualMenu(evt);
 		}
 
-		protected void BuildGroupContextualMenu(ContextualMenuPopulateEvent evt)
+		/// <summary>
+		/// Add the New Group entry to the context menu
+		/// </summary>
+		/// <param name="evt"></param>
+		protected virtual void BuildGroupContextualMenu(ContextualMenuPopulateEvent evt)
 		{
-			Vector2 position = evt.mousePosition - (Vector2)viewTransform.position;
-            evt.menu.AppendAction("Group", (e) => AddSelectionsToGroup(AddGroup(new Group("New Group", position))), DropdownMenuAction.AlwaysEnabled);
+			Vector2 position = (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
+            evt.menu.AppendAction("New Group", (e) => AddSelectionsToGroup(AddGroup(new Group("New Group", position))), DropdownMenuAction.AlwaysEnabled);
 		}
 
-		protected void BuildViewContextualMenu(ContextualMenuPopulateEvent evt)
+		/// <summary>
+		/// Add the View entry to the context menu
+		/// </summary>
+		/// <param name="evt"></param>
+		protected virtual void BuildViewContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			evt.menu.AppendAction("View/Processor", (e) => ToggleView< ProcessorView >(), (e) => GetPinnedElementStatus< ProcessorView >());
 		}
 
-		protected void BuildSelectAssetContextualMenu(ContextualMenuPopulateEvent evt)
+		/// <summary>
+		/// Add the Select Asset entry to the context menu
+		/// </summary>
+		/// <param name="evt"></param>
+		protected virtual void BuildSelectAssetContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			evt.menu.AppendAction("Select Asset", (e) => EditorGUIUtility.PingObject(graph), DropdownMenuAction.AlwaysEnabled);
 		}
 
-		protected void BuildSaveAssetContextualMenu(ContextualMenuPopulateEvent evt)
+		/// <summary>
+		/// Add the Save Asset entry to the context menu
+		/// </summary>
+		/// <param name="evt"></param>
+		protected virtual void BuildSaveAssetContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			evt.menu.AppendAction("Save Asset", (e) => {
 				EditorUtility.SetDirty(graph);
@@ -281,6 +349,10 @@ namespace GraphProcessor
 			}, DropdownMenuAction.AlwaysEnabled);
 		}
 
+		/// <summary>
+		/// Add the Help entry to the context menu
+		/// </summary>
+		/// <param name="evt"></param>
 		protected void BuildHelpContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			evt.menu.AppendAction("Help/Reset Pinned Windows", e => {
@@ -367,6 +439,7 @@ namespace GraphProcessor
 			InitializeNodeViews();
 			InitializeEdgeViews();
             InitializeGroups();
+			InitializeStackNodes();
 
 			Reload();
 
@@ -390,6 +463,7 @@ namespace GraphProcessor
 			InitializeEdgeViews();
 			InitializeViews();
             InitializeGroups();
+			InitializeStackNodes();
 
 			UpdateComputeOrder();
 
@@ -451,6 +525,12 @@ namespace GraphProcessor
             foreach (var group in graph.groups)
                 AddGroupView(group);
         }
+
+		void InitializeStackNodes()
+		{
+			foreach (var stackNode in graph.stackNodes)
+				AddStackNodeView(stackNode);
+		}
 
 		protected virtual void InitializeManipulators()
 		{
@@ -529,6 +609,30 @@ namespace GraphProcessor
 
             groupViews.Add(c);
             return c;
+		}
+
+		public BaseStackNodeView AddStackNode(BaseStackNode stackNode)
+		{
+			graph.AddStackNode(stackNode);
+			return AddStackNodeView(stackNode);
+		}
+
+		public BaseStackNodeView AddStackNodeView(BaseStackNode stackNode)
+		{
+			var stackView = new BaseStackNodeView(stackNode);
+
+			AddElement(stackView);
+			stackNodeViews.Add(stackView);
+
+			stackView.Initialize(this);
+
+			return stackView;
+		} 
+
+		public void RemoveStackNodeView(BaseStackNodeView stackNodeView)
+		{
+			stackNodeViews.Remove(stackNodeView);
+			RemoveElement(stackNodeView);
 		}
 
         public void AddSelectionsToGroup(GroupView view)

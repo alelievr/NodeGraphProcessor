@@ -2,6 +2,7 @@
 Node graph editor framework focused on data processing using Unity UIElements and C# 4.7
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4c62ece874d14a0b965b92cb163e3146)](https://www.codacy.com/manual/alelievr/NodeGraphProcessor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alelievr/NodeGraphProcessor&amp;utm_campaign=Badge_Grade)
+[![openupm](https://img.shields.io/npm/v/com.alelievr.node-graph-processor?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.alelievr.node-graph-processor/)
 
 ### Unity Compatible versions
 
@@ -10,6 +11,7 @@ The current Unity version used for the project is **2019.2.0f1**
 
 ### Installation
 
+#### Install Manually
 There are two ways to install this asset: you can use the Unity package manager or move the entire repo inside your Assets folder.
 To install using the package manager:
 
@@ -17,6 +19,16 @@ To install using the package manager:
 - inside the package manager click the '+' button at the bottom to add a package from disk
 - then select the package.json file located in `Assets/NodeGraphProcessor`
 - package is installed :)
+
+#### Install via OpenUPM
+
+The package is available on the [openupm registry](https://openupm.com). It's recommended to install it via [openupm-cli](https://github.com/openupm/openupm-cli).
+
+```
+openupm add com.alelievr.node-graph-processor
+```
+
+#### Install via Git
 
 Alternatively, you can use the [git address feature in the package manager](https://forum.unity.com/threads/git-support-on-package-manager.573673/) on the branch [#upm](https://github.com/alelievr/NodeGraphProcessor/tree/upm), it only contains the package but it may be out of sync compared to master.
 

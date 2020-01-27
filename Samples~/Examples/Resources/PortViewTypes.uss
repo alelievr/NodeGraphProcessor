@@ -1,0 +1,27 @@
+.Port_Single {
+	--port-color: #2080FF;
+}
+
+.Port_Object {
+	--port-color: #80FF00;
+}
+
+.Port_Color {
+	--port-color: #FF00FF;
+}
+
+.Port_GameObject {
+	--port-color: #FF0000;
+}
+
+.Port_String {
+	--port-color: #80FF80;
+}
+
+.Port_Boolean {
+	--port-color: #30FFFF;
+}
+
+.Port_ConditionalLink {
+	--port-color: #FFFF30;
+}

@@ -14,7 +14,7 @@ jobs:
     - name: split upm branch
       run: |
         git branch -d upm &> /dev/null || echo upm branch not found
-		git mv Assets/Examples Samples~
+      git mv Assets/Examples 'Samples~'
         git subtree split -P "$PKG_ROOT" -b upm
         git checkout upm
 

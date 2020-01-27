@@ -1,48 +1,28 @@
 name: CI
-
 on:
   push:
-    paths:
-    - '**.package.json'
-
+    branches:
+    - master
 jobs:
-  build:
-
+  split-upm:
+    name: split upm branch (force)
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
-    - name: Publish package
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: split upm branch
       run: |
-        version=`git rev-parse --short HEAD`
-tmp_path=/tmp/NodeGraphProcessor-${version}
+        git branch -d upm &> /dev/null || echo upm branch not found
+		git mv Assets/Examples Samples~
+        git subtree split -P "$PKG_ROOT" -b upm
+        git checkout upm
 
-package_path=Assets/com.alelievr.NodeGraphProcessor
-sample1_path=Assets/Examples
+	  	git config --global user.name 'github-bot'
+	  	git config --global user.email 'github-bot@users.noreply.github.com'
+	  	git add Samples~ Editor Editor.meta Runtime Runtime.meta NodeGraphProcessor.sln com.alelievr.NodeGraphProcessor.Editor.csproj com.alelievr.NodeGraphProcessor.Runtime.csproj com.alelievr.NodeGraphProcessor.csproj package.json package.json.meta
+		git commit -m "Publish new package"
 
-mkdir -p $tmp_path
-
-# Copy package and samples
-cp -Rf $package_path $tmp_path
-cp -Rf $sample1_path $tmp_path
-
-# Override pathes
-package_path=$tmp_path"/com.alelievr.NodeGraphProcessor/"
-sample1_path=$tmp_path"/Examples"
-
-# Go to the release branch
-git checkout upm
-
-rm -rf *
-
-cp -Rf $package_path .
-
-sample_path='Samples~'
-mkdir -p $sample_path
-
-cp -Rf $sample1_path $sample_path
-
-git checkout -b release_upm_test
-git add -A
-git commit -m "Publish version ${version}"
-git push
+        git push -f -u origin upm
+      env:
+        PKG_ROOT: Assets/com.alelievr.NodeGraphProcessor/

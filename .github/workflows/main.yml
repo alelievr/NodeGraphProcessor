@@ -1,0 +1,28 @@
+name: Publish Package
+on:
+  push:
+    branches:
+    - master
+jobs:
+  split-upm:
+    name: split upm branch (force)
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: split upm branch
+      run: |
+        git branch -d upm &> /dev/null || echo upm branch not found
+        git mv Assets/Examples 'Samples~'
+        git subtree split -P "$PKG_ROOT" -b upm
+        git checkout upm
+
+        git config --global 'user.name' 'github-bot'
+        git config --global 'user.email' 'github-bot@users.noreply.github.com'
+        git add 'Samples~' 'Editor' 'Editor.meta' 'Runtime' 'Runtime.meta' 'package.json' 'package.json.meta'
+        git commit -m "Publish new package"
+
+        git push -f -u origin upm
+      env:
+        PKG_ROOT: Assets/com.alelievr.NodeGraphProcessor/

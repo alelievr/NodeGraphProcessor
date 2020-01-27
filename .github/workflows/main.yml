@@ -18,9 +18,9 @@ jobs:
         git subtree split -P "$PKG_ROOT" -b upm
         git checkout upm
 
-	  	git config --global user.name 'github-bot'
-	  	git config --global user.email 'github-bot@users.noreply.github.com'
-	  	git add Samples~ Editor Editor.meta Runtime Runtime.meta NodeGraphProcessor.sln com.alelievr.NodeGraphProcessor.Editor.csproj com.alelievr.NodeGraphProcessor.Runtime.csproj com.alelievr.NodeGraphProcessor.csproj package.json package.json.meta
+	  	git config --global 'user.name' 'github-bot'
+	  	git config --global 'user.email' 'github-bot@users.noreply.github.com'
+	  	git add 'Samples~' 'Editor' 'Editor.meta' 'Runtime' 'Runtime.meta' 'package.json' 'package.json.meta'
 		git commit -m "Publish new package"
 
         git push -f -u origin upm

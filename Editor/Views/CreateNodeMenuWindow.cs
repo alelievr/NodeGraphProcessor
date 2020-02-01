@@ -47,8 +47,8 @@ namespace GraphProcessor
             // Sort menu by alphabetical order and submenus
 
             var nodeEntries = graphView.FilterCreateNodeMenuEntries().OrderBy(k => k.Key);
-            var titles = new HashSet< string >();
-
+            var titlePaths = new HashSet< string >();
+            
 			foreach (var nodeMenuItem in nodeEntries)
 			{
                 var nodePath = nodeMenuItem.Key;
@@ -60,17 +60,21 @@ namespace GraphProcessor
                 {
                     level++;
                     nodeName = parts[parts.Length - 1];
+                    var fullTitleAsPath = "";
+                    
                     for(var i = 0; i < parts.Length - 1; i++)
                     {
                         var title = parts[i];
+                        fullTitleAsPath += title;
                         level = i + 1;
+                        
                         // Add section title if the node is in subcategory
-                        if (!titles.Contains(title))
+                        if (!titlePaths.Contains(fullTitleAsPath))
                         {
                             tree.Add(new SearchTreeGroupEntry(new GUIContent(title)){
                                 level = level
                             });
-                            titles.Add(title);
+                            titlePaths.Add(fullTitleAsPath);
                         }
                     }
                 }

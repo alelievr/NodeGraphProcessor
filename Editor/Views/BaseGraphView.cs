@@ -367,6 +367,37 @@ namespace GraphProcessor
 			{
 				SaveGraphToDisk();
 				e.StopPropagation();
+			} 
+			else if(nodeViews.Count > 0 && e.commandKey && e.altKey)
+			{
+				//	Node Aligning shortcuts
+				switch(e.keyCode)
+				{
+					case KeyCode.LeftArrow:
+						nodeViews[0].AlignToLeft();
+						e.StopPropagation();
+						break;
+					case KeyCode.RightArrow:
+						nodeViews[0].AlignToRight();
+						e.StopPropagation();
+						break;
+					case KeyCode.UpArrow:
+						nodeViews[0].AlignToTop();
+						e.StopPropagation();
+						break;
+					case KeyCode.DownArrow:
+						nodeViews[0].AlignToBottom();
+						e.StopPropagation();
+						break;
+					case KeyCode.C:
+						nodeViews[0].AlignToCenter();
+						e.StopPropagation();
+						break;
+					case KeyCode.M:
+						nodeViews[0].AlignToMiddle();
+						e.StopPropagation();
+						break;
+				}
 			}
 		}
 

@@ -10,7 +10,7 @@ namespace GraphProcessor
     public class BaseStackNode
     {
         public Vector2 position;
-        public string title;
+        public string title = "New Stack";
         
         /// <summary>
         /// Is the stack accept drag and dropped nodes

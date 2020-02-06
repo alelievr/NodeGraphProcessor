@@ -174,6 +174,8 @@ namespace GraphProcessor
 		/// <param name="node"></param>
 		public void RemoveNode(BaseNode node)
 		{
+			nodesPerGUID.Remove(node.GUID);
+
 			nodes.Remove(node);
 
 			onGraphChanges?.Invoke(new GraphChanges{ removedNode = node });

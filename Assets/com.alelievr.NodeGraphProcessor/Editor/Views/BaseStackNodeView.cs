@@ -24,7 +24,6 @@ namespace GraphProcessor
         {
             this.stackNode = stackNode;
             styleSheets.Add(Resources.Load<StyleSheet>(styleSheet));
-            SetPosition(new Rect(stackNode.position, Vector2.zero));
         }
 
         /// <inheritdoc />
@@ -40,6 +39,8 @@ namespace GraphProcessor
         {
             owner = graphView;
             headerContainer.Add(new Label(stackNode.title));
+
+            SetPosition(new Rect(stackNode.position, Vector2.one));
 
             InitializeInnerNodes();
         }
@@ -77,7 +78,7 @@ namespace GraphProcessor
 
             if (accept && element is BaseNodeView nodeView)
             {
-                var index = Mathf.Clamp(proposedIndex, 0, stackNode.nodeGUIDs.Count);
+                var index = Mathf.Clamp(proposedIndex, 0, stackNode.nodeGUIDs.Count - 1);
 
                 if (stackNode.nodeGUIDs.Contains(nodeView.nodeTarget.GUID))
                     stackNode.nodeGUIDs.Remove(nodeView.nodeTarget.GUID);

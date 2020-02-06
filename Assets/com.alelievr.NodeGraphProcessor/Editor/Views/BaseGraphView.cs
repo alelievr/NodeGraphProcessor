@@ -650,7 +650,8 @@ namespace GraphProcessor
 
 		public BaseStackNodeView AddStackNodeView(BaseStackNode stackNode)
 		{
-			var stackView = new BaseStackNodeView(stackNode);
+			var viewType = StackNodeViewProvider.GetStackNodeCustomViewType(stackNode.GetType()) ?? typeof(BaseStackNodeView);
+			var stackView = Activator.CreateInstance(viewType, stackNode) as BaseStackNodeView;
 
 			AddElement(stackView);
 			stackNodeViews.Add(stackView);

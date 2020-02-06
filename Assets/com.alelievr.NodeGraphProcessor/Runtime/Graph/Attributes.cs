@@ -154,4 +154,22 @@ namespace GraphProcessor
 			this.fieldName = fieldName;
 		}
 	}
+
+	/// <summary>
+	/// Allow you to have a custom view for your stack nodes
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+	public class CustomStackNodeView : Attribute
+	{
+		public Type	stackNodeType;
+
+		/// <summary>
+		/// Allow you to have a custom view for your stack nodes
+		/// </summary>
+		/// <param name="stackNodeType">The type of the stack node you target</param>
+		public CustomStackNodeView(Type stackNodeType)
+		{
+			this.stackNodeType = stackNodeType;
+		}
+	}
 }

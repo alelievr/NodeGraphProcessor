@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes:
   - type: ForLoopNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"d5ca5207-95e0-48d1-a3a8-a3a01ede32ff","computeOrder":23,"canProcess":true,"position":{"serializedVersion":"2","x":1715.5386962890625,"y":2.243854522705078,"width":215.0,"height":138.00001525878907},"expanded":false,"debug":false,"nodeLock":false,"start":0,"end":10,"index":0}'
+    jsonDatas: '{"GUID":"d5ca5207-95e0-48d1-a3a8-a3a01ede32ff","computeOrder":23,"canProcess":true,"position":{"serializedVersion":"2","x":1715.5386962890625,"y":2.243854522705078,"width":215.0,"height":138.00001525878907},"expanded":false,"debug":false,"nodeLock":false,"start":0,"end":10,"index":9}'
   - type: IfNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"0b887ee0-c1bb-4ebd-9d59-dfad6ca5d169","computeOrder":6,"canProcess":true,"position":{"serializedVersion":"2","x":903.000244140625,"y":-43.728031158447269,"width":144.0,"height":120.00001525878906},"expanded":false,"debug":false,"nodeLock":false,"condition":false,"compareOperator":0}'
   - type: IfNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -226,6 +226,7 @@ MonoBehaviour:
     inputPortIdentifier: 
     outputPortIdentifier: 
   groups: []
+  stackNodes: []
   pinnedElements:
   - position:
       serializedVersion: 2
@@ -258,5 +259,7 @@ MonoBehaviour:
       serializedType: ConditionalProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: -1686, y: 235, z: 0}
-  scale: {x: 1.3225, y: 1.3225, z: 1}
+  position: {x: -77, y: 470, z: 0}
+  scale: {x: 0.43232757, y: 0.43232757, z: 1}
+  references:
+    version: 1

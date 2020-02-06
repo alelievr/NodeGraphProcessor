@@ -22,13 +22,13 @@ MonoBehaviour:
   - type: SubNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"95bce55f-47d9-4c5d-bdcd-1f5bbbf57d1b","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":699.0,"y":169.0,"width":113.0,"height":114.0},"expanded":false,"debug":true,"nodeLock":false,"inputA":4.0,"inputB":8.0,"output":-4.0}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"42eb43b8-ac7e-4f38-b49b-26ba1bc42732","computeOrder":5,"canProcess":true,"position":{"serializedVersion":"2","x":932.0,"y":461.1199951171875,"width":113.0,"height":103.0},"expanded":false,"debug":true,"nodeLock":false}'
+    jsonDatas: '{"GUID":"42eb43b8-ac7e-4f38-b49b-26ba1bc42732","computeOrder":5,"canProcess":true,"position":{"serializedVersion":"2","x":954.0,"y":219.0,"width":112.0,"height":105.0},"expanded":false,"debug":true,"nodeLock":false}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"6398414c-0e45-44d7-a62f-3267016dbca1","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":337.5,"y":-129.0,"width":74.0,"height":90.0},"expanded":false,"debug":false,"nodeLock":false}'
   - type: PrefabNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"ffd2cf4b-87c3-42a6-9822-04bae7a5700b","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":918.0,"y":28.0,"width":141.0,"height":225.0},"expanded":true,"debug":false,"nodeLock":false,"output":{"fileID":1636575971871760,"guid":"f78111bdbdeaf6644806fc49fcaf1d30","type":3}}'
+    jsonDatas: '{"GUID":"ffd2cf4b-87c3-42a6-9822-04bae7a5700b","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":1066.0,"y":344.0,"width":136.0,"height":225.0},"expanded":true,"debug":false,"nodeLock":false,"output":{"fileID":1636575971871760,"guid":"f78111bdbdeaf6644806fc49fcaf1d30","type":3}}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"e99da4fb-6a11-4b19-8594-f37f55d96114","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":245.83782958984376,"y":237.15869140625,"width":107.0,"height":117.0},"expanded":true,"debug":false,"nodeLock":false,"output":12.0,"input":0.0}'
+    jsonDatas: '{"GUID":"e99da4fb-6a11-4b19-8594-f37f55d96114","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":951.134033203125,"y":308.300048828125,"width":108.00001525878906,"height":101.0},"expanded":true,"debug":false,"nodeLock":false,"output":12.0,"input":0.0}'
   - type: TextNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"ab7c80f0-51fd-401a-9d67-0b6543025f87","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":-184.46311950683595,"y":143.2401123046875,"width":240.0,"height":96.0},"expanded":false,"debug":false,"nodeLock":false,"output":"Hello
       World"}'
@@ -125,14 +125,7 @@ MonoBehaviour:
     - 42bd42f7-7c33-4d6c-8cff-24e051b0e644
     - e277d5c6-386e-4f6b-bd63-af2353f3e4d8
   stackNodes:
-  - position: {x: 912, y: 4}
-    title: Stack
-    acceptDrop: 1
-    acceptNewNode: 1
-    nodeGUIDs:
-    - ffd2cf4b-87c3-42a6-9822-04bae7a5700b
-    - b14b2e69-b835-4b73-ae8e-6f7f986575bb
-    - 42eb43b8-ac7e-4f38-b49b-26ba1bc42732
+  - id: 0
   pinnedElements:
   - position:
       serializedVersion: 2
@@ -176,5 +169,18 @@ MonoBehaviour:
     input: 1
     settings:
       isHidden: 0
-  position: {x: 437, y: 329, z: 0}
-  scale: {x: 0.2842624, y: 0.2842624, z: 1}
+  position: {x: -87, y: 238, z: 0}
+  scale: {x: 0.8695652, y: 0.8695652, z: 1}
+  references:
+    version: 1
+    00000000:
+      type: {class: BaseStackNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        position: {x: 918, y: 56}
+        title: Stack
+        acceptDrop: 1
+        acceptNewNode: 1
+        nodeGUIDs:
+        - ffd2cf4b-87c3-42a6-9822-04bae7a5700b
+        - e99da4fb-6a11-4b19-8594-f37f55d96114
+        - 42eb43b8-ac7e-4f38-b49b-26ba1bc42732

@@ -6,8 +6,8 @@ Node graph editor framework focused on data processing using Unity UIElements an
 
 ### Unity Compatible versions
 
-This project requires at least Unity **2019.1** with a scripting runtime version of 4.x in player settings.
-The current Unity version used for the project is **2019.2.0f1**
+This project requires at least Unity **2019.3** with a scripting runtime version of 4.x in player settings.
+The current Unity version used for the project is **2019.3.0f6**
 
 ### Installation
 

@@ -96,7 +96,7 @@ namespace GraphProcessor
 		/// </summary>
 		/// <typeparam name="stackNodes"></typeparam>
 		/// <returns></returns>
-		[SerializeField]
+		[SerializeField, SerializeReference] // Polymorphic serialization
 		public List< BaseStackNode >					stackNodes = new List< BaseStackNode >();
 
 		/// <summary>
@@ -158,6 +158,8 @@ namespace GraphProcessor
 		/// <returns></returns>
 		public BaseNode AddNode(BaseNode node)
 		{
+			nodesPerGUID[node.GUID] = node;
+
 			nodes.Add(node);
 			node.Initialize(this);
 
@@ -339,6 +341,9 @@ namespace GraphProcessor
 
 			foreach (var node in nodes)
 				serializedNodes.Add(JsonSerializer.SerializeNode(node));
+			
+			// Cleanup stackNodes
+			stackNodes.RemoveAll(s => s == null);
 		}
 
 		// We can deserialize data here because it's called in a unity context

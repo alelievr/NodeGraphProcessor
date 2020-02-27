@@ -525,6 +525,9 @@ namespace GraphProcessor
 
 		void InitializeEdgeViews()
 		{
+			// Sanitize edges in case a node broke something while loading
+			graph.edges.RemoveAll(edge => edge == null || edge.inputNode == null || edge.outputNode == null);
+
 			foreach (var serializedEdge in graph.edges)
 			{
 				nodeViewsPerNode.TryGetValue(serializedEdge.inputNode, out var inputNodeView);

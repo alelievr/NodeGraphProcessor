@@ -139,7 +139,7 @@ namespace GraphProcessor
 
 			node.position = new Rect(position, new Vector2(100, 100));
 
-			node.OnNodeCreated();
+			ExceptionToLog.Call(() => node.OnNodeCreated());
 
 			return node;
 		}
@@ -151,7 +151,7 @@ namespace GraphProcessor
 		{
 			this.graph = graph;
 
-			Enable();
+			ExceptionToLog.Call(() => Enable());
 
 			foreach (var nodeFieldKP in nodeFields)
 			{
@@ -163,7 +163,7 @@ namespace GraphProcessor
 				}
 				else
 				{
-					// If we don't have a custom behavor on the node, we just have to create a simple port
+					// If we don't have a custom behavior on the node, we just have to create a simple port
 					AddPort(nodeField.input, nodeField.fieldName, new PortData { acceptMultipleEdges = nodeField.isMultiple, displayName = nodeField.name });
 				}
 			}
@@ -247,7 +247,7 @@ namespace GraphProcessor
 			}
 		}
 
-		~BaseNode() => Disable();
+		~BaseNode() => ExceptionToLog.Call(() => Disable());
 
 		/// <summary>
 		/// Called only when the node is created, not when instantiated
@@ -344,7 +344,7 @@ namespace GraphProcessor
 		{
 			inputPorts.PullDatas();
 
-			Process();
+			ExceptionToLog.Call(() => Process());
 
 			onProcessed?.Invoke();
 

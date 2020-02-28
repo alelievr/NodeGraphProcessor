@@ -220,7 +220,7 @@ namespace GraphProcessor
 							Disconnect(edge);
 							return true;
 						case BaseNodeView node:
-							node.OnRemoved();
+							ExceptionToLog.Call(() => node.OnRemoved());
 							graph.RemoveNode(node.nodeTarget);
 							RemoveElement(node);
 							return true;
@@ -587,7 +587,7 @@ namespace GraphProcessor
 			var view = AddNodeView(node);
 
 			// Call create after the node have been initialized
-			view.OnCreated();
+			ExceptionToLog.Call(() => view.OnCreated());
 
 			UpdateComputeOrder();
 

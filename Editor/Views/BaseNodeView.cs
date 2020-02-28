@@ -80,7 +80,7 @@ namespace GraphProcessor
 			InitializeView();
 			InitializeDebug();
 
-			Enable();
+			ExceptionToLog.Call(() => Enable());
 
 			InitializeSettings();
 

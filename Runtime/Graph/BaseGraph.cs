@@ -31,6 +31,7 @@ namespace GraphProcessor
 		public SerializableEdge	addedEdge;
 		public BaseNode			removedNode;
 		public BaseNode			addedNode;
+		public BaseNode			nodeChanged;
 		public Group			addedGroups;
 		public Group			removedGroups;
 		public BaseStackNode	addedStackNode;
@@ -305,6 +306,12 @@ namespace GraphProcessor
 			stackNodes.Remove(stackNode);
 			onGraphChanges?.Invoke(new GraphChanges{ removedStackNode = stackNode });
 		}
+
+		/// <summary>
+		/// Invoke the onGraphChanges event, can be used as trigger to execute the graph when the content of a node is changed 
+		/// </summary>
+		/// <param name="node"></param>
+		public void NotifyNodeChanged(BaseNode node) => onGraphChanges?.Invoke(new GraphChanges { nodeChanged = node });
 
 		/// <summary>
 		/// Open a pinned element of type viewType

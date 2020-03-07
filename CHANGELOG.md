@@ -7,30 +7,37 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.5.0]
 
 ### Added
+
 - Added StackNode with custom view
+- Added an API to notify the graph that a node have changed (BaseGraph.NotifyNodeChanged)
 
 ## [0.4.0]
 
 ### Changed
+
 - Renamed Comment Block by Group
 
 ## [0.3.0]
 
 ### Fixed
+
 - Fixed Enums fields created via FieldFactory (inspector graph UI for properties should now work with enums)
 
 ### Added
+
 - User defined type conversions inside the graph (ex: float to vector). See TypeAdapter.cs
 
 ## [0.2.0]
 
 ### Fixed
+
 - Fixed build errors
 - Fixed badge distance when node used a custom size
 
 ## [0.1.0]
 
 ### Added
+
 - API to create C# template menu items (and moved the default Node and NodeView templates to Examples)
 - Added an event that is fired when something is changed inside the graph (BaseGraph.onGraphChanges)
 - Added support of node messages (you can attach one message with an icon to a node, either from the process function or from the view. See `AddMessage` and `AddMessageView` functions)
@@ -38,6 +45,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Fixed
+
 - When switching a port type, the connected edges are now removed if the new port type is incompatible.
 
 ## [0.0.0]

@@ -728,8 +728,13 @@ namespace GraphProcessor
 
 			RefreshPorts();
 		}
-		
+
 		protected virtual VisualElement CreateSettingsView() => new Label("Settings");
+
+		/// <summary>
+		/// Send an event to the graph telling that the content of this node have changed
+		/// </summary>
+		public void NotifyNodeChanged() => owner.graph.NotifyNodeChanged(nodeTarget);
 
 		#endregion
     }

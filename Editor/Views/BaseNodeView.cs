@@ -527,10 +527,10 @@ namespace GraphProcessor
 			}
 		}
 
-		protected void AddControlField(string fieldName, string label = null)
-			=> AddControlField(nodeTarget.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance), label);
+		protected void AddControlField(string fieldName, string label = null, Action valueChangedCallback = null)
+			=> AddControlField(nodeTarget.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance), label, valueChangedCallback);
 
-		protected void AddControlField(FieldInfo field, string label = null)
+		protected void AddControlField(FieldInfo field, string label = null, Action valueChangedCallback = null)
 		{
 			if (field == null)
 				return;
@@ -538,6 +538,7 @@ namespace GraphProcessor
 			var element = FieldFactory.CreateField(field.FieldType, field.GetValue(nodeTarget), (newValue) => {
 				owner.RegisterCompleteObjectUndo("Updated " + newValue);
 				field.SetValue(nodeTarget, newValue);
+				valueChangedCallback?.Invoke();
 			}, label);
 
 			if (element != null)

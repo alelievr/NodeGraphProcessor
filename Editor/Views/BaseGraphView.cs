@@ -907,6 +907,11 @@ namespace GraphProcessor
 			UpdateViewTransform(graph.position, graph.scale);
 		}
 
+		/// <summary>
+		/// Deletes the selected content, can be called form an IMGUI container
+		/// </summary>
+		public void DelayedDeleteSelection() => this.schedule.Execute(() => DeleteSelectionOperation("Delete", AskUser.DontAskUser)).ExecuteLater(0);
+
 		protected virtual void InitializeView() {}
 
 		public virtual IEnumerable< KeyValuePair< string, Type > > FilterCreateNodeMenuEntries()

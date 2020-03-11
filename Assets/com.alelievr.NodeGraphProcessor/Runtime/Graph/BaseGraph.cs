@@ -152,6 +152,12 @@ namespace GraphProcessor
 			onEnabled?.Invoke();
         }
 
+		protected virtual void OnDisable()
+		{
+			foreach (var node in nodes)
+				node.DisableInternal();
+		}
+
 		/// <summary>
 		/// Adds a node to the graph
 		/// </summary>

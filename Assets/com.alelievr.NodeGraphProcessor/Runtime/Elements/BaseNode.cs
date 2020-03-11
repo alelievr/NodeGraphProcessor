@@ -247,7 +247,7 @@ namespace GraphProcessor
 			}
 		}
 
-		~BaseNode() => ExceptionToLog.Call(() => Disable());
+		internal void DisableInternal() => ExceptionToLog.Call(() => Disable());
 
 		/// <summary>
 		/// Called only when the node is created, not when instantiated

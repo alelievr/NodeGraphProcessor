@@ -538,6 +538,7 @@ namespace GraphProcessor
 			var element = FieldFactory.CreateField(field.FieldType, field.GetValue(nodeTarget), (newValue) => {
 				owner.RegisterCompleteObjectUndo("Updated " + newValue);
 				field.SetValue(nodeTarget, newValue);
+				NotifyNodeChanged();
 				valueChangedCallback?.Invoke();
 			}, label);
 

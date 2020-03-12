@@ -82,5 +82,7 @@ namespace GraphProcessor
 			inputPort = inputNode.GetPort(inputFieldName, inputPortIdentifier);
 			outputPort = outputNode.GetPort(outputFieldName, outputPortIdentifier);
 		}
+
+		public override string ToString() => $"{inputNode.name}:{inputPort.fieldName} -> {outputNode.name}:{outputPort.fieldName}";
 	}
 }

@@ -4,6 +4,7 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GraphProcessor
 {
@@ -47,12 +48,12 @@ namespace GraphProcessor
 
         void InitializeInnerNodes()
         {
-            foreach (var nodeGUID in group.innerNodeGUIDs)
+            foreach (var nodeGUID in group.innerNodeGUIDs.ToList())
             {
                 if (!owner.graph.nodesPerGUID.ContainsKey(nodeGUID))
                 {
                     Debug.LogWarning("Node GUID not found: " + nodeGUID);
-
+                    group.innerNodeGUIDs.Remove(nodeGUID);
                     continue ;
                 }
                 var node = owner.graph.nodesPerGUID[nodeGUID];

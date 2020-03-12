@@ -168,6 +168,9 @@ namespace GraphProcessor
 		/// <param name="edge"></param>
 		public void Remove(SerializableEdge edge)
 		{
+			if (!edges.Contains(edge))
+				return;
+
 			pushDataDelegates.Remove(edge);
 			edges.Remove(edge);
 		}
@@ -203,6 +206,11 @@ namespace GraphProcessor
 		}
 
 		/// <summary>
+		/// Reset the value of the field to default if possible
+		/// </summary>
+		public void ResetToDefault() => fieldInfo.SetValue(owner, Activator.CreateInstance(fieldInfo.FieldType));
+
+		/// <summary>
 		/// Pull values from the edge (in case of a custom convertion method)
 		/// This method can only be called on input ports
 		/// </summary>
@@ -218,7 +226,7 @@ namespace GraphProcessor
 			if (edgeWithRemoteCustomIO.Count == 0)
 				return ;
 
-			// Only one input connection is handled by this code, if you wany to
+			// Only one input connection is handled by this code, if you want to
 			// take multiple inputs, you must create a custom input function see CustomPortsNode.cs
 			fieldInfo.SetValue(owner, edges.First().passThroughBuffer);
 		}

@@ -268,6 +268,7 @@ namespace GraphProcessor
 				{
 					onGraphChanges?.Invoke(new GraphChanges{ removedEdge = r });
 					r.inputNode?.OnEdgeDisconnected(r);
+					r.outputNode?.OnEdgeDisconnected(r);
 				}
 				return r.GUID == edgeGUID;
 			});

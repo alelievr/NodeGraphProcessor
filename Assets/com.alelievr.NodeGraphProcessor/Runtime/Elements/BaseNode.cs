@@ -335,6 +335,10 @@ namespace GraphProcessor
 
 			portCollection.Remove(edge);
 
+			// Reset default values of input port:
+			if (edge.inputNode == this)
+				edge.inputPort.ResetToDefault();
+
 			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
 
 			onAfterEdgeDisconnected?.Invoke(edge);

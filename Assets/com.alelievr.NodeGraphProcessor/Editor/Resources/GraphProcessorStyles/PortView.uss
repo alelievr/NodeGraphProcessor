@@ -3,8 +3,6 @@ PortView {
     align-items: center;
     padding-left: 4px;
     padding-right: 4px;
-    port-color: rgb(200, 200, 00);
-    disabled-port-color: rgb(0, 70, 70);
 }
 
 PortView.input {

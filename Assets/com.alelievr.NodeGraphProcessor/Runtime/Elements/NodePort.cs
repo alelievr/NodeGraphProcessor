@@ -208,7 +208,14 @@ namespace GraphProcessor
 		/// <summary>
 		/// Reset the value of the field to default if possible
 		/// </summary>
-		public void ResetToDefault() => fieldInfo.SetValue(owner, Activator.CreateInstance(fieldInfo.FieldType));
+		public void ResetToDefault()
+		{
+			// When type is nullable, we set it to null instead of allocating a dummy class
+			if (Nullable.GetUnderlyingType(fieldInfo.FieldType) != null)
+				fieldInfo.SetValue(owner, null);
+			else
+				fieldInfo.SetValue(owner, Activator.CreateInstance(fieldInfo.FieldType));
+		}
 
 		/// <summary>
 		/// Pull values from the edge (in case of a custom convertion method)

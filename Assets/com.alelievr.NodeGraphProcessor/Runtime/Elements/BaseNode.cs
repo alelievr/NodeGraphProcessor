@@ -337,7 +337,7 @@ namespace GraphProcessor
 
 			// Reset default values of input port:
 			if (edge.inputNode == this)
-				edge.inputPort.ResetToDefault();
+				edge.inputPort?.ResetToDefault();
 
 			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
 

@@ -16,19 +16,19 @@ public class GraphAssetInspector : GraphInspector
 	{
 		base.CreateInspector();
 
-		root.Add(new Button(() => DefaultGraphWindow.Open().InitializeGraph(target as BaseGraph))
+		root.Add(new Button(() => EditorWindow.GetWindow<DefaultGraphWindow>().InitializeGraph(target as BaseGraph))
 		{
 			text = "Open base graph window"
 		});
-		root.Add(new Button(() => CustomContextMenuGraphWindow.Open().InitializeGraph(target as BaseGraph))
+		root.Add(new Button(() => EditorWindow.GetWindow<CustomContextMenuGraphWindow>().InitializeGraph(target as BaseGraph))
 		{
 			text = "Open custom context menu graph window"
 		});
-		root.Add(new Button(() => CustomToolbarGraphWindow.Open().InitializeGraph(target as BaseGraph))
+		root.Add(new Button(() => EditorWindow.GetWindow<CustomToolbarGraphWindow>().InitializeGraph(target as BaseGraph))
 		{
 			text = "Open custom toolbar graph window"
 		});
-		root.Add(new Button(() => ExposedPropertiesGraphWindow.Open().InitializeGraph(target as BaseGraph))
+		root.Add(new Button(() => EditorWindow.GetWindow<ExposedPropertiesGraphWindow>().InitializeGraph(target as BaseGraph))
 		{
 			text = "Open exposed properties graph window"
 		});

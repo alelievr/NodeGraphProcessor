@@ -259,7 +259,7 @@ MonoBehaviour:
       serializedType: ConditionalProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: -77, y: 470, z: 0}
-  scale: {x: 0.43232757, y: 0.43232757, z: 1}
+  position: {x: -1188, y: 208, z: 0}
+  scale: {x: 0.8695652, y: 0.8695652, z: 1}
   references:
     version: 1

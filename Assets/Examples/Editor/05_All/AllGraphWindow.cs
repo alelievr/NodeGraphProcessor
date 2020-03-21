@@ -6,22 +6,24 @@ using GraphProcessor;
 
 public class AllGraphWindow : BaseGraphWindow
 {
-	[MenuItem("Window/03_CustomContextMenu")]
-	public static BaseGraphWindow Open()
+	BaseGraph	tmpGraph;
+
+	[MenuItem("Window/05 All Combined")]
+	public static BaseGraphWindow OpenWithTmpGraph()
 	{
-		var graphWindow = GetWindow< AllGraphWindow >();
+		var graphWindow = CreateWindow< AllGraphWindow >();
+
+		// When the graph is opened from the window, we don't save the graph to disk
+		graphWindow.tmpGraph = ScriptableObject.CreateInstance<BaseGraph>();
+		graphWindow.tmpGraph.hideFlags = HideFlags.HideAndDontSave;
+		graphWindow.InitializeGraph(graphWindow.tmpGraph);
 
 		graphWindow.Show();
 
 		return graphWindow;
 	}
 
-	protected new void OnEnable()
-	{
-		base.OnEnable();
-		// graphLoaded += g => Debug.Log("Load: " + g);
-		// graphUnloaded += g => Debug.Log("Unload: " + g);
-	}
+	protected override void OnDestroy() => DestroyImmediate(tmpGraph);
 
 	protected override void InitializeWindow(BaseGraph graph)
 	{

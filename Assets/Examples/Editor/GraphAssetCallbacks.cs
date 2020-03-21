@@ -30,7 +30,7 @@ public class GraphAssetCallbacks
 
 		if (asset != null && AssetDatabase.GetAssetPath(asset).Contains("Examples"))
 		{
-			AllGraphWindow.Open().InitializeGraph(asset as BaseGraph);
+			EditorWindow.GetWindow<AllGraphWindow>().InitializeGraph(asset as BaseGraph);
 			return true;
 		}
 		return false;

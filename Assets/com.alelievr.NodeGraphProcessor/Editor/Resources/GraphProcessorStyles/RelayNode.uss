@@ -1,0 +1,33 @@
+﻿.node
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+.node > #node-border
+{
+    border-radius: 9px;
+}
+
+#contents > #top > #input, #contents > #top > #output
+{
+    padding: 0px;
+    margin: 0px;
+    height: 16px
+}
+
+#contents > #top > #input .connectorBox, #contents > #top > #output .connectorBox
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+#contents > #top > #input .unity-label
+{
+    display: none;
+}
+
+.hideLabels .unity-label
+{
+    display: none;
+}

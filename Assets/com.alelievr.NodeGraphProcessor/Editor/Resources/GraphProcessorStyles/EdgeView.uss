@@ -1,3 +1,33 @@
-EdgeView.Single {
-	color: #800080
+.edge {
+    --selected-edge-color: #44C0FF;
+    --ghost-edge-color: #555555;
+    --edge-color: #929292;
+    --edge-width: 2;
+    --layer:-10;
 }
+
+.edge:hover {
+    --edge-width: 4;
+}
+
+/* Workaround to dynamically change edge size as we can't do it in C# :( */
+.edge_1 { --edge-width: 1; } .edge_1:hover { --edge-width: 3; }
+.edge_2 { --edge-width: 2; } .edge_2:hover { --edge-width: 4; }
+.edge_3 { --edge-width: 3; } .edge_3:hover { --edge-width: 5; }
+.edge_4 { --edge-width: 4; } .edge_4:hover { --edge-width: 6; }
+.edge_5 { --edge-width: 5; } .edge_5:hover { --edge-width: 7; }
+.edge_6 { --edge-width: 6; } .edge_6:hover { --edge-width: 8; }
+.edge_7 { --edge-width: 7; } .edge_7:hover { --edge-width: 9; }
+.edge_8 { --edge-width: 8; } .edge_8:hover { --edge-width: 10; }
+.edge_9 { --edge-width: 9; } .edge_9:hover { --edge-width: 11; }
+.edge_10 { --edge-width: 10; } .edge_10:hover { --edge-width: 12; }
+.edge_11 { --edge-width: 11; } .edge_11:hover { --edge-width: 13; }
+.edge_12 { --edge-width: 12; } .edge_12:hover { --edge-width: 14; }
+.edge_13 { --edge-width: 13; } .edge_13:hover { --edge-width: 15; }
+.edge_14 { --edge-width: 14; } .edge_14:hover { --edge-width: 16; }
+.edge_15 { --edge-width: 15; } .edge_15:hover { --edge-width: 17; }
+.edge_16 { --edge-width: 16; } .edge_16:hover { --edge-width: 18; }
+.edge_17 { --edge-width: 17; } .edge_17:hover { --edge-width: 19; }
+.edge_18 { --edge-width: 18; } .edge_18:hover { --edge-width: 20; }
+.edge_19 { --edge-width: 19; } .edge_19:hover { --edge-width: 21; }
+.edge_20 { --edge-width: 20; } .edge_20:hover { --edge-width: 22; }

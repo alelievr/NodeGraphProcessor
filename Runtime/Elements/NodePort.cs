@@ -111,7 +111,7 @@ namespace GraphProcessor
 		{
 			if (!edges.Contains(edge))
 				edges.Add(edge);
-				
+
 			if (edge.inputNode == owner)
 			{
 				if (edge.outputPort.customPortIOMethod != null)
@@ -151,7 +151,7 @@ namespace GraphProcessor
 
 				Expression inputParamField = Expression.Field(Expression.Constant(edge.inputNode), inputField);
 				Expression outputParamField = Expression.Field(Expression.Constant(edge.outputNode), outputField);
-				
+
 				var inType = edge.inputPort.portData.displayType ?? inputField.FieldType;
 				var outType = edge.outputPort.portData.displayType ?? outputField.FieldType;
 
@@ -225,7 +225,7 @@ namespace GraphProcessor
 		public void ResetToDefault()
 		{
 			// When type is nullable, we set it to null instead of allocating a dummy class
-			if (Nullable.GetUnderlyingType(fieldInfo.FieldType) != null)
+			if (fieldInfo.FieldType.GetTypeInfo().IsClass)
 				fieldInfo.SetValue(owner, null);
 			else
 				fieldInfo.SetValue(owner, Activator.CreateInstance(fieldInfo.FieldType));

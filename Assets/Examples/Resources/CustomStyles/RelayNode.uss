@@ -1,9 +1,0 @@
-﻿#contents > #top > #input, #contents > #top > #output
-{
-    padding: 0px;
-}
-
-.unity-label
-{
-    display: none;
-}

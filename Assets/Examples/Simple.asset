@@ -82,7 +82,7 @@ MonoBehaviour:
       serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor.Editor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: -818, y: -203, z: 0}
-  scale: {x: 1.7490063, y: 1.7490063, z: 1}
+  position: {x: -628, y: -67, z: 0}
+  scale: {x: 1.3225, y: 1.3225, z: 1}
   references:
     version: 1

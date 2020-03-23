@@ -20,7 +20,7 @@ namespace GraphProcessor
 		public event Action< PortView, Edge >	OnDisconnected;
 
 		protected FieldInfo		fieldInfo;
-		protected EdgeConnectorListener	listener;
+		protected BaseEdgeConnectorListener	listener;
 
 		string userPortStyleFile = "PortViewTypes";
 
@@ -30,24 +30,42 @@ namespace GraphProcessor
 
 		readonly string portStyle = "GraphProcessorStyles/PortView";
 
-        public PortView(Orientation orientation, Direction direction, FieldInfo fieldInfo, PortData portData, EdgeConnectorListener edgeConnectorListener)
+        public PortView(Orientation orientation, Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener edgeConnectorListener)
             : base(orientation, direction, Capacity.Multi, portData.displayType ?? fieldInfo.FieldType)
 		{
-			styleSheets.Add(Resources.Load<StyleSheet>(portStyle));
-
-			var userPortStyle = Resources.Load<StyleSheet>(userPortStyleFile);
-
-			if (userPortStyle != null)
-				styleSheets.Add(userPortStyle);
-
-			this.m_EdgeConnector = new EdgeConnector< EdgeView >(edgeConnectorListener);
-			this.AddManipulator(m_EdgeConnector);
-
 			this.fieldInfo = fieldInfo;
 			this.listener = edgeConnectorListener;
 			this.portType = portData.displayType ?? fieldInfo.FieldType;
 			this.portData = portData;
 			this.portName = fieldName;
+
+			styleSheets.Add(Resources.Load<StyleSheet>(portStyle));
+
+			UpdatePortSize();
+
+			var userPortStyle = Resources.Load<StyleSheet>(userPortStyleFile);
+			if (userPortStyle != null)
+				styleSheets.Add(userPortStyle);
+
+			this.m_EdgeConnector = new EdgeConnector< EdgeView >(edgeConnectorListener);
+			this.AddManipulator(m_EdgeConnector);
+		}
+
+		/// <summary>
+		/// Update the size of the port view (using the portData.sizeInPixel property)
+		/// </summary>
+		public void UpdatePortSize()
+		{
+			int size = portData.sizeInPixel == 0 ? 8 : portData.sizeInPixel;
+			var connector = this.Q("connector");
+			var cap = connector.Q("cap");
+			connector.style.width = size;
+			connector.style.height = size;
+			cap.style.width = size - 4;
+			cap.style.height = size - 4;
+
+			// Update connected edge sizes:
+			edges.ForEach(e => e.UpdateEdgeSize());
 		}
 
 		public virtual void Initialize(BaseNodeView nodeView, string name)
@@ -110,6 +128,8 @@ namespace GraphProcessor
 			}
 			if (!String.IsNullOrEmpty(displayName))
 				base.portName = displayName;
+			
+			UpdatePortSize();
 		}
 
 		public List< EdgeView >	GetEdges()

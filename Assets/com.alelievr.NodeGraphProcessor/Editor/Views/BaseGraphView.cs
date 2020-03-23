@@ -29,7 +29,7 @@ namespace GraphProcessor
 		/// <summary>
 		/// Connector listener that will create the edges between ports
 		/// </summary>
-		public EdgeConnectorListener				connectorListener;
+		public BaseEdgeConnectorListener				connectorListener;
 
 		/// <summary>
 		/// List of all node views in the graph
@@ -88,7 +88,7 @@ namespace GraphProcessor
 		/// Safe event (not triggered in case the graph is null).
 		/// </summary>
 		public event Action				onExposedParameterListChanged;
-		
+
 		/// <summary>
 		/// Same event than BaseGraph.onExposedParameterModified
 		/// Safe event (not triggered in case the graph is null).
@@ -243,7 +243,7 @@ namespace GraphProcessor
 
 			return changes;
 		}
-		
+
 		void GraphChangesCallback(GraphChanges changes)
 		{
 			if (changes.removedEdge != null)
@@ -361,13 +361,13 @@ namespace GraphProcessor
 			});
 		}
 
-		void KeyDownCallback(KeyDownEvent e)
+		protected virtual void KeyDownCallback(KeyDownEvent e)
 		{
 			if (e.keyCode == KeyCode.S && e.commandKey)
 			{
 				SaveGraphToDisk();
 				e.StopPropagation();
-			} 
+			}
 			else if(nodeViews.Count > 0 && e.commandKey && e.altKey)
 			{
 				//	Node Aligning shortcuts
@@ -408,6 +408,13 @@ namespace GraphProcessor
 			{
 				// Close all settings windows:
 				nodeViews.ForEach(v => v.CloseSettings());
+
+				if (e.clickCount == 2)
+				{
+					RegisterCompleteObjectUndo("Added relay node ");
+					Vector2 mousePos = (e.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, e.localMousePosition);
+					AddNode(BaseNode.CreateFromType<RelayNode>(mousePos));
+				}
 			}
 		}
 
@@ -484,7 +491,7 @@ namespace GraphProcessor
 
 			this.graph = graph;
 
-            connectorListener = new EdgeConnectorListener(this);
+            connectorListener = CreateEdgeConnectorListener();
 
 			// When pressing ctrl-s, we save the graph
 			EditorSceneManager.sceneSaved += _ => SaveGraphToDisk();
@@ -502,6 +509,13 @@ namespace GraphProcessor
 
 			InitializeView();
 		}
+
+		/// <summary>
+		/// Allow you to create your own edge connector listener
+		/// </summary>
+		/// <returns></returns>
+		protected virtual BaseEdgeConnectorListener CreateEdgeConnectorListener()
+		 => new BaseEdgeConnectorListener(this);
 
 		void InitializeGraphView()
 		{
@@ -579,7 +593,7 @@ namespace GraphProcessor
 
 		#region Graph content modification
 
-		public bool AddNode(BaseNode node)
+		public BaseNodeView AddNode(BaseNode node)
 		{
 			// This will initialize the node using the graph instance
 			graph.AddNode(node);
@@ -591,7 +605,7 @@ namespace GraphProcessor
 
 			UpdateComputeOrder();
 
-			return true;
+			return view;
 		}
 
 		public BaseNodeView AddNodeView(BaseNode node)
@@ -662,7 +676,7 @@ namespace GraphProcessor
 			stackView.Initialize(this);
 
 			return stackView;
-		} 
+		}
 
 		public void RemoveStackNodeView(BaseStackNodeView stackNodeView)
 		{
@@ -695,18 +709,18 @@ namespace GraphProcessor
 		{
 			if (e.input == null || e.output == null)
 				return false;
-				
+
 			var inputPortView = e.input as PortView;
 			var outputPortView = e.output as PortView;
 			var inputNodeView = inputPortView.node as BaseNodeView;
 			var outputNodeView = outputPortView.node as BaseNodeView;
-			
+
 			if (inputNodeView == null || outputNodeView == null)
 			{
 				Debug.LogError("Connect aborted !");
 				return false;
 			}
-				
+
 			//If the input port does not support multi-connection, we remove them
 			if (autoDisconnectInputs && !(e.input as PortView).portData.acceptMultipleEdges)
 			{

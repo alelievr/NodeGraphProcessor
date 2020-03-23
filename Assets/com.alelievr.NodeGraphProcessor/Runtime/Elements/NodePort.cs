@@ -28,14 +28,28 @@ namespace GraphProcessor
 		/// If the port accept multiple connection
 		/// </summary>
 		public bool		acceptMultipleEdges;
+		/// <summary>
+		/// Port size, will also affect the size of the connected edge
+		/// </summary>
+		public int		sizeInPixel;
 
         public bool Equals(PortData other)
         {
 			return identifier == other.identifier
 				&& displayName == other.displayName
 				&& displayType == other.displayType
-				&& acceptMultipleEdges == other.acceptMultipleEdges;
+				&& acceptMultipleEdges == other.acceptMultipleEdges
+				&& sizeInPixel == other.sizeInPixel;
         }
+
+		public void CopyFrom(PortData other)
+		{
+			identifier = other.identifier;
+			displayName = other.displayName;
+			displayType = other.displayType;
+			acceptMultipleEdges = other.acceptMultipleEdges;
+			sizeInPixel = other.sizeInPixel;
+		}
     }
 
 	/// <summary>
@@ -235,7 +249,8 @@ namespace GraphProcessor
 
 			// Only one input connection is handled by this code, if you want to
 			// take multiple inputs, you must create a custom input function see CustomPortsNode.cs
-			fieldInfo.SetValue(owner, edges.First().passThroughBuffer);
+			if (edges.Count > 0)
+				fieldInfo.SetValue(owner, edges.First().passThroughBuffer);
 		}
 	}
 

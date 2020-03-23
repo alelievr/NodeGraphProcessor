@@ -228,7 +228,7 @@ namespace GraphProcessor
 			});
 		}
 
-		public PortView AddPort(FieldInfo fieldInfo, Direction direction, EdgeConnectorListener listener, PortData portData)
+		public PortView AddPort(FieldInfo fieldInfo, Direction direction, BaseEdgeConnectorListener listener, PortData portData)
 		{
 			// TODO: hardcoded value
 			PortView p = new PortView(Orientation.Horizontal, direction, fieldInfo, portData, listener);

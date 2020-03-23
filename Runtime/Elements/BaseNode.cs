@@ -227,7 +227,7 @@ namespace GraphProcessor
 					}
 
 					// patch the port datas
-					port.portData = portData;
+					port.portData.CopyFrom(portData);
 				}
 
 				finalPorts.Add(portData.identifier);

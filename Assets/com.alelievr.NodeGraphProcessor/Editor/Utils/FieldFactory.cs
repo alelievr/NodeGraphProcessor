@@ -113,8 +113,6 @@ namespace GraphProcessor
 			// For mutiline
 			if (field is TextField textField)
 				textField.multiline = true;
-			if (field is ObjectField objField)
-				objField.objectType = t;
 			
 			return field as VisualElement;
 		}
@@ -138,10 +136,29 @@ namespace GraphProcessor
 		{
 			if (typeof(Enum).IsAssignableFrom(fieldType))
 				fieldType = typeof(Enum);
-			
-			var createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(fieldType);
 
-			return createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged, label}) as VisualElement;
+			VisualElement field = null;
+
+			try
+			{
+				var createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(fieldType);
+				field = createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged, label}) as VisualElement;
+
+				// handle the Object field case
+				if (field == null)
+				{
+					createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(typeof(UnityEngine.Object));
+					field = createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged, label}) as VisualElement;
+					if (field is ObjectField objField)
+						objField.objectType = fieldType;
+				}
+			}
+			catch (Exception e)
+			{
+				Debug.LogError(e);
+			}
+
+			return field;
 		}
 	}
 }

@@ -13,14 +13,14 @@ namespace GraphProcessor
 
         VisualElement   parameterContainer;
 
-        void OnEnable()
+        protected virtual void OnEnable()
         {
             graph = target as BaseGraph;
             graph.onExposedParameterListChanged += UpdateExposedParameters;
             graph.onExposedParameterModified += UpdateExposedParameters;
         }
 
-        void OnDisable()
+        protected virtual void OnDisable()
         {
             graph.onExposedParameterListChanged -= UpdateExposedParameters;
             graph.onExposedParameterModified -= UpdateExposedParameters;

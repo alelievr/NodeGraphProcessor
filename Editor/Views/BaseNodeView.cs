@@ -398,22 +398,18 @@ namespace GraphProcessor
 
 		public void OpenNodeViewScript()
 		{
-			var scriptPath = NodeProvider.GetNodeViewScript(GetType());
+			var script = NodeProvider.GetNodeViewScript(GetType());
 
-#pragma warning disable CS0618 // Deprecated function but no alternative :(
-			if (scriptPath != null)
-				InternalEditorUtility.OpenFileAtLineExternal(scriptPath, 0);
-#pragma warning restore CS0618
+			if (script != null)
+				AssetDatabase.OpenAsset(script.GetInstanceID(), 0, 0);
 		}
 
 		public void OpenNodeScript()
 		{
-			var scriptPath = NodeProvider.GetNodeScript(nodeTarget.GetType());
+			var script = NodeProvider.GetNodeScript(nodeTarget.GetType());
 
-#pragma warning disable CS0618 // Deprecated function but no alternative :(
-			if (scriptPath != null)
-				InternalEditorUtility.OpenFileAtLineExternal(scriptPath, 0);
-#pragma warning restore CS0618
+			if (script != null)
+				AssetDatabase.OpenAsset(script.GetInstanceID(), 0, 0);
 		}
 
 		public void ToggleDebug()

@@ -4,6 +4,18 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.0]
+
+### Added
+- Added Relay nodes
+- Added API to have a custom Edge Listener
+
+### Changed
+- When a port is disconnected, it's value is set to null or default.
+
+### Fixed
+- Window menu graph example
+
 ## [0.5.0]
 
 ### Added

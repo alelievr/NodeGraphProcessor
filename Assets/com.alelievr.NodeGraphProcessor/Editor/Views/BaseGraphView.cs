@@ -411,13 +411,6 @@ namespace GraphProcessor
 			{
 				// Close all settings windows:
 				nodeViews.ForEach(v => v.CloseSettings());
-
-				if (e.clickCount == 2)
-				{
-					RegisterCompleteObjectUndo("Added relay node ");
-					Vector2 mousePos = (e.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, e.localMousePosition);
-					AddNode(BaseNode.CreateFromType<RelayNode>(mousePos));
-				}
 			}
 		}
 

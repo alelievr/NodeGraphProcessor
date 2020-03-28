@@ -12,11 +12,11 @@ namespace GraphProcessor
 {
 	public static class NodeProvider
 	{
-		static Dictionary< Type, Type >		nodeViewPerType = new Dictionary< Type, Type >();
-		static Dictionary< string, Type >	nodePerMenuTitle = new Dictionary< string, Type >();
-		static Dictionary< Type, string >	nodeViewScripts = new Dictionary< Type, string >();
-		static Dictionary< Type, string >	nodeScripts = new Dictionary< Type, string >();
-		static List< Type >					slotTypes = new List< Type >();
+		static Dictionary< Type, Type >			nodeViewPerType = new Dictionary< Type, Type >();
+		static Dictionary< string, Type >		nodePerMenuTitle = new Dictionary< string, Type >();
+		static Dictionary< Type, MonoScript >	nodeViewScripts = new Dictionary< Type, MonoScript >();
+		static Dictionary< Type, MonoScript >	nodeScripts = new Dictionary< Type, MonoScript >();
+		static List< Type >						slotTypes = new List< Type >();
 
 		static NodeProvider()
 		{
@@ -66,9 +66,9 @@ namespace GraphProcessor
 			}
 		}
 
-		static string FindScriptFromClassName(string className)
+		static MonoScript FindScriptFromClassName(string className)
 		{
-			var scriptGUIDs = AssetDatabase.FindAssets(className);
+			var scriptGUIDs = AssetDatabase.FindAssets($"t:script {className}");
 
 			if (scriptGUIDs.Length == 0)
 				return null;
@@ -76,8 +76,10 @@ namespace GraphProcessor
 			foreach (var scriptGUID in scriptGUIDs)
 			{
 				var assetPath = AssetDatabase.GUIDToAssetPath(scriptGUID);
-				if (className == Path.GetFileNameWithoutExtension(assetPath))
-					return assetPath;
+				var script = AssetDatabase.LoadAssetAtPath<MonoScript>(assetPath);
+
+				if (script != null && String.Equals(className, Path.GetFileNameWithoutExtension(assetPath), StringComparison.OrdinalIgnoreCase))
+					return script;
 			}
 
 			return null;
@@ -105,27 +107,20 @@ namespace GraphProcessor
 			return nodePerMenuTitle;
 		}
 
-		public static string GetNodeViewScript(Type type)
+		public static MonoScript GetNodeViewScript(Type type)
 		{
-			string scriptPath;
+			nodeViewScripts.TryGetValue(type, out var script);
 
-			nodeViewScripts.TryGetValue(type, out scriptPath);
-
-			return scriptPath;
+			return script;
 		}
 
-		public static string GetNodeScript(Type type)
+		public static MonoScript GetNodeScript(Type type)
 		{
-			string scriptPath;
+			nodeScripts.TryGetValue(type, out var script);
 
-			nodeScripts.TryGetValue(type, out scriptPath);
-
-			return scriptPath;
+			return script;
 		}
 
-		public static List<Type> GetSlotTypes()
-		{
-			return slotTypes;
-		}
+		public static List<Type> GetSlotTypes() => slotTypes;
 	}
 }

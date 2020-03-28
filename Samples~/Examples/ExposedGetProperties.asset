@@ -1,0 +1,254 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
+  m_Name: ExposedGetProperties
+  m_EditorClassIdentifier: 
+  serializedNodes:
+  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"1b4c4205-a083-42c6-815d-089394975a21","computeOrder":5,"canProcess":true,"position":{"serializedVersion":"2","x":460.0,"y":45.0,"width":84.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"581cdd8d-fee9-4d82-bc6f-cbacd7ddc15b","accessor":1}'
+  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"d27bb2f4-f1df-433b-a124-464d64479ebb","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":174.0,"y":-37.0,"width":74.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"ae7b8636-b4ca-4259-afac-f09ff0dc0ad4","accessor":0}'
+  - type: MultiAddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"73ecc83f-695a-45b9-baab-1577a4f64bcc","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":293.0,"y":79.0,"width":122.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":46.0}'
+  - type: GraphProcessor.ParameterNode, com.alelievr.NodeGraphProcessor.Runtime,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"fddbdd73-775e-4b42-b959-90c91f0994ea","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":168.0,"y":81.0,"width":74.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"parameterGUID":"ae7b8636-b4ca-4259-afac-f09ff0dc0ad4","accessor":0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"7a99c438-c7a4-4119-8a43-3c97f352dd7d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":164.0,"y":192.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0,"input":0.0}'
+  - type: IfNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"e1ccba49-c958-49eb-b407-326e633e824e","computeOrder":5,"canProcess":true,"position":{"serializedVersion":"2","x":882.5,"y":381.0,"width":144.0,"height":119.0},"expanded":false,"debug":false,"nodeLock":false,"condition":false,"compareOperator":0}'
+  - type: IfNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"34304755-58b0-4d96-97bb-1f739000d2ae","computeOrder":10,"canProcess":true,"position":{"serializedVersion":"2","x":1402.4632568359375,"y":303.41546630859377,"width":148.0,"height":119.0},"expanded":false,"debug":false,"nodeLock":false,"condition":false,"compareOperator":0}'
+  - type: MultiAddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"5ab40949-8b34-4211-95c9-fc2e5ffaf9fc","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":358.5,"y":441.5,"width":123.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":84.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"1eeb47f3-0542-4e6d-a0f1-682bc2e461e4","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":190.0,"y":390.0,"width":100.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":42.0,"input":42.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"2ccb7d58-8484-467c-807d-7aa278ae82c2","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":192.5,"y":494.5,"width":100.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":42.0,"input":42.0}'
+  - type: Comparison, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"e916168a-5a52-44ae-b121-bca322f8ad3f","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":547.1571655273438,"y":326.50592041015627,"width":229.0,"height":141.0},"expanded":false,"debug":false,"nodeLock":false,"inA":0.0,"inB":0.0,"compared":false,"compareFunction":4}'
+  - type: IfNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"026cdacc-5f9c-4d04-8260-4dce3b329dd6","computeOrder":7,"canProcess":true,"position":{"serializedVersion":"2","x":1396.7694091796875,"y":506.8111267089844,"width":148.0,"height":119.0},"expanded":false,"debug":false,"nodeLock":false,"condition":false,"compareOperator":0}'
+  - type: MultiAddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"3dad74ab-ce5e-4ccb-ba5c-8e11c3b9db8c","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":813.0,"y":664.0,"width":123.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":84.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"bc0249b2-7c01-4420-ba65-c9dd9e4921b1","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":644.0,"y":612.0,"width":100.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":42.0,"input":12.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"2378117a-0691-4161-a2da-ed6fc4c6adc5","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":647.0,"y":717.0,"width":100.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":42.0,"input":30.0}'
+  - type: Comparison, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"cf81b8b0-345e-4030-b186-37f2d428e2cd","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":985.0,"y":604.0,"width":229.0,"height":161.0},"expanded":false,"debug":false,"nodeLock":false,"inA":0.0,"inB":0.0,"compared":false,"compareFunction":4}'
+  - type: MultiAddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"29f80868-9a07-455f-a698-6972fd9364ad","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":851.2504272460938,"y":141.53428649902345,"width":123.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":84.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"57498d91-308a-4d6e-be0d-ce44d9c1352d","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":682.25048828125,"y":89.53430938720703,"width":100.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":42.0,"input":21.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"59d2b883-b624-4627-a398-82d89db73111","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":685.2505493164063,"y":194.53431701660157,"width":100.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":42.0,"input":21.0}'
+  - type: Comparison, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"3fd9f624-1eeb-4c3e-b67c-589cc410135c","computeOrder":4,"canProcess":true,"position":{"serializedVersion":"2","x":1023.25048828125,"y":81.5343017578125,"width":228.99998474121095,"height":161.0},"expanded":false,"debug":false,"nodeLock":false,"inA":0.0,"inB":0.0,"compared":false,"compareFunction":4}'
+  edges:
+  - GUID: 81ad2a95-ee5f-4b8d-9d14-73caf3602feb
+    owner: {fileID: 11400000}
+    inputNodeGUID: 73ecc83f-695a-45b9-baab-1577a4f64bcc
+    outputNodeGUID: d27bb2f4-f1df-433b-a124-464d64479ebb
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: output
+  - GUID: 798ca1ac-1199-46cd-9c10-320004883af5
+    owner: {fileID: 11400000}
+    inputNodeGUID: 73ecc83f-695a-45b9-baab-1577a4f64bcc
+    outputNodeGUID: fddbdd73-775e-4b42-b959-90c91f0994ea
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: output
+  - GUID: a3c827ad-8b8b-4305-bb07-78f509362781
+    owner: {fileID: 11400000}
+    inputNodeGUID: 73ecc83f-695a-45b9-baab-1577a4f64bcc
+    outputNodeGUID: 7a99c438-c7a4-4119-8a43-3c97f352dd7d
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 200d5a0d-2f99-4a7a-9c25-fb55bbdbbe85
+    owner: {fileID: 11400000}
+    inputNodeGUID: 1b4c4205-a083-42c6-815d-089394975a21
+    outputNodeGUID: 73ecc83f-695a-45b9-baab-1577a4f64bcc
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: input
+    outputPortIdentifier: 
+  - GUID: 52cd9782-5189-4f67-aed9-22dfa3629237
+    owner: {fileID: 11400000}
+    inputNodeGUID: 34304755-58b0-4d96-97bb-1f739000d2ae
+    outputNodeGUID: e1ccba49-c958-49eb-b407-326e633e824e
+    inputFieldName: executed
+    outputFieldName: true
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 485a8143-5c6c-4d9c-a059-dedba6deda07
+    owner: {fileID: 11400000}
+    inputNodeGUID: 5ab40949-8b34-4211-95c9-fc2e5ffaf9fc
+    outputNodeGUID: 1eeb47f3-0542-4e6d-a0f1-682bc2e461e4
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 0be9381e-d161-4ca8-8868-3e9e326e6afb
+    owner: {fileID: 11400000}
+    inputNodeGUID: 5ab40949-8b34-4211-95c9-fc2e5ffaf9fc
+    outputNodeGUID: 2ccb7d58-8484-467c-807d-7aa278ae82c2
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 0f5125ad-5dad-4d25-93dc-bc9ded3b4e7c
+    owner: {fileID: 11400000}
+    inputNodeGUID: e916168a-5a52-44ae-b121-bca322f8ad3f
+    outputNodeGUID: 5ab40949-8b34-4211-95c9-fc2e5ffaf9fc
+    inputFieldName: inA
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 7c31dcea-1df7-4f87-af14-daedbfec82a2
+    owner: {fileID: 11400000}
+    inputNodeGUID: e1ccba49-c958-49eb-b407-326e633e824e
+    outputNodeGUID: e916168a-5a52-44ae-b121-bca322f8ad3f
+    inputFieldName: condition
+    outputFieldName: compared
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: ac3b869c-3fbe-4872-ab56-8768bb04b3df
+    owner: {fileID: 11400000}
+    inputNodeGUID: 026cdacc-5f9c-4d04-8260-4dce3b329dd6
+    outputNodeGUID: e1ccba49-c958-49eb-b407-326e633e824e
+    inputFieldName: executed
+    outputFieldName: false
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 5ff1930e-8fc2-4904-ab13-9ec30023b71b
+    owner: {fileID: 11400000}
+    inputNodeGUID: 026cdacc-5f9c-4d04-8260-4dce3b329dd6
+    outputNodeGUID: cf81b8b0-345e-4030-b186-37f2d428e2cd
+    inputFieldName: condition
+    outputFieldName: compared
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: e672d99a-249e-431b-84c5-f67dcbd3c9bd
+    owner: {fileID: 11400000}
+    inputNodeGUID: 34304755-58b0-4d96-97bb-1f739000d2ae
+    outputNodeGUID: 3fd9f624-1eeb-4c3e-b67c-589cc410135c
+    inputFieldName: condition
+    outputFieldName: compared
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 3a7b3ea0-9cd2-4c93-8b24-14ed2dea7731
+    owner: {fileID: 11400000}
+    inputNodeGUID: 3fd9f624-1eeb-4c3e-b67c-589cc410135c
+    outputNodeGUID: 29f80868-9a07-455f-a698-6972fd9364ad
+    inputFieldName: inA
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: f12d3ce6-85fc-4aae-9590-36676a08bc4a
+    owner: {fileID: 11400000}
+    inputNodeGUID: 29f80868-9a07-455f-a698-6972fd9364ad
+    outputNodeGUID: 57498d91-308a-4d6e-be0d-ce44d9c1352d
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: a9ca5962-de09-4e30-8737-1ede725f12c1
+    owner: {fileID: 11400000}
+    inputNodeGUID: 29f80868-9a07-455f-a698-6972fd9364ad
+    outputNodeGUID: 59d2b883-b624-4627-a398-82d89db73111
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 99ed69a5-9e2c-4cec-9b90-17e3bf694743
+    owner: {fileID: 11400000}
+    inputNodeGUID: 3dad74ab-ce5e-4ccb-ba5c-8e11c3b9db8c
+    outputNodeGUID: bc0249b2-7c01-4420-ba65-c9dd9e4921b1
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  groups: []
+  pinnedElements:
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 334
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 90
+      width: 150
+      height: 137
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 150
+      height: 200
+    opened: 0
+    editorType:
+      serializedType: ConditionalProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  exposedParameters:
+  - guid: ae7b8636-b4ca-4259-afac-f09ff0dc0ad4
+    name: Input
+    type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue:
+      serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      serializedName: 
+      serializedValue: 23
+    input: 1
+    settings:
+      isHidden: 0
+  - guid: 581cdd8d-fee9-4d82-bc6f-cbacd7ddc15b
+    name: Output
+    type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue:
+      serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      serializedName: 
+      serializedValue: 46
+    input: 1
+    settings:
+      isHidden: 0
+  position: {x: -348, y: -369, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}

@@ -77,6 +77,11 @@ namespace GraphProcessor
 		Dictionary< SerializableEdge, PushDataDelegate >	pushDataDelegates = new Dictionary< SerializableEdge, PushDataDelegate >();
 		List< SerializableEdge >	edgeWithRemoteCustomIO = new List< SerializableEdge >();
 
+		/// <summary>
+		/// Owner of the FieldInfo, to be used in case of Get/SetValue
+		/// </summary>
+		public object				fieldOwner;
+
 		CustomPortIODelegate		customPortIOMethod;
 
 		/// <summary>
@@ -92,14 +97,25 @@ namespace GraphProcessor
 		/// <param name="owner">owner node</param>
 		/// <param name="fieldName">the C# property name</param>
 		/// <param name="portData">Data of the port</param>
-		public NodePort(BaseNode owner, string fieldName, PortData portData)
+		public NodePort(BaseNode owner, string fieldName, PortData portData) : this(owner, owner, fieldName, portData) {}
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="owner">owner node</param>
+		/// <param name="fieldOwner"></param>
+		/// <param name="fieldName">the C# property name</param>
+		/// <param name="portData">Data of the port</param>
+		public NodePort(BaseNode owner, object fieldOwner, string fieldName, PortData portData)
 		{
 			this.fieldName = fieldName;
-			this.owner = owner;
-			this.portData = portData;
+			this.owner     = owner;
+			this.portData  = portData;
+			this.fieldOwner = fieldOwner;
 
-			fieldInfo = owner.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
+			fieldInfo = fieldOwner.GetType().GetField(
+				fieldName,
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 			customPortIOMethod = CustomPortIO.GetCustomPortMethod(owner.GetType(), fieldName);
 		}
 
@@ -214,7 +230,7 @@ namespace GraphProcessor
 				return ;
 
 			//if there are custom IO implementation on the other ports, they'll need our value in the passThrough buffer
-			object ourValue = fieldInfo.GetValue(owner);
+			object ourValue = fieldInfo.GetValue(fieldOwner);
 			foreach (var edge in edgeWithRemoteCustomIO)
 				edge.passThroughBuffer = ourValue;
 		}
@@ -226,9 +242,9 @@ namespace GraphProcessor
 		{
 			// When type is nullable, we set it to null instead of allocating a dummy class
 			if (fieldInfo.FieldType.GetTypeInfo().IsClass)
-				fieldInfo.SetValue(owner, null);
+				fieldInfo.SetValue(fieldOwner, null);
 			else
-				fieldInfo.SetValue(owner, Activator.CreateInstance(fieldInfo.FieldType));
+				fieldInfo.SetValue(fieldOwner, Activator.CreateInstance(fieldInfo.FieldType));
 		}
 
 		/// <summary>
@@ -250,7 +266,7 @@ namespace GraphProcessor
 			// Only one input connection is handled by this code, if you want to
 			// take multiple inputs, you must create a custom input function see CustomPortsNode.cs
 			if (edges.Count > 0)
-				fieldInfo.SetValue(owner, edges.First().passThroughBuffer);
+				fieldInfo.SetValue(fieldOwner, edges.First().passThroughBuffer);
 		}
 	}
 

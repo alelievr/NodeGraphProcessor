@@ -68,6 +68,9 @@ namespace GraphProcessor
 
 		protected virtual void AddButtons()
 		{
+			leftButtonDatas.Clear();
+			rightButtonDatas.Clear();
+
 			AddButton("Center", graphView.ResetPositionAndZoom);
 
 			bool processorVisible = graphView.GetPinnedElementStatus< ProcessorView >() != Status.Hidden;

@@ -30,10 +30,11 @@ public class CustomContextMenuGraphWindow : BaseGraphWindow
 		titleContent = new GUIContent("Context Menu Graph");
 
 		if (graphView == null)
+		{
 			graphView = new CustomContextMenuGraphView(this);
+			graphView.Add(new MiniMapView(graphView));
+		}
 
 		rootView.Add(graphView);
-
-		graphView.Add(new MiniMapView(graphView));
 	}
 }

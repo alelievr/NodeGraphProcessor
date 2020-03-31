@@ -54,7 +54,7 @@ MonoBehaviour:
       PublicKeyToken=null
     jsonDatas: '{"GUID":"ab35bbd6-77b3-4047-89c3-65e89faebd54","computeOrder":25,"canProcess":true,"position":{"serializedVersion":"2","x":2205.150146484375,"y":187.30003356933595,"width":168.0,"height":115.00000762939453},"expanded":false,"debug":false,"nodeLock":false}'
   - type: StringNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"60483d14-2e65-48f0-8c6a-828ed62a7401","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":1765.65234375,"y":224.52175903320313,"width":256.0,"height":97.0},"expanded":false,"debug":false,"nodeLock":false,"output":"Loop
+    jsonDatas: '{"GUID":"60483d14-2e65-48f0-8c6a-828ed62a7401","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":1774.7449951171875,"y":340.4343566894531,"width":214.0,"height":179.0},"expanded":false,"debug":false,"nodeLock":false,"output":"Loop
       is done !"}'
   edges:
   - GUID: a71011e7-132b-4cbb-929f-8a9a4025ec32
@@ -259,7 +259,7 @@ MonoBehaviour:
       serializedType: ConditionalProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: -1126, y: 89.99999, z: 0}
-  scale: {x: 0.8695652, y: 0.8695652, z: 1}
+  position: {x: 182, y: 198, z: 0}
+  scale: {x: 0.57175326, y: 0.57175326, z: 1}
   references:
     version: 1

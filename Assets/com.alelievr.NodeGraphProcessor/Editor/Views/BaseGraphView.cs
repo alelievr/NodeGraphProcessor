@@ -468,6 +468,7 @@ namespace GraphProcessor
 			RemoveNodeViews();
 			RemoveEdges();
 			RemoveGroups();
+			RemoveStackNodeViews();
 
 			// And re-add with new up to date datas
 			InitializeNodeViews();
@@ -492,14 +493,8 @@ namespace GraphProcessor
 			// When pressing ctrl-s, we save the graph
 			EditorSceneManager.sceneSaved += _ => SaveGraphToDisk();
 
-			InitializeGraphView();
-			InitializeNodeViews();
-			InitializeEdgeViews();
+			ReloadView();
 			InitializeViews();
-            InitializeGroups();
-			InitializeStackNodes();
-
-			UpdateComputeOrder();
 
 			initialized?.Invoke();
 
@@ -634,6 +629,13 @@ namespace GraphProcessor
 				RemoveElement(nodeView);
 			nodeViews.Clear();
 			nodeViewsPerNode.Clear();
+		}
+
+		void RemoveStackNodeViews()
+		{
+			foreach (var stackView in stackNodeViews)
+				RemoveElement(stackView);
+			stackNodeViews.Clear();
 		}
 
         public GroupView AddGroup(Group block)

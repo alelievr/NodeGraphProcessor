@@ -30,10 +30,11 @@ public class CustomToolbarGraphWindow : BaseGraphWindow
 		titleContent = new GUIContent("Custom Toolbar Graph");
 
 		if (graphView == null)
+		{
 			graphView = new CustomToolbarGraphView(this);
+			graphView.Add(new CustomToolbarView(graphView));
+		}
 
 		rootView.Add(graphView);
-
-		graphView.Add(new CustomToolbarView(graphView));
 	}
 }

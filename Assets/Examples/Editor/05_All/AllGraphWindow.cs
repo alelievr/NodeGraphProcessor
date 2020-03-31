@@ -29,7 +29,8 @@ public class AllGraphWindow : BaseGraphWindow
 	{
 		titleContent = new GUIContent("All Graph");
 
-		var graphView = new AllGraphView(this);
+		if (graphView == null)
+			graphView = new AllGraphView(this);
 
 		rootView.Add(graphView);
 

@@ -29,7 +29,8 @@ public class ExposedPropertiesGraphWindow : BaseGraphWindow
 	{
 		titleContent = new GUIContent("Properties Graph");
 
-		var graphView = new ExposedPropertiesGraphView(this);
+		if (graphView == null)
+			graphView = new ExposedPropertiesGraphView(this);
 
 		rootView.Add(graphView);
 	}

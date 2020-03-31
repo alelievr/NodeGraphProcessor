@@ -16,11 +16,11 @@ MonoBehaviour:
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"39fdf09f-b7ff-49f5-bfe5-c59e221c30b6","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":415.0,"y":101.0,"width":72.0,"height":95.0},"expanded":true,"debug":false,"nodeLock":false}'
   - type: SubNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"1327efdb-6d08-421e-a601-67e39e1c4073","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":292.0,"y":271.0,"width":98.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"inputA":42.0,"inputB":12.0,"output":30.0}'
+    jsonDatas: '{"GUID":"1327efdb-6d08-421e-a601-67e39e1c4073","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":316.0,"y":268.0,"width":98.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"inputA":42.0,"inputB":12.0,"output":30.0}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"47e80399-61e7-4350-9ff3-aa91b54eabe3","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":191.0,"y":223.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":42.0,"input":0.0}'
+    jsonDatas: '{"GUID":"47e80399-61e7-4350-9ff3-aa91b54eabe3","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":193.0,"y":225.5,"width":100.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":42.0,"input":0.0}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"5a439c2f-4655-43ed-a6ae-e142b92b25ce","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":193.0,"y":326.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":12.0,"input":0.0}'
+    jsonDatas: '{"GUID":"5a439c2f-4655-43ed-a6ae-e142b92b25ce","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":191.5,"y":325.5,"width":100.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":12.0,"input":0.0}'
   edges:
   - GUID: 9da87722-5b0e-491d-af10-63206a3ca74e
     owner: {fileID: 11400000}
@@ -39,6 +39,7 @@ MonoBehaviour:
     inputPortIdentifier: 
     outputPortIdentifier: 
   groups: []
+  stackNodes: []
   pinnedElements:
   - position:
       serializedVersion: 2
@@ -63,9 +64,9 @@ MonoBehaviour:
   - position:
       serializedVersion: 2
       x: 0
-      y: 0
-      width: 150
-      height: 200
+      y: 204
+      width: 193
+      height: 322
     opened: 1
     editorType:
       serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor.Editor,
@@ -105,5 +106,7 @@ MonoBehaviour:
     input: 1
     settings:
       isHidden: 0
-  position: {x: 8, y: -51, z: 0}
-  scale: {x: 1, y: 1, z: 1}
+  position: {x: -259, y: 43, z: 0}
+  scale: {x: 1.7490063, y: 1.7490063, z: 1}
+  references:
+    version: 1

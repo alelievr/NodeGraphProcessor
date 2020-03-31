@@ -564,7 +564,7 @@ namespace GraphProcessor
                 initializing = false;
                 base.SetPosition(newPos);
 
-                Undo.RegisterCompleteObjectUndo(owner.graph, "Moved graph node");
+                owner.RegisterCompleteObjectUndo("Moved graph node");
                 nodeTarget.position = newPos;
             }
 		}

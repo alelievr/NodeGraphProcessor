@@ -29,7 +29,7 @@ namespace GraphProcessor
 		/// <summary>
 		/// Connector listener that will create the edges between ports
 		/// </summary>
-		public BaseEdgeConnectorListener				connectorListener;
+		public BaseEdgeConnectorListener			connectorListener;
 
 		/// <summary>
 		/// List of all node views in the graph

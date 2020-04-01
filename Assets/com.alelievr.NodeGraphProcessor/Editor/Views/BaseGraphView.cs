@@ -493,9 +493,19 @@ namespace GraphProcessor
 			// When pressing ctrl-s, we save the graph
 			EditorSceneManager.sceneSaved += _ => SaveGraphToDisk();
 
-			ReloadView();
-			InitializeViews();
+			RemoveNodeViews();
+			RemoveEdges();
+			RemoveGroups();
+			RemoveStackNodeViews();
 
+			InitializeGraphView();
+			InitializeNodeViews();
+			InitializeEdgeViews();
+			InitializeViews();
+            InitializeGroups();
+			InitializeStackNodes();
+
+			UpdateComputeOrder();
 			initialized?.Invoke();
 
 			InitializeView();

@@ -350,10 +350,12 @@ namespace GraphProcessor
 
 			ExceptionToLog.Call(() => Process());
 
-			onProcessed?.Invoke();
+			InvokeOnProcessed();
 
 			outputPorts.PushDatas();
 		}
+
+		public void InvokeOnProcessed() => onProcessed?.Invoke();
 
 		/// <summary>
 		/// Called when the node is enabled

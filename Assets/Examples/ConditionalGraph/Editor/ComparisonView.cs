@@ -6,6 +6,7 @@ using UnityEditor.UIElements;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using GraphProcessor;
+using NodeGraphProcessor.Assets.Examples.ConditionalGraph;
 
 [NodeCustomEditor(typeof(Comparison))]
 public class ComparisonView : BaseNodeView

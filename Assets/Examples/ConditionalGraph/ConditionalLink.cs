@@ -1,1 +1,4 @@
-public struct ConditionalLink {}
+namespace NodeGraphProcessor.Assets.Examples.ConditionalGraph
+{
+    public struct ConditionalLink {}
+}

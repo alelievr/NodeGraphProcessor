@@ -484,7 +484,11 @@ namespace GraphProcessor
 		public void Initialize(BaseGraph graph)
 		{
 			if (this.graph != null)
+			{
 				SaveGraphToDisk();
+				// Close pinned windows from old graph:
+				pinnedElements.Clear();
+			}
 
 			this.graph = graph;
 
@@ -497,6 +501,7 @@ namespace GraphProcessor
 			RemoveEdges();
 			RemoveGroups();
 			RemoveStackNodeViews();
+			RemovePinnedElementViews();
 
 			InitializeGraphView();
 			InitializeNodeViews();
@@ -646,6 +651,16 @@ namespace GraphProcessor
 			foreach (var stackView in stackNodeViews)
 				RemoveElement(stackView);
 			stackNodeViews.Clear();
+		}
+
+		void RemovePinnedElementViews()
+		{
+			foreach (var pinnedView in pinnedElements.Values)
+			{
+				if (Contains(pinnedView))
+					Remove(pinnedView);
+			}
+			pinnedElements.Clear();
 		}
 
         public GroupView AddGroup(Group block)

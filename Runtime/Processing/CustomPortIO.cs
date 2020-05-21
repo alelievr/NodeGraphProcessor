@@ -42,13 +42,21 @@ namespace GraphProcessor
 					if (portInputAttr == null && portOutputAttr == null)
 						continue ;
 
+					CustomPortIODelegate deleg;
+#if ENABLE_IL2CPP
+					// IL2CPP doesn't support expression builders
+					deleg = new CustomPortIODelegate((node, edges) => {
+						method.Invoke(node, new object[]{ edges });
+					});
+#else
 					var p1 = Expression.Parameter(typeof(BaseNode), "node");
 					var p2 = Expression.Parameter(typeof(List< SerializableEdge >), "edges");
 
 					var ex = Expression.Call(Expression.Convert(p1, type), method, p2);
 
-					var deleg = Expression.Lambda< CustomPortIODelegate >(ex, p1, p2).Compile();
-
+					deleg = Expression.Lambda< CustomPortIODelegate >(ex, p1, p2).Compile();
+#endif
+						
 					if (deleg == null)
 					{
 						Debug.LogWarning("Can't use custom IO port function " + method + ": The method have to respect this format: " + typeof(CustomPortIODelegate));

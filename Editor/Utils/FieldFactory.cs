@@ -150,7 +150,10 @@ namespace GraphProcessor
 			try
 			{
 				var createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(fieldType);
-				field = createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged, label}) as VisualElement;
+				try
+				{
+					field = createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged, label}) as VisualElement;
+				} catch {}
 
 				// handle the Object field case
 				if (field == null)

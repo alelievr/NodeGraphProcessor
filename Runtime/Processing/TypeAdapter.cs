@@ -26,6 +26,7 @@ namespace GraphProcessor
         [System.NonSerialized]
         static bool adaptersLoaded = false;
 
+#if !ENABLE_IL2CPP
         static Func<object, object> ConvertTypeMethodHelper<TParam, TReturn>(MethodInfo method)
         {
             // Convert the slow MethodInfo into a fast, strongly typed, open delegate
@@ -36,6 +37,7 @@ namespace GraphProcessor
             Func<object, object> ret = (object param) => func((TParam)param);
             return ret;
         }
+#endif
 
         static void LoadAllAdapters()
         {
@@ -59,6 +61,11 @@ namespace GraphProcessor
                         Type to = method.ReturnType;
 
                         try {
+
+#if ENABLE_IL2CPP
+                            // IL2CPP doesn't suport calling generic functions via reflection (AOT can't generate templated code)
+                            Func<object, object> r = (object param) => { return (object)method.Invoke(null, new object[]{ param }); };
+#else
                             MethodInfo genericHelper = typeof(TypeAdapter).GetMethod("ConvertTypeMethodHelper", 
                                 BindingFlags.Static | BindingFlags.NonPublic);
                             
@@ -66,8 +73,8 @@ namespace GraphProcessor
                             MethodInfo constructedHelper = genericHelper.MakeGenericMethod(from, to);
 
                             object ret = constructedHelper.Invoke(null, new object[] {method});
-
                             var r = (Func<object, object>) ret;
+#endif
 
                             adapters.Add((method.GetParameters()[0].ParameterType, method.ReturnType), r);
                             adapterMethods.Add((method.GetParameters()[0].ParameterType, method.ReturnType), method);

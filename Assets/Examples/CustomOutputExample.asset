@@ -163,16 +163,26 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - position:
       serializedVersion: 2
-      x: 0
-      y: 0
+      x: 8
+      y: 69
       width: 150
       height: 200
     opened: 1
     editorType:
       serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor.Editor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 434
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: 185, y: -86, z: 0}
-  scale: {x: 1.3225, y: 1.3225, z: 1}
+  position: {x: -203, y: -108, z: 0}
+  scale: {x: 1, y: 1, z: 1}
   references:
     version: 1

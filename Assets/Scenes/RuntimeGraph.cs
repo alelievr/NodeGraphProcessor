@@ -8,6 +8,8 @@ public class RuntimeGraph : MonoBehaviour
 	public BaseGraph	graph;
 	public ProcessGraphProcessor	processor;
 
+	public GameObject	assignedGameObject;
+
 	private void Start()
 	{
 		if (graph != null)
@@ -21,6 +23,7 @@ public class RuntimeGraph : MonoBehaviour
 		if (graph != null)
 		{
 			graph.SetParameterValue("Input", (float)i++);
+			graph.SetParameterValue("GameObject", assignedGameObject);
 			processor.Run();
 			Debug.Log("Output: " + graph.GetParameterValue("Output"));
 		}

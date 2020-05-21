@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000, guid: 2fc1bcdc62a5745a1bd6f48f20e0390f, type: 2}
+  assignedGameObject: {fileID: 282840810}
 --- !u!1 &282840810
 GameObject:
   m_ObjectHideFlags: 0

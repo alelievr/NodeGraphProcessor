@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using GraphProcessor;
 
-namespace NodeGraphProcessor.Assets.Examples.ConditionalGraph
+namespace NodeGraphProcessor.Examples
 {
 	[System.Serializable, NodeMenuItem("Conditional/Start")]
 	public class StartNode : BaseNode, IConditionalNode

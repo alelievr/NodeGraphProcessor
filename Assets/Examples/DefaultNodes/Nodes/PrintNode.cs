@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
-using NodeGraphProcessor.Assets.Examples.ConditionalGraph;
+using NodeGraphProcessor.Examples;
 
 [NodeMenuItem("Print")]
 public class PrintNode : BaseNode

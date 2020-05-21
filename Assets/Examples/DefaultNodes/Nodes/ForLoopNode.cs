@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
-using NodeGraphProcessor.Assets.Examples.ConditionalGraph;
+using NodeGraphProcessor.Examples;
 
 [System.Serializable, NodeMenuItem("Conditional/ForLoop")]
 public class ForLoopNode : ConditionalNode

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
 using System.Linq;
-using NodeGraphProcessor.Assets.Examples.ConditionalGraph;
+using NodeGraphProcessor.Examples;
 using UnityEngine.Rendering;
 
 [System.Serializable, NodeMenuItem("Conditional/If"), NodeMenuItem("Conditional/Branch")]

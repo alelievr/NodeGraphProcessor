@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace NodeGraphProcessor.Assets.Examples.ConditionalGraph
+namespace NodeGraphProcessor.Examples
 {
 	interface IConditionalNode
 	{

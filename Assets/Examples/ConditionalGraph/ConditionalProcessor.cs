@@ -3,7 +3,7 @@ using System.Linq;
 using GraphProcessor;
 using Debug = UnityEngine.Debug;
 
-namespace NodeGraphProcessor.Assets.Examples.ConditionalGraph
+namespace NodeGraphProcessor.Examples
 {
     public class ConditionalProcessor : BaseGraphProcessor
     {

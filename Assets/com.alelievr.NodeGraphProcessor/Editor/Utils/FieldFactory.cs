@@ -111,8 +111,16 @@ namespace GraphProcessor
 			}
 
 			// For mutiline
-			if (field is TextField textField)
-				textField.multiline = true;
+			switch (field)
+			{
+				case TextField textField:
+					textField.multiline = true;
+					break;
+				case ObjectField objField:
+					objField.allowSceneObjects = true;
+					objField.objectType = typeof(UnityEngine.Object);
+					break;
+			}
 			
 			return field as VisualElement;
 		}
@@ -150,7 +158,10 @@ namespace GraphProcessor
 					createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(typeof(UnityEngine.Object));
 					field = createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged, label}) as VisualElement;
 					if (field is ObjectField objField)
+					{
 						objField.objectType = fieldType;
+						objField.value = value as UnityEngine.Object;
+					}
 				}
 			}
 			catch (Exception e)

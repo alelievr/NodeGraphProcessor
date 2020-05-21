@@ -6,7 +6,7 @@ using System.Reflection;
 using GraphProcessor;
 using UnityEngine;
 
-namespace NodeGraphProcessor.Assets.Examples.ConditionalGraph
+namespace NodeGraphProcessor.Examples
 {
 	[System.Serializable]
 	/// <summary>

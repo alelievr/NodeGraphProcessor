@@ -24,6 +24,6 @@ jobs:
         git add 'Samples~' 'Editor' 'Editor.meta' 'Runtime' 'Runtime.meta' 'package.json' 'package.json.meta'
         git commit -m "Publish new package"
 
-        git push -f -u origin upm
+        git push -u origin upm
       env:
         PKG_ROOT: Assets/com.alelievr.NodeGraphProcessor/

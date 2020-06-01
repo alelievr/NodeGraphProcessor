@@ -63,7 +63,8 @@ public class RelayNode : BaseNode
 		// If the relay is only connected to another relay:
 		if (edges.Count == 1 && edges.First().outputNode.GetType() == typeof(RelayNode))
 		{
-			input = (PackedRelayData)edges.First().passThroughBuffer;
+			if (edges.First().passThroughBuffer != null)
+				input = (PackedRelayData)edges.First().passThroughBuffer;
 		}
 		else
 		{
@@ -82,7 +83,7 @@ public class RelayNode : BaseNode
 
 		var inputPortEdges = inputPorts[0].GetEdges();
 
-		if (unpackOutput && inputPortEdges.Count == 1)
+		if (unpackOutput || inputPortEdges.Count == 1)
 		{
 			// When we unpack the output, there is one port per type of data in output
 			// That means that this function will be called the same number of time than the output port count
@@ -90,7 +91,10 @@ public class RelayNode : BaseNode
 			object data = output.values[outputIndex++];
 
 			foreach (var edge in edges)
-				edge.passThroughBuffer = data;
+			{
+				var destinationIsRelay = edge.inputNode is RelayNode;
+				edge.passThroughBuffer = destinationIsRelay ? output : data;
+			}
 		}
 		else
 		{

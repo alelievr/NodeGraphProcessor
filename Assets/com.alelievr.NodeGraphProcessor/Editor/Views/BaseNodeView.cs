@@ -710,11 +710,7 @@ namespace GraphProcessor
 				// so we can update the view with the new port data (if the name of a port have been changed for example)
 
 				for (int i = 0; i < portViews.Count; i++)
-				{
-					var pv = portViews[i];
-
-					pv.UpdatePortView(ports[i].portData.displayName, ports[i].portData.displayType);
-				}
+					portViews[i].UpdatePortView(ports[i].portData);
 			}
 
 			return base.RefreshPorts();

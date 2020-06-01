@@ -612,6 +612,9 @@ namespace GraphProcessor
 		/// <returns></returns>
 		public static bool TypesAreConnectable(Type t1, Type t2)
 		{
+			if (t1 == null || t2 == null)
+				return false;
+
 			//Check if there is custom adapters for this assignation
 			if (CustomPortIO.IsAssignable(t1, t2))
 				return true;

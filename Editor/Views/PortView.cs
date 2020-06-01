@@ -14,7 +14,7 @@ namespace GraphProcessor
 		public Type					fieldType => fieldInfo.FieldType;
 		public new Type				portType;
         public BaseNodeView     	owner { get; private set; }
-		public readonly PortData	portData;
+		public PortData				portData;
 
 		public event Action< PortView, Edge >	OnConnected;
 		public event Action< PortView, Edge >	OnDisconnected;
@@ -118,16 +118,18 @@ namespace GraphProcessor
 			edges.Remove(edge as EdgeView);
 		}
 
-		public void UpdatePortView(string displayName, Type displayType)
+		public void UpdatePortView(PortData data)
 		{
-			if (displayType != null)
+			if (data.displayType != null)
 			{
-				base.portType = displayType;
-				portType = displayType;
+				base.portType = data.displayType;
+				portType = data.displayType;
 				visualClass = "Port_" + portType.Name;
 			}
-			if (!String.IsNullOrEmpty(displayName))
-				base.portName = displayName;
+			if (!String.IsNullOrEmpty(data.displayName))
+				base.portName = data.displayName;
+
+			portData = data;
 			
 			UpdatePortSize();
 		}

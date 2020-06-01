@@ -43,7 +43,10 @@ namespace GraphProcessor
 			var attrs = type.GetCustomAttributes(typeof(NodeMenuItemAttribute), false) as NodeMenuItemAttribute[];
 
 			if (attrs != null && attrs.Length > 0)
-				nodePerMenuTitle[attrs.First().menuTitle] = type;
+			{
+				foreach (var attr in attrs)
+					nodePerMenuTitle[attr.menuTitle] = type;
+			}
 
 			var nodeScriptAsset = FindScriptFromClassName(type.Name);
 			if (nodeScriptAsset != null)

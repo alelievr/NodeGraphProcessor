@@ -4,6 +4,16 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.7.0]
+
+### Added
+- Added a method to call the onProcess callback in the graph
+- Support of multiple [NodeMenuItemAttribute] on the same class
+
+### Fixed
+- Fixed execution error in player when using IL2CPP
+- Fixed ObjectField creation with FieldFactory
+
 ## [0.6.0]
 
 ### Added

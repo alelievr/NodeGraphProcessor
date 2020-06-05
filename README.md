@@ -19,7 +19,7 @@ using UnityEngine;
 using GraphProcessor;
 using System.Linq;
 
-[System.Serializable, NodeMenuItem("Operations/Add")]
+[System.Serializable, NodeMenuItem("Operations/Sub")] // Add the node in the node creation context menu
 public class SubNode : BaseNode
 {
     [Input(name = "A")]

@@ -39,7 +39,7 @@ namespace GraphProcessor
         public string				GUID;
 
 		public int					computeOrder = -1;
-		public bool					canProcess = true;
+		public virtual bool			canProcess => true;
 
 		/// <summary>
 		/// Container of input ports

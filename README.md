@@ -1,13 +1,49 @@
 # NodeGraphProcessor
-Node graph editor framework focused on data processing using Unity UIElements and C# 4.7
+Node graph editor framework focused on data processing using Unity UIElements, GraphView and C# 4.7
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4c62ece874d14a0b965b92cb163e3146)](https://www.codacy.com/manual/alelievr/NodeGraphProcessor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alelievr/NodeGraphProcessor&amp;utm_campaign=Badge_Grade)
 [![openupm](https://img.shields.io/npm/v/com.alelievr.node-graph-processor?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.alelievr.node-graph-processor/)
 
+This node based solution provides a great C# API allowing you to implement conditional graphs, dependencies graphs, processing graphs and more.
+![image](https://user-images.githubusercontent.com/6877923/83576832-f2486500-a532-11ea-9d2a-a6b75b980813.png)
+
+Based on Unity's GraphView technology, NodeGraphProcessor is also very fast and works well with large graphs.
+![Performance](https://user-images.githubusercontent.com/6877923/83576843-f70d1900-a532-11ea-80fb-c8fede6aa7ed.gif)
+
+Simple and powerful C# node API to create new nodes and custom views.
+
+```CSharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using GraphProcessor;
+using System.Linq;
+
+[System.Serializable, NodeMenuItem("Operations/Sub")] // Add the node in the node creation context menu
+public class SubNode : BaseNode
+{
+    [Input(name = "A")]
+    public float                inputA;
+    [Input(name = "B")]
+    public float                inputB;
+
+    [Output(name = "Out")]
+    public float				output;
+
+    public override string		name => "Sub";
+
+    // Called when the graph is process, process inputs and assign the result in output.
+    protected override void Process()
+    {
+        output = inputA - inputB;
+    }
+}
+```
+
 ### Unity Compatible versions
 
 This project requires at least Unity **2019.3** with a scripting runtime version of 4.x in player settings.
-The current Unity version used for the project is **2019.3.0f6**
+The current Unity version used for the project is **2019.3.12f1**
 
 ### Installation
 
@@ -41,7 +77,7 @@ Note that you'll not have access to the examples provided in this repo because t
 - Highly customizable and simple node and links API
 - Support multi-input into a container (multiple float into a list of float for example)
 - Graph processor which execute node's logic with a dependency order
-- [Powerful C# API to add new nodes / graphs](https://github.com/alelievr/NodeGraphProcessor/wiki/Node-scripting-API)
+- [Documented C# API to add new nodes / graphs](https://github.com/alelievr/NodeGraphProcessor/wiki/Node-scripting-API)
 - Exposed parameters that can be set per-asset to customize the graph processing from scripts or the inspector
 - Parameter set mode, you can now output data from thegraph using exposed parameters. Their values will be updated when the graph is processed
 - Search window to create new nodes
@@ -62,16 +98,15 @@ The user manual is hosted using [Github Wiki](https://github.com/alelievr/NodeGr
 
 - Investigate for ECS/Jobs integration
 - More examples
-- API to create the graph
+- API to create the graph in C#
 - Subgraphs
 - Use SerializedReference instead of Json (faster serialization + smaller assets)
 - Sticky notes
 
-For more details consult our [trello](https://trello.com/b/Xk4rfnuV/node-graph-processor).
+For more details consult our [Github Project page](https://github.com/alelievr/NodeGraphProcessor/projects/2).
 
 ### Screens
 
-![](https://preview.ibb.co/hP0CvT/Screen_Shot_2018_06_24_at_18_05_50.png)
 ![](https://image.noelshack.com/fichiers/2018/35/7/1535906391-graph.png)
 ![](http://g.recordit.co/U1MAlFfuba.gif)
 ![](https://user-images.githubusercontent.com/6877923/53634256-0445a480-3c1a-11e9-99e5-d8f3616863bd.png)

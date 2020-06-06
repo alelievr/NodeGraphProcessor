@@ -219,12 +219,12 @@ namespace GraphProcessor
 			}
 
 			edges.Add(edge);
-
-			onGraphChanges?.Invoke(new GraphChanges{ addedEdge = edge });
 			
 			// Add the edge to the list of connected edges in the nodes
 			inputPort.owner.OnEdgeConnected(edge);
 			outputPort.owner.OnEdgeConnected(edge);
+
+			onGraphChanges?.Invoke(new GraphChanges{ addedEdge = edge });
 
 			return edge;
 		}
@@ -245,7 +245,11 @@ namespace GraphProcessor
 				&& r.inputFieldName == inputFieldName;
 
 				if (remove)
+				{
+					r.inputNode?.OnEdgeDisconnected(r);
+					r.outputNode?.OnEdgeDisconnected(r);
 					onGraphChanges?.Invoke(new GraphChanges{ removedEdge = r });
+				}
 
 				return remove;
 			});
@@ -266,9 +270,9 @@ namespace GraphProcessor
 			edges.RemoveAll(r => {
 				if (r.GUID == edgeGUID)
 				{
-					onGraphChanges?.Invoke(new GraphChanges{ removedEdge = r });
 					r.inputNode?.OnEdgeDisconnected(r);
 					r.outputNode?.OnEdgeDisconnected(r);
+					onGraphChanges?.Invoke(new GraphChanges{ removedEdge = r });
 				}
 				return r.GUID == edgeGUID;
 			});

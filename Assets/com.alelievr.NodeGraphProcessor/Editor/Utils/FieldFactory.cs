@@ -156,7 +156,7 @@ namespace GraphProcessor
 				} catch {}
 
 				// handle the Object field case
-				if (field == null && value is UnityEngine.Object)
+				if (field == null && (value == null || value is UnityEngine.Object))
 				{
 					createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(typeof(UnityEngine.Object));
 					field = createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged, label}) as VisualElement;

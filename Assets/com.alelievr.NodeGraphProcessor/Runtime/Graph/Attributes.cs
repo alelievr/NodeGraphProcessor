@@ -172,4 +172,17 @@ namespace GraphProcessor
 			this.stackNodeType = stackNodeType;
 		}
 	}
+
+	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+	public class VisibleIf : Attribute
+	{
+		public string fieldName;
+		public object value;
+
+		public VisibleIf(string fieldName, object value)
+		{
+			this.fieldName = fieldName;
+			this.value = value;
+		}
+	}
 }

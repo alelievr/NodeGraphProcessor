@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.7.0]
 
 ### Added
+- VisibleIf attribute in nodes, allow you to show fields only when another field have a specific value.
+
+## [0.7.0]
+
+### Added
 - Added a method to call the onProcess callback in the graph
 - Support of multiple [NodeMenuItemAttribute] on the same class
 

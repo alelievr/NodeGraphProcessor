@@ -112,6 +112,27 @@ namespace GraphProcessor
             controlsContainer = new VisualElement{ name = "controls" };
 			mainContainer.Add(controlsContainer);
 
+			if (nodeTarget.showControlsOnHover)
+			{
+				bool mouseOverControls = false;
+				controlsContainer.style.display = DisplayStyle.None;
+				RegisterCallback<MouseOverEvent>(e => {
+					controlsContainer.style.display = DisplayStyle.Flex;
+					mouseOverControls = true;
+				});
+				RegisterCallback<MouseOutEvent>(e => {
+					var rect = GetPosition();
+					var graphMousePosition = owner.contentViewContainer.WorldToLocal(e.mousePosition);
+					if (rect.Contains(graphMousePosition))
+						return;
+					mouseOverControls = false;
+					schedule.Execute(_ => {
+						if (!mouseOverControls)
+							controlsContainer.style.display = DisplayStyle.None;
+					}).ExecuteLater(500);
+				});
+			}
+
 			debugContainer = new VisualElement{ name = "debug" };
 			if (nodeTarget.debug)
 				mainContainer.Add(debugContainer);
@@ -501,10 +522,13 @@ namespace GraphProcessor
 			DrawDefaultInspector();
 		}
 
+		Dictionary<string, List<(object value, VisualElement target)>> visibleConditions = new Dictionary<string, List<(object value, VisualElement target)>>();
+
 		protected virtual void DrawDefaultInspector()
 		{
 			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
+			visibleConditions.Clear();
 			foreach (var field in fields)
 			{
 				//skip if the field is not serializable
@@ -523,23 +547,58 @@ namespace GraphProcessor
 			}
 		}
 
-		protected void AddControlField(string fieldName, string label = null, Action valueChangedCallback = null)
+		void UpdateFieldVisibility(string fieldName, object newValue)
+		{
+			if (visibleConditions.TryGetValue(fieldName, out var list))
+			{
+				foreach (var elem in list)
+				{
+					if (newValue.Equals(elem.value))
+						elem.target.style.display = DisplayStyle.Flex;
+					else
+						elem.target.style.display = DisplayStyle.None;
+				}
+			}
+		}
+
+		protected VisualElement AddControlField(string fieldName, string label = null, Action valueChangedCallback = null)
 			=> AddControlField(nodeTarget.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance), label, valueChangedCallback);
 
-		protected void AddControlField(FieldInfo field, string label = null, Action valueChangedCallback = null)
+		protected VisualElement AddControlField(FieldInfo field, string label = null, Action valueChangedCallback = null)
 		{
 			if (field == null)
-				return;
+				return null;
 	
 			var element = FieldFactory.CreateField(field.FieldType, field.GetValue(nodeTarget), (newValue) => {
 				owner.RegisterCompleteObjectUndo("Updated " + newValue);
 				field.SetValue(nodeTarget, newValue);
 				NotifyNodeChanged();
 				valueChangedCallback?.Invoke();
+				UpdateFieldVisibility(field.Name, newValue);
 			}, label);
 
 			if (element != null)
 				controlsContainer.Add(element);
+
+			var visibleCondition = field.GetCustomAttribute(typeof(VisibleIf)) as VisibleIf;
+			if (visibleCondition != null)
+			{
+				// Check if target field exists:
+				var conditionField = nodeTarget.GetType().GetField(visibleCondition.fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+				if (conditionField == null)
+					Debug.LogError($"[VisibleIf] Field {visibleCondition.fieldName} does not exists in node {nodeTarget.GetType()}");
+				else
+				{
+					visibleConditions.TryGetValue(visibleCondition.fieldName, out var list);
+					if (list == null)
+						list = visibleConditions[visibleCondition.fieldName] = new List<(object value, VisualElement target)>();
+					list.Add((visibleCondition.value, element));
+					// TODO
+					UpdateFieldVisibility(visibleCondition.fieldName, conditionField.GetValue(nodeTarget));
+				}
+			}
+
+			return element;
 		}
 
 		internal void OnPortConnected(PortView port)

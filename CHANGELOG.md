@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - VisibleIf attribute in nodes, allow you to show fields only when another field have a specific value.
+- Added the possibility to hide controls when the mouse is not over the node
 
 ## [0.7.0]
 

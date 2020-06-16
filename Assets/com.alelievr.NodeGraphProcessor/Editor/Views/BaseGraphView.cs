@@ -20,6 +20,7 @@ namespace GraphProcessor
 	public class BaseGraphView : GraphView
 	{
 		public delegate void ComputeOrderUpdatedDelegate();
+		public delegate void NodeDuplicatedDelegate(BaseNode duplicatedNode, BaseNode newNode);
 
 		/// <summary>
 		/// Graph that owns of the node
@@ -95,6 +96,11 @@ namespace GraphProcessor
 		/// </summary>
 		public event Action< string >	onExposedParameterModified;
 
+		/// <summary>
+		/// Triggered when a node is duplicated (crt-d) or copy-pasted (crtl-c/crtl-v)
+		/// </summary>
+		public event NodeDuplicatedDelegate	nodeDuplicated;
+
 		public BaseGraphView(EditorWindow window)
 		{
 			serializeGraphElements = SerializeGraphElementsCallback;
@@ -142,18 +148,14 @@ namespace GraphProcessor
 		{
 			var data = new CopyPasteHelper();
 
-			foreach (var nodeView in elements.Where(e => e is BaseNodeView))
-			{
-				var node = ((nodeView) as BaseNodeView).nodeTarget;
-				data.copiedNodes.Add(JsonSerializer.SerializeNode(node));
-			}
+			foreach (BaseNodeView nodeView in elements.Where(e => e is BaseNodeView))
+				data.copiedNodes.Add(JsonSerializer.SerializeNode(nodeView.nodeTarget));
 
-			foreach (var groupView in elements.Where(e => e is GroupView))
-			{
-				var group = (groupView as GroupView).group;
-				data.copiedGroups.Add(JsonSerializer.Serialize(group));
-			}
+			foreach (GroupView groupView in elements.Where(e => e is GroupView))
+				data.copiedGroups.Add(JsonSerializer.Serialize(groupView.group));
 
+			foreach (EdgeView edgeView in elements.Where(e => e is EdgeView))
+				data.copiedEdges.Add(JsonSerializer.Serialize(edgeView.serializedEdge));
 
 			ClearSelection();
 
@@ -175,6 +177,8 @@ namespace GraphProcessor
 
             RegisterCompleteObjectUndo(operationName);
 
+			Dictionary<BaseNode, BaseNode> copiedNodesMap = new Dictionary<BaseNode, BaseNode>();
+
 			foreach (var serializedNode in data.copiedNodes)
 			{
 				var node = JsonSerializer.DeserializeNode(serializedNode);
@@ -182,12 +186,17 @@ namespace GraphProcessor
 				if (node == null)
 					continue ;
 
+				var sourceNode = graph.nodesPerGUID[node.GUID];
 				//Call OnNodeCreated on the new fresh copied node
 				node.OnNodeCreated();
 				//And move a bit the new node
 				node.position.position += new Vector2(20, 20);
 
-				AddNode(node);
+				var newNodeView = AddNode(node);
+				
+				copiedNodesMap[sourceNode] = node;
+
+				nodeDuplicated?.Invoke(sourceNode, node);
 
 				//Select the new node
 				AddToSelection(nodeViewsPerNode[node]);
@@ -201,8 +210,48 @@ namespace GraphProcessor
                 group.OnCreated();
                 group.position.position += new Vector2(20, 20);
 
+				var oldGUIDList = group.innerNodeGUIDs.ToList();
+				group.innerNodeGUIDs.Clear();
+				foreach (var guid in oldGUIDList)
+				{
+					var node = graph.nodesPerGUID[guid];
+					group.innerNodeGUIDs.Add(copiedNodesMap[node].GUID);
+				}
+
                 AddGroup(group);
             }
+
+            foreach (var serializedEdge in data.copiedEdges)
+			{
+				var edge = JsonSerializer.Deserialize<SerializableEdge>(serializedEdge);
+
+				edge.Deserialize();
+
+				// Find port of new nodes:
+				copiedNodesMap.TryGetValue(edge.inputNode, out var oldInputNode);
+				copiedNodesMap.TryGetValue(edge.outputNode, out var oldOutputNode);
+
+				// We avoid to break the graph by replacing unique connections:
+				if (oldInputNode == null && !edge.inputPort.portData.acceptMultipleEdges)
+					continue;
+
+				oldInputNode = oldInputNode ?? edge.inputNode;
+				oldOutputNode = oldOutputNode ?? edge.outputNode;
+
+				var inputPort = oldInputNode.GetPort(edge.inputPort.fieldName, edge.inputPortIdentifier);
+				var outputPort = oldOutputNode.GetPort(edge.outputPort.fieldName, edge.outputPortIdentifier);
+
+				var newEdge = SerializableEdge.CreateNewEdge(graph, inputPort, outputPort);
+
+                var edgeView = new EdgeView()
+                {
+                    userData = newEdge,
+                    input = nodeViewsPerNode[oldInputNode].GetPortViewFromFieldName(newEdge.inputFieldName, newEdge.inputPortIdentifier),
+                    output = nodeViewsPerNode[oldOutputNode].GetPortViewFromFieldName(newEdge.outputFieldName, newEdge.outputPortIdentifier)
+                };
+
+                Connect(edgeView);
+			}
 		}
 
 		GraphViewChange GraphViewChangedCallback(GraphViewChange changes)

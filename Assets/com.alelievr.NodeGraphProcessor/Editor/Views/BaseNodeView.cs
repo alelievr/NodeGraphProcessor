@@ -123,7 +123,7 @@ namespace GraphProcessor
 				RegisterCallback<MouseOutEvent>(e => {
 					var rect = GetPosition();
 					var graphMousePosition = owner.contentViewContainer.WorldToLocal(e.mousePosition);
-					if (rect.Contains(graphMousePosition))
+					if (rect.Contains(graphMousePosition) || !nodeTarget.showControlsOnHover)
 						return;
 					mouseOverControls = false;
 					schedule.Execute(_ => {

@@ -244,7 +244,12 @@ namespace GraphProcessor
 			if (fieldInfo.FieldType.GetTypeInfo().IsClass)
 				fieldInfo.SetValue(fieldOwner, null);
 			else
-				fieldInfo.SetValue(fieldOwner, Activator.CreateInstance(fieldInfo.FieldType));
+			{
+				try
+				{
+					fieldInfo.SetValue(fieldOwner, Activator.CreateInstance(fieldInfo.FieldType));
+				} catch {} // Catch types that don't have any constructors
+			}
 		}
 
 		/// <summary>

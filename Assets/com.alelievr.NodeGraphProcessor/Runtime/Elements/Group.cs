@@ -22,6 +22,9 @@ namespace GraphProcessor
 		/// <returns></returns>
 		public List< string >	innerNodeGUIDs = new List< string >();
 
+		// For serialization loading
+        public Group() {}
+
 		/// <summary>
 		/// Create a new group with a title and a position
 		/// </summary>

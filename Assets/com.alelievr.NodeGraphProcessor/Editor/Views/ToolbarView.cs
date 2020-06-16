@@ -14,7 +14,7 @@ namespace GraphProcessor
 {
 	public class ToolbarView : VisualElement
 	{
-		class ToolbarButtonData
+		protected class ToolbarButtonData
 		{
 			public string			name;
 			public bool				toggle;
@@ -26,6 +26,9 @@ namespace GraphProcessor
 		List< ToolbarButtonData >	leftButtonDatas = new List< ToolbarButtonData >();
 		List< ToolbarButtonData >	rightButtonDatas = new List< ToolbarButtonData >();
 		protected BaseGraphView		graphView;
+		
+		ToolbarButtonData showProcessor;
+		ToolbarButtonData showParameters;
 
 		public ToolbarView(BaseGraphView graphView)
 		{
@@ -37,23 +40,27 @@ namespace GraphProcessor
 			Add(new IMGUIContainer(DrawImGUIToolbar));
 		}
 
-		protected void AddButton(string name, Action callback, bool left = true)
+		protected ToolbarButtonData AddButton(string name, Action callback, bool left = true)
 		{
-			((left) ? leftButtonDatas : rightButtonDatas).Add(new ToolbarButtonData{
+			var data = new ToolbarButtonData{
 				name = name,
 				toggle = false,
 				buttonCallback = callback
-			});
+			};
+			((left) ? leftButtonDatas : rightButtonDatas).Add(data);
+			return data;
 		}
 
-		protected void AddToggle(string name, bool defaultValue, Action< bool > callback, bool left = true)
+		protected ToolbarButtonData AddToggle(string name, bool defaultValue, Action< bool > callback, bool left = true)
 		{
-			((left) ? leftButtonDatas : rightButtonDatas).Add(new ToolbarButtonData{
+			var data = new ToolbarButtonData{
 				name = name,
 				toggle = true,
 				value = defaultValue,
 				toggleCallback = callback
-			});
+			};
+			((left) ? leftButtonDatas : rightButtonDatas).Add(data);
+			return data;
 		}
 
 		/// <summary>
@@ -74,11 +81,19 @@ namespace GraphProcessor
 			AddButton("Center", graphView.ResetPositionAndZoom);
 
 			bool processorVisible = graphView.GetPinnedElementStatus< ProcessorView >() != Status.Hidden;
-			AddToggle("Show Processor", processorVisible, (v) => graphView.ToggleView< ProcessorView>());
+			showProcessor = AddToggle("Show Processor", processorVisible, (v) => graphView.ToggleView< ProcessorView>());
 			bool exposedParamsVisible = graphView.GetPinnedElementStatus< ExposedParameterView >() != Status.Hidden;
-			AddToggle("Show Parameters", exposedParamsVisible, (v) => graphView.ToggleView< ExposedParameterView>());
+			showParameters = AddToggle("Show Parameters", exposedParamsVisible, (v) => graphView.ToggleView< ExposedParameterView>());
 
 			AddButton("Show In Project", () => EditorGUIUtility.PingObject(graphView.graph), false);
+		}
+
+		public virtual void UpdateButtonStatus()
+		{
+			if (showProcessor != null)
+				showProcessor.value = graphView.GetPinnedElementStatus< ProcessorView >() != Status.Hidden;
+			if (showParameters != null)
+				showParameters.value = graphView.GetPinnedElementStatus< ExposedParameterView >() != Status.Hidden;
 		}
 
 		void DrawImGUIButtonList(List< ToolbarButtonData > buttons)

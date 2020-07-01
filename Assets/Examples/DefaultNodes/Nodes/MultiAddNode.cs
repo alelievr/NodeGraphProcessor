@@ -10,7 +10,7 @@ public class MultiAddNode : BaseNode
 	[Input]
 	public IEnumerable< float >	inputs = null;
 
-	[Output(allowMultiple = false)]
+	[Output]
 	public float				output;
 
 	public override string		name => "Add";

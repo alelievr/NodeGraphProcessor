@@ -13,7 +13,7 @@ public class ParameterNodeView : BaseNodeView
 {
     ParameterNode parameterNode;
 
-    public override void Enable()
+    public override void Enable(bool fromInspector = false)
     {
         parameterNode = nodeTarget as ParameterNode;
 

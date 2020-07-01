@@ -49,6 +49,7 @@ namespace GraphProcessor
 
 			this.m_EdgeConnector = new EdgeConnector< EdgeView >(edgeConnectorListener);
 			this.AddManipulator(m_EdgeConnector);
+			this.tooltip = portData.tooltip;
 		}
 
 		/// <summary>
@@ -83,6 +84,7 @@ namespace GraphProcessor
 			if (name != null)
 				portName = name;
 			visualClass = "Port_" + portType.Name;
+			tooltip = portData.tooltip;
 		}
 
 		public override void Connect(Edge edge)

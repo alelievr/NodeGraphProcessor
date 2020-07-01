@@ -101,6 +101,9 @@ namespace GraphProcessor
 		/// </summary>
 		public event NodeDuplicatedDelegate	nodeDuplicated;
 
+		// Object to handle nodes that shows their UI in the inspector
+		NodeInspectorObject				nodeInspector;
+
 		public BaseGraphView(EditorWindow window)
 		{
 			serializeGraphElements = SerializeGraphElementsCallback;
@@ -114,6 +117,7 @@ namespace GraphProcessor
 			RegisterCallback< DragPerformEvent >(DragPerformedCallback);
 			RegisterCallback< DragUpdatedEvent >(DragUpdatedCallback);
 			RegisterCallback< MouseDownEvent >(MouseDownCallback);
+			RegisterCallback< MouseUpEvent >(MouseUpCallback);
 
 			InitializeManipulators();
 
@@ -123,6 +127,13 @@ namespace GraphProcessor
 
 			createNodeMenu = ScriptableObject.CreateInstance< CreateNodeMenuWindow >();
 			createNodeMenu.Initialize(this, window);
+
+			if (nodeInspector == null)
+			{
+				nodeInspector = ScriptableObject.CreateInstance<NodeInspectorObject>();
+				nodeInspector.name = "Node Inspector";
+				nodeInspector.hideFlags = HideFlags.HideAndDontSave ^ HideFlags.NotEditable;
+			}
 
 			this.StretchToParentSize();
 		}
@@ -177,7 +188,7 @@ namespace GraphProcessor
 
             RegisterCompleteObjectUndo(operationName);
 
-			Dictionary<BaseNode, BaseNode> copiedNodesMap = new Dictionary<BaseNode, BaseNode>();
+			Dictionary<string, BaseNode> copiedNodesMap = new Dictionary<string, BaseNode>();
 
 			foreach (var serializedNode in data.copiedNodes)
 			{
@@ -186,17 +197,19 @@ namespace GraphProcessor
 				if (node == null)
 					continue ;
 
-				var sourceNode = graph.nodesPerGUID[node.GUID];
+				string sourceGUID = node.GUID;
+				graph.nodesPerGUID.TryGetValue(sourceGUID, out var sourceNode);
 				//Call OnNodeCreated on the new fresh copied node
 				node.OnNodeCreated();
 				//And move a bit the new node
 				node.position.position += new Vector2(20, 20);
 
 				var newNodeView = AddNode(node);
-				
-				copiedNodesMap[sourceNode] = node;
 
-				nodeDuplicated?.Invoke(sourceNode, node);
+				// If the nodes were copied from another graph, then the source is null
+				if (sourceNode != null)
+					nodeDuplicated?.Invoke(sourceNode, node);
+				copiedNodesMap[sourceGUID] = node;
 
 				//Select the new node
 				AddToSelection(nodeViewsPerNode[node]);
@@ -208,6 +221,8 @@ namespace GraphProcessor
 
                 //Same than for node
                 group.OnCreated();
+
+				// try to centre the created node in the screen
                 group.position.position += new Vector2(20, 20);
 
 				var oldGUIDList = group.innerNodeGUIDs.ToList();
@@ -215,7 +230,7 @@ namespace GraphProcessor
 				foreach (var guid in oldGUIDList)
 				{
 					var node = graph.nodesPerGUID[guid];
-					group.innerNodeGUIDs.Add(copiedNodesMap[node].GUID);
+					group.innerNodeGUIDs.Add(copiedNodesMap[node.GUID].GUID);
 				}
 
                 AddGroup(group);
@@ -228,11 +243,11 @@ namespace GraphProcessor
 				edge.Deserialize();
 
 				// Find port of new nodes:
-				copiedNodesMap.TryGetValue(edge.inputNode, out var oldInputNode);
-				copiedNodesMap.TryGetValue(edge.outputNode, out var oldOutputNode);
+				copiedNodesMap.TryGetValue(edge.inputNode.GUID, out var oldInputNode);
+				copiedNodesMap.TryGetValue(edge.outputNode.GUID, out var oldOutputNode);
 
 				// We avoid to break the graph by replacing unique connections:
-				if (oldInputNode == null && !edge.inputPort.portData.acceptMultipleEdges)
+				if (oldInputNode == null && !edge.inputPort.portData.acceptMultipleEdges || !edge.outputPort.portData.acceptMultipleEdges)
 					continue;
 
 				oldInputNode = oldInputNode ?? edge.inputNode;
@@ -243,14 +258,17 @@ namespace GraphProcessor
 
 				var newEdge = SerializableEdge.CreateNewEdge(graph, inputPort, outputPort);
 
-                var edgeView = new EdgeView()
-                {
-                    userData = newEdge,
-                    input = nodeViewsPerNode[oldInputNode].GetPortViewFromFieldName(newEdge.inputFieldName, newEdge.inputPortIdentifier),
-                    output = nodeViewsPerNode[oldOutputNode].GetPortViewFromFieldName(newEdge.outputFieldName, newEdge.outputPortIdentifier)
-                };
+				if (nodeViewsPerNode.ContainsKey(oldInputNode) && nodeViewsPerNode.ContainsKey(oldOutputNode))
+				{
+					var edgeView = new EdgeView()
+					{
+						userData = newEdge,
+						input = nodeViewsPerNode[oldInputNode].GetPortViewFromFieldName(newEdge.inputFieldName, newEdge.inputPortIdentifier),
+						output = nodeViewsPerNode[oldOutputNode].GetPortViewFromFieldName(newEdge.outputFieldName, newEdge.outputPortIdentifier)
+					};
 
-                Connect(edgeView);
+					Connect(edgeView);
+				}
 			}
 		}
 
@@ -272,6 +290,7 @@ namespace GraphProcessor
 							ExceptionToLog.Call(() => node.OnRemoved());
 							graph.RemoveNode(node.nodeTarget);
 							RemoveElement(node);
+							UpdateNodeInspectorSelection();
 							return true;
 						case GroupView group:
 							graph.RemoveGroup(group.group);
@@ -453,6 +472,14 @@ namespace GraphProcessor
 			}
 		}
 
+		void MouseUpCallback(MouseUpEvent e)
+		{
+			schedule.Execute(() => {
+				if (DoesSelectionContainsInspectorNodes())
+					UpdateNodeInspectorSelection();
+			}).ExecuteLater(1);
+		}
+
 		void MouseDownCallback(MouseDownEvent e)
 		{
 			// When left clicking on the graph (not a node or something else)
@@ -461,7 +488,13 @@ namespace GraphProcessor
 				// Close all settings windows:
 				nodeViews.ForEach(v => v.CloseSettings());
 			}
+
+			if (DoesSelectionContainsInspectorNodes())
+				UpdateNodeInspectorSelection();
 		}
+
+		bool DoesSelectionContainsInspectorNodes()
+			=> selection.Any(s => s is BaseNodeView v && v.nodeTarget.needsInspector);
 
 		void DragPerformedCallback(DragPerformEvent e)
 		{
@@ -501,6 +534,8 @@ namespace GraphProcessor
             {
                 DragAndDrop.visualMode = DragAndDropVisualMode.Generic;
             }
+
+			UpdateNodeInspectorSelection();
         }
 
 		#endregion
@@ -559,8 +594,8 @@ namespace GraphProcessor
             InitializeGroups();
 			InitializeStackNodes();
 
-			UpdateComputeOrder();
 			initialized?.Invoke();
+			UpdateComputeOrder();
 
 			InitializeView();
 		}
@@ -647,6 +682,24 @@ namespace GraphProcessor
 		#endregion
 
 		#region Graph content modification
+
+		public void UpdateNodeInspectorSelection()
+		{
+			if (nodeInspector.previouslySelectedObject != Selection.activeObject)
+				nodeInspector.previouslySelectedObject = Selection.activeObject;
+
+			HashSet<BaseNodeView> selectedNodeViews = new HashSet<BaseNodeView>();
+			nodeInspector.selectedNodes.Clear();
+			foreach (var e in selection)
+			{
+				if (e is BaseNodeView v && this.Contains(v) && v.nodeTarget.needsInspector)
+					selectedNodeViews.Add(v);
+			}
+
+			nodeInspector.UpdateSelectedNodes(selectedNodeViews);
+			if (Selection.activeObject != nodeInspector)
+				Selection.activeObject = nodeInspector;
+		}
 
 		public BaseNodeView AddNode(BaseNode node)
 		{

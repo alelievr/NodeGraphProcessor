@@ -32,10 +32,9 @@ namespace GraphProcessor
             // when on of the port is null, then the edge was created and dropped outside of a port
             if (edge.input == null || edge.output == null)
             {
-                Vector2 mousePos = graphView.ChangeCoordinatesTo(graphView.contentViewContainer, position);
-
                 // Empirical offset:
-                mousePos += new Vector2(-10f, -18);
+                position += new Vector2(-10f, -28);
+                Vector2 mousePos = graphView.ChangeCoordinatesTo(graphView.contentViewContainer, position);
 
                 // TODO: function
                 this.graphView.RegisterCompleteObjectUndo("Added relay node ");

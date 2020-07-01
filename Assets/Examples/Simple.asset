@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes:
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"927c1336-fdfc-4e0d-aa0c-c8e61cfc35cd","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":662.8790893554688,"y":175.13990783691407,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0,"input":0.0}'
+    jsonDatas: '{"GUID":"927c1336-fdfc-4e0d-aa0c-c8e61cfc35cd","computeOrder":1,"position":{"serializedVersion":"2","x":662.8790893554688,"y":175.13990783691407,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0,"input":0.0}'
   - type: VectorNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"a4146b00-d209-4dcf-bd8c-4fa0543b6639","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":781.2438354492188,"y":172.97543334960938,"width":277.0,"height":96.0},"expanded":false,"debug":false,"nodeLock":false,"output":{"x":0.0,"y":0.0,"z":0.0,"w":0.0},"input":{"x":0.0,"y":0.0,"z":0.0,"w":0.0}}'
+    jsonDatas: '{"GUID":"a4146b00-d209-4dcf-bd8c-4fa0543b6639","computeOrder":2,"position":{"serializedVersion":"2","x":777.521728515625,"y":176.478271484375,"width":277.0,"height":96.0},"expanded":false,"debug":false,"nodeLock":false,"output":{"x":0.0,"y":0.0,"z":0.0,"w":0.0},"input":{"x":0.0,"y":0.0,"z":0.0,"w":0.0}}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"93cb04aa-b808-4011-b07e-00ee4c6721ca","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":1069.9981689453125,"y":172.43478393554688,"width":74.0,"height":90.0},"expanded":false,"debug":false,"nodeLock":false}'
+    jsonDatas: '{"GUID":"93cb04aa-b808-4011-b07e-00ee4c6721ca","computeOrder":3,"position":{"serializedVersion":"2","x":1066.521728515625,"y":175.478271484375,"width":74.0,"height":91.00000762939453},"expanded":false,"debug":false,"nodeLock":false}'
   - type: VectorNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"fa7a8bbc-5351-4bd8-9473-20cd674e3270","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":709.8809204101563,"y":299.06805419921877,"width":285.0,"height":96.0},"expanded":false,"debug":false,"nodeLock":false,"output":{"x":21.0,"y":0.0,"z":0.0,"w":0.0},"input":{"x":21.0,"y":0.0,"z":0.0,"w":0.0}}'
+    jsonDatas: '{"GUID":"fa7a8bbc-5351-4bd8-9473-20cd674e3270","computeOrder":1,"position":{"serializedVersion":"2","x":706.521728515625,"y":302.4783020019531,"width":285.0,"height":96.0},"expanded":false,"debug":false,"nodeLock":false,"output":{"x":21.0,"y":0.0,"z":0.0,"w":0.0},"input":{"x":21.0,"y":0.0,"z":0.0,"w":0.0}}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"0618365f-4ed7-4a9d-a9a5-0cc0f9de2256","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":1011.8809204101563,"y":299.06805419921877,"width":105.00000762939453,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":21.0,"input":21.0}'
+    jsonDatas: '{"GUID":"0618365f-4ed7-4a9d-a9a5-0cc0f9de2256","computeOrder":2,"position":{"serializedVersion":"2","x":1008.5218505859375,"y":302.4783020019531,"width":105.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":21.0,"input":21.0}'
   edges:
   - GUID: edcec8c4-cc84-4ebe-8a8d-35e57c0a199e
     owner: {fileID: 11400000}
@@ -73,16 +73,26 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - position:
       serializedVersion: 2
-      x: 0
-      y: 0
+      x: 4
+      y: 161
       width: 150
       height: 200
     opened: 1
     editorType:
       serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor.Editor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 1
+      y: 96
+      width: 150
+      height: 200
+    opened: 0
+    editorType:
+      serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: -655, y: -93, z: 0}
-  scale: {x: 1.3225, y: 1.3225, z: 1}
+  position: {x: -602, y: -17.999996, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}
   references:
     version: 1

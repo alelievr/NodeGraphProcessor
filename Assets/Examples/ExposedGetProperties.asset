@@ -187,8 +187,8 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
   - position:
       serializedVersion: 2
-      x: 200
-      y: 37
+      x: 108
+      y: 41
       width: 303
       height: 380
     opened: 1
@@ -233,7 +233,7 @@ MonoBehaviour:
     type: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     serializedValue:
-      serializedType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      serializedType: UnityEngine.Transform, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       serializedName: 
       serializedValue: '{"value":{"instanceID":13994}}'
@@ -252,7 +252,7 @@ MonoBehaviour:
     input: 1
     settings:
       isHidden: 0
-  position: {x: -500, y: -506, z: 0}
-  scale: {x: 1.3225, y: 1.3225, z: 1}
+  position: {x: -424, y: -192, z: 0}
+  scale: {x: 0.8695652, y: 0.8695652, z: 1}
   references:
     version: 1

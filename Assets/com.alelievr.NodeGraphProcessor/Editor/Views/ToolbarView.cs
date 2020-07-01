@@ -16,9 +16,10 @@ namespace GraphProcessor
 	{
 		protected class ToolbarButtonData
 		{
-			public string			name;
+			public GUIContent		content;
 			public bool				toggle;
 			public bool				value;
+			public bool				visible = true;
 			public Action			buttonCallback;
 			public Action< bool >	toggleCallback;
 		}
@@ -41,9 +42,12 @@ namespace GraphProcessor
 		}
 
 		protected ToolbarButtonData AddButton(string name, Action callback, bool left = true)
+			=> AddButton(new GUIContent(name), callback, left);
+
+		protected ToolbarButtonData AddButton(GUIContent content, Action callback, bool left = true)
 		{
 			var data = new ToolbarButtonData{
-				name = name,
+				content = content,
 				toggle = false,
 				buttonCallback = callback
 			};
@@ -52,9 +56,12 @@ namespace GraphProcessor
 		}
 
 		protected ToolbarButtonData AddToggle(string name, bool defaultValue, Action< bool > callback, bool left = true)
+			=> AddToggle(new GUIContent(name), defaultValue, callback, left);
+
+		protected ToolbarButtonData AddToggle(GUIContent content, bool defaultValue, Action< bool > callback, bool left = true)
 		{
 			var data = new ToolbarButtonData{
-				name = name,
+				content = content,
 				toggle = true,
 				value = defaultValue,
 				toggleCallback = callback
@@ -70,7 +77,33 @@ namespace GraphProcessor
 		/// <param name="left"></param>
 		protected void RemoveButton(string name, bool left)
 		{
-			((left) ? leftButtonDatas : rightButtonDatas).RemoveAll(b => b.name == name);
+			((left) ? leftButtonDatas : rightButtonDatas).RemoveAll(b => b.content.text == name);
+		}
+		
+		/// <summary>
+		/// Hide the button
+		/// </summary>
+		/// <param name="name">Display name of the button</param>
+		protected void HideButton(string name)
+		{
+			leftButtonDatas.Concat(rightButtonDatas).All(b => {
+				if (b.content.text == name)
+					b.visible = false;
+				return true;
+			});
+		}
+
+		/// <summary>
+		/// Show the button
+		/// </summary>
+		/// <param name="name">Display name of the button</param>
+		protected void ShowButton(string name)
+		{
+			leftButtonDatas.Concat(rightButtonDatas).All(b => {
+				if (b.content.text == name)
+					b.visible = true;
+				return true;
+			});
 		}
 
 		protected virtual void AddButtons()
@@ -100,16 +133,19 @@ namespace GraphProcessor
 		{
 			foreach (var button in buttons.ToList())
 			{
+				if (!button.visible)
+					continue;
+
 				if (button.toggle)
 				{
 					EditorGUI.BeginChangeCheck();
-					button.value = GUILayout.Toggle(button.value, button.name, EditorStyles.toolbarButton);
+					button.value = GUILayout.Toggle(button.value, button.content, EditorStyles.toolbarButton);
 					if (EditorGUI.EndChangeCheck() && button.toggleCallback != null)
 						button.toggleCallback(button.value);
 				}
 				else
 				{
-					if (GUILayout.Button(button.name, EditorStyles.toolbarButton) && button.buttonCallback != null)
+					if (GUILayout.Button(button.content, EditorStyles.toolbarButton) && button.buttonCallback != null)
 						button.buttonCallback();
 				}
 			}

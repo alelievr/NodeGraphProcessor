@@ -45,6 +45,10 @@ MonoBehaviour:
   - type: RelayNode, com.alelievr.NodeGraphProcessor.Runtime, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     jsonDatas: '{"GUID":"e896146f-3f81-490d-85e4-18ffdb60f87c","computeOrder":1,"position":{"serializedVersion":"2","x":174.81114196777345,"y":426.6003723144531,"width":200.0,"height":200.0},"expanded":false,"debug":false,"nodeLock":false,"unpackOutput":false,"inputEdgeCount":0}'
+  - type: CustomPortData, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"acf42c0b-dc50-476f-8d14-b9e756fd1e2d","computeOrder":1,"position":{"serializedVersion":"2","x":605.9840087890625,"y":456.5184020996094,"width":115.0,"height":149.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0}'
+  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"ea0aaa89-4654-402b-9518-0c8d3b0a0be7","computeOrder":2,"position":{"serializedVersion":"2","x":779.9839477539063,"y":620.5184326171875,"width":74.0,"height":90.0},"expanded":false,"debug":false,"nodeLock":false}'
   edges:
   - GUID: 04cee6c7-b233-40e1-b41a-31f6093f1482
     owner: {fileID: 11400000}
@@ -94,6 +98,14 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: 
     outputPortIdentifier: 0
+  - GUID: cd280cbc-ac11-4fad-b299-34e49a73ffbd
+    owner: {fileID: 11400000}
+    inputNodeGUID: ea0aaa89-4654-402b-9518-0c8d3b0a0be7
+    outputNodeGUID: acf42c0b-dc50-476f-8d14-b9e756fd1e2d
+    inputFieldName: obj
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
   groups:
   - title: New Comment Block
     color: {r: 0, g: 0, b: 0, a: 0}
@@ -176,8 +188,8 @@ MonoBehaviour:
     input: 1
     settings:
       isHidden: 0
-  position: {x: 265, y: 100.00001, z: 0}
-  scale: {x: 0.8695652, y: 0.8695652, z: 1}
+  position: {x: 63, y: -20, z: 0}
+  scale: {x: 0.65751624, y: 0.65751624, z: 1}
   references:
     version: 1
     00000000:

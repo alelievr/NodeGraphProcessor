@@ -90,6 +90,14 @@ namespace GraphProcessor
 		public event Action< SerializableEdge >			onAfterEdgeDisconnected;
 
 		[NonSerialized]
+		bool _needsInspector = false;
+
+		/// <summary>
+		/// Does the node needs to be visible in the inspector (when selected).
+		/// </summary>
+		public virtual bool			needsInspector => _needsInspector;
+
+		[NonSerialized]
 		Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
 
 		[NonSerialized]
@@ -105,9 +113,10 @@ namespace GraphProcessor
 			public FieldInfo					info;
 			public bool							input;
 			public bool							isMultiple;
+			public string						tooltip;
 			public CustomPortBehaviorDelegate	behavior;
 
-			public NodeFieldInformation(FieldInfo info, string name, bool input, bool isMultiple, CustomPortBehaviorDelegate behavior)
+			public NodeFieldInformation(FieldInfo info, string name, bool input, bool isMultiple, string tooltip, CustomPortBehaviorDelegate behavior)
 			{
 				this.input = input;
 				this.isMultiple = isMultiple;
@@ -115,6 +124,7 @@ namespace GraphProcessor
 				this.name = name;
 				this.fieldName = info.Name;
 				this.behavior = behavior;
+				this.tooltip = tooltip;
 			}
 		}
 
@@ -169,7 +179,7 @@ namespace GraphProcessor
 				else
 				{
 					// If we don't have a custom behavior on the node, we just have to create a simple port
-					AddPort(nodeField.input, nodeField.fieldName, new PortData { acceptMultipleEdges = nodeField.isMultiple, displayName = nodeField.name });
+					AddPort(nodeField.input, nodeField.fieldName, new PortData { acceptMultipleEdges = nodeField.isMultiple, displayName = nodeField.name, tooltip = nodeField.tooltip });
 				}
 			}
 		}
@@ -271,9 +281,15 @@ namespace GraphProcessor
 			{
 				var inputAttribute = field.GetCustomAttribute< InputAttribute >();
 				var outputAttribute = field.GetCustomAttribute< OutputAttribute >();
+				var tooltipAttribute = field.GetCustomAttribute< TooltipAttribute >();
+				var showInInspector = field.GetCustomAttribute< ShowInInspector >();
 				bool isMultiple = false;
 				bool input = false;
 				string name = field.Name;
+				string tooltip = null;
+
+				if (showInInspector != null)
+					_needsInspector = true;
 
 				if (inputAttribute == null && outputAttribute == null)
 					continue ;
@@ -281,6 +297,7 @@ namespace GraphProcessor
 				//check if field is a collection type
 				isMultiple = (inputAttribute != null) ? inputAttribute.allowMultiple : (outputAttribute.allowMultiple);
 				input = inputAttribute != null;
+				tooltip = tooltipAttribute?.tooltip;
 
 				if (!String.IsNullOrEmpty(inputAttribute?.name))
 					name = inputAttribute.name;
@@ -288,7 +305,7 @@ namespace GraphProcessor
 					name = outputAttribute.name;
 
 				// By default we set the behavior to null, if the field have a custom behavior, it will be set in the loop just below
-				nodeFields[field.Name] = new NodeFieldInformation(field, name, input, isMultiple, null);
+				nodeFields[field.Name] = new NodeFieldInformation(field, name, input, isMultiple, tooltip, null);
 			}
 
 			foreach (var method in methods)

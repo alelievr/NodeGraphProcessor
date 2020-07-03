@@ -101,8 +101,11 @@ namespace GraphProcessor
 		/// </summary>
 		public event NodeDuplicatedDelegate	nodeDuplicated;
 
-		// Object to handle nodes that shows their UI in the inspector
-		NodeInspectorObject				nodeInspector;
+		/// <summary>
+		/// Object to handle nodes that shows their UI in the inspector.
+		/// </summary>
+		[NonSerialized]
+		protected NodeInspectorObject		nodeInspector;
 
 		public BaseGraphView(EditorWindow window)
 		{
@@ -129,13 +132,18 @@ namespace GraphProcessor
 			createNodeMenu.Initialize(this, window);
 
 			if (nodeInspector == null)
-			{
-				nodeInspector = ScriptableObject.CreateInstance<NodeInspectorObject>();
-				nodeInspector.name = "Node Inspector";
-				nodeInspector.hideFlags = HideFlags.HideAndDontSave ^ HideFlags.NotEditable;
-			}
+				nodeInspector = CreateNodeInspectorObject();
 
 			this.StretchToParentSize();
+		}
+
+		protected virtual NodeInspectorObject CreateNodeInspectorObject()
+		{
+			var inspector = ScriptableObject.CreateInstance<NodeInspectorObject>();
+			inspector.name = "Node Inspector";
+			inspector.hideFlags = HideFlags.HideAndDontSave ^ HideFlags.NotEditable;
+
+			return inspector;
 		}
 
 		~BaseGraphView()

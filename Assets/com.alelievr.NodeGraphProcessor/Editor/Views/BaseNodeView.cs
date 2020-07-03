@@ -27,10 +27,11 @@ namespace GraphProcessor
 
         public VisualElement 					controlsContainer;
 		protected VisualElement					debugContainer;
+		protected VisualElement					rightTitleContainer;
 
 		VisualElement							settings;
 		NodeSettingsView						settingsContainer;
-		VisualElement							settingButton;
+		Button									settingButton;
 
 		Label									computeOrderLabel = new Label();
 
@@ -80,7 +81,7 @@ namespace GraphProcessor
 			InitializeView();
 			InitializeDebug();
 
-			ExceptionToLog.Call(() => Enable());
+			ExceptionToLog.Call(() => Enable(false));
 
 			InitializeSettings();
 
@@ -112,6 +113,9 @@ namespace GraphProcessor
             controlsContainer = new VisualElement{ name = "controls" };
 			controlsContainer.AddToClassList("NodeControls");
 			mainContainer.Add(controlsContainer);
+
+			rightTitleContainer = new VisualElement{ name = "RightTitleContainer" };
+			titleContainer.Add(rightTitleContainer);
 
 			if (nodeTarget.showControlsOnHover)
 			{
@@ -153,6 +157,9 @@ namespace GraphProcessor
 				CreateSettingButton();
 				settingsContainer = new NodeSettingsView();
 				settingsContainer.visible = false;
+				settings = new VisualElement();
+				// Add Node type specific settings
+				settings.Add(CreateSettingsView());
 				settingsContainer.Add(settings);
 				Add(settingsContainer);
 
@@ -165,26 +172,16 @@ namespace GraphProcessor
 			{
 				var settingsButtonLayout = settingButton.ChangeCoordinatesTo(settingsContainer.parent, settingButton.layout);
 				settingsContainer.style.top = settingsButtonLayout.yMax - 18f;
-				settingsContainer.style.left = settingsButtonLayout.xMin - 26f;
+				settingsContainer.style.left = settingsButtonLayout.xMin - layout.width + 20f;
 			}
 		}
 		
 		void CreateSettingButton()
 		{
-			settingButton = new VisualElement {name = "settings-button"};
-			settingButton.Add(new VisualElement { name = "icon" });
-			settings = new VisualElement();
+			settingButton = new Button(ToggleSettings){name = "settings-button"};
+			settingButton.Add(new Image { name = "icon", scaleMode = ScaleMode.ScaleToFit });
 
-			// Add Node type specific settings
-			settings.Add(CreateSettingsView());
-
-			// Add manipulators
-			settingButton.AddManipulator(new Clickable(ToggleSettings));
-
-			var buttonContainer = new VisualElement { name = "button-container" };
-			buttonContainer.style.flexDirection = FlexDirection.Row;
-			buttonContainer.Add(settingButton);
-			titleContainer.Add(buttonContainer);
+			titleContainer.Add(settingButton);
 		}
 
 		void ToggleSettings()
@@ -528,7 +525,6 @@ namespace GraphProcessor
 		{
 			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
-			visibleConditions.Clear();
 			foreach (var field in fields)
 			{
 				//skip if the field is not serializable
@@ -608,7 +604,6 @@ namespace GraphProcessor
 					if (list == null)
 						list = visibleConditions[visibleCondition.fieldName] = new List<(object value, VisualElement target)>();
 					list.Add((visibleCondition.value, element));
-					// TODO
 					UpdateFieldVisibility(visibleCondition.fieldName, conditionField.GetValue(nodeTarget));
 				}
 			}

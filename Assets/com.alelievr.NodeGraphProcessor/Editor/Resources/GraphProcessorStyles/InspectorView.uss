@@ -1,6 +1,6 @@
 ﻿.NodeControls
 {
-    border-width: 1.5px;
+    border-width: 1.2px;
     border-radius: 8px;
     border-color: #161616;
     padding: 8px;

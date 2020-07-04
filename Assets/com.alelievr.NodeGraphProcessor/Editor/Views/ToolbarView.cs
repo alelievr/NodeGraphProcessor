@@ -14,10 +14,17 @@ namespace GraphProcessor
 {
 	public class ToolbarView : VisualElement
 	{
+		protected enum ElementType
+		{
+			Button,
+			Toggle,
+			DropDownButton,
+		}
+
 		protected class ToolbarButtonData
 		{
 			public GUIContent		content;
-			public bool				toggle;
+			public ElementType		type;
 			public bool				value;
 			public bool				visible = true;
 			public Action			buttonCallback;
@@ -48,7 +55,7 @@ namespace GraphProcessor
 		{
 			var data = new ToolbarButtonData{
 				content = content,
-				toggle = false,
+				type = ElementType.Button,
 				buttonCallback = callback
 			};
 			((left) ? leftButtonDatas : rightButtonDatas).Add(data);
@@ -62,9 +69,23 @@ namespace GraphProcessor
 		{
 			var data = new ToolbarButtonData{
 				content = content,
-				toggle = true,
+				type = ElementType.Toggle,
 				value = defaultValue,
 				toggleCallback = callback
+			};
+			((left) ? leftButtonDatas : rightButtonDatas).Add(data);
+			return data;
+		}
+
+		protected ToolbarButtonData AddDropDownButton(string name, Action callback, bool left = true)
+			=> AddDropDownButton(new GUIContent(name), callback, left);
+
+		protected ToolbarButtonData AddDropDownButton(GUIContent content, Action callback, bool left = true)
+		{
+			var data = new ToolbarButtonData{
+				content = content,
+				type = ElementType.DropDownButton,
+				buttonCallback = callback
 			};
 			((left) ? leftButtonDatas : rightButtonDatas).Add(data);
 			return data;
@@ -136,17 +157,22 @@ namespace GraphProcessor
 				if (!button.visible)
 					continue;
 
-				if (button.toggle)
+				switch (button.type)
 				{
-					EditorGUI.BeginChangeCheck();
-					button.value = GUILayout.Toggle(button.value, button.content, EditorStyles.toolbarButton);
-					if (EditorGUI.EndChangeCheck() && button.toggleCallback != null)
-						button.toggleCallback(button.value);
-				}
-				else
-				{
-					if (GUILayout.Button(button.content, EditorStyles.toolbarButton) && button.buttonCallback != null)
-						button.buttonCallback();
+					case ElementType.Button:
+						if (GUILayout.Button(button.content, EditorStyles.toolbarButton) && button.buttonCallback != null)
+							button.buttonCallback();
+						break;
+					case ElementType.Toggle:
+						EditorGUI.BeginChangeCheck();
+						button.value = GUILayout.Toggle(button.value, button.content, EditorStyles.toolbarButton);
+						if (EditorGUI.EndChangeCheck() && button.toggleCallback != null)
+							button.toggleCallback(button.value);
+						break;
+					case ElementType.DropDownButton:
+						if (EditorGUILayout.DropdownButton(button.content, FocusType.Passive, EditorStyles.toolbarDropDown))
+							button.buttonCallback();
+						break;
 				}
 			}
 		}

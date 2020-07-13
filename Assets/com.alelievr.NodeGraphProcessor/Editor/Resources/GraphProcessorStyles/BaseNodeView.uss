@@ -10,7 +10,7 @@
     border-width: 0px;
     width: 28px;
     height: 28px;
-    background-color: #363636;
+    background-color: rgba(63, 63, 63, 0);
     border-radius: 0px;
 }
 
@@ -21,7 +21,7 @@
 }
 
 #settings-button:hover {
-    background-color: #404040;
+    background-color: rgba(127, 127, 127 0.2);
 }
 
 #contents #top .executed #connector, #contents #top .executed #connector #cap,

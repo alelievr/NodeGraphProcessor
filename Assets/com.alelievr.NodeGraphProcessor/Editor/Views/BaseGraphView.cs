@@ -149,6 +149,7 @@ namespace GraphProcessor
 		~BaseGraphView()
 		{
 			Undo.undoRedoPerformed -= ReloadView;
+			Object.DestroyImmediate(nodeInspector);
 		}
 
 		#region Callbacks

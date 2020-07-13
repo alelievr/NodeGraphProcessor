@@ -32,7 +32,10 @@ MonoBehaviour:
   - type: InspectorNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"345962ab-c23d-4a54-8350-2acd78185e3b","computeOrder":1,"position":{"serializedVersion":"2","x":203.6575164794922,"y":371.1650390625,"width":133.0,"height":77.0},"expanded":true,"debug":false,"nodeLock":false,"input":0.0,"output":0.0,"additionalSettings":false,"additionalParam":""}'
   - type: InspectorNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"c9c02062-b5fb-4df4-920d-c8aaf27cf0ed","computeOrder":1,"position":{"serializedVersion":"2","x":215.49501037597657,"y":500.0350036621094,"width":133.0,"height":77.0},"expanded":true,"debug":false,"nodeLock":false,"input":0.0,"output":0.0,"additionalSettings":false,"additionalParam":""}'
+    jsonDatas: '{"GUID":"c9c02062-b5fb-4df4-920d-c8aaf27cf0ed","computeOrder":1,"position":{"serializedVersion":"2","x":215.49501037597657,"y":500.0350036621094,"width":133.0,"height":77.0},"expanded":true,"debug":false,"nodeLock":false,"input":0.0,"output":0.0,"additionalSettings":true,"additionalParam":"fegewgwgw"}'
+  - type: InspectorNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"8438c0ea-9d4d-4b50-9c61-13a3f855e828","computeOrder":1,"position":{"serializedVersion":"2","x":492.0,"y":490.0,"width":132.0,"height":77.0},"expanded":true,"debug":false,"nodeLock":false,"input":0.0,"output":0.0,"additionalSettings":false,"additionalParam":"Hello
+      World !"}'
   edges:
   - GUID: 677d1ad1-38e2-46c6-954a-333e2dd6216e
     owner: {fileID: 11400000}
@@ -118,7 +121,7 @@ MonoBehaviour:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor.Editor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: -205, y: 214, z: 0}
-  scale: {x: 1.15, y: 1.15, z: 1}
+  position: {x: -83, y: 112, z: 0}
+  scale: {x: 1, y: 1, z: 1}
   references:
     version: 1

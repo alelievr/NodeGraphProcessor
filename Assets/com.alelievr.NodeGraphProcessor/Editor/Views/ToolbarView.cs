@@ -177,7 +177,7 @@ namespace GraphProcessor
 			}
 		}
 
-		void DrawImGUIToolbar()
+		protected virtual void DrawImGUIToolbar()
 		{
 			GUILayout.BeginHorizontal(EditorStyles.toolbar);
 

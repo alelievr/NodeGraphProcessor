@@ -69,8 +69,9 @@ namespace GraphProcessor
             {
                 var node = element as BaseNodeView;
 
+                // Adding an element that is not a node currently supported
                 if (node == null)
-                    throw new System.ArgumentException("Adding another thing than node is not currently supported");
+                    continue;
 
                 if (!group.innerNodeGUIDs.Contains(node.nodeTarget.GUID))
                     group.innerNodeGUIDs.Add(node.nodeTarget.GUID);

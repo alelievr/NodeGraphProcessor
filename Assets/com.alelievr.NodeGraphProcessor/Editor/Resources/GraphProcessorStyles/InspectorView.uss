@@ -1,0 +1,24 @@
+﻿.NodeControls
+{
+    border-width: 1.2px;
+    border-radius: 8px;
+    border-color: #161616;
+    padding: 8px;
+    margin-right:8px;
+    margin-top: 8px;
+}
+
+.NodeControls > Label
+{
+    font-size: 13px;
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+}
+
+.PlaceHolder
+{
+    font-size: 14px;
+    padding: 8px;
+    margin-right:8px;
+    margin-bottom: 8px;
+}

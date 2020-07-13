@@ -32,6 +32,10 @@ namespace GraphProcessor
 		/// Port size, will also affect the size of the connected edge
 		/// </summary>
 		public int		sizeInPixel;
+		/// <summary>
+		/// Tooltip of the port
+		/// </summary>
+		public string	tooltip;
 
         public bool Equals(PortData other)
         {
@@ -39,7 +43,8 @@ namespace GraphProcessor
 				&& displayName == other.displayName
 				&& displayType == other.displayType
 				&& acceptMultipleEdges == other.acceptMultipleEdges
-				&& sizeInPixel == other.sizeInPixel;
+				&& sizeInPixel == other.sizeInPixel
+				&& tooltip == other.tooltip;
         }
 
 		public void CopyFrom(PortData other)
@@ -49,6 +54,7 @@ namespace GraphProcessor
 			displayType = other.displayType;
 			acceptMultipleEdges = other.acceptMultipleEdges;
 			sizeInPixel = other.sizeInPixel;
+			tooltip = other.tooltip;
 		}
     }
 

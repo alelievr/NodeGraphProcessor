@@ -185,4 +185,15 @@ namespace GraphProcessor
 			this.value = value;
 		}
 	}
+
+	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+	public class ShowInInspector : Attribute
+	{
+		public bool showInNode;
+
+		public ShowInInspector(bool showInNode = false)
+		{
+			this.showInNode = showInNode;
+		}
+	}
 }

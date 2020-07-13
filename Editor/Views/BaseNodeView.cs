@@ -25,12 +25,13 @@ namespace GraphProcessor
 
 		protected Dictionary< string, List< PortView > > portsPerFieldName = new Dictionary< string, List< PortView > >();
 
-        protected VisualElement 				controlsContainer;
+        public VisualElement 					controlsContainer;
 		protected VisualElement					debugContainer;
+		protected VisualElement					rightTitleContainer;
 
 		VisualElement							settings;
 		NodeSettingsView						settingsContainer;
-		VisualElement							settingButton;
+		Button									settingButton;
 
 		Label									computeOrderLabel = new Label();
 
@@ -80,7 +81,11 @@ namespace GraphProcessor
 			InitializeView();
 			InitializeDebug();
 
-			ExceptionToLog.Call(() => Enable());
+			// If the standard Enable method is still overwritten, we call it
+			if (GetType().GetMethod(nameof(Enable), new Type[]{}).DeclaringType != typeof(BaseNodeView))
+				ExceptionToLog.Call(() => Enable());
+			else
+				ExceptionToLog.Call(() => Enable(false));
 
 			InitializeSettings();
 
@@ -110,7 +115,11 @@ namespace GraphProcessor
 		void InitializeView()
 		{
             controlsContainer = new VisualElement{ name = "controls" };
+			controlsContainer.AddToClassList("NodeControls");
 			mainContainer.Add(controlsContainer);
+
+			rightTitleContainer = new VisualElement{ name = "RightTitleContainer" };
+			titleContainer.Add(rightTitleContainer);
 
 			if (nodeTarget.showControlsOnHover)
 			{
@@ -152,6 +161,9 @@ namespace GraphProcessor
 				CreateSettingButton();
 				settingsContainer = new NodeSettingsView();
 				settingsContainer.visible = false;
+				settings = new VisualElement();
+				// Add Node type specific settings
+				settings.Add(CreateSettingsView());
 				settingsContainer.Add(settings);
 				Add(settingsContainer);
 
@@ -164,26 +176,16 @@ namespace GraphProcessor
 			{
 				var settingsButtonLayout = settingButton.ChangeCoordinatesTo(settingsContainer.parent, settingButton.layout);
 				settingsContainer.style.top = settingsButtonLayout.yMax - 18f;
-				settingsContainer.style.left = settingsButtonLayout.xMin - 26f;
+				settingsContainer.style.left = settingsButtonLayout.xMin - layout.width + 20f;
 			}
 		}
 		
 		void CreateSettingButton()
 		{
-			settingButton = new VisualElement {name = "settings-button"};
-			settingButton.Add(new VisualElement { name = "icon" });
-			settings = new VisualElement();
+			settingButton = new Button(ToggleSettings){name = "settings-button"};
+			settingButton.Add(new Image { name = "icon", scaleMode = ScaleMode.ScaleToFit });
 
-			// Add Node type specific settings
-			settings.Add(CreateSettingsView());
-
-			// Add manipulators
-			settingButton.AddManipulator(new Clickable(ToggleSettings));
-
-			var buttonContainer = new VisualElement { name = "button-container" };
-			buttonContainer.style.flexDirection = FlexDirection.Row;
-			buttonContainer.Add(settingButton);
-			titleContainer.Add(buttonContainer);
+			titleContainer.Add(settingButton);
 		}
 
 		void ToggleSettings()
@@ -517,18 +519,16 @@ namespace GraphProcessor
 			computeOrderLabel.text = "Compute order: " + nodeTarget.computeOrder;
 		}
 
-		public virtual void Enable()
-		{
-			DrawDefaultInspector();
-		}
+		public virtual void Enable(bool fromInspector = false) => DrawDefaultInspector(fromInspector);
+		public virtual void Enable() => DrawDefaultInspector(false);
 
 		Dictionary<string, List<(object value, VisualElement target)>> visibleConditions = new Dictionary<string, List<(object value, VisualElement target)>>();
+		Dictionary<string, VisualElement>  hideElementIfConnected = new Dictionary<string, VisualElement>();
 
-		protected virtual void DrawDefaultInspector()
+		protected virtual void DrawDefaultInspector(bool fromInspector = false)
 		{
 			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
-			visibleConditions.Clear();
 			foreach (var field in fields)
 			{
 				//skip if the field is not serializable
@@ -536,14 +536,29 @@ namespace GraphProcessor
 					continue ;
 
 				//skip if the field is an input/output and not marked as SerializedField
-				if (field.GetCustomAttribute(typeof(SerializeField)) == null && (field.GetCustomAttribute(typeof(InputAttribute)) != null || field.GetCustomAttribute(typeof(OutputAttribute)) != null))
+				bool hasInputOrOutputAttribute = field.GetCustomAttribute(typeof(InputAttribute)) != null || field.GetCustomAttribute(typeof(OutputAttribute)) != null;
+				if (field.GetCustomAttribute(typeof(SerializeField)) == null && hasInputOrOutputAttribute)
 					continue ;
 
                 //skip if marked with NonSerialized or HideInInspector
                 if (field.GetCustomAttribute(typeof(System.NonSerializedAttribute)) != null || field.GetCustomAttribute(typeof(HideInInspector)) != null)
                     continue ;
 
-				AddControlField(field, field.Name);
+				// Hide the field if we want to display in in the inspector
+				var showInInspector = field.GetCustomAttribute<ShowInInspector>();
+				if (showInInspector != null && !showInInspector.showInNode && !fromInspector)
+					continue;
+
+				var elem = AddControlField(field, field.Name);
+				if (hasInputOrOutputAttribute)
+				{
+					hideElementIfConnected[field.Name] = elem;
+
+					// Hide the field right away if there is already a connection:
+					if (portsPerFieldName.TryGetValue(field.Name, out var pvs))
+						if (pvs.Any(pv => pv.GetEdges().Count > 0))
+							elem.style.display = DisplayStyle.None;
+				}
 			}
 		}
 
@@ -593,7 +608,6 @@ namespace GraphProcessor
 					if (list == null)
 						list = visibleConditions[visibleCondition.fieldName] = new List<(object value, VisualElement target)>();
 					list.Add((visibleCondition.value, element));
-					// TODO
 					UpdateFieldVisibility(visibleCondition.fieldName, conditionField.GetValue(nodeTarget));
 				}
 			}
@@ -603,11 +617,17 @@ namespace GraphProcessor
 
 		internal void OnPortConnected(PortView port)
 		{
+			if (hideElementIfConnected.TryGetValue(port.fieldName, out var elem))
+				elem.style.display = DisplayStyle.None;
+
 			onPortConnected?.Invoke(port);
 		}
 
 		internal void OnPortDisconnected(PortView port)
 		{
+			if (hideElementIfConnected.TryGetValue(port.fieldName, out var elem))
+				elem.style.display = DisplayStyle.Flex;
+
 			onPortDisconnected?.Invoke(port);
 		}
 

@@ -7,26 +7,21 @@
 }
 
 #settings-button {
-    align-self: center;
-    border-width: 2px;
-    width: 16px;
-    height: 16px;
+    border-width: 0px;
+    width: 28px;
+    height: 28px;
+    background-color: rgba(63, 63, 63, 0);
+    border-radius: 0px;
 }
 
 #settings-button > #icon {
+    -unity-background-scale-mode: scale-to-fit;
     background-image : resource("Icons/SettingsIcons");
     flex-grow: 1;
 }
 
-#settings-button:hover > #icon {
-    background-color: #2B2B2B;
-    background-image : resource("Icons/SettingsIcons");
-}
-
-#settings-button.clicked > #icon {
-    background-color: #2B2B2B;
-    background-image : resource("Icons/SettingsIcons");
-    visibility: visible;
+#settings-button:hover {
+    background-color: rgba(127, 127, 127 0.2);
 }
 
 #contents #top .executed #connector, #contents #top .executed #connector #cap,
@@ -96,4 +91,11 @@ ParameterNodeView #controls EnumField > VisualElement > TextElement {
 
 ParameterNodeView #controls EnumField > VisualElement > VisualElement {
     margin-right: -2px;
+}
+
+#RightTitleContainer
+{
+    justify-content: flex-end;
+    flex-grow: 1;
+    flex-direction: row;
 }

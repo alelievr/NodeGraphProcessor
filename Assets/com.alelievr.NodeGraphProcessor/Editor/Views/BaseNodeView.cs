@@ -81,7 +81,11 @@ namespace GraphProcessor
 			InitializeView();
 			InitializeDebug();
 
-			ExceptionToLog.Call(() => Enable(false));
+			// If the standard Enable method is still overwritten, we call it
+			if (GetType().GetMethod(nameof(Enable), new Type[]{}).DeclaringType != typeof(BaseNodeView))
+				ExceptionToLog.Call(() => Enable());
+			else
+				ExceptionToLog.Call(() => Enable(false));
 
 			InitializeSettings();
 
@@ -516,7 +520,7 @@ namespace GraphProcessor
 		}
 
 		public virtual void Enable(bool fromInspector = false) => DrawDefaultInspector(fromInspector);
-		public virtual void Enable() => Enable(false);
+		public virtual void Enable() => DrawDefaultInspector(false);
 
 		Dictionary<string, List<(object value, VisualElement target)>> visibleConditions = new Dictionary<string, List<(object value, VisualElement target)>>();
 		Dictionary<string, VisualElement>  hideElementIfConnected = new Dictionary<string, VisualElement>();

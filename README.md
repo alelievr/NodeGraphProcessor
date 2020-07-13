@@ -85,6 +85,7 @@ Note that you'll not have access to the examples provided in this repo because t
 - Node messages (small message with it's icon beside the node)
 - Stack Nodes
 - Relay nodes
+- Display additional settings in the inspector
 
 More details are available [in the Changelog](CHANGELOG.md)
 
@@ -117,3 +118,4 @@ For more details consult our [Github Project page](https://github.com/alelievr/N
 ![](https://user-images.githubusercontent.com/6877923/69500269-e469b580-0ef9-11ea-9c4b-f58e793f7ecd.gif)
 ![](https://user-images.githubusercontent.com/6877923/71782933-25b4b100-2fe0-11ea-9b57-0198f7161535.gif)
 ![](https://user-images.githubusercontent.com/6877923/77270201-808aaa00-6cab-11ea-9028-e671092be194.gif)
+![](https://user-images.githubusercontent.com/6877923/87306684-ac5ec380-c518-11ea-9346-1ed47e8cd016.gif)

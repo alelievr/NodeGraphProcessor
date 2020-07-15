@@ -89,6 +89,11 @@ namespace GraphProcessor
 		/// </summary>
 		public event Action< SerializableEdge >			onAfterEdgeDisconnected;
 
+		/// <summary>
+		/// Triggered after a single/list of port(s) is updated, the parameter is the field name
+		/// </summary>
+		public event Action< string >					onPortsUpdated;
+
 		[NonSerialized]
 		bool _needsInspector = false;
 
@@ -195,25 +200,31 @@ namespace GraphProcessor
 		/// <summary>
 		/// Update all ports of the node
 		/// </summary>
-		public void UpdateAllPorts()
+		public bool UpdateAllPorts()
 		{
+			bool changed = false;
+
 			foreach (var field in nodeFields)
-				UpdatePortsForField(field.Value.fieldName);
+				changed |= UpdatePortsForField(field.Value.fieldName);
+
+			return changed;
 		}
 
 		/// <summary>
-		/// Update the ports related to one C# property field
+		/// Update the ports related to one C# property field (only for this node)
 		/// </summary>
 		/// <param name="fieldName"></param>
-		public void UpdatePortsForField(string fieldName)
+		public bool UpdatePortsForFieldLocal(string fieldName)
 		{
+			bool changed = false;
+
 			if (!nodeFields.ContainsKey(fieldName))
-				return ;
+				return false;
 
 			var fieldInfo = nodeFields[fieldName];
 
 			if (fieldInfo.behavior == null)
-				return ;
+				return false;
 
 			List< string > finalPorts = new List< string >();
 
@@ -231,6 +242,7 @@ namespace GraphProcessor
 				if (port == null)
 				{
 					AddPort(fieldInfo.input, fieldName, portData);
+					changed = true;
 				}
 				else
 				{
@@ -241,8 +253,12 @@ namespace GraphProcessor
 							graph.Disconnect(edge.GUID);
 					}
 
-					// patch the port datas
-					port.portData.CopyFrom(portData);
+					// patch the port data
+					if (port.portData != portData)
+					{
+						port.portData.CopyFrom(portData);
+						changed = true;
+					}
 				}
 
 				finalPorts.Add(portData.identifier);
@@ -257,10 +273,69 @@ namespace GraphProcessor
 				{
 					// If the current port does not appear in the list of final ports, we remove it
 					if (!finalPorts.Any(id => id == currentPort.portData.identifier))
+					{
 						RemovePort(fieldInfo.input, currentPort);
+						changed = true;
+					}
 				}
 			}
+
+			onPortsUpdated?.Invoke(fieldName);
+
+			return changed;
 		}
+
+		/// <summary>
+		/// Update the ports related to one C# property field and all connected nodes in the graph
+		/// </summary>
+		/// <param name="fieldName"></param>
+		public bool UpdatePortsForField(string fieldName)
+		{
+			bool changed  = false;
+
+			// Recursively update all other nodes that needs it:
+			portUpdateHashSet.Clear();
+			Stack<NodePort> portsToUpdate = new Stack<NodePort>();
+			HashSet<NodePort> updatedPorts = new HashSet<NodePort>();
+
+			bool input = IsFieldInput(fieldName);
+
+			Stack<(string fieldName, BaseNode node)> fieldsToUpdate = new Stack<(string fieldName, BaseNode node)>();
+			HashSet<(string fieldName, BaseNode node)> updatedFields = new HashSet<(string fieldName, BaseNode node)>();
+
+			fieldsToUpdate.Push((fieldName, this));
+
+			// Iterate through all the ports that needs to be updated, following graph connection when the 
+			// port is updated. This is required ton have type propagation multiple nodes that changes port types
+			// are connected to each other (i.e. the relay node)
+			while (fieldsToUpdate.Count != 0)
+			{
+				var (field, node) = fieldsToUpdate.Pop();
+
+				// Avoid updating twice a port
+				if (!updatedFields.Add((field, node)))
+					continue;
+
+				if (node.UpdatePortsForFieldLocal(field))
+				{
+					foreach (var port in node.IsFieldInput(field) ? (NodePortContainer)inputPorts : outputPorts)
+					{
+						foreach(var edge in port.GetEdges())
+						{
+							if (input)
+								fieldsToUpdate.Push((edge.outputPort.fieldName, edge.outputNode));
+							else
+								fieldsToUpdate.Push((edge.inputPort.fieldName, edge.inputNode));
+						}
+					}
+					changed = true;
+				}
+			}
+
+			return changed;
+		}
+
+		HashSet<BaseNode> portUpdateHashSet = new HashSet<BaseNode>();
 
 		internal void DisableInternal() => ExceptionToLog.Call(() => Disable());
 
@@ -406,6 +481,10 @@ namespace GraphProcessor
 		/// <param name="portData">Data of the port</param>
 		public void AddPort(bool input, string fieldName, PortData portData)
 		{
+			// Fixup port data info if needed:
+			if (portData.displayType == null)
+				portData.displayType = nodeFields[fieldName].info.FieldType;
+
 			if (input)
 				inputPorts.Add(new NodePort(this, fieldName, portData));
 			else

@@ -839,7 +839,7 @@ namespace GraphProcessor
 			groupViews.Clear();
 		}
 
-		public bool ConnectView(EdgeView e, bool autoDisconnectInputs = true)
+		public bool CanConnectEdge(EdgeView e, bool autoDisconnectInputs = true)
 		{
 			if (e.input == null || e.output == null)
 				return false;
@@ -854,6 +854,19 @@ namespace GraphProcessor
 				Debug.LogError("Connect aborted !");
 				return false;
 			}
+
+			return true;
+		}
+
+		public bool ConnectView(EdgeView e, bool autoDisconnectInputs = true)
+		{
+			if (!CanConnectEdge(e, autoDisconnectInputs))
+				return false;
+			
+			var inputPortView = e.input as PortView;
+			var outputPortView = e.output as PortView;
+			var inputNodeView = inputPortView.node as BaseNodeView;
+			var outputNodeView = outputPortView.node as BaseNodeView;
 
 			//If the input port does not support multi-connection, we remove them
 			if (autoDisconnectInputs && !(e.input as PortView).portData.acceptMultipleEdges)
@@ -891,6 +904,11 @@ namespace GraphProcessor
 			inputNodeView.RefreshPorts();
 			outputNodeView.RefreshPorts();
 
+			// In certain cases the edge color is wrong so we patch it
+			schedule.Execute(() => {
+				e.UpdateEdgeControl();
+			}).ExecuteLater(1);
+
 			e.isConnected = true;
 
 			return true;
@@ -898,7 +916,7 @@ namespace GraphProcessor
 
 		public bool Connect(EdgeView e, bool autoDisconnectInputs = true)
 		{
-			if (!ConnectView(e, autoDisconnectInputs))
+			if (!CanConnectEdge(e, autoDisconnectInputs))
 				return false;
 
 			var inputPortView = e.input as PortView;
@@ -909,6 +927,8 @@ namespace GraphProcessor
 			var outputPort = outputNodeView.nodeTarget.GetPort(outputPortView.fieldName, outputPortView.portData.identifier);
 
 			e.userData = graph.Connect(inputPort, outputPort, autoDisconnectInputs);
+
+			ConnectView(e, autoDisconnectInputs);
 
 			UpdateComputeOrder();
 
@@ -940,11 +960,11 @@ namespace GraphProcessor
 
 		public void Disconnect(EdgeView e, bool refreshPorts = true)
 		{
-			DisconnectView(e, refreshPorts);
-
 			// Remove the serialized edge if there is one
 			if (e.userData is SerializableEdge serializableEdge)
 				graph.Disconnect(serializableEdge.GUID);
+
+			DisconnectView(e, refreshPorts);
 
 			UpdateComputeOrder();
 		}

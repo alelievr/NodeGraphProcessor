@@ -19,12 +19,12 @@ public class RelayNodeView : BaseNodeView
 		this.Q("title").RemoveFromHierarchy();
 		this.Q("divider").RemoveFromHierarchy();
 
-		onPortConnected += (e) => UpdatePortTypes(e);
-		onPortDisconnected += (e) => UpdatePortTypes(e, typeof(object));
+		// onPortConnected += (e) => UpdatePortTypes(e);
+		// onPortDisconnected += (e) => UpdatePortTypes(e, typeof(object));
 
-		owner.graph.onGraphChanges += OnGraphChanges;
+		// owner.graph.onGraphChanges += OnGraphChanges;
 
-		ForceUpdatePorts();
+		// ForceUpdatePorts();
 	}
 
 	public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -44,11 +44,11 @@ public class RelayNodeView : BaseNodeView
 
 	void OnGraphChanges(GraphChanges changes)
 	{
-		schedule.Execute(() => {
-			ForceUpdatePorts();
-			UpdateSize();
-			MarkDirtyRepaint();
-		}).ExecuteLater(1);
+		// schedule.Execute(() => {
+		// 	ForceUpdatePorts();
+		// 	UpdateSize();
+		// 	MarkDirtyRepaint();
+		// }).ExecuteLater(1);
 	}
 
 	DropdownMenuAction.Status UnpackOutputStatus(DropdownMenuAction action)
@@ -68,13 +68,13 @@ public class RelayNodeView : BaseNodeView
 		UpdateSize();
 	}
 
-	void UpdatePortTypes(PortView portView, Type forceType = null)
-	{
-		// TODO: remove me
-		schedule.Execute(() => {
-			ForceUpdatePorts();
-		}).ExecuteLater(1);
-	}
+	// void UpdatePortTypes(PortView portView, Type forceType = null)
+	// {
+	// 	// TODO: remove me
+	// 	schedule.Execute(() => {
+	// 		ForceUpdatePorts();
+	// 	}).ExecuteLater(1);
+	// }
 
 	void UpdateSize()
 	{

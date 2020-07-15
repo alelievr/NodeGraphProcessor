@@ -43,7 +43,11 @@ namespace GraphProcessor
 			name = "ToolbarView";
 			this.graphView = graphView;
 
-			graphView.initialized += AddButtons;
+			graphView.initialized += () => {
+				leftButtonDatas.Clear();
+				rightButtonDatas.Clear();
+				AddButtons();
+			};
 
 			Add(new IMGUIContainer(DrawImGUIToolbar));
 		}
@@ -129,9 +133,6 @@ namespace GraphProcessor
 
 		protected virtual void AddButtons()
 		{
-			leftButtonDatas.Clear();
-			rightButtonDatas.Clear();
-
 			AddButton("Center", graphView.ResetPositionAndZoom);
 
 			bool processorVisible = graphView.GetPinnedElementStatus< ProcessorView >() != Status.Hidden;

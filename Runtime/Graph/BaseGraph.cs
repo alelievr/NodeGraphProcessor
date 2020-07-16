@@ -413,6 +413,7 @@ namespace GraphProcessor
 				return ;
 
 			computeOrderDictionary.Clear();
+			infiniteLoopTracker.Clear();
 
 			foreach (var node in nodes)
 				UpdateComputeOrder(0, node);
@@ -556,6 +557,7 @@ namespace GraphProcessor
 		/// <returns>value</returns>
 		public T GetParameterValue< T >(string name) => (T)GetParameterValue(name);
 
+		HashSet<BaseNode> infiniteLoopTracker = new HashSet<BaseNode>();
 		int UpdateComputeOrder(int depth, BaseNode node)
 		{
 			int computeOrder = 0;
@@ -568,6 +570,9 @@ namespace GraphProcessor
 
 			if (computeOrderDictionary.ContainsKey(node))
 				return node.computeOrder;
+
+			if (!infiniteLoopTracker.Add(node))
+				return -1;
 
 			if (!node.canProcess)
 			{

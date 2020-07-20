@@ -433,7 +433,7 @@ namespace GraphProcessor
 
 			portCollection.Add(edge);
 
-			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
+			UpdateAllPorts();
 
 			onAfterEdgeConnected?.Invoke(edge);
 		}
@@ -453,7 +453,6 @@ namespace GraphProcessor
 			if (edge.inputNode == this && !haveConnectedEdges)
 				edge.inputPort?.ResetToDefault();
 
-			// UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
 			UpdateAllPorts();
 
 			onAfterEdgeDisconnected?.Invoke(edge);

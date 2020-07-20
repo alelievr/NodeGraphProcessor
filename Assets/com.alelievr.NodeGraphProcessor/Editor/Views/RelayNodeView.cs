@@ -18,13 +18,6 @@ public class RelayNodeView : BaseNodeView
 		// Remove useless elements
 		this.Q("title").RemoveFromHierarchy();
 		this.Q("divider").RemoveFromHierarchy();
-
-		// onPortConnected += (e) => UpdatePortTypes(e);
-		// onPortDisconnected += (e) => UpdatePortTypes(e, typeof(object));
-
-		// owner.graph.onGraphChanges += OnGraphChanges;
-
-		// ForceUpdatePorts();
 	}
 
 	public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -40,15 +33,6 @@ public class RelayNodeView : BaseNodeView
 		ForceUpdatePorts();
 		UpdateSize();
 		MarkDirtyRepaint();
-	}
-
-	void OnGraphChanges(GraphChanges changes)
-	{
-		// schedule.Execute(() => {
-		// 	ForceUpdatePorts();
-		// 	UpdateSize();
-		// 	MarkDirtyRepaint();
-		// }).ExecuteLater(1);
 	}
 
 	DropdownMenuAction.Status UnpackOutputStatus(DropdownMenuAction action)
@@ -67,14 +51,6 @@ public class RelayNodeView : BaseNodeView
 		base.SetPosition(new Rect(newPos.position, new Vector2(200, 200)));
 		UpdateSize();
 	}
-
-	// void UpdatePortTypes(PortView portView, Type forceType = null)
-	// {
-	// 	// TODO: remove me
-	// 	schedule.Execute(() => {
-	// 		ForceUpdatePorts();
-	// 	}).ExecuteLater(1);
-	// }
 
 	void UpdateSize()
 	{
@@ -98,5 +74,23 @@ public class RelayNodeView : BaseNodeView
 				output.style.height = 16;
 			AddToClassList("hideLabels");
 		}
+	}
+
+	public override void OnRemoved()
+	{
+		if (!relay.unpackOutput)
+		{
+			var inputEdges = inputPortViews[0].GetEdges();
+			var outputEdges = outputPortViews[0].GetEdges();
+
+			if (inputEdges.Count == 0 || outputEdges.Count == 0)
+				return;
+
+			var inputEdge = inputEdges.First();
+
+			foreach (var outputEdge in outputEdges)
+				owner.Connect(outputEdge.input as PortView, inputEdge.output as PortView);
+		}
+
 	}
 }

@@ -287,6 +287,19 @@ namespace GraphProcessor
 			{
 				RegisterCompleteObjectUndo("Remove Graph Elements");
 
+				// Destroy priority of objects
+				// We need nodes to be destroyed first because we can have a destroy operation that uses node connections
+				changes.elementsToRemove.Sort((e1, e2) => {
+					int GetPriority(GraphElement e)
+					{
+						if (e is BaseNodeView)
+							return 0;
+						else
+							return 1;
+					}
+					return GetPriority(e1).CompareTo(GetPriority(e2));
+				});
+
 				//Handle ourselves the edge and node remove
 				changes.elementsToRemove.RemoveAll(e => {
 
@@ -299,7 +312,8 @@ namespace GraphProcessor
 							ExceptionToLog.Call(() => node.OnRemoved());
 							graph.RemoveNode(node.nodeTarget);
 							RemoveElement(node);
-							UpdateNodeInspectorSelection();
+							if (Selection.activeObject == nodeInspector)
+								UpdateNodeInspectorSelection();
 							return true;
 						case GroupView group:
 							graph.RemoveGroup(group.group);
@@ -912,6 +926,23 @@ namespace GraphProcessor
 			e.isConnected = true;
 
 			return true;
+		}
+
+		public bool Connect(PortView inputPortView, PortView outputPortView, bool autoDisconnectInputs = true)
+		{
+			var inputPort = inputPortView.owner.nodeTarget.GetPort(inputPortView.fieldName, inputPortView.portData.identifier);
+			var outputPort = outputPortView.owner.nodeTarget.GetPort(outputPortView.fieldName, outputPortView.portData.identifier);
+
+			var newEdge = SerializableEdge.CreateNewEdge(graph,  inputPort, outputPort);
+
+			var edgeView = new EdgeView()
+			{
+				userData = newEdge,
+				input = inputPortView,
+				output = outputPortView,
+			};
+
+			return Connect(edgeView);
 		}
 
 		public bool Connect(EdgeView e, bool autoDisconnectInputs = true)

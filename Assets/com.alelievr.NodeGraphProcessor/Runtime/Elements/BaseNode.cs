@@ -133,6 +133,22 @@ namespace GraphProcessor
 			}
 		}
 
+		struct PortUpdate
+		{
+			public List<string>	fieldNames;
+			public BaseNode		node;
+
+			public void Deconstruct(out List<string> fieldNames, out BaseNode node)
+			{
+				fieldNames = this.fieldNames;
+				node = this.node;
+			}
+		}
+
+		// Used in port update algorithm
+		Stack<PortUpdate> fieldsToUpdate = new Stack<PortUpdate>();
+		HashSet<PortUpdate> updatedFields = new HashSet<PortUpdate>();
+
 		/// <summary>
 		/// Creates a node of type T at a certain position
 		/// </summary>
@@ -293,42 +309,41 @@ namespace GraphProcessor
 		{
 			bool changed  = false;
 
-			// Recursively update all other nodes that needs it:
-			portUpdateHashSet.Clear();
-			Stack<NodePort> portsToUpdate = new Stack<NodePort>();
-			HashSet<NodePort> updatedPorts = new HashSet<NodePort>();
+			fieldsToUpdate.Clear();
+			updatedFields.Clear();
 
-			bool input = IsFieldInput(fieldName);
-
-			Stack<(string fieldName, BaseNode node)> fieldsToUpdate = new Stack<(string fieldName, BaseNode node)>();
-			HashSet<(string fieldName, BaseNode node)> updatedFields = new HashSet<(string fieldName, BaseNode node)>();
-
-			fieldsToUpdate.Push((fieldName, this));
+			fieldsToUpdate.Push(new PortUpdate{fieldNames = new List<string>(){fieldName}, node = this});
 
 			// Iterate through all the ports that needs to be updated, following graph connection when the 
 			// port is updated. This is required ton have type propagation multiple nodes that changes port types
 			// are connected to each other (i.e. the relay node)
 			while (fieldsToUpdate.Count != 0)
 			{
-				var (field, node) = fieldsToUpdate.Pop();
+				var (fields, node) = fieldsToUpdate.Pop();
 
 				// Avoid updating twice a port
-				if (!updatedFields.Add((field, node)))
+				if (updatedFields.Any((t) => t.node == node && fields.SequenceEqual(t.fieldNames)))
 					continue;
+				updatedFields.Add(new PortUpdate{fieldNames = fields, node = node});
 
-				if (node.UpdatePortsForFieldLocal(field))
+				foreach (var field in fields)
 				{
-					foreach (var port in node.IsFieldInput(field) ? (NodePortContainer)inputPorts : outputPorts)
+					if (node.UpdatePortsForFieldLocal(field))
 					{
-						foreach(var edge in port.GetEdges())
+						foreach (var port in node.IsFieldInput(field) ? (NodePortContainer)node.inputPorts : node.outputPorts)
 						{
-							if (input)
-								fieldsToUpdate.Push((edge.outputPort.fieldName, edge.outputNode));
-							else
-								fieldsToUpdate.Push((edge.inputPort.fieldName, edge.inputNode));
+							if (port.fieldName != field)
+								continue;
+
+							foreach(var edge in port.GetEdges())
+							{
+								var edgeNode = (node.IsFieldInput(field)) ? edge.outputNode : edge.inputNode;
+								var fieldsWithBehavior = edgeNode.nodeFields.Values.Where(f => f.behavior != null).Select(f => f.fieldName).ToList();
+								fieldsToUpdate.Push(new PortUpdate{fieldNames = fieldsWithBehavior, node = edgeNode});
+							}
 						}
+						changed = true;
 					}
-					changed = true;
 				}
 			}
 
@@ -338,6 +353,7 @@ namespace GraphProcessor
 		HashSet<BaseNode> portUpdateHashSet = new HashSet<BaseNode>();
 
 		internal void DisableInternal() => ExceptionToLog.Call(() => Disable());
+		internal void DestroyInternal() => ExceptionToLog.Call(() => Destroy());
 
 		/// <summary>
 		/// Called only when the node is created, not when instantiated
@@ -437,7 +453,8 @@ namespace GraphProcessor
 			if (edge.inputNode == this && !haveConnectedEdges)
 				edge.inputPort?.ResetToDefault();
 
-			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
+			// UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
+			UpdateAllPorts();
 
 			onAfterEdgeDisconnected?.Invoke(edge);
 		}
@@ -463,6 +480,10 @@ namespace GraphProcessor
 		/// Called when the node is disabled
 		/// </summary>
 		protected virtual void Disable() {}
+		/// <summary>
+		/// Called when the node is removed
+		/// </summary>
+		protected virtual void Destroy() {}
 
 		/// <summary>
 		/// Override this method to implement custom processing

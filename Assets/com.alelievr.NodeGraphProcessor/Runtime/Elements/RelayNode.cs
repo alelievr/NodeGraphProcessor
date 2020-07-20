@@ -58,7 +58,6 @@ public class RelayNode : BaseNode
 	public void GetInputs(List< SerializableEdge > edges)
 	{
 		inputEdgeCount = edges.Count;
-		UpdateAllPorts();
 
 		// If the relay is only connected to another relay:
 		if (edges.Count == 1 && edges.First().outputNode.GetType() == typeof(RelayNode))
@@ -153,7 +152,7 @@ public class RelayNode : BaseNode
 		{
 			yield return new PortData {
 				displayName = "",
-				displayType = typeof(object),
+				displayType = inputType.type,
 				identifier = "0",
 				acceptMultipleEdges = true,
 				sizeInPixel = Mathf.Min(k_MaxPortSize, Mathf.Max(underlyingPortData.Count, 1) + 7),

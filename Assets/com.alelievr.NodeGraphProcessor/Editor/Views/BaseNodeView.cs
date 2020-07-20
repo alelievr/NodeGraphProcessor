@@ -71,6 +71,7 @@ namespace GraphProcessor
 			owner.computeOrderUpdated += ComputeOrderUpdatedCallback;
 			node.onMessageAdded += AddMessageView;
 			node.onMessageRemoved += RemoveMessageView;
+			node.onPortsUpdated += UpdatePortsForField;
 
             styleSheets.Add(Resources.Load<StyleSheet>(baseNodeStyle));
 
@@ -799,6 +800,12 @@ namespace GraphProcessor
 		{
 			nodeTarget.UpdateAllPorts();
 
+			RefreshPorts();
+		}
+
+		void UpdatePortsForField(string fieldName)
+		{
+			// TODO: actual code
 			RefreshPorts();
 		}
 

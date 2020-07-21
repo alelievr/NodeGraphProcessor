@@ -11,7 +11,7 @@ namespace GraphProcessor
     /// </summary>
     public class BaseEdgeConnectorListener : IEdgeConnectorListener
     {
-        readonly BaseGraphView graphView;
+        protected readonly BaseGraphView graphView;
 
         Dictionary< Edge, PortView >    edgeInputPorts = new Dictionary< Edge, PortView >();
         Dictionary< Edge, PortView >    edgeOutputPorts = new Dictionary< Edge, PortView >();

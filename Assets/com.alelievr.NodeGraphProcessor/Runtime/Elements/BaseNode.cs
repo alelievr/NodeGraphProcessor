@@ -560,6 +560,36 @@ namespace GraphProcessor
 		}
 
 		/// <summary>
+		/// Return a node matching the condition in the dependencies of the node
+		/// </summary>
+		/// <param name="condition">Condition to choose the node</param>
+		/// <returns>Matched node or null</returns>
+		public BaseNode FindInDependencies(Func<BaseNode, bool> condition)
+		{
+			Stack<BaseNode> dependencies = new Stack<BaseNode>();
+
+			dependencies.Push(this);
+
+			int depth = 0;
+			while (dependencies.Count > 0)
+			{
+				var node = dependencies.Pop();
+
+				// Guard for infinite loop (faster than a HashSet based solution)
+				depth++;
+				if (depth > 2000)
+					break;
+
+				if (condition(node))
+					return node;
+				
+				foreach (var dep in node.GetInputNodes())
+					dependencies.Push(dep);
+			}
+			return null;
+		}
+
+		/// <summary>
 		/// Get the port from field name and identifier
 		/// </summary>
 		/// <param name="fieldName">C# field name</param>

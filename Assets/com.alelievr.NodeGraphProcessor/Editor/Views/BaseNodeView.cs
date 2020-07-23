@@ -537,7 +537,8 @@ namespace GraphProcessor
 					continue ;
 
 				//skip if the field is an input/output and not marked as SerializedField
-				bool hasInputOrOutputAttribute = field.GetCustomAttribute(typeof(InputAttribute)) != null || field.GetCustomAttribute(typeof(OutputAttribute)) != null;
+				bool hasInputAttribute = field.GetCustomAttribute(typeof(InputAttribute)) != null;
+				bool hasInputOrOutputAttribute = hasInputAttribute || field.GetCustomAttribute(typeof(OutputAttribute)) != null;
 				if (field.GetCustomAttribute(typeof(SerializeField)) == null && hasInputOrOutputAttribute)
 					continue ;
 
@@ -551,7 +552,7 @@ namespace GraphProcessor
 					continue;
 
 				var elem = AddControlField(field, field.Name);
-				if (hasInputOrOutputAttribute)
+				if (hasInputAttribute)
 				{
 					hideElementIfConnected[field.Name] = elem;
 

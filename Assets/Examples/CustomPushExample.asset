@@ -160,7 +160,7 @@ MonoBehaviour:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor.Editor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: 17.999992, y: 130, z: 0}
-  scale: {x: 1.15, y: 1.15, z: 1}
+  position: {x: 116, y: -31.999994, z: 0}
+  scale: {x: 0.7561437, y: 0.7561437, z: 1}
   references:
     version: 1

@@ -719,9 +719,12 @@ namespace GraphProcessor
 					selectedNodeViews.Add(v);
 			}
 
-			nodeInspector.UpdateSelectedNodes(selectedNodeViews);
-			if (Selection.activeObject != nodeInspector)
-				Selection.activeObject = nodeInspector;
+			if (selectedNodeViews.Count > 0)
+			{
+				nodeInspector.UpdateSelectedNodes(selectedNodeViews);
+				if (Selection.activeObject != nodeInspector)
+					Selection.activeObject = nodeInspector;
+			}
 		}
 
 		public BaseNodeView AddNode(BaseNode node)

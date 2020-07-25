@@ -532,6 +532,7 @@ namespace GraphProcessor
 			{
 				foreach (var paramFieldView in exposedParameterFieldViews)
 				{
+					RegisterCompleteObjectUndo("Create Parameter Node");
 					var paramNode = BaseNode.CreateFromType< ParameterNode >(mousePos);
 					paramNode.parameterGUID = paramFieldView.parameter.guid;
 					AddNode(paramNode);

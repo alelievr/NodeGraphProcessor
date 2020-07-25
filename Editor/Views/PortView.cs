@@ -132,7 +132,16 @@ namespace GraphProcessor
 				base.portName = data.displayName;
 
 			portData = data;
-			
+
+			// Update the edge in case the port color have changed
+			schedule.Execute(() => {
+				foreach (var edge in edges)
+				{
+					edge.UpdateEdgeControl();
+					edge.MarkDirtyRepaint();
+				}
+			}).ExecuteLater(50); // Hummm
+
 			UpdatePortSize();
 		}
 

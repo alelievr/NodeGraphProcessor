@@ -1,3 +1,5 @@
+// #define DEBUG_LAMBDA
+
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -162,6 +164,25 @@ namespace GraphProcessor
 				//Creation of the delegate to move the data from the input node to the output node:
 				FieldInfo inputField = edge.inputNode.GetType().GetField(edge.inputFieldName, BindingFlags.Public | BindingFlags.Instance);
 				FieldInfo outputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Public | BindingFlags.Instance);
+
+#if DEBUG_LAMBDA
+				return new PushDataDelegate(() => {
+					var inType = edge.inputPort.portData.displayType ?? inputField.FieldType;
+					var outType = edge.outputPort.portData.displayType ?? outputField.FieldType;
+					Debug.Log("Push: " + inType + " -> " + outType + " | " + owner.name);
+					var outValue = outputField.GetValue(edge.outputNode);
+
+					object convertedValue = outValue;
+					if (TypeAdapter.AreAssignable(outType, inType))
+					{
+						var convertionMethod = TypeAdapter.GetConvertionMethod(outType, inType);
+						Debug.Log("Convertion method: " + convertionMethod.Name);
+						convertedValue = convertionMethod.Invoke(null, new object[]{ outValue });
+					}
+
+					inputField.SetValue(edge.inputNode, convertedValue);
+				});
+#endif
 
 // We keep slow checks inside the editor
 #if UNITY_EDITOR

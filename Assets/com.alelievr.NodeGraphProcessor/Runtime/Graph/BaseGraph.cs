@@ -38,10 +38,24 @@ namespace GraphProcessor
 		public BaseStackNode	removedStackNode;
 	}
 
+	/// <summary>
+	/// Compute order type used to determine the compute order integer on the nodes
+	/// </summary>
+	public enum ComputeOrderType
+	{
+		DepthFirst,
+		BreadthFirst,
+	}
+
 	[System.Serializable]
 	public class BaseGraph : ScriptableObject, ISerializationCallbackReceiver
 	{
 		static readonly int			maxComputeOrderDepth = 1000;
+		
+		/// <summary>Invalid compute order number of a node when it's inside a loop</summary>
+		public static readonly int loopComputeOrder = -2;
+		/// <summary>Invalid compute order number of a node can't process</summary>
+		public static readonly int invalidComputeOrder = -1;
 
 		/// <summary>
 		/// Json list of nodes (Serialized)
@@ -141,6 +155,8 @@ namespace GraphProcessor
 		[System.NonSerialized]
 		bool _isEnabled = false;
 		public bool isEnabled { get => _isEnabled; private set => _isEnabled = value; }
+		
+		public HashSet< BaseNode >		graphOutputs { get; private set; } = new HashSet<BaseNode>();
 
         protected virtual void OnEnable()
         {
@@ -409,16 +425,35 @@ namespace GraphProcessor
 		/// <summary>
 		/// Update the compute order of the nodes in the graph
 		/// </summary>
-		public void UpdateComputeOrder()
+		/// <param name="type">Compute order type</param>
+		public void UpdateComputeOrder(ComputeOrderType type = ComputeOrderType.DepthFirst)
 		{
 			if (nodes.Count == 0)
 				return ;
 
+			// Find graph outputs (end nodes) and reset compute order
+			graphOutputs.Clear();
+			foreach (var node in nodes)
+			{
+				if (node.GetOutputNodes().Count() == 0)
+					graphOutputs.Add(node);
+				node.computeOrder = 0;
+			}
+
 			computeOrderDictionary.Clear();
 			infiniteLoopTracker.Clear();
 
-			foreach (var node in nodes)
-				UpdateComputeOrder(0, node);
+			switch (type)
+			{
+				default:
+				case ComputeOrderType.DepthFirst:
+					UpdateComputeOrderDepthFirst();
+					break;
+				case ComputeOrderType.BreadthFirst:
+					foreach (var node in nodes)
+						UpdateComputeOrderBreadthFirst(0, node);
+					break;
+			}
 		}
 
 		/// <summary>
@@ -560,7 +595,7 @@ namespace GraphProcessor
 		public T GetParameterValue< T >(string name) => (T)GetParameterValue(name);
 
 		HashSet<BaseNode> infiniteLoopTracker = new HashSet<BaseNode>();
-		int UpdateComputeOrder(int depth, BaseNode node)
+		int UpdateComputeOrderBreadthFirst(int depth, BaseNode node)
 		{
 			int computeOrder = 0;
 
@@ -585,7 +620,7 @@ namespace GraphProcessor
 
 			foreach (var dep in node.GetInputNodes())
 			{
-				int c = UpdateComputeOrder(depth + 1, dep);
+				int c = UpdateComputeOrderBreadthFirst(depth + 1, dep);
 
 				if (c == -1)
 				{
@@ -603,6 +638,91 @@ namespace GraphProcessor
 			computeOrderDictionary[node] = computeOrder;
 
 			return computeOrder;
+		}
+
+		void UpdateComputeOrderDepthFirst()
+		{
+			Stack<BaseNode> dfs = new Stack<BaseNode>();
+			HashSet<BaseNode> loopChecker = new HashSet<BaseNode>();
+
+			int nodeCount = nodes.Count;
+			int index = 0;
+			foreach (var output in graphOutputs)
+			{
+				dfs.Push(output);
+
+				// Check loops in the current output block
+				loopChecker.Clear();
+				FindLoopsInGraph(output);
+
+				while (dfs.Count > 0)
+				{
+					var node = dfs.Pop();
+
+					if (node.computeOrder == -loopComputeOrder)
+						continue;
+
+					if (!node.canProcess)
+					{
+						node.computeOrder = -invalidComputeOrder;
+					}
+					else
+					{
+						node.computeOrder = Mathf.Min(node.computeOrder, index);
+						index--;
+
+						foreach (var dep in node.GetInputNodes())
+							dfs.Push(dep);
+					}
+				}
+			}
+
+			// Invert compute order so the negative values means that the node can't compute
+			foreach (var node in nodes)
+			{
+				if (node.computeOrder == -loopComputeOrder)
+					node.computeOrder = loopComputeOrder;
+				else if (node.computeOrder == -invalidComputeOrder)
+					node.computeOrder = invalidComputeOrder;
+				else
+					node.computeOrder = node.computeOrder - index;
+			}
+
+			void FindLoopsInGraph(BaseNode node)
+			{
+				var inputs = node.GetInputNodes();
+
+				loopChecker.Add(node);
+				foreach (var input in inputs)
+				{
+					if (loopChecker.Contains(input))
+					{
+						PropagateComputeOrder(node, -loopComputeOrder);
+						return;
+					}
+					FindLoopsInGraph(input);
+				}
+				loopChecker.Remove(node);
+			}
+		}
+
+		void PropagateComputeOrder(BaseNode node, int computeOrder)
+		{
+			Stack<BaseNode> deps = new Stack<BaseNode>();
+			HashSet<BaseNode> loop = new HashSet<BaseNode>();
+
+			deps.Push(node);
+			while (deps.Count > 0)
+			{
+				var n = deps.Pop();
+				n.computeOrder = computeOrder;
+			
+				if (!loop.Add(n))
+					continue;
+
+				foreach (var dep in n.GetOutputNodes())
+					deps.Push(dep);
+			}
 		}
 
 		void DestroyBrokenGraphElements()

@@ -86,6 +86,7 @@ Note that you'll not have access to the examples provided in this repo because t
 - Stack Nodes
 - Relay nodes
 - Display additional settings in the inspector
+- Node creation menu on edge drop
 
 More details are available [in the Changelog](CHANGELOG.md)
 
@@ -106,10 +107,12 @@ The user manual is hosted using [Github Wiki](https://github.com/alelievr/NodeGr
 
 For more details consult our [Github Project page](https://github.com/alelievr/NodeGraphProcessor/projects/2).
 
-### Screens
+### ScreenShots
 
 ![](https://image.noelshack.com/fichiers/2018/35/7/1535906391-graph.png)
 ![](http://g.recordit.co/U1MAlFfuba.gif)
+![](https://user-images.githubusercontent.com/6877923/89329982-e04c8500-d68f-11ea-8218-261225170978.gif)
+![](https://user-images.githubusercontent.com/6877923/89330117-12f67d80-d690-11ea-9b62-f878b86b8342.gif)
 ![](https://user-images.githubusercontent.com/6877923/53634256-0445a480-3c1a-11e9-99e5-d8f3616863bd.png)
 ![](https://user-images.githubusercontent.com/6877923/58935692-3fea9000-876e-11e9-945e-8a874a4586a9.png)
 ![](https://user-images.githubusercontent.com/6877923/58935811-893adf80-876e-11e9-9f69-69ce51a432b8.png)

@@ -189,6 +189,12 @@ namespace GraphProcessor
 
 			ExceptionToLog.Call(() => Enable());
 
+			InitializePorts();
+		}
+
+		internal void InitializePorts()
+		{
+
 			foreach (var nodeFieldKP in nodeFields)
 			{
 				var nodeField = nodeFieldKP.Value;
@@ -203,6 +209,7 @@ namespace GraphProcessor
 					AddPort(nodeField.input, nodeField.fieldName, new PortData { acceptMultipleEdges = nodeField.isMultiple, displayName = nodeField.name, tooltip = nodeField.tooltip });
 				}
 			}
+
 		}
 
 		protected BaseNode()

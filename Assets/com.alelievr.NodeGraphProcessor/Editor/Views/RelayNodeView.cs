@@ -88,7 +88,7 @@ public class RelayNodeView : BaseNodeView
 
 			var inputEdge = inputEdges.First();
 
-			foreach (var outputEdge in outputEdges)
+			foreach (var outputEdge in outputEdges.ToList())
 				owner.Connect(outputEdge.input as PortView, inputEdge.output as PortView);
 		}
 

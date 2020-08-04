@@ -8,6 +8,7 @@ using System;
 [System.Serializable, NodeMenuItem("Custom/Relay")]
 public class RelayNode : BaseNode
 {
+	[HideInInspector]
 	public struct PackedRelayData
 	{
 		public List<object>	values;

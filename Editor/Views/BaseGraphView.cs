@@ -937,7 +937,7 @@ namespace GraphProcessor
 			var inputPort = inputPortView.owner.nodeTarget.GetPort(inputPortView.fieldName, inputPortView.portData.identifier);
 			var outputPort = outputPortView.owner.nodeTarget.GetPort(outputPortView.fieldName, outputPortView.portData.identifier);
 
-			var newEdge = SerializableEdge.CreateNewEdge(graph,  inputPort, outputPort);
+			var newEdge = SerializableEdge.CreateNewEdge(graph, inputPort, outputPort);
 
 			var edgeView = new EdgeView()
 			{
@@ -1124,6 +1124,19 @@ namespace GraphProcessor
 				yield return nodeMenuItem;
 
 			// TODO: add exposed properties to this list
+		}
+
+		public RelayNodeView AddRelayNode(PortView inputPort, PortView outputPort, Vector2 position)
+		{
+			var relayNode = BaseNode.CreateFromType<RelayNode>(position);
+			var view = AddNode(relayNode) as RelayNodeView;
+
+			if (outputPort != null)
+				Connect(view.inputPortViews[0], outputPort);
+			if (inputPort != null)
+				Connect(inputPort, view.outputPortViews[0]);
+
+			return view;
 		}
 
 		#endregion

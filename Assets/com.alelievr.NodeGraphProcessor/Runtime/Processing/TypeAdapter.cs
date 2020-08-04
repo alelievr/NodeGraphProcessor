@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Linq;
 
 namespace GraphProcessor
 {
@@ -16,12 +17,16 @@ namespace GraphProcessor
     /// }
     /// </code>
     /// </summary>
-    public interface ITypeAdapter {}
+    public abstract class ITypeAdapter // TODO: turn this back into an interface when we have C# 8
+    {
+        public virtual IEnumerable<(Type, Type)> GetIncompatibleTypes() { yield break; }
+    }
 
     public static class TypeAdapter
     {
         static Dictionary< (Type from, Type to), Func<object, object> > adapters = new Dictionary< (Type, Type), Func<object, object> >();
         static Dictionary< (Type from, Type to), MethodInfo > adapterMethods = new Dictionary< (Type, Type), MethodInfo >();
+        static List< (Type from, Type to)> incompatibleTypes = new List<( Type from, Type to) >();
 
         [System.NonSerialized]
         static bool adaptersLoaded = false;
@@ -45,6 +50,19 @@ namespace GraphProcessor
             {
                 if (typeof(ITypeAdapter).IsAssignableFrom(type))
                 {
+                    if (type.IsAbstract)
+                        continue;
+                    
+                    var adapter = Activator.CreateInstance(type) as ITypeAdapter;
+                    if (adapter != null)
+                    {
+                        foreach (var types in adapter.GetIncompatibleTypes())
+                        {
+                            incompatibleTypes.Add((types.Item1, types.Item2));
+                            incompatibleTypes.Add((types.Item2, types.Item1));
+                        }
+                    }
+                    
                     foreach (var method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
                     {
                         if (method.GetParameters().Length != 1)
@@ -96,10 +114,20 @@ namespace GraphProcessor
             adaptersLoaded = true;
         }
 
+        public static bool AreIncompatible(Type from, Type to)
+        {
+            if (incompatibleTypes.Any((k) => k.from == from && k.to == to))
+                return true;
+            return false;
+        }
+
         public static bool AreAssignable(Type from, Type to)
         {
             if (!adaptersLoaded)
                 LoadAllAdapters();
+            
+            if (AreIncompatible(from, to))
+                return false;
 
             return adapters.ContainsKey((from, to));
         }

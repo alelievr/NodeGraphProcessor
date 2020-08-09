@@ -20,7 +20,11 @@ namespace GraphProcessor
 			RegisterCallback<MouseDownEvent>(OnMouseDown);
 		}
 
-        public override void OnPortChanged(bool isInput) => UpdateEdgeSize();
+        public override void OnPortChanged(bool isInput)
+		{
+			base.OnPortChanged(isInput);
+			UpdateEdgeSize();
+		}
 
 		public void UpdateEdgeSize()
 		{

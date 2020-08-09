@@ -78,19 +78,27 @@ public class RelayNodeView : BaseNodeView
 
 	public override void OnRemoved()
 	{
-		if (!relay.unpackOutput)
-		{
-			var inputEdges = inputPortViews[0].GetEdges();
-			var outputEdges = outputPortViews[0].GetEdges();
+		// We delay the connection of the edges just in case something happens to the nodes we are trying to connect
+		// i.e. multiple relay node deletion
+		schedule.Execute(() => {
+			if (!relay.unpackOutput)
+			{
+				var inputEdges = inputPortViews[0].GetEdges();
+				var outputEdges = outputPortViews[0].GetEdges();
 
-			if (inputEdges.Count == 0 || outputEdges.Count == 0)
-				return;
+				if (inputEdges.Count == 0 || outputEdges.Count == 0)
+					return;
 
-			var inputEdge = inputEdges.First();
+				var inputEdge = inputEdges.First();
 
-			foreach (var outputEdge in outputEdges.ToList())
-				owner.Connect(outputEdge.input as PortView, inputEdge.output as PortView);
-		}
+				foreach (var outputEdge in outputEdges.ToList())
+				{
+					var input = outputEdge.input as PortView;
+					var output = inputEdge.output as PortView;
 
+					owner.Connect(input, output);
+				}
+			}
+		}).ExecuteLater(1);
 	}
 }

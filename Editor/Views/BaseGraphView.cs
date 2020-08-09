@@ -17,7 +17,7 @@ namespace GraphProcessor
 	/// <summary>
 	/// Base class to write a custom view for a node
 	/// </summary>
-	public class BaseGraphView : GraphView
+	public class BaseGraphView : GraphView, IDisposable
 	{
 		public delegate void ComputeOrderUpdatedDelegate();
 		public delegate void NodeDuplicatedDelegate(BaseNode duplicatedNode, BaseNode newNode);
@@ -144,12 +144,6 @@ namespace GraphProcessor
 			inspector.hideFlags = HideFlags.HideAndDontSave ^ HideFlags.NotEditable;
 
 			return inspector;
-		}
-
-		~BaseGraphView()
-		{
-			Undo.undoRedoPerformed -= ReloadView;
-			Object.DestroyImmediate(nodeInspector);
 		}
 
 		#region Callbacks
@@ -605,11 +599,7 @@ namespace GraphProcessor
 			// When pressing ctrl-s, we save the graph
 			EditorSceneManager.sceneSaved += _ => SaveGraphToDisk();
 
-			RemoveNodeViews();
-			RemoveEdges();
-			RemoveGroups();
-			RemoveStackNodeViews();
-			RemovePinnedElementViews();
+			ClearGraphElements();
 
 			InitializeGraphView();
 			InitializeNodeViews();
@@ -622,6 +612,15 @@ namespace GraphProcessor
 			UpdateComputeOrder();
 
 			InitializeView();
+		}
+
+		public void ClearGraphElements()
+		{
+			RemoveNodeViews();
+			RemoveEdges();
+			RemoveGroups();
+			RemoveStackNodeViews();
+			RemovePinnedElementViews();
 		}
 
 		/// <summary>
@@ -937,6 +936,10 @@ namespace GraphProcessor
 			var inputPort = inputPortView.owner.nodeTarget.GetPort(inputPortView.fieldName, inputPortView.portData.identifier);
 			var outputPort = outputPortView.owner.nodeTarget.GetPort(outputPortView.fieldName, outputPortView.portData.identifier);
 
+			// Checks that the node we are connecting still exists
+			if (inputPortView.owner.parent == null || outputPortView.owner.parent == null)
+				return false;
+
 			var newEdge = SerializableEdge.CreateNewEdge(graph, inputPort, outputPort);
 
 			var edgeView = new EdgeView()
@@ -1139,7 +1142,18 @@ namespace GraphProcessor
 			return view;
 		}
 
-		#endregion
+		/// <summary>
+		/// Call this function when you want to remove this view
+		/// </summary>
+        public void Dispose()
+        {
+			ClearGraphElements();
+			RemoveFromHierarchy();
+			Undo.undoRedoPerformed -= ReloadView;
+			Object.DestroyImmediate(nodeInspector);
+        }
 
-	}
+        #endregion
+
+    }
 }

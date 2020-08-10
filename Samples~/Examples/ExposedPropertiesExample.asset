@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
+  m_Name: ExposedPropertiesExample
+  m_EditorClassIdentifier: 
+  serializedNodes:
+  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"39fdf09f-b7ff-49f5-bfe5-c59e221c30b6","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":415.0,"y":101.0,"width":72.0,"height":95.0},"expanded":true,"debug":false,"nodeLock":false}'
+  - type: SubNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"1327efdb-6d08-421e-a601-67e39e1c4073","computeOrder":3,"canProcess":true,"position":{"serializedVersion":"2","x":316.0,"y":268.0,"width":98.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"inputA":42.0,"inputB":12.0,"output":30.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"47e80399-61e7-4350-9ff3-aa91b54eabe3","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":193.0,"y":225.5,"width":100.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":42.0,"input":0.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"5a439c2f-4655-43ed-a6ae-e142b92b25ce","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":191.5,"y":325.5,"width":100.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":12.0,"input":0.0}'
+  edges:
+  - GUID: 9da87722-5b0e-491d-af10-63206a3ca74e
+    owner: {fileID: 11400000}
+    inputNodeGUID: 1327efdb-6d08-421e-a601-67e39e1c4073
+    outputNodeGUID: 5a439c2f-4655-43ed-a6ae-e142b92b25ce
+    inputFieldName: inputB
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: cd6d29b2-5895-4265-bac2-12c7726ae674
+    owner: {fileID: 11400000}
+    inputNodeGUID: 1327efdb-6d08-421e-a601-67e39e1c4073
+    outputNodeGUID: 47e80399-61e7-4350-9ff3-aa91b54eabe3
+    inputFieldName: inputA
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  groups: []
+  stackNodes: []
+  pinnedElements:
+  - position:
+      serializedVersion: 2
+      x: 6
+      y: 43
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 226
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 204
+      width: 193
+      height: 322
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  exposedParameters:
+  - guid: hguieowhg
+    name: Float
+    type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue:
+      serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      serializedName: 
+      serializedValue: 42
+    input: 1
+    settings:
+      isHidden: 0
+  - guid: 9ae7b637-72eb-4fcf-90d9-c9bd11336a2b
+    name: Float 2
+    type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    serializedValue:
+      serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      serializedName: 
+      serializedValue: 30
+    input: 1
+    settings:
+      isHidden: 0
+  - guid: fc2400e0-1461-4ba2-9d60-9533b6417d88
+    name: New ColorParam
+    type: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    serializedValue:
+      serializedType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      serializedName: 
+      serializedValue: '{"r":1.0,"g":0.0,"b":0.0,"a":0.0}'
+    input: 1
+    settings:
+      isHidden: 0
+  position: {x: -259, y: 43, z: 0}
+  scale: {x: 1.7490063, y: 1.7490063, z: 1}
+  references:
+    version: 1

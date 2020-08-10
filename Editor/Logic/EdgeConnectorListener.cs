@@ -61,8 +61,12 @@ namespace GraphProcessor
 
             edgeInputPorts[edge] = edge.input as PortView;
             edgeOutputPorts[edge] = edge.output as PortView;
-			this.graphView.RegisterCompleteObjectUndo("Connected " + edgeView.input.node.name + " and " + edgeView.output.node.name);
-			if (!this.graphView.Connect(edge as EdgeView, autoDisconnectInputs: !wasOnTheSamePort))
+            try
+            {
+                this.graphView.RegisterCompleteObjectUndo("Connected " + edgeView.input.node.name + " and " + edgeView.output.node.name);
+                if (!this.graphView.Connect(edge as EdgeView, autoDisconnectInputs: !wasOnTheSamePort))
+                    this.graphView.Disconnect(edge as EdgeView);
+            } catch (System.Exception)
             {
                 this.graphView.Disconnect(edge as EdgeView);
             }

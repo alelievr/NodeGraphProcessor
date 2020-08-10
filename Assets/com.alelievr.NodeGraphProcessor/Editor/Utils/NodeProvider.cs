@@ -90,6 +90,10 @@ namespace GraphProcessor
 			}
 
 			var nodeScriptAsset = FindScriptFromClassName(type.Name);
+
+			// Try find the class name with Node name at the end
+			if (nodeScriptAsset == null)
+				nodeScriptAsset = FindScriptFromClassName(type.Name + "Node");
 			if (nodeScriptAsset != null)
 				nodeScripts[type] = nodeScriptAsset;
 		}
@@ -104,6 +108,10 @@ namespace GraphProcessor
 				nodeViewPerType[nodeType] = type;
 
 				var nodeViewScriptAsset = FindScriptFromClassName(type.Name);
+				if (nodeViewScriptAsset == null)
+					nodeViewScriptAsset = FindScriptFromClassName(type.Name + "View");
+				if (nodeViewScriptAsset == null)
+					nodeViewScriptAsset = FindScriptFromClassName(type.Name + "NodeView");
 
 				if (nodeViewScriptAsset != null)
 					nodeViewScripts[type] = nodeViewScriptAsset;

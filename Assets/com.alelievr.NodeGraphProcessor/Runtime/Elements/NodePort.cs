@@ -190,6 +190,7 @@ namespace GraphProcessor
 				if (!BaseGraph.TypesAreConnectable(inputField.FieldType, outputField.FieldType))
 				{
 					Debug.LogError("Can't convert from " + inputField.FieldType + " to " + outputField.FieldType + ", you must specify a custom port function (i.e CustomPortInput or CustomPortOutput) for non-implicit convertions");
+					return null;
 				}
 #endif
 

@@ -643,66 +643,20 @@ namespace GraphProcessor
 		void UpdateComputeOrderDepthFirst()
 		{
 			Stack<BaseNode> dfs = new Stack<BaseNode>();
-			HashSet<BaseNode> loopChecker = new HashSet<BaseNode>();
 
-			int nodeCount = nodes.Count;
-			int index = 0;
-			foreach (var output in graphOutputs)
+			GraphUtils.FindCyclesInGraph(this, (n) => {
+				PropagateComputeOrder(n, loopComputeOrder);
+			});
+
+			int computeOrder = 0;
+			foreach (var node in GraphUtils.DepthFirstSort(this))
 			{
-				dfs.Push(output);
-
-				// Check loops in the current output block
-				loopChecker.Clear();
-				FindLoopsInGraph(output);
-
-				while (dfs.Count > 0)
-				{
-					var node = dfs.Pop();
-
-					if (node.computeOrder == -loopComputeOrder)
-						continue;
-
-					if (!node.canProcess)
-					{
-						node.computeOrder = -invalidComputeOrder;
-					}
-					else
-					{
-						node.computeOrder = Mathf.Min(node.computeOrder, index);
-						index--;
-
-						foreach (var dep in node.GetInputNodes())
-							dfs.Push(dep);
-					}
-				}
-			}
-
-			// Invert compute order so the negative values means that the node can't compute
-			foreach (var node in nodes)
-			{
-				if (node.computeOrder == -loopComputeOrder)
-					node.computeOrder = loopComputeOrder;
-				else if (node.computeOrder == -invalidComputeOrder)
-					node.computeOrder = invalidComputeOrder;
+				if (node.computeOrder == loopComputeOrder)
+					continue;
+				if (!node.canProcess)
+					node.computeOrder = -1;
 				else
-					node.computeOrder = node.computeOrder - index;
-			}
-
-			void FindLoopsInGraph(BaseNode node)
-			{
-				var inputs = node.GetInputNodes();
-
-				loopChecker.Add(node);
-				foreach (var input in inputs)
-				{
-					if (loopChecker.Contains(input))
-					{
-						PropagateComputeOrder(node, -loopComputeOrder);
-						return;
-					}
-					FindLoopsInGraph(input);
-				}
-				loopChecker.Remove(node);
+					node.computeOrder = computeOrder++;
 			}
 		}
 

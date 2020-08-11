@@ -394,6 +394,9 @@ namespace GraphProcessor
             if (graphView == null)
                 return null;
 
+            Port bestPort = null;
+            float bestDistance = 1e20f;
+
             foreach (var kp in compatiblePorts)
             {
                 var nodeView = kp.Key;
@@ -405,13 +408,18 @@ namespace GraphProcessor
                     var port = portList[i];
                     Rect bounds = GetPortBounds(nodeView, i, portList);
 
+                    float distance = Vector2.Distance(port.worldBound.position, mousePosition);
+
                     // Check if mouse is over port.
-                    if (bounds.Contains(mousePosition))
-                        return port;
+                    if (bounds.Contains(mousePosition) && distance < bestDistance)
+                    {
+                        bestPort = port;
+                        bestDistance = distance;
+                    }
                 }
             }
 
-            return null;
+            return bestPort;
         }
     }
 }

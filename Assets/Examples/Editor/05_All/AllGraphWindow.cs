@@ -46,7 +46,7 @@ public class AllGraphWindow : BaseGraphWindow
 
 	protected override void InitializeGraphView(BaseGraphView view)
 	{
-		graphView.OpenPinned< ExposedParameterView >();
-		toolbarView.UpdateButtonStatus();
+		// graphView.OpenPinned< ExposedParameterView >();
+		// toolbarView.UpdateButtonStatus();
 	}
 }

@@ -232,8 +232,18 @@ namespace GraphProcessor
 				group.innerNodeGUIDs.Clear();
 				foreach (var guid in oldGUIDList)
 				{
-					var node = graph.nodesPerGUID[guid];
-					group.innerNodeGUIDs.Add(copiedNodesMap[node.GUID].GUID);
+					graph.nodesPerGUID.TryGetValue(guid, out var node);
+					
+					// In case group was copied from another graph
+					if (node == null)
+					{
+						copiedNodesMap.TryGetValue(guid, out node);
+						group.innerNodeGUIDs.Add(node.GUID);
+					}
+					else
+					{
+						group.innerNodeGUIDs.Add(copiedNodesMap[guid].GUID);
+					}
 				}
 
                 AddGroup(group);

@@ -409,6 +409,10 @@ MonoBehaviour:
     jsonDatas: '{"GUID":"64eaf0d3-54b9-4b53-8cc9-0b30c23817ca","computeOrder":194,"position":{"serializedVersion":"2","x":9573.478515625,"y":1833.2176513671875,"width":125.00000762939453,"height":115.00000762939453},"expanded":true,"debug":true,"nodeLock":false,"input":0.0,"output":0.0}'
   - type: MultiAddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"4734d31e-c01c-44c0-a6ed-e14d45ec47b2","computeOrder":190,"position":{"serializedVersion":"2","x":9285.4755859375,"y":1653.2740478515625,"width":139.0,"height":112.0},"expanded":false,"debug":true,"nodeLock":false,"output":0.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"0b224563-35b3-4fc9-9d36-83f454e67798","computeOrder":198,"position":{"serializedVersion":"2","x":10010.2880859375,"y":1586.0816650390625,"width":108.00000762939453,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"input":0.0,"output":0.0}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"3e6392a2-faee-4160-a298-a9a936f2964d","computeOrder":199,"position":{"serializedVersion":"2","x":10291.8330078125,"y":1657.8289794921875,"width":108.00000762939453,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"input":0.0,"output":0.0}'
   edges:
   - GUID: b453089f-109f-4702-aeb0-d9ef2ac8e14f
     owner: {fileID: 11400000}
@@ -1546,14 +1550,6 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: 
     outputPortIdentifier: 
-  - GUID: d8e2b4f7-765d-4e8b-af2c-6d1810bb001c
-    owner: {fileID: 11400000}
-    inputNodeGUID: 612fcaa5-c737-4fa7-b128-09def60523a2
-    outputNodeGUID: d4048f8e-aef7-49b0-88fe-c97ee898cb6a
-    inputFieldName: inputs
-    outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 
   - GUID: f65a61b0-e770-489f-9ad8-d3c341911002
     owner: {fileID: 11400000}
     inputNodeGUID: b921e1ed-5560-4043-a94d-fc8b96284b13
@@ -2658,14 +2654,6 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: 
     outputPortIdentifier: 
-  - GUID: 5488c710-cd2c-4504-bc74-0838536af418
-    owner: {fileID: 11400000}
-    inputNodeGUID: 09b5bbd1-d7d9-40db-9153-069759cd2cfb
-    outputNodeGUID: 6b97f649-62c0-45a2-a1fd-3369f3b10009
-    inputFieldName: inputs
-    outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 
   - GUID: 302052bb-473d-4bc5-94de-03dcd484c743
     owner: {fileID: 11400000}
     inputNodeGUID: 6b97f649-62c0-45a2-a1fd-3369f3b10009
@@ -2706,6 +2694,38 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: 
     outputPortIdentifier: 
+  - GUID: 00d8a3f3-e3e1-4fbb-b112-56098e2c0f2e
+    owner: {fileID: 11400000}
+    inputNodeGUID: 09b5bbd1-d7d9-40db-9153-069759cd2cfb
+    outputNodeGUID: 6b97f649-62c0-45a2-a1fd-3369f3b10009
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: bf0ab7df-4876-4e67-8f46-03120c5445c3
+    owner: {fileID: 11400000}
+    inputNodeGUID: 0b224563-35b3-4fc9-9d36-83f454e67798
+    outputNodeGUID: 09b5bbd1-d7d9-40db-9153-069759cd2cfb
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: e371a99d-810a-456b-a81d-5b787e2a156d
+    owner: {fileID: 11400000}
+    inputNodeGUID: 3e6392a2-faee-4160-a298-a9a936f2964d
+    outputNodeGUID: 0b224563-35b3-4fc9-9d36-83f454e67798
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: d7b6a311-d980-4c1c-8019-f9c044759ecc
+    owner: {fileID: 11400000}
+    inputNodeGUID: 612fcaa5-c737-4fa7-b128-09def60523a2
+    outputNodeGUID: d4048f8e-aef7-49b0-88fe-c97ee898cb6a
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
   groups: []
   stackNodes: []
   pinnedElements:
@@ -2715,12 +2735,12 @@ MonoBehaviour:
       y: 20
       width: 150
       height: 200
-    opened: 1
+    opened: 0
     editorType:
       serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor.Editor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
-  position: {x: -5924, y: -743, z: 0}
-  scale: {x: 0.65751624, y: 0.65751624, z: 1}
+  position: {x: -1083, y: -2103, z: 0}
+  scale: {x: 0.7561437, y: 0.7561437, z: 1}
   references:
     version: 1

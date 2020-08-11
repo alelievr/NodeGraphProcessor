@@ -87,6 +87,7 @@ Note that you'll not have access to the examples provided in this repo because t
 - Relay nodes
 - Display additional settings in the inspector
 - Node creation menu on edge drop
+- Simplified edge connection compared to default GraphView (ShaderGraph and VFX Graph)
 
 More details are available [in the Changelog](CHANGELOG.md)
 
@@ -122,3 +123,4 @@ For more details consult our [Github Project page](https://github.com/alelievr/N
 ![](https://user-images.githubusercontent.com/6877923/71782933-25b4b100-2fe0-11ea-9b57-0198f7161535.gif)
 ![](https://user-images.githubusercontent.com/6877923/77270201-808aaa00-6cab-11ea-9028-e671092be194.gif)
 ![](https://user-images.githubusercontent.com/6877923/87306684-ac5ec380-c518-11ea-9346-1ed47e8cd016.gif)
+![](https://user-images.githubusercontent.com/6877923/89890139-272c0480-dbd3-11ea-86f4-696d260f707b.gif)

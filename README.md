@@ -4,10 +4,10 @@ Node graph editor framework focused on data processing using Unity UIElements, G
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4c62ece874d14a0b965b92cb163e3146)](https://www.codacy.com/manual/alelievr/NodeGraphProcessor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alelievr/NodeGraphProcessor&amp;utm_campaign=Badge_Grade)
 [![openupm](https://img.shields.io/npm/v/com.alelievr.node-graph-processor?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.alelievr.node-graph-processor/)
 
-This node based solution provides a great C# API allowing you to implement conditional graphs, dependencies graphs, processing graphs and more.
+This node based solution provides a great C# API allowing you to implement conditional graphs, dependencies graphs, processing graphs and more.  
 ![image](https://user-images.githubusercontent.com/6877923/83576832-f2486500-a532-11ea-9d2a-a6b75b980813.png)
 
-Based on Unity's GraphView technology, NodeGraphProcessor is also very fast and works well with large graphs.
+Based on Unity's GraphView technology, NodeGraphProcessor is also very fast and works well with large graphs.  
 ![Performance](https://user-images.githubusercontent.com/6877923/83576843-f70d1900-a532-11ea-80fb-c8fede6aa7ed.gif)
 
 Simple and powerful C# node API to create new nodes and custom views.
@@ -87,6 +87,8 @@ Note that you'll not have access to the examples provided in this repo because t
 - Relay nodes
 - Display additional settings in the inspector
 - Node creation menu on edge drop
+- Simplified edge connection compared to default GraphView (ShaderGraph and VFX Graph)
+- Multiple graph window workflow (copy/paste)
 
 More details are available [in the Changelog](CHANGELOG.md)
 
@@ -122,3 +124,5 @@ For more details consult our [Github Project page](https://github.com/alelievr/N
 ![](https://user-images.githubusercontent.com/6877923/71782933-25b4b100-2fe0-11ea-9b57-0198f7161535.gif)
 ![](https://user-images.githubusercontent.com/6877923/77270201-808aaa00-6cab-11ea-9028-e671092be194.gif)
 ![](https://user-images.githubusercontent.com/6877923/87306684-ac5ec380-c518-11ea-9346-1ed47e8cd016.gif)
+![](https://user-images.githubusercontent.com/6877923/89890139-272c0480-dbd3-11ea-86f4-696d260f707b.gif)
+![](https://user-images.githubusercontent.com/6877923/89891415-504d9480-dbd5-11ea-8b1d-873031a0677c.gif)

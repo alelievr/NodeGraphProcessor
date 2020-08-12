@@ -101,33 +101,32 @@ The user manual is hosted using [Github Wiki](https://github.com/alelievr/NodeGr
 ### Remaining to do
 
 - Investigate for ECS/Jobs integration
-- More examples
 - API to create the graph in C#
 - Subgraphs
 - Use SerializedReference instead of Json (faster serialization + smaller assets)
-- Sticky notes
+- Sticky notes (requires Unity 2020.1)
 
 For more details consult our [Github Project page](https://github.com/alelievr/NodeGraphProcessor/projects/2).
 
-### ScreenShots
+### Gallery
 
 #### Minimap
-![](http://g.recordit.co/U1MAlFfuba.gif)
+![](https://user-images.githubusercontent.com/6877923/90036471-6043a200-dcc3-11ea-8702-9ccc62cb0f8a.gif)
 
 #### Relay nodes
 ![](https://user-images.githubusercontent.com/6877923/89329982-e04c8500-d68f-11ea-8218-261225170978.gif)
 
 #### Node connection menu
-![](https://user-images.githubusercontent.com/6877923/58935692-3fea9000-876e-11e9-945e-8a874a4586a9.png)
+![](https://user-images.githubusercontent.com/6877923/89330117-12f67d80-d690-11ea-9b62-f878b86b8342.gif)
 
 #### Node creation menu
 ![](https://user-images.githubusercontent.com/6877923/58935811-893adf80-876e-11e9-9f69-69ce51a432b8.png)
 
 #### Graph Parameters
-![](https://user-images.githubusercontent.com/6877923/53634256-0445a480-3c1a-11e9-99e5-d8f3616863bd.png)
+![](https://user-images.githubusercontent.com/6877923/90035202-d6470980-dcc1-11ea-92e0-a754820bdc55.png)
 
 #### Groups
-![](https://user-images.githubusercontent.com/6877923/90035202-d6470980-dcc1-11ea-92e0-a754820bdc55.png)
+![](https://user-images.githubusercontent.com/6877923/58935692-3fea9000-876e-11e9-945e-8a874a4586a9.png)
 
 #### Node Settings
 ![](https://user-images.githubusercontent.com/6877923/71757124-c34e9a00-2e93-11ea-900c-63ecd772af3f.gif)
@@ -152,7 +151,3 @@ For more details consult our [Github Project page](https://github.com/alelievr/N
 
 #### Multi-Window support
 ![](https://user-images.githubusercontent.com/6877923/89891415-504d9480-dbd5-11ea-8b1d-873031a0677c.gif)
-
-#### To delete?
-![](https://user-images.githubusercontent.com/6877923/89330117-12f67d80-d690-11ea-9b62-f878b86b8342.gif)
-

@@ -8,6 +8,8 @@ using System;
 [System.Serializable, NodeMenuItem("Custom/Relay")]
 public class RelayNode : BaseNode
 {
+	const string packIdentifier = "_Pack";
+
 	[HideInInspector]
 	public struct PackedRelayData
 	{
@@ -23,17 +25,12 @@ public class RelayNode : BaseNode
 	public PackedRelayData	output;
 
 	public bool		unpackOutput = false;
+	public bool		packInput = false;
 	public int		inputEdgeCount = 0;
 	[System.NonSerialized]
 	int				outputIndex = 0;
 
 	const int		k_MaxPortSize = 14;
-
-	protected override void Enable()
-	{
-		onAfterEdgeConnected += EdgeConnected;
-		onAfterEdgeDisconnected += EdgeDisconnected;
-	}
 
 	protected override void Process()
 	{
@@ -42,18 +39,6 @@ public class RelayNode : BaseNode
 	}
 
 	public override string layoutStyle => "GraphProcessorStyles/RelayNode";
-
-	void EdgeConnected(SerializableEdge edge)
-	{
-		UpdateAllPorts();
-	}
-
-	void EdgeDisconnected(SerializableEdge edge)
-	{
-		// If there is still an edge connected to the node then, we do nothing
-		if (inputPorts.Any(n => n.GetEdges().Count != 0) || outputPorts.Any(n => n.GetEdges().Count != 0))
-			return;
-	}
 
 	[CustomPortInput(nameof(input), typeof(object), true)]
 	public void GetInputs(List< SerializableEdge > edges)
@@ -75,15 +60,11 @@ public class RelayNode : BaseNode
 	}
 
 	[CustomPortOutput(nameof(output), typeof(object), true)]
-	public void PushOutputs(List< SerializableEdge > edges)
+	public void PushOutputs(List< SerializableEdge > edges, NodePort outputPort)
 	{
-		// In case relay is not connected
-		if (output.values == null || output.values.Count == 0)
-			return;
-
 		var inputPortEdges = inputPorts[0].GetEdges();
 
-		if (unpackOutput || inputPortEdges.Count == 1)
+		if (outputPort.portData.identifier != packIdentifier && outputIndex >= 0 && (unpackOutput || inputPortEdges.Count == 1))
 		{
 			// When we unpack the output, there is one port per type of data in output
 			// That means that this function will be called the same number of time than the output port count
@@ -92,8 +73,8 @@ public class RelayNode : BaseNode
 
 			foreach (var edge in edges)
 			{
-				var destinationIsRelay = edge.inputNode is RelayNode;
-				edge.passThroughBuffer = destinationIsRelay ? output : data;
+				var inputRelay = edge.inputNode as RelayNode;
+				edge.passThroughBuffer = inputRelay != null && !inputRelay.packInput ? output : data;
 			}
 		}
 		else
@@ -117,7 +98,7 @@ public class RelayNode : BaseNode
 			sizeInPixel = inputEdges.Sum(e => Mathf.Max(0, e.outputPort.portData.sizeInPixel - 8));
 		}
 		
-		if (edges.Count == 1)
+		if (edges.Count == 1 && !packInput)
 			inputType.type = edges[0].outputPort.portData.displayType;
 		else
 			inputType.type = typeof(object);
@@ -138,11 +119,21 @@ public class RelayNode : BaseNode
 		var underlyingPortData = GetUnderlyingPortDataList();
 		if (unpackOutput && inputPortEdges.Count == 1)
 		{
+			yield return new PortData
+			{
+				displayName = "Pack",
+				identifier = packIdentifier,
+				displayType = inputType.type,
+				acceptMultipleEdges = true,
+				sizeInPixel = Mathf.Min(k_MaxPortSize, Mathf.Max(underlyingPortData.Count, 1) + 7), // TODO: function
+			};
+
+			// We still keep the packed data as output when unpacking just in case we want to continue the relay after unpacking
 			for (int i = 0; i < underlyingPortData.Count; i++)
 			{
 				yield return new PortData {
 					displayName = underlyingPortData?[i].name ?? "",
-					displayType = underlyingPortData?[i].type ?? typeof(Texture),
+					displayType = underlyingPortData?[i].type ?? typeof(object),
 					identifier = i.ToString(),
 					acceptMultipleEdges = true,
 					sizeInPixel = 0,

@@ -18,12 +18,25 @@ public class RelayNodeView : BaseNodeView
 		// Remove useless elements
 		this.Q("title").RemoveFromHierarchy();
 		this.Q("divider").RemoveFromHierarchy();
+
+		relay.onPortsUpdated += _ => UpdateSize();
 	}
 
 	public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 	{
+		// TODO: check if there is a relay node in the inputs that have pack option and toggle visibility of these options:
+		evt.menu.AppendAction("Pack Input", TogglePackInput, PackInputStatus);
 		evt.menu.AppendAction("Unpack Output", ToggleUnpackOutput, UnpackOutputStatus);
 		base.BuildContextualMenu(evt);
+	}
+
+	void TogglePackInput(DropdownMenuAction action)
+	{
+		relay.packInput = !relay.packInput;
+
+		ForceUpdatePorts();
+		UpdateSize();
+		MarkDirtyRepaint();
 	}
 
 	void ToggleUnpackOutput(DropdownMenuAction action)
@@ -33,6 +46,17 @@ public class RelayNodeView : BaseNodeView
 		ForceUpdatePorts();
 		UpdateSize();
 		MarkDirtyRepaint();
+	}
+
+	DropdownMenuAction.Status PackInputStatus(DropdownMenuAction action)
+	{
+		if (relay.GetNonRelayEdges().Count != 1)
+			return DropdownMenuAction.Status.Disabled;
+
+		if (relay.packInput)
+			return DropdownMenuAction.Status.Checked;
+		else
+			return DropdownMenuAction.Status.Normal;
 	}
 
 	DropdownMenuAction.Status UnpackOutputStatus(DropdownMenuAction action)
@@ -54,10 +78,9 @@ public class RelayNodeView : BaseNodeView
 
 	void UpdateSize()
 	{
-		int inputEdgeCount = relay.GetNonRelayEdges().Count;
-
 		if (relay.unpackOutput)
 		{
+			int inputEdgeCount = relay.GetNonRelayEdges().Count + 1;
 			style.height = Mathf.Max(30, 24 * inputEdgeCount + 5);
 			style.width = -1;
 			input.style.height = -1;

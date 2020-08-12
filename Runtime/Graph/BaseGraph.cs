@@ -285,15 +285,21 @@ namespace GraphProcessor
 		/// <param name="edgeGUID"></param>
 		public void Disconnect(string edgeGUID)
 		{
+			List<(BaseNode, SerializableEdge)> disconnectEvents = new List<(BaseNode, SerializableEdge)>();
+
 			edges.RemoveAll(r => {
 				if (r.GUID == edgeGUID)
 				{
-					r.inputNode?.OnEdgeDisconnected(r);
-					r.outputNode?.OnEdgeDisconnected(r);
+					disconnectEvents.Add((r.inputNode, r));
+					disconnectEvents.Add((r.outputNode, r));
 					onGraphChanges?.Invoke(new GraphChanges{ removedEdge = r });
 				}
 				return r.GUID == edgeGUID;
 			});
+
+			// Delay the edge disconnect event to avoid recursion
+			foreach (var (node, edge) in disconnectEvents)
+				node?.OnEdgeDisconnected(edge);
 		}
 
 		/// <summary>

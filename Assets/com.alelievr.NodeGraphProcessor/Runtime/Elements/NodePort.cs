@@ -249,7 +249,7 @@ namespace GraphProcessor
 		{
 			if (customPortIOMethod != null)
 			{
-				customPortIOMethod(owner, edges);
+				customPortIOMethod(owner, edges, this);
 				return ;
 			}
 
@@ -290,7 +290,7 @@ namespace GraphProcessor
 		{
 			if (customPortIOMethod != null)
 			{
-				customPortIOMethod(owner, edges);
+				customPortIOMethod(owner, edges, this);
 				return ;
 			}
 

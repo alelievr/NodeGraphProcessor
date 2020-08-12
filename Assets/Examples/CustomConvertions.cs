@@ -12,5 +12,6 @@ public class CustomConvertions : ITypeAdapter
     public override IEnumerable<(Type, Type)> GetIncompatibleTypes()
     {
         yield return (typeof(ConditionalLink), typeof(object));
+        yield return (typeof(RelayNode.PackedRelayData), typeof(object));
     }
 }

@@ -282,6 +282,14 @@ namespace GraphProcessor
 			return p;
 		}
 
+		public void InsertPort(PortView portView, int index)
+		{
+			if (portView.direction == Direction.Input)
+				inputContainer.Insert(index, portView);
+			else
+				outputContainer.Insert(index, portView);
+		}
+
 		public void RemovePort(PortView p)
 		{
 			// Remove all connected edges:
@@ -291,13 +299,13 @@ namespace GraphProcessor
 
 			if (p.direction == Direction.Input)
 			{
-				inputPortViews.Remove(p);
-				inputContainer.Remove(p);
+				if (inputPortViews.Remove(p))
+					inputContainer.Remove(p);
 			}
 			else
 			{
-				outputPortViews.Remove(p);
-				outputContainer.Remove(p);
+				if (outputPortViews.Remove(p))
+					outputContainer.Remove(p);
 			}
 
 			List< PortView > ports;
@@ -713,9 +721,10 @@ namespace GraphProcessor
 			return Status.Disabled;
 		}
 
-		void SyncPortCounts(IEnumerable< NodePort > ports, IEnumerable< PortView > portViews)
+		IEnumerable< PortView > SyncPortCounts(IEnumerable< NodePort > ports, IEnumerable< PortView > portViews)
 		{
 			var listener = owner.connectorListener;
+			var portViewList = portViews.ToList();
 
 			// Maybe not good to remove ports as edges are still connected :/
 			foreach (var pv in portViews.ToList())
@@ -723,7 +732,10 @@ namespace GraphProcessor
 				// If the port have disappeared from the node data, we remove the view:
 				// We can use the identifier here because this function will only be called when there is a custom port behavior
 				if (!ports.Any(p => p.portData.identifier == pv.portData.identifier))
+				{
 					RemovePort(pv);
+					portViewList.Remove(pv);
+				}
 			}
 
 			foreach (var p in ports)
@@ -732,8 +744,27 @@ namespace GraphProcessor
 				if (!portViews.Any(pv => p.portData.identifier == pv.portData.identifier))
 				{
 					Direction portDirection = nodeTarget.IsFieldInput(p.fieldName) ? Direction.Input : Direction.Output;
-					AddPort(p.fieldInfo, portDirection, listener, p.portData);
+					var pv = AddPort(p.fieldInfo, portDirection, listener, p.portData);
+					portViewList.Add(pv);
 				}
+			}
+
+			return portViewList;
+		}
+
+		void SyncPortOrder(IEnumerable< NodePort > ports, IEnumerable< PortView > portViews)
+		{
+			var portViewList = portViews.ToList();
+			var portsList = ports.ToList();
+
+			// Re-order the port views to match the ports order in case a custom behavior re-ordered the ports
+			for (int i = 0; i < portsList.Count; i++)
+			{
+				var id = portsList[i].portData.identifier;
+
+				var pv = portViewList.FirstOrDefault(p => p.portData.identifier == id);
+				if (pv != null)
+					InsertPort(pv, i);
 			}
 		}
 
@@ -779,9 +810,10 @@ namespace GraphProcessor
 					var p = ports.GroupBy(n => n.fieldName);
 					var pv = portViews.GroupBy(v => v.fieldName);
 					p.Zip(pv, (portPerFieldName, portViewPerFieldName) => {
+						IEnumerable< PortView > portViewsList = portViewPerFieldName;
 						if (portPerFieldName.Count() != portViewPerFieldName.Count())
-							SyncPortCounts(portPerFieldName, portViewPerFieldName);
-						// UpdatePortConnections(portViewPerFieldName.ToList());
+							portViewsList = SyncPortCounts(portPerFieldName, portViewPerFieldName);
+						SyncPortOrder(portPerFieldName, portViewsList);
 						// We don't care about the result, we just iterate over port and portView
 						return "";
 					}).ToList();

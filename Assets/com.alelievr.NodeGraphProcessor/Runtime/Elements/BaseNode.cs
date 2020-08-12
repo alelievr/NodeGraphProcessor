@@ -303,6 +303,17 @@ namespace GraphProcessor
 				}
 			}
 
+			// Make sure the port order is correct:
+			portCollection.Sort((p1, p2) => {
+				int p1Index = finalPorts.FindIndex(id => p1.portData.identifier == id);
+				int p2Index = finalPorts.FindIndex(id => p2.portData.identifier == id);
+
+				if (p1Index == -1 || p2Index == -1)
+					return 0;
+
+				return p1Index.CompareTo(p2Index);
+			});
+
 			onPortsUpdated?.Invoke(fieldName);
 
 			return changed;

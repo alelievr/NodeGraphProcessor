@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace GraphProcessor
 {
-	public delegate void CustomPortIODelegate(BaseNode node, List< SerializableEdge > edges);
+	public delegate void CustomPortIODelegate(BaseNode node, List< SerializableEdge > edges, NodePort outputPort = null);
 
 	public static class CustomPortIO
 	{
@@ -41,22 +41,44 @@ namespace GraphProcessor
 
 					if (portInputAttr == null && portOutputAttr == null)
 						continue ;
+					
+					var p = method.GetParameters();
+					bool nodePortSignature = false;
+
+					// Check if the function can take a NodePort in optional param
+					if (p.Length == 2 && p[1].ParameterType == typeof(NodePort))
+						nodePortSignature = true;
 
 					CustomPortIODelegate deleg;
 #if ENABLE_IL2CPP
 					// IL2CPP doesn't support expression builders
-					deleg = new CustomPortIODelegate((node, edges) => {
-						method.Invoke(node, new object[]{ edges });
-					});
+					if (nodePortSignature)
+					{
+						deleg = new CustomPortIODelegate((node, edges, port) => {
+							Debug.Log(port);
+							method.Invoke(node, new object[]{ edges, port});
+						});
+					}
+					else
+					{
+						deleg = new CustomPortIODelegate((node, edges, port) => {
+							method.Invoke(node, new object[]{ edges });
+						});
+					}
 #else
 					var p1 = Expression.Parameter(typeof(BaseNode), "node");
 					var p2 = Expression.Parameter(typeof(List< SerializableEdge >), "edges");
+					var p3 = Expression.Parameter(typeof(NodePort), "port");
 
-					var ex = Expression.Call(Expression.Convert(p1, type), method, p2);
+					MethodCallExpression ex;
+					if (nodePortSignature)
+						ex = Expression.Call(Expression.Convert(p1, type), method, p2, p3);
+					else
+						ex = Expression.Call(Expression.Convert(p1, type), method, p2);
 
-					deleg = Expression.Lambda< CustomPortIODelegate >(ex, p1, p2).Compile();
+					deleg = Expression.Lambda< CustomPortIODelegate >(ex, p1, p2, p3).Compile();
 #endif
-						
+
 					if (deleg == null)
 					{
 						Debug.LogWarning("Can't use custom IO port function " + method + ": The method have to respect this format: " + typeof(CustomPortIODelegate));

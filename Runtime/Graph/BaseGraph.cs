@@ -8,17 +8,34 @@ using UnityEngine.Serialization;
 namespace GraphProcessor
 {
 	[System.Serializable]
-	public class ExposedParameter
+	public class ExposedParameter : ISerializationCallbackReceiver
 	{
 		public string				guid; // unique id to keep track of the parameter
 		public string				name;
 		public string				type;
+		[Obsolete("Use value instead")]
 		public SerializableObject	serializedValue;
+		public SerializeReferenceWrapper	value;
 		public bool					input = true;
 		public ExposedParameterSettings settings;
 		public string shortType => Type.GetType(type)?.Name;
+
+		void ISerializationCallbackReceiver.OnAfterDeserialize()
+		{
+			// SerializeReference migration step:
+#pragma warning disable CS0618
+			if (serializedValue?.value != null) // old serialization system can't serialize null values
+			{
+				value.value = serializedValue.value;
+				Debug.Log("Migrated: " + serializedValue.value + " | " + serializedValue.serializedName);
+				serializedValue.value = null;
+			}
+#pragma warning restore CS0618
+		}
+
+		void ISerializationCallbackReceiver.OnBeforeSerialize() {}
 	}
-	
+
 	[Serializable]
 	public class ExposedParameterSettings
 	{
@@ -58,11 +75,11 @@ namespace GraphProcessor
 		public static readonly int invalidComputeOrder = -1;
 
 		/// <summary>
-		/// Json list of nodes (Serialized)
+		/// Json list of serialized nodes only used for copy pasting in the editor. Note that this field isn't serialized
 		/// </summary>
 		/// <typeparam name="JsonElement"></typeparam>
 		/// <returns></returns>
-		[SerializeField]
+		[SerializeField, Obsolete("Use BaseGraph.nodes instead")]
 		public List< JsonElement >						serializedNodes = new List< JsonElement >();
 
 		/// <summary>
@@ -70,7 +87,7 @@ namespace GraphProcessor
 		/// </summary>
 		/// <typeparam name="BaseNode"></typeparam>
 		/// <returns></returns>
-		[System.NonSerialized]
+		[SerializeReference]
 		public List< BaseNode >							nodes = new List< BaseNode >();
 
 		/// <summary>
@@ -381,31 +398,33 @@ namespace GraphProcessor
 
 		public void OnBeforeSerialize()
 		{
-			serializedNodes.Clear();
-
-			foreach (var node in nodes)
-				serializedNodes.Add(JsonSerializer.SerializeNode(node));
-			
-			// Cleanup stackNodes
+			// Cleanup broken elements
 			stackNodes.RemoveAll(s => s == null);
+			nodes.RemoveAll(n => n == null);
 		}
 
 		// We can deserialize data here because it's called in a unity context
 		// so we can load objects references
 		public void Deserialize()
 		{
-			nodes.Clear();
-
-			foreach (var serializedNode in serializedNodes.ToList())
+			// Migration step from JSON serialized nodes to [SerializeReference]
+#pragma warning disable CS0618
+			if (serializedNodes.Count > 0)
 			{
-				var node = JsonSerializer.DeserializeNode(serializedNode) as BaseNode;
-				if (node == null)
+				foreach (var serializedNode in serializedNodes)
 				{
-					serializedNodes.Remove(serializedNode);
-					continue ;
+                    var node = JsonSerializer.DeserializeNode(serializedNode) as BaseNode;
+                    if (node != null)
+                        nodes.Add(node);
 				}
-				AddNode(node);
+				serializedNodes.Clear();
+			}
+#pragma warning restore CS0618
+
+			foreach (var node in nodes)
+			{
 				nodesPerGUID[node.GUID] = node;
+				node.Initialize(this);
 			}
 
 			foreach (var edge in edges.ToList())
@@ -478,7 +497,7 @@ namespace GraphProcessor
 				name = name,
 				type = type.AssemblyQualifiedName,
 				settings = new ExposedParameterSettings(),
-				serializedValue = new SerializableObject(value, type)
+				value = new SerializeReferenceWrapper(value),
 			});
 
 			onExposedParameterListChanged?.Invoke();
@@ -521,7 +540,7 @@ namespace GraphProcessor
 			if (value != null && value.GetType().AssemblyQualifiedName != param.type)
 				throw new Exception("Type mismatch when updating parameter " + param.name + ": from " + param.type + " to " + value.GetType().AssemblyQualifiedName);
 
-			param.serializedValue.value = value;
+			param.value.value = value;
 			onExposedParameterModified.Invoke(param.guid);
 		}
 
@@ -580,7 +599,7 @@ namespace GraphProcessor
 			if (e == null)
 				return false;
 
-			e.serializedValue.value = value;
+			e.value.value = value;
 
 			return true;
 		}
@@ -590,7 +609,7 @@ namespace GraphProcessor
 		/// </summary>
 		/// <param name="name">parameter name</param>
 		/// <returns>value</returns>
-		public object GetParameterValue(string name) => exposedParameters.FirstOrDefault(p => p.name == name)?.serializedValue?.value;
+		public object GetParameterValue(string name) => exposedParameters.FirstOrDefault(p => p.name == name)?.value;
 
 		/// <summary>
 		/// Get the parameter value template

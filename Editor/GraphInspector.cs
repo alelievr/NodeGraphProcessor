@@ -56,9 +56,9 @@ namespace GraphProcessor
                 VisualElement prop = new VisualElement();
                 prop.style.display = DisplayStyle.Flex;
                 Type paramType = Type.GetType(param.type);
-                var field = FieldFactory.CreateField(paramType, param.serializedValue.value, (newValue) => {
+                var field = FieldFactory.CreateField(paramType, param.value.value, (newValue) => {
 					Undo.RegisterCompleteObjectUndo(graph, "Changed Parameter " + param.name + " to " + newValue);
-                    param.serializedValue.value = newValue;
+                    param.value.value = newValue;
                 }, param.name);
                 prop.Add(field);
                 parameterContainer.Add(prop);

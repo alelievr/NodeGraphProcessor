@@ -10,7 +10,7 @@ namespace GraphProcessor
 {
     // Warning: this class only support the serialization of UnityObject and primitive
     [System.Serializable]
-    public class SerializableObject : ISerializationCallbackReceiver
+    public class SerializableObject
     {
         [System.Serializable]
         class ObjectWrapper
@@ -31,7 +31,7 @@ namespace GraphProcessor
             this.serializedType = type.AssemblyQualifiedName;
         }
 
-        public void OnAfterDeserialize()
+        public void Deserialize()
         {
             if (String.IsNullOrEmpty(serializedType))
             {
@@ -68,7 +68,7 @@ namespace GraphProcessor
             }
         }
 
-        public void OnBeforeSerialize()
+        public void Serialize()
         {
             if (value == null)
                 return ;

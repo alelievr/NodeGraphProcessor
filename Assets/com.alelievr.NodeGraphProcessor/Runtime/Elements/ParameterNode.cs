@@ -51,7 +51,7 @@ namespace GraphProcessor
 				return;
 			}
 
-			output = parameter.serializedValue.value;
+			output = parameter.value;
 		}
 
 		void OnParamChanged(string modifiedParameterName)
@@ -95,7 +95,7 @@ namespace GraphProcessor
 		protected override void Process()
 		{
 			if (accessor == ParameterAccessor.Get)
-				output = parameter?.serializedValue.value;
+				output = parameter?.value;
 			else
 				graph.UpdateExposedParameter(parameter.guid, input);
 		}

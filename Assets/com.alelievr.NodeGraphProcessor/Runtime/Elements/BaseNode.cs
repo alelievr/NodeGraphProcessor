@@ -50,12 +50,12 @@ namespace GraphProcessor
 		/// Container of input ports
 		/// </summary>
 		[NonSerialized]
-		public readonly NodeInputPortContainer	inputPorts;
+		public NodeInputPortContainer	inputPorts;
 		/// <summary>
 		/// Container of output ports
 		/// </summary>
 		[NonSerialized]
-		public readonly NodeOutputPortContainer	outputPorts;
+		public NodeOutputPortContainer	outputPorts;
 
 		//Node view datas
 		public Rect					position;
@@ -103,10 +103,10 @@ namespace GraphProcessor
 		public virtual bool			needsInspector => _needsInspector;
 
 		[NonSerialized]
-		Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
+		Dictionary< string, NodeFieldInformation >	nodeFields;
 
 		[NonSerialized]
-		List< string >				messages = new List< string >();
+		List< string >				messages;
 
 		[NonSerialized]
 		protected BaseGraph			graph;
@@ -146,8 +146,8 @@ namespace GraphProcessor
 		}
 
 		// Used in port update algorithm
-		Stack<PortUpdate> fieldsToUpdate = new Stack<PortUpdate>();
-		HashSet<PortUpdate> updatedFields = new HashSet<PortUpdate>();
+		Stack<PortUpdate> fieldsToUpdate;
+		HashSet<PortUpdate> updatedFields;
 
 		/// <summary>
 		/// Creates a node of type T at a certain position
@@ -182,10 +182,24 @@ namespace GraphProcessor
 
 		#region Initialization
 
+		[System.NonSerialized]
+		public bool constructed = false;
+		public bool initialized = false;
+
 		// called by the BaseGraph when the node is added to the graph
 		public void Initialize(BaseGraph graph)
 		{
+			initialized =true;
 			this.graph = graph;
+
+			constructed = true;
+            fieldsToUpdate = new Stack<PortUpdate>();
+            updatedFields = new HashSet<PortUpdate>();
+
+			nodeFields = new Dictionary< string, NodeFieldInformation >();
+			messages = new List< string >();
+
+			InitializeInOutDatas();
 
 			ExceptionToLog.Call(() => Enable());
 
@@ -194,6 +208,8 @@ namespace GraphProcessor
 
 		internal void InitializePorts()
 		{
+			inputPorts = new NodeInputPortContainer(this);
+            outputPorts = new NodeOutputPortContainer(this);
 
 			foreach (var nodeFieldKP in nodeFields)
 			{
@@ -212,13 +228,8 @@ namespace GraphProcessor
 
 		}
 
-		protected BaseNode()
-		{
-			inputPorts = new NodeInputPortContainer(this);
-			outputPorts = new NodeOutputPortContainer(this);
-
-			InitializeInOutDatas();
-		}
+		// Class constructors are broken with the [SerializeReference] attribute
+		protected BaseNode() {  }
 
 		/// <summary>
 		/// Update all ports of the node

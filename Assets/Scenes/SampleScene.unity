@@ -131,6 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 122751694}
   - component: {fileID: 122751695}
+  - component: {fileID: 122751696}
   m_Layer: 0
   m_Name: RuntimeGraph
   m_TagString: Untagged
@@ -159,13 +160,27 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122751693}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5994383d36ae4177a6ff2f44e6fadec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000, guid: 2fc1bcdc62a5745a1bd6f48f20e0390f, type: 2}
   assignedGameObject: {fileID: 282840810}
+--- !u!114 &122751696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122751693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a07dfc0835e6f94da2ad92d14da27b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000, guid: f282634d78f0ee642b34b7f7b468e0ea, type: 2}
+  testObject: {fileID: 11400000, guid: 06081a9f399bcb74b9accf8bd64b68cc, type: 2}
 --- !u!1 &282840810
 GameObject:
   m_ObjectHideFlags: 0

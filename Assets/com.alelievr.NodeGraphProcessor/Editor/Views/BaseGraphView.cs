@@ -17,7 +17,7 @@ namespace GraphProcessor
 	/// <summary>
 	/// Base class to write a custom view for a node
 	/// </summary>
-	public class BaseGraphView : GraphView
+	public class BaseGraphView : GraphView, IDisposable
 	{
 		public delegate void ComputeOrderUpdatedDelegate();
 		public delegate void NodeDuplicatedDelegate(BaseNode duplicatedNode, BaseNode newNode);
@@ -146,12 +146,6 @@ namespace GraphProcessor
 			return inspector;
 		}
 
-		~BaseGraphView()
-		{
-			Undo.undoRedoPerformed -= ReloadView;
-			Object.DestroyImmediate(nodeInspector);
-		}
-
 		#region Callbacks
 
 		protected override bool canCopySelection
@@ -238,8 +232,18 @@ namespace GraphProcessor
 				group.innerNodeGUIDs.Clear();
 				foreach (var guid in oldGUIDList)
 				{
-					var node = graph.nodesPerGUID[guid];
-					group.innerNodeGUIDs.Add(copiedNodesMap[node.GUID].GUID);
+					graph.nodesPerGUID.TryGetValue(guid, out var node);
+					
+					// In case group was copied from another graph
+					if (node == null)
+					{
+						copiedNodesMap.TryGetValue(guid, out node);
+						group.innerNodeGUIDs.Add(node.GUID);
+					}
+					else
+					{
+						group.innerNodeGUIDs.Add(copiedNodesMap[guid].GUID);
+					}
 				}
 
                 AddGroup(group);
@@ -287,6 +291,19 @@ namespace GraphProcessor
 			{
 				RegisterCompleteObjectUndo("Remove Graph Elements");
 
+				// Destroy priority of objects
+				// We need nodes to be destroyed first because we can have a destroy operation that uses node connections
+				changes.elementsToRemove.Sort((e1, e2) => {
+					int GetPriority(GraphElement e)
+					{
+						if (e is BaseNodeView)
+							return 0;
+						else
+							return 1;
+					}
+					return GetPriority(e1).CompareTo(GetPriority(e2));
+				});
+
 				//Handle ourselves the edge and node remove
 				changes.elementsToRemove.RemoveAll(e => {
 
@@ -299,7 +316,8 @@ namespace GraphProcessor
 							ExceptionToLog.Call(() => node.OnRemoved());
 							graph.RemoveNode(node.nodeTarget);
 							RemoveElement(node);
-							UpdateNodeInspectorSelection();
+							if (Selection.activeObject == nodeInspector)
+								UpdateNodeInspectorSelection();
 							return true;
 						case GroupView group:
 							graph.RemoveGroup(group.group);
@@ -518,6 +536,7 @@ namespace GraphProcessor
 			{
 				foreach (var paramFieldView in exposedParameterFieldViews)
 				{
+					RegisterCompleteObjectUndo("Create Parameter Node");
 					var paramNode = BaseNode.CreateFromType< ParameterNode >(mousePos);
 					paramNode.parameterGUID = paramFieldView.parameter.guid;
 					AddNode(paramNode);
@@ -590,11 +609,7 @@ namespace GraphProcessor
 			// When pressing ctrl-s, we save the graph
 			EditorSceneManager.sceneSaved += _ => SaveGraphToDisk();
 
-			RemoveNodeViews();
-			RemoveEdges();
-			RemoveGroups();
-			RemoveStackNodeViews();
-			RemovePinnedElementViews();
+			ClearGraphElements();
 
 			InitializeGraphView();
 			InitializeNodeViews();
@@ -607,6 +622,15 @@ namespace GraphProcessor
 			UpdateComputeOrder();
 
 			InitializeView();
+		}
+
+		public void ClearGraphElements()
+		{
+			RemoveNodeViews();
+			RemoveEdges();
+			RemoveGroups();
+			RemoveStackNodeViews();
+			RemovePinnedElementViews();
 		}
 
 		/// <summary>
@@ -705,9 +729,12 @@ namespace GraphProcessor
 					selectedNodeViews.Add(v);
 			}
 
-			nodeInspector.UpdateSelectedNodes(selectedNodeViews);
-			if (Selection.activeObject != nodeInspector)
-				Selection.activeObject = nodeInspector;
+			if (selectedNodeViews.Count > 0)
+			{
+				nodeInspector.UpdateSelectedNodes(selectedNodeViews);
+				if (Selection.activeObject != nodeInspector)
+					Selection.activeObject = nodeInspector;
+			}
 		}
 
 		public BaseNodeView AddNode(BaseNode node)
@@ -839,7 +866,7 @@ namespace GraphProcessor
 			groupViews.Clear();
 		}
 
-		public bool ConnectView(EdgeView e, bool autoDisconnectInputs = true)
+		public bool CanConnectEdge(EdgeView e, bool autoDisconnectInputs = true)
 		{
 			if (e.input == null || e.output == null)
 				return false;
@@ -854,6 +881,19 @@ namespace GraphProcessor
 				Debug.LogError("Connect aborted !");
 				return false;
 			}
+
+			return true;
+		}
+
+		public bool ConnectView(EdgeView e, bool autoDisconnectInputs = true)
+		{
+			if (!CanConnectEdge(e, autoDisconnectInputs))
+				return false;
+			
+			var inputPortView = e.input as PortView;
+			var outputPortView = e.output as PortView;
+			var inputNodeView = inputPortView.node as BaseNodeView;
+			var outputNodeView = outputPortView.node as BaseNodeView;
 
 			//If the input port does not support multi-connection, we remove them
 			if (autoDisconnectInputs && !(e.input as PortView).portData.acceptMultipleEdges)
@@ -891,14 +931,40 @@ namespace GraphProcessor
 			inputNodeView.RefreshPorts();
 			outputNodeView.RefreshPorts();
 
+			// In certain cases the edge color is wrong so we patch it
+			schedule.Execute(() => {
+				e.UpdateEdgeControl();
+			}).ExecuteLater(1);
+
 			e.isConnected = true;
 
 			return true;
 		}
 
+		public bool Connect(PortView inputPortView, PortView outputPortView, bool autoDisconnectInputs = true)
+		{
+			var inputPort = inputPortView.owner.nodeTarget.GetPort(inputPortView.fieldName, inputPortView.portData.identifier);
+			var outputPort = outputPortView.owner.nodeTarget.GetPort(outputPortView.fieldName, outputPortView.portData.identifier);
+
+			// Checks that the node we are connecting still exists
+			if (inputPortView.owner.parent == null || outputPortView.owner.parent == null)
+				return false;
+
+			var newEdge = SerializableEdge.CreateNewEdge(graph, inputPort, outputPort);
+
+			var edgeView = new EdgeView()
+			{
+				userData = newEdge,
+				input = inputPortView,
+				output = outputPortView,
+			};
+
+			return Connect(edgeView);
+		}
+
 		public bool Connect(EdgeView e, bool autoDisconnectInputs = true)
 		{
-			if (!ConnectView(e, autoDisconnectInputs))
+			if (!CanConnectEdge(e, autoDisconnectInputs))
 				return false;
 
 			var inputPortView = e.input as PortView;
@@ -909,6 +975,8 @@ namespace GraphProcessor
 			var outputPort = outputNodeView.nodeTarget.GetPort(outputPortView.fieldName, outputPortView.portData.identifier);
 
 			e.userData = graph.Connect(inputPort, outputPort, autoDisconnectInputs);
+
+			ConnectView(e, autoDisconnectInputs);
 
 			UpdateComputeOrder();
 
@@ -940,11 +1008,11 @@ namespace GraphProcessor
 
 		public void Disconnect(EdgeView e, bool refreshPorts = true)
 		{
-			DisconnectView(e, refreshPorts);
-
 			// Remove the serialized edge if there is one
 			if (e.userData is SerializableEdge serializableEdge)
 				graph.Disconnect(serializableEdge.GUID);
+
+			DisconnectView(e, refreshPorts);
 
 			UpdateComputeOrder();
 		}
@@ -1071,7 +1139,31 @@ namespace GraphProcessor
 			// TODO: add exposed properties to this list
 		}
 
-		#endregion
+		public RelayNodeView AddRelayNode(PortView inputPort, PortView outputPort, Vector2 position)
+		{
+			var relayNode = BaseNode.CreateFromType<RelayNode>(position);
+			var view = AddNode(relayNode) as RelayNodeView;
 
-	}
+			if (outputPort != null)
+				Connect(view.inputPortViews[0], outputPort);
+			if (inputPort != null)
+				Connect(inputPort, view.outputPortViews[0]);
+
+			return view;
+		}
+
+		/// <summary>
+		/// Call this function when you want to remove this view
+		/// </summary>
+        public void Dispose()
+        {
+			ClearGraphElements();
+			RemoveFromHierarchy();
+			Undo.undoRedoPerformed -= ReloadView;
+			Object.DestroyImmediate(nodeInspector);
+        }
+
+        #endregion
+
+    }
 }

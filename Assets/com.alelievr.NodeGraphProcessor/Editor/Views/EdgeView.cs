@@ -12,12 +12,19 @@ namespace GraphProcessor
 
 		readonly string				edgeStyle = "GraphProcessorStyles/EdgeView";
 
+		protected BaseGraphView		owner => ((input ?? output) as PortView).owner.owner;
+
 		public EdgeView() : base()
 		{
 			styleSheets.Add(Resources.Load<StyleSheet>(edgeStyle));
+			RegisterCallback<MouseDownEvent>(OnMouseDown);
 		}
 
-        public override void OnPortChanged(bool isInput) => UpdateEdgeSize();
+        public override void OnPortChanged(bool isInput)
+		{
+			base.OnPortChanged(isInput);
+			UpdateEdgeSize();
+		}
 
 		public void UpdateEdgeSize()
 		{
@@ -39,6 +46,19 @@ namespace GraphProcessor
 			base.OnCustomStyleResolved(styles);
 
 			UpdateEdgeControl();
+		}
+
+		void OnMouseDown(MouseDownEvent e)
+		{
+			if (e.clickCount == 2)
+			{
+				// Empirical offset:
+				var position = e.mousePosition;
+                position += new Vector2(-10f, -28);
+                Vector2 mousePos = owner.ChangeCoordinatesTo(owner.contentViewContainer, position);
+
+				owner.AddRelayNode(input as PortView, output as PortView, mousePos);
+			}
 		}
 	}
 }

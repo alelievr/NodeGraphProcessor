@@ -19,18 +19,24 @@ public class RelayNodeView : BaseNodeView
 		this.Q("title").RemoveFromHierarchy();
 		this.Q("divider").RemoveFromHierarchy();
 
-		onPortConnected += (e) => UpdatePortTypes(e);
-		onPortDisconnected += (e) => UpdatePortTypes(e, typeof(object));
-
-		owner.graph.onGraphChanges += OnGraphChanges;
-
-		ForceUpdatePorts();
+		relay.onPortsUpdated += _ => UpdateSize();
 	}
 
 	public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 	{
+		// TODO: check if there is a relay node in the inputs that have pack option and toggle visibility of these options:
+		evt.menu.AppendAction("Pack Input", TogglePackInput, PackInputStatus);
 		evt.menu.AppendAction("Unpack Output", ToggleUnpackOutput, UnpackOutputStatus);
 		base.BuildContextualMenu(evt);
+	}
+
+	void TogglePackInput(DropdownMenuAction action)
+	{
+		relay.packInput = !relay.packInput;
+
+		ForceUpdatePorts();
+		UpdateSize();
+		MarkDirtyRepaint();
 	}
 
 	void ToggleUnpackOutput(DropdownMenuAction action)
@@ -42,13 +48,15 @@ public class RelayNodeView : BaseNodeView
 		MarkDirtyRepaint();
 	}
 
-	void OnGraphChanges(GraphChanges changes)
+	DropdownMenuAction.Status PackInputStatus(DropdownMenuAction action)
 	{
-		schedule.Execute(() => {
-			ForceUpdatePorts();
-			UpdateSize();
-			MarkDirtyRepaint();
-		}).ExecuteLater(1);
+		if (relay.GetNonRelayEdges().Count != 1)
+			return DropdownMenuAction.Status.Disabled;
+
+		if (relay.packInput)
+			return DropdownMenuAction.Status.Checked;
+		else
+			return DropdownMenuAction.Status.Normal;
 	}
 
 	DropdownMenuAction.Status UnpackOutputStatus(DropdownMenuAction action)
@@ -68,20 +76,11 @@ public class RelayNodeView : BaseNodeView
 		UpdateSize();
 	}
 
-	void UpdatePortTypes(PortView portView, Type forceType = null)
-	{
-		// TODO: remove me
-		schedule.Execute(() => {
-			ForceUpdatePorts();
-		}).ExecuteLater(1);
-	}
-
 	void UpdateSize()
 	{
-		int inputEdgeCount = relay.GetNonRelayEdges().Count;
-
 		if (relay.unpackOutput)
 		{
+			int inputEdgeCount = relay.GetNonRelayEdges().Count + 1;
 			style.height = Mathf.Max(30, 24 * inputEdgeCount + 5);
 			style.width = -1;
 			input.style.height = -1;
@@ -98,5 +97,31 @@ public class RelayNodeView : BaseNodeView
 				output.style.height = 16;
 			AddToClassList("hideLabels");
 		}
+	}
+
+	public override void OnRemoved()
+	{
+		// We delay the connection of the edges just in case something happens to the nodes we are trying to connect
+		// i.e. multiple relay node deletion
+		schedule.Execute(() => {
+			if (!relay.unpackOutput)
+			{
+				var inputEdges = inputPortViews[0].GetEdges();
+				var outputEdges = outputPortViews[0].GetEdges();
+
+				if (inputEdges.Count == 0 || outputEdges.Count == 0)
+					return;
+
+				var inputEdge = inputEdges.First();
+
+				foreach (var outputEdge in outputEdges.ToList())
+				{
+					var input = outputEdge.input as PortView;
+					var output = inputEdge.output as PortView;
+
+					owner.Connect(input, output);
+				}
+			}
+		}).ExecuteLater(1);
 	}
 }

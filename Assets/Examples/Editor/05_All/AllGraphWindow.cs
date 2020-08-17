@@ -24,7 +24,11 @@ public class AllGraphWindow : BaseGraphWindow
 		return graphWindow;
 	}
 
-	protected override void OnDestroy() => DestroyImmediate(tmpGraph);
+	protected override void OnDestroy()
+	{
+		graphView?.Dispose();
+		DestroyImmediate(tmpGraph);
+	}
 
 	protected override void InitializeWindow(BaseGraph graph)
 	{
@@ -42,7 +46,7 @@ public class AllGraphWindow : BaseGraphWindow
 
 	protected override void InitializeGraphView(BaseGraphView view)
 	{
-		graphView.OpenPinned< ExposedParameterView >();
-		toolbarView.UpdateButtonStatus();
+		// graphView.OpenPinned< ExposedParameterView >();
+		// toolbarView.UpdateButtonStatus();
 	}
 }

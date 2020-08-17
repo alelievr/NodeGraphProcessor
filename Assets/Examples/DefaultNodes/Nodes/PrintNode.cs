@@ -13,7 +13,7 @@ public class PrintNode : BaseNode
 	public override string name => "Print";
 }
 
-[NodeMenuItem("Conditional Print")]
+[NodeMenuItem("Conditional/Print")]
 public class ConditionalPrintNode : LinearConditionalNode
 {
 	[Input]

@@ -1,0 +1,12 @@
+<UXML xmlns="UnityEngine.UIElements">
+    <!-- Creates our template and gives it a name for future reference. -->
+    <Template path="Assets/HelloWorld/Source/UXML/SingleVector.xml" name="singeVector-template" />
+    <!-- Creates a parent VisualElement in which we will add our template. -->
+    <VisualElement class="vector-container">
+        <!-- Instantiates the template multiple times. Each time, we give it a name and a class for future reference. -->
+        <Instance template="singeVector-template" name="R"/>
+        <Instance template="singeVector-template" name="G"/>
+        <Instance template="singeVector-template" name="B"/>
+        <Instance template="singeVector-template" name="A"/>
+    </VisualElement>
+</UXML>

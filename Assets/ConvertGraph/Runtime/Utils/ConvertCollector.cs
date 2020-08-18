@@ -11,7 +11,7 @@ namespace Cr7Sund.ConvertGraph
     {
         public const string ConverMethodName = "Convert";
         private static string[] framwWorkAssembiles;
-        private static string[] FrameWorkdAssembliles  
+        private static string[] FrameWorkdAssembliles
         {
             get
             {
@@ -85,6 +85,23 @@ namespace Cr7Sund.ConvertGraph
                                     {
                                         throw new Exception(string.Format("Please rename the convert class  {0} ", sb.ToString()));
                                     }
+
+                                    ParameterInfo[] parameterInfos = method.GetParameters();
+                                    var inputParams = new List<ParameterInfo>();
+                                    var outputParams = new List<ParameterInfo>();
+                                    for (int i = 0; i < parameterInfos.Length; i++)
+                                    {
+                                        if (parameterInfos[i].IsOut)
+                                        {
+                                            outputParams.Add(parameterInfos[i]);
+                                        }
+                                        else
+                                            inputParams.Add(parameterInfos[i]);
+
+                                    }
+                                    GraphProcessor.NodeProvider.AppendPortInfoPerNode(inputParams, typeof(ConvertNode), true, sb.ToString() );
+                                    GraphProcessor.NodeProvider.AppendPortInfoPerNode(outputParams, typeof(ConvertNode), false, sb.ToString());
+
                                     containsConvertFunc = true;
                                 }
                             }
@@ -100,7 +117,8 @@ namespace Cr7Sund.ConvertGraph
             }
         }
 
-        public static void NothingToDo(){
+        public static void NothingToDo()
+        {
 
         }
     }

@@ -19,6 +19,7 @@ namespace GraphProcessor
 			public string portFieldName;
 			public string portIdentifier;
 			public string portDisplayName;
+			public string extraInfo;
 		}
 
 		static Dictionary< Type, Type >			nodeViewPerType = new Dictionary< Type, Type >();
@@ -108,7 +109,34 @@ namespace GraphProcessor
 			return true;
 		}
 
-		static void	AddNodeViewType(Type type)
+        public static void AppendPortInfoPerNode(List<ParameterInfo> parameterInfos, Type nodeType, bool isInput, string
+        extraInfo)
+        {
+            for (int i = 0; i < parameterInfos.Count; i++)
+            {
+				var strs = parameterInfos[i].ParameterType.ToString().Split('&');
+				var type = parameterInfos[i].ParameterType;
+				if(strs.Length == 2) // If the parameter is out variable
+                {
+					var assembly = parameterInfos[i].ParameterType.Assembly;
+					type = assembly.GetType(strs[0]);
+                }
+
+                nodeCreatePortDescription.Add(new PortDescription
+                {
+                    nodeType = nodeType,
+					portType = type,
+					isInput = isInput,
+					portFieldName  = parameterInfos[i].Name,
+					portDisplayName = parameterInfos[i].Name,
+					portIdentifier = i.ToString(),
+					extraInfo = extraInfo
+                });
+
+            }
+        }
+
+        static void	AddNodeViewType(Type type)
 		{
 			var attrs = type.GetCustomAttributes(typeof(NodeCustomEditor), false) as NodeCustomEditor[];
 
@@ -190,7 +218,7 @@ namespace GraphProcessor
 			return nodeCreatePortDescription.Where(n => {
 				if (portView.direction == Direction.Input && n.isInput || portView.direction == Direction.Output && !n.isInput)
 					return false;
-	
+
 				if (!BaseGraph.TypesAreConnectable(n.portType, portView.portType))
 					return false;
 

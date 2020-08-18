@@ -90,6 +90,7 @@ namespace Cr7Sund.ConvertGraph
         {
             defaultIndex = -1;
 
+            int sequence = 0;
             for (int i = 0; i < ParameterInfos.Length; i++)
             {
                 if (!ParameterInfos[i].IsOut)
@@ -103,10 +104,11 @@ namespace Cr7Sund.ConvertGraph
                     {
                         displayName = ParameterInfos[i].Name,
                         displayType = ParameterInfos[i].ParameterType,
-                        identifier = i.ToString(),
+                        identifier = (sequence++).ToString(),
                     };
                 }
             }
+
         }
 
         [CustomPortInput(nameof(inputs), typeof(object), allowCast = true)]
@@ -126,6 +128,7 @@ namespace Cr7Sund.ConvertGraph
         [CustomPortBehavior(nameof(outputs))]
         IEnumerable<PortData> GetPortsForOutput(List<SerializableEdge> edges)
         {
+            int sequence = 0;
             for (int i = 0; i < ParameterInfos.Length; i++)
             {
                 if (ParameterInfos[i].IsOut)
@@ -134,7 +137,7 @@ namespace Cr7Sund.ConvertGraph
                     {
                         displayName = ParameterInfos[i].Name,
                         displayType = ParameterInfos[i].ParameterType.GetElementType(), // It's actually be a pointer for the type. ref: http://www.blackwasp.co.uk/ReflectOutRefParams_2.aspx
-                        identifier = i.ToString(),
+                        identifier = (sequence++).ToString(),
                         acceptMultipleEdges = true
                     };
                 }

@@ -36,7 +36,8 @@ namespace Cr7Sund.ConvertGraph
         {
             var convertGraph = graph as ConvertGraph;
             int count = processList.Count;
-
+            var inputs = processList[0].inputPorts;
+            var outputs = processList[0].outputPorts;
             GraphNode startNode = null;
             int gNodesCount = 0;
             for (int i = 0; i < count; i++)

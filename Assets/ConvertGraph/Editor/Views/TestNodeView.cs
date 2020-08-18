@@ -19,7 +19,6 @@ namespace Cr7Sund.ConvertGraph
         {
             dataNode = nodeTarget as TestNode;
 
-            TypeInfo typeInfo;
             switch (dataNode.graphNodeType)
             {
                 case GraphNodeType.InputNode:

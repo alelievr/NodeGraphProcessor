@@ -13,9 +13,9 @@ namespace GraphProcessor
     // TODO: replace this by the new UnityEditor.Searcher package
     public class CreateNodeMenuWindow : ScriptableObject, ISearchWindowProvider
     {
-        BaseGraphView   graphView;
+        protected BaseGraphView   graphView;
         EditorWindow    window;
-        Texture2D       icon;
+        protected Texture2D       icon;
         EdgeView        edgeFilter;
         PortView        inputPortView;
         PortView        outputPortView;
@@ -95,10 +95,11 @@ namespace GraphProcessor
                     }
                 }
 
-                tree.Add(AddSearchEntry(nodeMenuItem, nodeName, level));
+                tree.Add(AddStandardSearchEntry(nodeMenuItem, nodeName, level));
             }
         }
-        protected virtual SearchTreeEntry AddSearchEntry(KeyValuePair<string, Type> nodeMenuItem, string nodeName, int level)
+       
+        protected virtual SearchTreeEntry AddStandardSearchEntry(KeyValuePair<string, Type> nodeMenuItem, string nodeName, int level)
         {
             return new SearchTreeEntry(new GUIContent(nodeName, icon))
             {
@@ -163,12 +164,17 @@ namespace GraphProcessor
                     }
                 }
 
-                tree.Add(new SearchTreeEntry(new GUIContent($"{nodeName}:  {nodeMenuItem.portDisplayName}", icon))
-                {
-                    level    = level + 1,
-                    userData = nodeMenuItem
-                });
-			}
+                tree.Add(AddEdgeNodeSearchEntry(nodeMenuItem, nodeName, level));
+            }
+        }
+
+        protected virtual SearchTreeEntry AddEdgeNodeSearchEntry(NodeProvider.PortDescription nodeMenuItem, string nodeName, int level)
+        {
+            return new SearchTreeEntry(new GUIContent($"{nodeName}:  {nodeMenuItem.portDisplayName}", icon))
+            {
+                level = level + 1,
+                userData = nodeMenuItem
+            };
         }
 
         // Node creation when validate a choice
@@ -188,8 +194,7 @@ namespace GraphProcessor
             {
                 nodeType = (desc).nodeType;
                 graphView.RegisterCompleteObjectUndo("Added " + nodeType);
-                var view = graphView.AddNode(BaseNode.CreateFromType(nodeType, graphMousePosition));
-                var targetPort = view.GetPortViewFromFieldName(desc.portFieldName, desc.portIdentifier);
+                PortView targetPort = CreateEdgePort(graphMousePosition, desc);
                 if (inputPortView == null)
                     graphView.Connect(targetPort, outputPortView);
                 else
@@ -201,6 +206,13 @@ namespace GraphProcessor
             }
             return true;
         }
+
+        protected virtual PortView CreateEdgePort(Vector2 graphMousePosition, NodeProvider.PortDescription desc)
+        {
+            var view =  graphView.AddNode(BaseNode.CreateFromType(desc.nodeType, graphMousePosition) );
+            return view.GetPortViewFromFieldName(desc.portFieldName, desc.portIdentifier);
+        }
+
 
         protected virtual BaseNode CreateCustomNode(string menuItem, Vector2 graphMousePosition) { return null; }
     }

@@ -5,9 +5,9 @@ using GraphProcessor;
 [ConvertFunc("ConvertCommon/Convet2Color")]
 public static class Convert2Color
 {
-    public static void Convert(int a, int b, float c, float d, out Color color)
+    public static void Convert(int a, int bTest, float c, float d, out Color color)
     {
-        color = new Vector4(a + 2, b, c, d);
+        color = new Vector4(a + 2, bTest, c, d);
     }
 }
 

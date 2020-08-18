@@ -21,7 +21,8 @@ namespace Cr7Sund.ConvertGraph
             nodeCreationRequest = (c) => SearchWindow.Open(new SearchWindowContext(c.screenMousePosition), createCovnertNodeMenu);
         }
 
-
+        protected override BaseEdgeConnectorListener CreateEdgeConnectorListener() => new ConvertEdgeConnectorListener(this);
+      
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             evt.menu.AppendSeparator();

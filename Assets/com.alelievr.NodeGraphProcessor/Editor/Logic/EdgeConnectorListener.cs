@@ -17,7 +17,7 @@ namespace GraphProcessor
         Dictionary< Edge, PortView >    edgeInputPorts = new Dictionary< Edge, PortView >();
         Dictionary< Edge, PortView >    edgeOutputPorts = new Dictionary< Edge, PortView >();
 
-        static CreateNodeMenuWindow     edgeNodeCreateMenuWindow;
+        protected static CreateNodeMenuWindow     edgeNodeCreateMenuWindow;
 
         public BaseEdgeConnectorListener(BaseGraphView graphView)
         {
@@ -72,7 +72,7 @@ namespace GraphProcessor
             }
         }
 
-        void ShowNodeCreationMenuFromEdge(EdgeView edgeView, Vector2 position)
+        protected virtual void ShowNodeCreationMenuFromEdge(EdgeView edgeView, Vector2 position)
         {
             if (edgeNodeCreateMenuWindow == null)
                 edgeNodeCreateMenuWindow = ScriptableObject.CreateInstance< CreateNodeMenuWindow >();

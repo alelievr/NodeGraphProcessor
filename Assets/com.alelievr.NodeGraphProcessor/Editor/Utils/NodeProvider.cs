@@ -98,6 +98,16 @@ namespace GraphProcessor
 				nodeScripts[type] = nodeScriptAsset;
 		}
 
+		public static bool AppendNodePerMenu(string keyValue, Type valueType)
+		{
+			if (nodePerMenuTitle.ContainsKey(keyValue))
+			{
+				return false;
+			}
+			nodePerMenuTitle[keyValue] = valueType;
+			return true;
+		}
+
 		static void	AddNodeViewType(Type type)
 		{
 			var attrs = type.GetCustomAttributes(typeof(NodeCustomEditor), false) as NodeCustomEditor[];

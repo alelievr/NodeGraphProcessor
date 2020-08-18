@@ -647,6 +647,10 @@ namespace GraphProcessor
 			graph.onGraphChanges += GraphChangesCallback;
 			viewTransform.position = graph.position;
 			viewTransform.scale = graph.scale;
+			InitSearchWindow();
+		}
+		protected virtual void InitSearchWindow()
+		{
 			nodeCreationRequest = (c) => SearchWindow.Open(new SearchWindowContext(c.screenMousePosition), createNodeMenu);
 		}
 

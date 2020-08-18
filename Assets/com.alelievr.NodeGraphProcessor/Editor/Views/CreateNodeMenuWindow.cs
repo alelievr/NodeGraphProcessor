@@ -11,7 +11,7 @@ using UnityEditor;
 namespace GraphProcessor
 {
     // TODO: replace this by the new UnityEditor.Searcher package
-    class CreateNodeMenuWindow : ScriptableObject, ISearchWindowProvider
+    public class CreateNodeMenuWindow : ScriptableObject, ISearchWindowProvider
     {
         BaseGraphView   graphView;
         EditorWindow    window;
@@ -94,13 +94,17 @@ namespace GraphProcessor
                         }
                     }
                 }
-                
-                tree.Add(new SearchTreeEntry(new GUIContent(nodeName, icon))
-                {
-                    level    = level + 1,
-                    userData = nodeMenuItem.Value
-                });
-			}
+
+                tree.Add(AddSearchEntry(nodeMenuItem, nodeName, level));
+            }
+        }
+        protected virtual SearchTreeEntry AddSearchEntry(KeyValuePair<string, Type> nodeMenuItem, string nodeName, int level)
+        {
+            return new SearchTreeEntry(new GUIContent(nodeName, icon))
+            {
+                level = level + 1,
+                userData = nodeMenuItem.Value
+            };
         }
 
         void CreateEdgeNodeMenu(List<SearchTreeEntry> tree)
@@ -175,21 +179,29 @@ namespace GraphProcessor
             var windowMousePosition = windowRoot.ChangeCoordinatesTo(windowRoot.parent, context.screenMousePosition - window.position.position);
             var graphMousePosition = graphView.contentViewContainer.WorldToLocal(windowMousePosition);
 
-            var nodeType = searchTreeEntry.userData is Type ? (Type)searchTreeEntry.userData : ((NodeProvider.PortDescription)searchTreeEntry.userData).nodeType;
-            
-            graphView.RegisterCompleteObjectUndo("Added " + nodeType);
-            var view = graphView.AddNode(BaseNode.CreateFromType(nodeType, graphMousePosition));
-
-            if (searchTreeEntry.userData is NodeProvider.PortDescription desc)
+            if (searchTreeEntry.userData is Type nodeType)
             {
+                graphView.RegisterCompleteObjectUndo("Added " + nodeType);
+                var view = graphView.AddNode(BaseNode.CreateFromType(nodeType, graphMousePosition));
+            }
+            else if (searchTreeEntry.userData is NodeProvider.PortDescription desc)
+            {
+                nodeType = (desc).nodeType;
+                graphView.RegisterCompleteObjectUndo("Added " + nodeType);
+                var view = graphView.AddNode(BaseNode.CreateFromType(nodeType, graphMousePosition));
                 var targetPort = view.GetPortViewFromFieldName(desc.portFieldName, desc.portIdentifier);
                 if (inputPortView == null)
                     graphView.Connect(targetPort, outputPortView);
                 else
-                    graphView.Connect(inputPortView,  targetPort);
+                    graphView.Connect(inputPortView, targetPort);
             }
-
+            else if (searchTreeEntry.userData is string menuItem)
+            {
+               graphView.AddNode( CreateCustomNode(menuItem, graphMousePosition));
+            }
             return true;
         }
+
+        protected virtual BaseNode CreateCustomNode(string menuItem, Vector2 graphMousePosition) { return null; }
     }
 }

@@ -56,6 +56,14 @@ namespace GraphProcessor
 			pv.m_EdgeConnector = new BaseEdgeConnector(edgeConnectorListener);
 			pv.AddManipulator(pv.m_EdgeConnector);
 
+			// Force picking in the port label to enlarge the edge creation zone
+			var portLabel = pv.Q("type");
+			if (portLabel != null)
+			{
+				portLabel.pickingMode = PickingMode.Position;
+				portLabel.style.flexGrow = 1;
+			}
+
 			return pv;
 		}
 

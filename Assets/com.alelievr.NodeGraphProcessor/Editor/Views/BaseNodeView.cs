@@ -143,6 +143,8 @@ namespace GraphProcessor
 				});
 			}
 
+			Undo.undoRedoPerformed += UpdateFieldValues;
+
 			debugContainer = new VisualElement{ name = "debug" };
 			if (nodeTarget.debug)
 				mainContainer.Add(debugContainer);
@@ -533,6 +535,7 @@ namespace GraphProcessor
 
 		Dictionary<string, List<(object value, VisualElement target)>> visibleConditions = new Dictionary<string, List<(object value, VisualElement target)>>();
 		Dictionary<string, VisualElement>  hideElementIfConnected = new Dictionary<string, VisualElement>();
+		Dictionary<FieldInfo, List<VisualElement>> fieldControlsMap = new Dictionary<FieldInfo, List<VisualElement>>();
 
 		protected virtual void DrawDefaultInspector(bool fromInspector = false)
 		{
@@ -559,7 +562,7 @@ namespace GraphProcessor
 				if (showInInspector != null && !showInInspector.showInNode && !fromInspector)
 					continue;
 
-				var elem = AddControlField(field, field.Name);
+				var elem = AddControlField(field, ObjectNames.NicifyVariableName(field.Name));
 				if (hasInputAttribute)
 				{
 					hideElementIfConnected[field.Name] = elem;
@@ -586,6 +589,22 @@ namespace GraphProcessor
 			}
 		}
 
+		void UpdateOtherFieldValueSpecific<T>(FieldInfo field, object newValue)
+		{
+			foreach (var inputField in fieldControlsMap[field])
+				(inputField as INotifyValueChanged<T>).SetValueWithoutNotify((T)newValue);
+		}
+
+		static MethodInfo specificUpdateOtherFieldValue = typeof(BaseNodeView).GetMethod(nameof(UpdateOtherFieldValueSpecific), BindingFlags.NonPublic | BindingFlags.Instance);
+		void UpdateOtherFieldValue(FieldInfo info, object newValue)
+		{
+			// Warning: Keep in sync with FieldFactory CreateField
+			var fieldType = info.FieldType.IsSubclassOf(typeof(UnityEngine.Object)) ? typeof(UnityEngine.Object) : info.FieldType;
+			var genericUpdate = specificUpdateOtherFieldValue.MakeGenericMethod(fieldType);
+
+			genericUpdate.Invoke(this, new object[]{info, newValue});
+		}
+
 		protected VisualElement AddControlField(string fieldName, string label = null, Action valueChangedCallback = null)
 			=> AddControlField(nodeTarget.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance), label, valueChangedCallback);
 
@@ -600,7 +619,14 @@ namespace GraphProcessor
 				NotifyNodeChanged();
 				valueChangedCallback?.Invoke();
 				UpdateFieldVisibility(field.Name, newValue);
+				// When you have the node inspector, it's possible to have multiple input fields pointing to the same
+				// property. We need to update those manually otherwise they still have the old value in the inspector.
+				UpdateOtherFieldValue(field, newValue);
 			}, label);
+
+			if (!fieldControlsMap.TryGetValue(field, out var inputFieldList))
+				inputFieldList = fieldControlsMap[field] = new List<VisualElement>();
+			inputFieldList.Add(element);
 
 			if (element != null)
 				controlsContainer.Add(element);
@@ -623,6 +649,12 @@ namespace GraphProcessor
 			}
 
 			return element;
+		}
+
+		void UpdateFieldValues()
+		{
+			foreach (var kp in fieldControlsMap)
+				UpdateOtherFieldValue(kp.Key, kp.Key.GetValue(nodeTarget));
 		}
 
 		internal void OnPortConnected(PortView port)

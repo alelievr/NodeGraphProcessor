@@ -1,3 +1,5 @@
+// #define DEBUG_LAMBDA
+
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +34,10 @@ namespace GraphProcessor
 		/// Port size, will also affect the size of the connected edge
 		/// </summary>
 		public int		sizeInPixel;
+		/// <summary>
+		/// Tooltip of the port
+		/// </summary>
+		public string	tooltip;
 
         public bool Equals(PortData other)
         {
@@ -39,7 +45,8 @@ namespace GraphProcessor
 				&& displayName == other.displayName
 				&& displayType == other.displayType
 				&& acceptMultipleEdges == other.acceptMultipleEdges
-				&& sizeInPixel == other.sizeInPixel;
+				&& sizeInPixel == other.sizeInPixel
+				&& tooltip == other.tooltip;
         }
 
 		public void CopyFrom(PortData other)
@@ -49,6 +56,7 @@ namespace GraphProcessor
 			displayType = other.displayType;
 			acceptMultipleEdges = other.acceptMultipleEdges;
 			sizeInPixel = other.sizeInPixel;
+			tooltip = other.tooltip;
 		}
     }
 
@@ -156,20 +164,41 @@ namespace GraphProcessor
 				//Creation of the delegate to move the data from the input node to the output node:
 				FieldInfo inputField = edge.inputNode.GetType().GetField(edge.inputFieldName, BindingFlags.Public | BindingFlags.Instance);
 				FieldInfo outputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Public | BindingFlags.Instance);
+				Type inType, outType;
+
+#if DEBUG_LAMBDA
+				return new PushDataDelegate(() => {
+					var outValue = outputField.GetValue(edge.outputNode);
+					inType = edge.inputPort.portData.displayType ?? inputField.FieldType;
+					outType = edge.outputPort.portData.displayType ?? outputField.FieldType;
+					Debug.Log($"Push: {inType}({outValue}) -> {outType} | {owner.name}");
+
+					object convertedValue = outValue;
+					if (TypeAdapter.AreAssignable(outType, inType))
+					{
+						var convertionMethod = TypeAdapter.GetConvertionMethod(outType, inType);
+						Debug.Log("Convertion method: " + convertionMethod.Name);
+						convertedValue = convertionMethod.Invoke(null, new object[]{ outValue });
+					}
+
+					inputField.SetValue(edge.inputNode, convertedValue);
+				});
+#endif
 
 // We keep slow checks inside the editor
 #if UNITY_EDITOR
 				if (!BaseGraph.TypesAreConnectable(inputField.FieldType, outputField.FieldType))
 				{
 					Debug.LogError("Can't convert from " + inputField.FieldType + " to " + outputField.FieldType + ", you must specify a custom port function (i.e CustomPortInput or CustomPortOutput) for non-implicit convertions");
+					return null;
 				}
 #endif
 
 				Expression inputParamField = Expression.Field(Expression.Constant(edge.inputNode), inputField);
 				Expression outputParamField = Expression.Field(Expression.Constant(edge.outputNode), outputField);
 
-				var inType = edge.inputPort.portData.displayType ?? inputField.FieldType;
-				var outType = edge.outputPort.portData.displayType ?? outputField.FieldType;
+				inType = edge.inputPort.portData.displayType ?? inputField.FieldType;
+				outType = edge.outputPort.portData.displayType ?? outputField.FieldType;
 
 				// If there is a user defined convertion function, then we call it
 				if (TypeAdapter.AreAssignable(outType, inType))
@@ -202,6 +231,7 @@ namespace GraphProcessor
 				return;
 
 			pushDataDelegates.Remove(edge);
+			edgeWithRemoteCustomIO.Remove(edge);
 			edges.Remove(edge);
 		}
 
@@ -219,7 +249,7 @@ namespace GraphProcessor
 		{
 			if (customPortIOMethod != null)
 			{
-				customPortIOMethod(owner, edges);
+				customPortIOMethod(owner, edges, this);
 				return ;
 			}
 
@@ -260,7 +290,7 @@ namespace GraphProcessor
 		{
 			if (customPortIOMethod != null)
 			{
-				customPortIOMethod(owner, edges);
+				customPortIOMethod(owner, edges, this);
 				return ;
 			}
 

@@ -4,6 +4,34 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0]
+
+### Fixed
+- Fixed relay node packing workflow and some deletion issues
+- Fixed ArgumentOutOfRange in relay node
+
+## [0.8.0]
+
+### Added
+- Depth first compute order (enabled by default) instead of breadth first
+- Cycle detection in the graph, cyclic nodes are now marked with a compute order of -2
+- Added a node create menu when dropping an edge in the graph that also connects the edge to the new node (like in ShaderGraph or VFX Graph)
+- Added ITypeAdapter.GetIncompatibleTypes to list all the incompatible types (prevent automatic casting / unwanted connectable ports, can be used to exclude a conversion to System.Object for example)
+- Added a node inspector to show advanced settings in the inspector, see `ShowInInspector.cs` and `DrawDefaultInspector(bool fromInspector)` for more details.
+
+### Changed
+- Improved a lot the edge connection behavior for both input and output ports
+- Improved domain reload performances by using `TypeCache` when possible
+- Node copy/pasting now keeps the connected edges
+- Copy/paste now works between multiple graph windows
+- Copy/paste now supports node groups
+
+### Fixed
+- Fixed delete of multiple relay node at the same time breaking the graph
+- Fixed undo event not being unregistered when closing the graph
+- Fixed undo on parameter creation / deletion
+- Fixed toolbar AddButtons deleting existing buttons
+
 ## [0.7.1]
 
 ### Added

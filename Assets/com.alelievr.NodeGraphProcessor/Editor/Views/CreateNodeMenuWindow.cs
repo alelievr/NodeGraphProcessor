@@ -16,14 +16,21 @@ namespace GraphProcessor
         BaseGraphView   graphView;
         EditorWindow    window;
         Texture2D       icon;
+        EdgeView        edgeFilter;
+        PortView        inputPortView;
+        PortView        outputPortView;
 
-        public void Initialize(BaseGraphView graphView, EditorWindow window)
+        public void Initialize(BaseGraphView graphView, EditorWindow window, EdgeView edgeFilter = null)
         {
             this.graphView = graphView;
             this.window = window;
+            this.edgeFilter = edgeFilter;
+            this.inputPortView = edgeFilter?.input as PortView;
+            this.outputPortView = edgeFilter?.output as PortView;
 
             // Transparent icon to trick search window into indenting items
-            icon = new Texture2D(1, 1);
+            if (icon == null)
+                icon = new Texture2D(1, 1);
             icon.SetPixel(0, 0, new Color(0, 0, 0, 0));
             icon.Apply();
         }
@@ -45,7 +52,16 @@ namespace GraphProcessor
             };
 
             // Sort menu by alphabetical order and submenus
+            if (edgeFilter == null)
+                CreateStandardNodeMenu(tree);
+            else
+                CreateEdgeNodeMenu(tree);
 
+            return tree;
+        }
+
+        void CreateStandardNodeMenu(List<SearchTreeEntry> tree)
+        {
             var nodeEntries = graphView.FilterCreateNodeMenuEntries().OrderBy(k => k.Key);
             var titlePaths = new HashSet< string >();
             
@@ -85,8 +101,70 @@ namespace GraphProcessor
                     userData = nodeMenuItem.Value
                 });
 			}
+        }
 
-            return tree;
+        void CreateEdgeNodeMenu(List<SearchTreeEntry> tree)
+        {
+            var entries = NodeProvider.GetEdgeCreationNodeMenuEntry((edgeFilter.input ?? edgeFilter.output) as PortView);
+
+            var titlePaths = new HashSet< string >();
+
+            var nodePaths = NodeProvider.GetNodeMenuEntries();
+
+            tree.Add(new SearchTreeEntry(new GUIContent($"Relay", icon))
+            {
+                level = 1,
+                userData = new NodeProvider.PortDescription{
+			        nodeType = typeof(RelayNode),
+			        portType = typeof(System.Object),
+			        isInput = inputPortView != null,
+			        portFieldName = inputPortView != null ? nameof(RelayNode.output) : nameof(RelayNode.input),
+			        portIdentifier = "0",
+			        portDisplayName = inputPortView != null ? "Out" : "In",
+                }
+            });
+
+			foreach (var nodeMenuItem in entries.OrderBy(n => n.nodeType.ToString()))
+			{
+                var nodePath = nodePaths.FirstOrDefault(kp => kp.Value == nodeMenuItem.nodeType).Key;
+
+                // Ignore the node if it's not in the create menu
+                if (String.IsNullOrEmpty(nodePath))
+                    continue;
+
+                var nodeName = nodePath;
+                var level    = 0;
+                var parts    = nodePath.Split('/');
+
+                if (parts.Length > 1)
+                {
+                    level++;
+                    nodeName = parts[parts.Length - 1];
+                    var fullTitleAsPath = "";
+                    
+                    for (var i = 0; i < parts.Length - 1; i++)
+                    {
+                        var title = parts[i];
+                        fullTitleAsPath += title;
+                        level = i + 1;
+
+                        // Add section title if the node is in subcategory
+                        if (!titlePaths.Contains(fullTitleAsPath))
+                        {
+                            tree.Add(new SearchTreeGroupEntry(new GUIContent(title)){
+                                level = level
+                            });
+                            titlePaths.Add(fullTitleAsPath);
+                        }
+                    }
+                }
+
+                tree.Add(new SearchTreeEntry(new GUIContent($"{nodeName}:  {nodeMenuItem.portDisplayName}", icon))
+                {
+                    level    = level + 1,
+                    userData = nodeMenuItem
+                });
+			}
         }
 
         // Node creation when validate a choice
@@ -97,8 +175,20 @@ namespace GraphProcessor
             var windowMousePosition = windowRoot.ChangeCoordinatesTo(windowRoot.parent, context.screenMousePosition - window.position.position);
             var graphMousePosition = graphView.contentViewContainer.WorldToLocal(windowMousePosition);
 
-            graphView.RegisterCompleteObjectUndo("Added " + searchTreeEntry.userData);
-            graphView.AddNode(BaseNode.CreateFromType((Type)searchTreeEntry.userData, graphMousePosition));
+            var nodeType = searchTreeEntry.userData is Type ? (Type)searchTreeEntry.userData : ((NodeProvider.PortDescription)searchTreeEntry.userData).nodeType;
+            
+            graphView.RegisterCompleteObjectUndo("Added " + nodeType);
+            var view = graphView.AddNode(BaseNode.CreateFromType(nodeType, graphMousePosition));
+
+            if (searchTreeEntry.userData is NodeProvider.PortDescription desc)
+            {
+                var targetPort = view.GetPortViewFromFieldName(desc.portFieldName, desc.portIdentifier);
+                if (inputPortView == null)
+                    graphView.Connect(targetPort, outputPortView);
+                else
+                    graphView.Connect(inputPortView,  targetPort);
+            }
+
             return true;
         }
     }

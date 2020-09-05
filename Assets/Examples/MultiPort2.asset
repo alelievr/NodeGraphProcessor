@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes:
   - type: CustomPortData, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"70ba29bb-8952-42c4-a417-d522dc5de308","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":623.0,"y":116.0,"width":111.0,"height":149.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0}'
+    jsonDatas: '{"GUID":"70ba29bb-8952-42c4-a417-d522dc5de308","computeOrder":2,"position":{"serializedVersion":"2","x":623.0,"y":116.0,"width":111.0,"height":149.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0}'
   - type: PrefabNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"4870a082-99ce-4796-a0ed-0b7679b3b75c","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":234.0,"y":78.80000305175781,"width":136.0,"height":223.0},"expanded":false,"debug":false,"nodeLock":false,"output":{"fileID":1636575971871760,"guid":"f78111bdbdeaf6644806fc49fcaf1d30","type":3}}'
+    jsonDatas: '{"GUID":"4870a082-99ce-4796-a0ed-0b7679b3b75c","computeOrder":1,"position":{"serializedVersion":"2","x":234.0,"y":78.80000305175781,"width":136.0,"height":223.0},"expanded":false,"debug":false,"nodeLock":false,"output":{"fileID":1636575971871760,"guid":"f78111bdbdeaf6644806fc49fcaf1d30","type":3}}'
   - type: CustomPortsNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"1170b803-926d-41dd-8f9a-31ab41d8eac4","computeOrder":2,"canProcess":true,"position":{"serializedVersion":"2","x":423.0,"y":283.0,"width":129.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"inputs":[],"outputs":[],"portCount":2}'
+    jsonDatas: '{"GUID":"1170b803-926d-41dd-8f9a-31ab41d8eac4","computeOrder":2,"position":{"serializedVersion":"2","x":423.0,"y":283.0,"width":129.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"inputs":[],"outputs":[],"portCount":2}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"dad63bae-fb0e-495e-97a4-cfcc6f40b0c4","computeOrder":1,"canProcess":true,"position":{"serializedVersion":"2","x":244.0,"y":335.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0,"input":0.0}'
+    jsonDatas: '{"GUID":"dad63bae-fb0e-495e-97a4-cfcc6f40b0c4","computeOrder":1,"position":{"serializedVersion":"2","x":244.0,"y":335.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0,"input":0.0}'
   edges:
   - GUID: 0c62cdb9-c3bc-4fbe-97c2-00b86ecace64
     owner: {fileID: 11400000}
@@ -39,6 +39,7 @@ MonoBehaviour:
     inputPortIdentifier: 2
     outputPortIdentifier: 
   groups: []
+  stackNodes: []
   pinnedElements:
   - position:
       serializedVersion: 2
@@ -63,3 +64,5 @@ MonoBehaviour:
   exposedParameters: []
   position: {x: -63, y: -59, z: 0}
   scale: {x: 1.3225, y: 1.3225, z: 1}
+  references:
+    version: 1

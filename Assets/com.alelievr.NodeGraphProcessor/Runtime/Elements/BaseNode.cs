@@ -89,6 +89,19 @@ namespace GraphProcessor
 		/// </summary>
 		public event Action< SerializableEdge >			onAfterEdgeDisconnected;
 
+		/// <summary>
+		/// Triggered after a single/list of port(s) is updated, the parameter is the field name
+		/// </summary>
+		public event Action< string >					onPortsUpdated;
+
+		[NonSerialized]
+		bool _needsInspector = false;
+
+		/// <summary>
+		/// Does the node needs to be visible in the inspector (when selected).
+		/// </summary>
+		public virtual bool			needsInspector => _needsInspector;
+
 		[NonSerialized]
 		Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
 
@@ -105,9 +118,10 @@ namespace GraphProcessor
 			public FieldInfo					info;
 			public bool							input;
 			public bool							isMultiple;
+			public string						tooltip;
 			public CustomPortBehaviorDelegate	behavior;
 
-			public NodeFieldInformation(FieldInfo info, string name, bool input, bool isMultiple, CustomPortBehaviorDelegate behavior)
+			public NodeFieldInformation(FieldInfo info, string name, bool input, bool isMultiple, string tooltip, CustomPortBehaviorDelegate behavior)
 			{
 				this.input = input;
 				this.isMultiple = isMultiple;
@@ -115,8 +129,25 @@ namespace GraphProcessor
 				this.name = name;
 				this.fieldName = info.Name;
 				this.behavior = behavior;
+				this.tooltip = tooltip;
 			}
 		}
+
+		struct PortUpdate
+		{
+			public List<string>	fieldNames;
+			public BaseNode		node;
+
+			public void Deconstruct(out List<string> fieldNames, out BaseNode node)
+			{
+				fieldNames = this.fieldNames;
+				node = this.node;
+			}
+		}
+
+		// Used in port update algorithm
+		Stack<PortUpdate> fieldsToUpdate = new Stack<PortUpdate>();
+		HashSet<PortUpdate> updatedFields = new HashSet<PortUpdate>();
 
 		/// <summary>
 		/// Creates a node of type T at a certain position
@@ -158,7 +189,12 @@ namespace GraphProcessor
 
 			ExceptionToLog.Call(() => Enable());
 
-			foreach (var nodeFieldKP in nodeFields)
+			InitializePorts();
+		}
+
+		internal void InitializePorts()
+		{
+			foreach (var nodeFieldKP in nodeFields.ToList().OrderByDescending(kp => kp.Value.info.MetadataToken))
 			{
 				var nodeField = nodeFieldKP.Value;
 
@@ -169,7 +205,7 @@ namespace GraphProcessor
 				else
 				{
 					// If we don't have a custom behavior on the node, we just have to create a simple port
-					AddPort(nodeField.input, nodeField.fieldName, new PortData { acceptMultipleEdges = nodeField.isMultiple, displayName = nodeField.name });
+					AddPort(nodeField.input, nodeField.fieldName, new PortData { acceptMultipleEdges = nodeField.isMultiple, displayName = nodeField.name, tooltip = nodeField.tooltip });
 				}
 			}
 		}
@@ -185,25 +221,31 @@ namespace GraphProcessor
 		/// <summary>
 		/// Update all ports of the node
 		/// </summary>
-		public void UpdateAllPorts()
+		public bool UpdateAllPorts()
 		{
+			bool changed = false;
+
 			foreach (var field in nodeFields)
-				UpdatePortsForField(field.Value.fieldName);
+				changed |= UpdatePortsForField(field.Value.fieldName);
+
+			return changed;
 		}
 
 		/// <summary>
-		/// Update the ports related to one C# property field
+		/// Update the ports related to one C# property field (only for this node)
 		/// </summary>
 		/// <param name="fieldName"></param>
-		public void UpdatePortsForField(string fieldName)
+		public bool UpdatePortsForFieldLocal(string fieldName)
 		{
+			bool changed = false;
+
 			if (!nodeFields.ContainsKey(fieldName))
-				return ;
+				return false;
 
 			var fieldInfo = nodeFields[fieldName];
 
 			if (fieldInfo.behavior == null)
-				return ;
+				return false;
 
 			List< string > finalPorts = new List< string >();
 
@@ -221,6 +263,7 @@ namespace GraphProcessor
 				if (port == null)
 				{
 					AddPort(fieldInfo.input, fieldName, portData);
+					changed = true;
 				}
 				else
 				{
@@ -231,8 +274,12 @@ namespace GraphProcessor
 							graph.Disconnect(edge.GUID);
 					}
 
-					// patch the port datas
-					port.portData.CopyFrom(portData);
+					// patch the port data
+					if (port.portData != portData)
+					{
+						port.portData.CopyFrom(portData);
+						changed = true;
+					}
 				}
 
 				finalPorts.Add(portData.identifier);
@@ -247,12 +294,82 @@ namespace GraphProcessor
 				{
 					// If the current port does not appear in the list of final ports, we remove it
 					if (!finalPorts.Any(id => id == currentPort.portData.identifier))
+					{
 						RemovePort(fieldInfo.input, currentPort);
+						changed = true;
+					}
 				}
 			}
+
+			// Make sure the port order is correct:
+			portCollection.Sort((p1, p2) => {
+				int p1Index = finalPorts.FindIndex(id => p1.portData.identifier == id);
+				int p2Index = finalPorts.FindIndex(id => p2.portData.identifier == id);
+
+				if (p1Index == -1 || p2Index == -1)
+					return 0;
+
+				return p1Index.CompareTo(p2Index);
+			});
+
+			onPortsUpdated?.Invoke(fieldName);
+
+			return changed;
 		}
 
+		/// <summary>
+		/// Update the ports related to one C# property field and all connected nodes in the graph
+		/// </summary>
+		/// <param name="fieldName"></param>
+		public bool UpdatePortsForField(string fieldName)
+		{
+			bool changed  = false;
+
+			fieldsToUpdate.Clear();
+			updatedFields.Clear();
+
+			fieldsToUpdate.Push(new PortUpdate{fieldNames = new List<string>(){fieldName}, node = this});
+
+			// Iterate through all the ports that needs to be updated, following graph connection when the 
+			// port is updated. This is required ton have type propagation multiple nodes that changes port types
+			// are connected to each other (i.e. the relay node)
+			while (fieldsToUpdate.Count != 0)
+			{
+				var (fields, node) = fieldsToUpdate.Pop();
+
+				// Avoid updating twice a port
+				if (updatedFields.Any((t) => t.node == node && fields.SequenceEqual(t.fieldNames)))
+					continue;
+				updatedFields.Add(new PortUpdate{fieldNames = fields, node = node});
+
+				foreach (var field in fields)
+				{
+					if (node.UpdatePortsForFieldLocal(field))
+					{
+						foreach (var port in node.IsFieldInput(field) ? (NodePortContainer)node.inputPorts : node.outputPorts)
+						{
+							if (port.fieldName != field)
+								continue;
+
+							foreach(var edge in port.GetEdges())
+							{
+								var edgeNode = (node.IsFieldInput(field)) ? edge.outputNode : edge.inputNode;
+								var fieldsWithBehavior = edgeNode.nodeFields.Values.Where(f => f.behavior != null).Select(f => f.fieldName).ToList();
+								fieldsToUpdate.Push(new PortUpdate{fieldNames = fieldsWithBehavior, node = edgeNode});
+							}
+						}
+						changed = true;
+					}
+				}
+			}
+
+			return changed;
+		}
+
+		HashSet<BaseNode> portUpdateHashSet = new HashSet<BaseNode>();
+
 		internal void DisableInternal() => ExceptionToLog.Call(() => Disable());
+		internal void DestroyInternal() => ExceptionToLog.Call(() => Destroy());
 
 		/// <summary>
 		/// Called only when the node is created, not when instantiated
@@ -271,9 +388,15 @@ namespace GraphProcessor
 			{
 				var inputAttribute = field.GetCustomAttribute< InputAttribute >();
 				var outputAttribute = field.GetCustomAttribute< OutputAttribute >();
+				var tooltipAttribute = field.GetCustomAttribute< TooltipAttribute >();
+				var showInInspector = field.GetCustomAttribute< ShowInInspector >();
 				bool isMultiple = false;
 				bool input = false;
 				string name = field.Name;
+				string tooltip = null;
+
+				if (showInInspector != null)
+					_needsInspector = true;
 
 				if (inputAttribute == null && outputAttribute == null)
 					continue ;
@@ -281,6 +404,7 @@ namespace GraphProcessor
 				//check if field is a collection type
 				isMultiple = (inputAttribute != null) ? inputAttribute.allowMultiple : (outputAttribute.allowMultiple);
 				input = inputAttribute != null;
+				tooltip = tooltipAttribute?.tooltip;
 
 				if (!String.IsNullOrEmpty(inputAttribute?.name))
 					name = inputAttribute.name;
@@ -288,7 +412,7 @@ namespace GraphProcessor
 					name = outputAttribute.name;
 
 				// By default we set the behavior to null, if the field have a custom behavior, it will be set in the loop just below
-				nodeFields[field.Name] = new NodeFieldInformation(field, name, input, isMultiple, null);
+				nodeFields[field.Name] = new NodeFieldInformation(field, name, input, isMultiple, tooltip, null);
 			}
 
 			foreach (var method in methods)
@@ -325,7 +449,7 @@ namespace GraphProcessor
 
 			portCollection.Add(edge);
 
-			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
+			UpdateAllPorts();
 
 			onAfterEdgeConnected?.Invoke(edge);
 		}
@@ -345,7 +469,7 @@ namespace GraphProcessor
 			if (edge.inputNode == this && !haveConnectedEdges)
 				edge.inputPort?.ResetToDefault();
 
-			UpdatePortsForField((input) ? edge.inputFieldName : edge.outputFieldName);
+			UpdateAllPorts();
 
 			onAfterEdgeDisconnected?.Invoke(edge);
 		}
@@ -371,6 +495,10 @@ namespace GraphProcessor
 		/// Called when the node is disabled
 		/// </summary>
 		protected virtual void Disable() {}
+		/// <summary>
+		/// Called when the node is removed
+		/// </summary>
+		protected virtual void Destroy() {}
 
 		/// <summary>
 		/// Override this method to implement custom processing
@@ -389,6 +517,10 @@ namespace GraphProcessor
 		/// <param name="portData">Data of the port</param>
 		public void AddPort(bool input, string fieldName, PortData portData)
 		{
+			// Fixup port data info if needed:
+			if (portData.displayType == null)
+				portData.displayType = nodeFields[fieldName].info.FieldType;
+
 			if (input)
 				inputPorts.Add(new NodePort(this, fieldName, portData));
 			else
@@ -441,6 +573,36 @@ namespace GraphProcessor
 			foreach (var port in outputPorts)
 				foreach (var edge in port.GetEdges())
 					yield return edge.inputNode;
+		}
+
+		/// <summary>
+		/// Return a node matching the condition in the dependencies of the node
+		/// </summary>
+		/// <param name="condition">Condition to choose the node</param>
+		/// <returns>Matched node or null</returns>
+		public BaseNode FindInDependencies(Func<BaseNode, bool> condition)
+		{
+			Stack<BaseNode> dependencies = new Stack<BaseNode>();
+
+			dependencies.Push(this);
+
+			int depth = 0;
+			while (dependencies.Count > 0)
+			{
+				var node = dependencies.Pop();
+
+				// Guard for infinite loop (faster than a HashSet based solution)
+				depth++;
+				if (depth > 2000)
+					break;
+
+				if (condition(node))
+					return node;
+				
+				foreach (var dep in node.GetInputNodes())
+					dependencies.Push(dep);
+			}
+			return null;
 		}
 
 		/// <summary>

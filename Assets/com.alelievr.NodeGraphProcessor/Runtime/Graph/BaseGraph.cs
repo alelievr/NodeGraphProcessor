@@ -38,10 +38,24 @@ namespace GraphProcessor
 		public BaseStackNode	removedStackNode;
 	}
 
+	/// <summary>
+	/// Compute order type used to determine the compute order integer on the nodes
+	/// </summary>
+	public enum ComputeOrderType
+	{
+		DepthFirst,
+		BreadthFirst,
+	}
+
 	[System.Serializable]
 	public class BaseGraph : ScriptableObject, ISerializationCallbackReceiver
 	{
 		static readonly int			maxComputeOrderDepth = 1000;
+		
+		/// <summary>Invalid compute order number of a node when it's inside a loop</summary>
+		public static readonly int loopComputeOrder = -2;
+		/// <summary>Invalid compute order number of a node can't process</summary>
+		public static readonly int invalidComputeOrder = -1;
 
 		/// <summary>
 		/// Json list of nodes (Serialized)
@@ -141,6 +155,8 @@ namespace GraphProcessor
 		[System.NonSerialized]
 		bool _isEnabled = false;
 		public bool isEnabled { get => _isEnabled; private set => _isEnabled = value; }
+		
+		public HashSet< BaseNode >		graphOutputs { get; private set; } = new HashSet<BaseNode>();
 
         protected virtual void OnEnable()
         {
@@ -181,6 +197,8 @@ namespace GraphProcessor
 		/// <param name="node"></param>
 		public void RemoveNode(BaseNode node)
 		{
+			node.DestroyInternal();
+
 			nodesPerGUID.Remove(node.GUID);
 
 			nodes.Remove(node);
@@ -267,15 +285,21 @@ namespace GraphProcessor
 		/// <param name="edgeGUID"></param>
 		public void Disconnect(string edgeGUID)
 		{
+			List<(BaseNode, SerializableEdge)> disconnectEvents = new List<(BaseNode, SerializableEdge)>();
+
 			edges.RemoveAll(r => {
 				if (r.GUID == edgeGUID)
 				{
-					r.inputNode?.OnEdgeDisconnected(r);
-					r.outputNode?.OnEdgeDisconnected(r);
+					disconnectEvents.Add((r.inputNode, r));
+					disconnectEvents.Add((r.outputNode, r));
 					onGraphChanges?.Invoke(new GraphChanges{ removedEdge = r });
 				}
 				return r.GUID == edgeGUID;
 			});
+
+			// Delay the edge disconnect event to avoid recursion
+			foreach (var (node, edge) in disconnectEvents)
+				node?.OnEdgeDisconnected(edge);
 		}
 
 		/// <summary>
@@ -407,15 +431,35 @@ namespace GraphProcessor
 		/// <summary>
 		/// Update the compute order of the nodes in the graph
 		/// </summary>
-		public void UpdateComputeOrder()
+		/// <param name="type">Compute order type</param>
+		public void UpdateComputeOrder(ComputeOrderType type = ComputeOrderType.DepthFirst)
 		{
 			if (nodes.Count == 0)
 				return ;
 
-			computeOrderDictionary.Clear();
-
+			// Find graph outputs (end nodes) and reset compute order
+			graphOutputs.Clear();
 			foreach (var node in nodes)
-				UpdateComputeOrder(0, node);
+			{
+				if (node.GetOutputNodes().Count() == 0)
+					graphOutputs.Add(node);
+				node.computeOrder = 0;
+			}
+
+			computeOrderDictionary.Clear();
+			infiniteLoopTracker.Clear();
+
+			switch (type)
+			{
+				default:
+				case ComputeOrderType.DepthFirst:
+					UpdateComputeOrderDepthFirst();
+					break;
+				case ComputeOrderType.BreadthFirst:
+					foreach (var node in nodes)
+						UpdateComputeOrderBreadthFirst(0, node);
+					break;
+			}
 		}
 
 		/// <summary>
@@ -556,7 +600,8 @@ namespace GraphProcessor
 		/// <returns>value</returns>
 		public T GetParameterValue< T >(string name) => (T)GetParameterValue(name);
 
-		int UpdateComputeOrder(int depth, BaseNode node)
+		HashSet<BaseNode> infiniteLoopTracker = new HashSet<BaseNode>();
+		int UpdateComputeOrderBreadthFirst(int depth, BaseNode node)
 		{
 			int computeOrder = 0;
 
@@ -569,6 +614,9 @@ namespace GraphProcessor
 			if (computeOrderDictionary.ContainsKey(node))
 				return node.computeOrder;
 
+			if (!infiniteLoopTracker.Add(node))
+				return -1;
+
 			if (!node.canProcess)
 			{
 				node.computeOrder = -1;
@@ -578,7 +626,7 @@ namespace GraphProcessor
 
 			foreach (var dep in node.GetInputNodes())
 			{
-				int c = UpdateComputeOrder(depth + 1, dep);
+				int c = UpdateComputeOrderBreadthFirst(depth + 1, dep);
 
 				if (c == -1)
 				{
@@ -596,6 +644,45 @@ namespace GraphProcessor
 			computeOrderDictionary[node] = computeOrder;
 
 			return computeOrder;
+		}
+
+		void UpdateComputeOrderDepthFirst()
+		{
+			Stack<BaseNode> dfs = new Stack<BaseNode>();
+
+			GraphUtils.FindCyclesInGraph(this, (n) => {
+				PropagateComputeOrder(n, loopComputeOrder);
+			});
+
+			int computeOrder = 0;
+			foreach (var node in GraphUtils.DepthFirstSort(this))
+			{
+				if (node.computeOrder == loopComputeOrder)
+					continue;
+				if (!node.canProcess)
+					node.computeOrder = -1;
+				else
+					node.computeOrder = computeOrder++;
+			}
+		}
+
+		void PropagateComputeOrder(BaseNode node, int computeOrder)
+		{
+			Stack<BaseNode> deps = new Stack<BaseNode>();
+			HashSet<BaseNode> loop = new HashSet<BaseNode>();
+
+			deps.Push(node);
+			while (deps.Count > 0)
+			{
+				var n = deps.Pop();
+				n.computeOrder = computeOrder;
+			
+				if (!loop.Add(n))
+					continue;
+
+				foreach (var dep in n.GetOutputNodes())
+					deps.Push(dep);
+			}
 		}
 
 		void DestroyBrokenGraphElements()
@@ -617,6 +704,9 @@ namespace GraphProcessor
 		public static bool TypesAreConnectable(Type t1, Type t2)
 		{
 			if (t1 == null || t2 == null)
+				return false;
+
+			if (TypeAdapter.AreIncompatible(t1, t2))
 				return false;
 
 			//Check if there is custom adapters for this assignation

@@ -16,7 +16,7 @@
 
 #settings-button > #icon {
     -unity-background-scale-mode: scale-to-fit;
-    background-image : resource("Icons/SettingsIcons");
+    background-image: resource("Icons/SettingsIcons");
     flex-grow: 1;
 }
 
@@ -29,13 +29,11 @@
 #contents #top .true #connector, #contents #top .true #connector #cap,
 #contents #top .false #connector, #contents #top .false #connector #cap,
 #contents #top .loopBody #connector, #contents #top .loopBody #connector #cap,
-#contents #top .loopCompleted #connector, #contents #top .loopCompleted #connector #cap,
-{
+#contents #top .loopCompleted #connector, #contents #top .loopCompleted #connector #cap {
     border-radius: 0px;
 }
 
-.Highlight
-{
+.Highlight {
     background-color: rgba(0, 63, 63, 0.8);
 }
 
@@ -93,9 +91,126 @@ ParameterNodeView #controls EnumField > VisualElement > VisualElement {
     margin-right: -2px;
 }
 
-#RightTitleContainer
-{
+#RightTitleContainer {
     justify-content: flex-end;
     flex-grow: 1;
     flex-direction: row;
+}
+
+#input-container {
+    position: absolute;
+    right: 100%;
+    top: 45px;
+    align-items: flex-end;
+    --layer: -50;
+}
+
+#input-container > .port-input-element > IntegerField,
+#input-container > .port-input-element > FloatField {
+    min-width: 30px;
+    max-width: 100px;
+}
+
+#input-container > .port-input-element > ColorField,
+#input-container > .port-input-element > ObjectField,
+#input-container > .port-input-element > CurveField {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#input-container > .port-input-element > TextField {
+    min-width: 50px;
+    max-width: 150px;
+}
+
+#input-container > .port-input-element > CurveField {
+    width: 100px;
+}
+
+#input-container > .port-input-element > Vector4Field Label,
+#input-container > .port-input-element > Vector3Field Label,
+#input-container > .port-input-element > Vector2Field Label {
+    font-size: 8px;
+    min-width: 8px;
+    flex-basis: 8px;
+    padding-top: 2px;
+    margin-right: 1px;
+}
+
+#input-container > .port-input-element > Vector4Field FloatInput,
+#input-container > .port-input-element > Vector3Field FloatInput,
+#input-container > .port-input-element > Vector2Field FloatInput {
+    min-width: 28px;
+}
+
+#input-container > .port-input-element > Vector2Field .unity-composite-field__field-spacer {
+    flex-grow: 0.01;
+}
+
+#input-container ObjectFieldSelector {
+    width: 17px;
+    height: 15px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+#input-container ObjectFieldDisplay > Label {
+    margin-top: 2px;
+}
+
+#input-container ObjectFieldDisplay > Image {
+    margin: 0;
+}
+
+#input-container > .port-input-element > ColorField {
+    width: 60px;
+}
+
+#input-container > .port-input-element > * {
+    margin-left: 2px;
+}
+
+#input-container > .port-input-element * {
+    font-size: 8px;
+}
+
+#input-container > .port-input-element {
+    max-width: 180px;
+    background-color: rgba(72, 72, 72, 0.6);
+    margin-top: 3px;
+    margin-bottom: 2px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    height: 19px;
+    overflow: hidden;
+    padding-right: 1px;
+}
+
+#input-container > .port-input-element.empty {
+    width: 0;
+}
+
+.collapsed #input-container {
+    visibility: hidden;
+}
+
+#input-container {
+    opacity: 0.6;
+}
+
+.node:checked > #input-container {
+    opacity: 1;
+}
+
+#input-container > .port-input-element IntegerInput,
+#input-container > .port-input-element FloatInput,
+#input-container > .port-input-element TextInput {
+    border-top-left-radius: 1px;
+    border-bottom-left-radius: 1px;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    padding-bottom: 1px;
+    height: 15px;
 }

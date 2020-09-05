@@ -599,7 +599,7 @@ namespace GraphProcessor
 			{
 				SaveGraphToDisk();
 				// Close pinned windows from old graph:
-				pinnedElements.Clear();
+				ClearGraphElements();
 			}
 
 			this.graph = graph;

@@ -3,3 +3,7 @@
     margin: 8px;
     width: 50px;
 }
+
+#titleContainer > #titleLabel, #titleContainer > #titleField {
+    margin-left: 55px;
+}

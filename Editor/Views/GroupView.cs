@@ -22,7 +22,9 @@ namespace GraphProcessor
         {
             styleSheets.Add(Resources.Load<StyleSheet>(groupStyle));
 		}
-
+		
+		private static void BuildContextualMenu(ContextualMenuPopulateEvent evt) {}
+		
 		public void Initialize(BaseGraphView graphView, Group block)
 		{
 			group = block;
@@ -30,7 +32,9 @@ namespace GraphProcessor
 
             title = block.title;
             SetPosition(block.position);
-
+			
+			this.AddManipulator(new ContextualMenuManipulator(BuildContextualMenu));
+			
             headerContainer.Q<TextField>().RegisterCallback<ChangeEvent<string>>(TitleChangedCallback);
             titleLabel = headerContainer.Q<Label>();
 

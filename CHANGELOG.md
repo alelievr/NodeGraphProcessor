@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Fixed relay node packing workflow and some deletion issues
 - Fixed ArgumentOutOfRange in relay node
+- Fixed relay node creation from input port
 
 ## [0.8.0]
 

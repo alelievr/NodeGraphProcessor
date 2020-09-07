@@ -103,7 +103,7 @@ namespace GraphProcessor
 		public virtual bool			needsInspector => _needsInspector;
 
 		[NonSerialized]
-		Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
+		internal Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();
 
 		[NonSerialized]
 		List< string >				messages = new List< string >();
@@ -111,7 +111,7 @@ namespace GraphProcessor
 		[NonSerialized]
 		protected BaseGraph			graph;
 
-		class NodeFieldInformation
+		internal class NodeFieldInformation
 		{
 			public string						name;
 			public string						fieldName;

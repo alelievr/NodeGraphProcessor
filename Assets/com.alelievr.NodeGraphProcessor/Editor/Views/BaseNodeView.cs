@@ -28,6 +28,7 @@ namespace GraphProcessor
         public VisualElement 					controlsContainer;
 		protected VisualElement					debugContainer;
 		protected VisualElement					rightTitleContainer;
+		private VisualElement 					inputContainerElement;
 
 		VisualElement							settings;
 		NodeSettingsView						settingsContainer;
@@ -154,6 +155,8 @@ namespace GraphProcessor
             initializing = true;
 
             SetPosition(nodeTarget.position);
+
+			AddInputContainer();
 		}
 
 		void InitializeSettings()
@@ -537,6 +540,14 @@ namespace GraphProcessor
 		Dictionary<string, VisualElement>  hideElementIfConnected = new Dictionary<string, VisualElement>();
 		Dictionary<FieldInfo, List<VisualElement>> fieldControlsMap = new Dictionary<FieldInfo, List<VisualElement>>();
 
+		protected void AddInputContainer()
+		{
+			inputContainerElement = new VisualElement {name = "input-container"};
+			mainContainer.parent.Add(inputContainerElement);
+			inputContainerElement.SendToBack();
+			inputContainerElement.pickingMode = PickingMode.Ignore;
+		}
+		
 		protected virtual void DrawDefaultInspector(bool fromInspector = false)
 		{
 			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
@@ -544,25 +555,43 @@ namespace GraphProcessor
 			foreach (var field in fields)
 			{
 				//skip if the field is not serializable
-				if (!field.IsPublic && field.GetCustomAttribute(typeof(SerializeField)) == null)
-					continue ;
+				if(!field.IsPublic && field.GetCustomAttribute(typeof(SerializeField)) == null)
+				{
+					AddEmptyField(field);
+					continue;
+				}
+
 
 				//skip if the field is an input/output and not marked as SerializedField
-				bool hasInputAttribute = field.GetCustomAttribute(typeof(InputAttribute)) != null;
+				bool hasInputAttribute         = field.GetCustomAttribute(typeof(InputAttribute)) != null;
 				bool hasInputOrOutputAttribute = hasInputAttribute || field.GetCustomAttribute(typeof(OutputAttribute)) != null;
-				if (field.GetCustomAttribute(typeof(SerializeField)) == null && hasInputOrOutputAttribute)
-					continue ;
+				bool showAsDrawer			   = !fromInspector && field.GetCustomAttribute(typeof(ShowAsDrawer)) != null;
+				if (field.GetCustomAttribute(typeof(SerializeField)) == null && hasInputOrOutputAttribute && !showAsDrawer)
+				{
+					AddEmptyField(field);
+					continue;
+				}
 
-                //skip if marked with NonSerialized or HideInInspector
-                if (field.GetCustomAttribute(typeof(System.NonSerializedAttribute)) != null || field.GetCustomAttribute(typeof(HideInInspector)) != null)
-                    continue ;
+				//skip if marked with NonSerialized or HideInInspector
+				if (field.GetCustomAttribute(typeof(System.NonSerializedAttribute)) != null || field.GetCustomAttribute(typeof(HideInInspector)) != null)
+				{
+					AddEmptyField(field);
+					continue;
+				}
 
 				// Hide the field if we want to display in in the inspector
 				var showInInspector = field.GetCustomAttribute<ShowInInspector>();
 				if (showInInspector != null && !showInInspector.showInNode && !fromInspector)
+				{
+					AddEmptyField(field);
 					continue;
+				}
 
-				var elem = AddControlField(field, ObjectNames.NicifyVariableName(field.Name));
+				var showInputDrawer = field.GetCustomAttribute(typeof(InputAttribute)) != null && field.GetCustomAttribute(typeof(SerializeField)) != null;
+				showInputDrawer |= field.GetCustomAttribute(typeof(InputAttribute)) != null && field.GetCustomAttribute(typeof(ShowAsDrawer)) != null;
+				showInputDrawer &= !fromInspector; // We can't show a drawer in the inspector
+
+				var elem = AddControlField(field, ObjectNames.NicifyVariableName(field.Name), showInputDrawer);
 				if (hasInputAttribute)
 				{
 					hideElementIfConnected[field.Name] = elem;
@@ -573,6 +602,16 @@ namespace GraphProcessor
 							elem.style.display = DisplayStyle.None;
 				}
 			}
+		}
+
+		private void AddEmptyField(FieldInfo field)
+		{
+			if(field.GetCustomAttribute(typeof(InputAttribute)) == null) return;
+			
+			var box = new VisualElement {name = field.Name};
+			box.AddToClassList("port-input-element");
+			box.AddToClassList("empty");
+			inputContainerElement.Add(box);
 		}
 
 		void UpdateFieldVisibility(string fieldName, object newValue)
@@ -609,10 +648,33 @@ namespace GraphProcessor
 			genericUpdate.Invoke(this, new object[]{info, newValue});
 		}
 
-		protected VisualElement AddControlField(string fieldName, string label = null, Action valueChangedCallback = null)
-			=> AddControlField(nodeTarget.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance), label, valueChangedCallback);
+		object GetInputFieldValueSpecific<T>(FieldInfo field)
+		{
+			if (fieldControlsMap.TryGetValue(field, out var list))
+			{
+				foreach (var inputField in list)
+				{
+					if (inputField is INotifyValueChanged<T> notify)
+						return notify.value;
+				}
+			}
+			return null;
+		}
 
-		protected VisualElement AddControlField(FieldInfo field, string label = null, Action valueChangedCallback = null)
+		static MethodInfo specificGetValue = typeof(BaseNodeView).GetMethod(nameof(GetInputFieldValueSpecific), BindingFlags.NonPublic | BindingFlags.Instance);
+		object GetInputFieldValue(FieldInfo info)
+		{
+			// Warning: Keep in sync with FieldFactory CreateField
+			var fieldType = info.FieldType.IsSubclassOf(typeof(UnityEngine.Object)) ? typeof(UnityEngine.Object) : info.FieldType;
+			var genericUpdate = specificGetValue.MakeGenericMethod(fieldType);
+
+			return genericUpdate.Invoke(this, new object[]{info});
+		}
+
+		protected VisualElement AddControlField(string fieldName, string label = null, bool showInputDrawer = false, Action valueChangedCallback = null)
+			=> AddControlField(nodeTarget.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance), label, showInputDrawer, valueChangedCallback);
+
+		protected VisualElement AddControlField(FieldInfo field, string label = null, bool showInputDrawer = false, Action valueChangedCallback = null)
 		{
 			if (field == null)
 				return null;
@@ -626,14 +688,26 @@ namespace GraphProcessor
 				// When you have the node inspector, it's possible to have multiple input fields pointing to the same
 				// property. We need to update those manually otherwise they still have the old value in the inspector.
 				UpdateOtherFieldValue(field, newValue);
-			}, label);
+			}, showInputDrawer ? "" : label);
 
 			if (!fieldControlsMap.TryGetValue(field, out var inputFieldList))
 				inputFieldList = fieldControlsMap[field] = new List<VisualElement>();
 			inputFieldList.Add(element);
 
-			if (element != null)
-				controlsContainer.Add(element);
+			if(element != null)
+			{
+				if (showInputDrawer)
+				{
+					var box = new VisualElement {name = field.Name};
+					box.AddToClassList("port-input-element");
+					box.Add(element);
+					inputContainerElement.Add(box);
+				}
+				else
+				{
+					controlsContainer.Add(element);
+				}
+			}
 
 			var visibleCondition = field.GetCustomAttribute(typeof(VisibleIf)) as VisibleIf;
 			if (visibleCondition != null)
@@ -663,6 +737,9 @@ namespace GraphProcessor
 
 		internal void OnPortConnected(PortView port)
 		{
+			if(port.direction == Direction.Input && inputContainerElement?.Q(port.fieldName) != null)
+				inputContainerElement.Q(port.fieldName).AddToClassList("empty");
+			
 			if (hideElementIfConnected.TryGetValue(port.fieldName, out var elem))
 				elem.style.display = DisplayStyle.None;
 
@@ -671,6 +748,21 @@ namespace GraphProcessor
 
 		internal void OnPortDisconnected(PortView port)
 		{
+			if (port.direction == Direction.Input && inputContainerElement?.Q(port.fieldName) != null)
+			{
+				inputContainerElement.Q(port.fieldName).RemoveFromClassList("empty");
+
+				if (nodeTarget.nodeFields.TryGetValue(port.fieldName, out var fieldInfo))
+				{
+					var valueBeforeConnection = GetInputFieldValue(fieldInfo.info);
+
+					if (valueBeforeConnection != null)
+					{
+						fieldInfo.info.SetValue(nodeTarget, valueBeforeConnection);
+					}
+				}
+			}
+			
 			if (hideElementIfConnected.TryGetValue(port.fieldName, out var elem))
 				elem.style.display = DisplayStyle.Flex;
 

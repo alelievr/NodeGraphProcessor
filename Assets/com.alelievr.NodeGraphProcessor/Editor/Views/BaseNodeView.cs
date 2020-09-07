@@ -592,7 +592,11 @@ namespace GraphProcessor
 		void UpdateOtherFieldValueSpecific<T>(FieldInfo field, object newValue)
 		{
 			foreach (var inputField in fieldControlsMap[field])
-				(inputField as INotifyValueChanged<T>).SetValueWithoutNotify((T)newValue);
+			{
+				var notify = inputField as INotifyValueChanged<T>;
+				if (notify != null)
+					notify.SetValueWithoutNotify((T)newValue);
+			}
 		}
 
 		static MethodInfo specificUpdateOtherFieldValue = typeof(BaseNodeView).GetMethod(nameof(UpdateOtherFieldValueSpecific), BindingFlags.NonPublic | BindingFlags.Instance);

@@ -186,7 +186,7 @@ namespace GraphProcessor
                 if (inputPortView == null)
                     graphView.Connect(targetPort, outputPortView);
                 else
-                    graphView.Connect(inputPortView,  targetPort);
+                    graphView.Connect(inputPortView, targetPort);
             }
 
             return true;

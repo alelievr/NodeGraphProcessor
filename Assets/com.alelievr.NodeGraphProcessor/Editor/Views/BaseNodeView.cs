@@ -155,6 +155,8 @@ namespace GraphProcessor
             initializing = true;
 
             SetPosition(nodeTarget.position);
+
+			AddInputContainer();
 		}
 
 		void InitializeSettings()
@@ -548,7 +550,6 @@ namespace GraphProcessor
 		
 		protected virtual void DrawDefaultInspector(bool fromInspector = false)
 		{
-			AddInputContainer();
 			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
 			foreach (var field in fields)
@@ -560,10 +561,12 @@ namespace GraphProcessor
 					continue;
 				}
 
+
 				//skip if the field is an input/output and not marked as SerializedField
 				bool hasInputAttribute         = field.GetCustomAttribute(typeof(InputAttribute)) != null;
 				bool hasInputOrOutputAttribute = hasInputAttribute || field.GetCustomAttribute(typeof(OutputAttribute)) != null;
-				if (field.GetCustomAttribute(typeof(SerializeField)) == null && hasInputOrOutputAttribute)
+				bool showAsDrawer			   = !fromInspector && field.GetCustomAttribute(typeof(ShowAsDrawer)) != null;
+				if (field.GetCustomAttribute(typeof(SerializeField)) == null && hasInputOrOutputAttribute && !showAsDrawer)
 				{
 					AddEmptyField(field);
 					continue;
@@ -584,9 +587,11 @@ namespace GraphProcessor
 					continue;
 				}
 
-				var isSerializedInput = field.GetCustomAttribute(typeof(InputAttribute)) != null && field.GetCustomAttribute(typeof(SerializeField)) != null;
+				var showInputDrawer = field.GetCustomAttribute(typeof(InputAttribute)) != null && field.GetCustomAttribute(typeof(SerializeField)) != null;
+				showInputDrawer |= field.GetCustomAttribute(typeof(InputAttribute)) != null && field.GetCustomAttribute(typeof(ShowAsDrawer)) != null;
+				showInputDrawer &= !fromInspector; // We can't show a drawer in the inspector
 
-				var elem = AddControlField(field, ObjectNames.NicifyVariableName(field.Name), isSerializedInput);
+				var elem = AddControlField(field, ObjectNames.NicifyVariableName(field.Name), showInputDrawer);
 				if (hasInputAttribute)
 				{
 					hideElementIfConnected[field.Name] = elem;
@@ -639,10 +644,33 @@ namespace GraphProcessor
 			genericUpdate.Invoke(this, new object[]{info, newValue});
 		}
 
-		protected VisualElement AddControlField(string fieldName, string label = null, bool isSerializedInput = false, Action valueChangedCallback = null)
-			=> AddControlField(nodeTarget.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance), label, isSerializedInput, valueChangedCallback);
+		object GetInputFieldValueSpecific<T>(FieldInfo field)
+		{
+			if (fieldControlsMap.TryGetValue(field, out var list))
+			{
+				foreach (var inputField in list)
+				{
+					if (inputField is INotifyValueChanged<T> notify)
+						return notify.value;
+				}
+			}
+			return null;
+		}
 
-		protected VisualElement AddControlField(FieldInfo field, string label = null, bool isSerializedInput = false, Action valueChangedCallback = null)
+		static MethodInfo specificGetValue = typeof(BaseNodeView).GetMethod(nameof(GetInputFieldValueSpecific), BindingFlags.NonPublic | BindingFlags.Instance);
+		object GetInputFieldValue(FieldInfo info)
+		{
+			// Warning: Keep in sync with FieldFactory CreateField
+			var fieldType = info.FieldType.IsSubclassOf(typeof(UnityEngine.Object)) ? typeof(UnityEngine.Object) : info.FieldType;
+			var genericUpdate = specificGetValue.MakeGenericMethod(fieldType);
+
+			return genericUpdate.Invoke(this, new object[]{info});
+		}
+
+		protected VisualElement AddControlField(string fieldName, string label = null, bool showInputDrawer = false, Action valueChangedCallback = null)
+			=> AddControlField(nodeTarget.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance), label, showInputDrawer, valueChangedCallback);
+
+		protected VisualElement AddControlField(FieldInfo field, string label = null, bool showInputDrawer = false, Action valueChangedCallback = null)
 		{
 			if (field == null)
 				return null;
@@ -656,7 +684,7 @@ namespace GraphProcessor
 				// When you have the node inspector, it's possible to have multiple input fields pointing to the same
 				// property. We need to update those manually otherwise they still have the old value in the inspector.
 				UpdateOtherFieldValue(field, newValue);
-			}, isSerializedInput ? "" : label);
+			}, showInputDrawer ? "" : label);
 
 			if (!fieldControlsMap.TryGetValue(field, out var inputFieldList))
 				inputFieldList = fieldControlsMap[field] = new List<VisualElement>();
@@ -664,7 +692,7 @@ namespace GraphProcessor
 
 			if(element != null)
 			{
-				if(isSerializedInput)
+				if (showInputDrawer)
 				{
 					var box = new VisualElement {name = field.Name};
 					box.AddToClassList("port-input-element");
@@ -716,8 +744,20 @@ namespace GraphProcessor
 
 		internal void OnPortDisconnected(PortView port)
 		{
-			if(port.direction == Direction.Input && inputContainerElement?.Q(port.fieldName) != null)
+			if (port.direction == Direction.Input && inputContainerElement?.Q(port.fieldName) != null)
+			{
 				inputContainerElement.Q(port.fieldName).RemoveFromClassList("empty");
+
+				if (nodeTarget.nodeFields.TryGetValue(port.fieldName, out var fieldInfo))
+				{
+					var valueBeforeConnection = GetInputFieldValue(fieldInfo.info);
+
+					if (valueBeforeConnection != null)
+					{
+						fieldInfo.info.SetValue(nodeTarget, valueBeforeConnection);
+					}
+				}
+			}
 			
 			if (hideElementIfConnected.TryGetValue(port.fieldName, out var elem))
 				elem.style.display = DisplayStyle.Flex;

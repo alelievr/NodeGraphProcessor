@@ -196,4 +196,9 @@ namespace GraphProcessor
 			this.showInNode = showInNode;
 		}
 	}
+	
+	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+	public class ShowAsDrawer : Attribute
+	{
+	}
 }

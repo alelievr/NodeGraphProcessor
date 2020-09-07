@@ -12,7 +12,7 @@ public class ColorNodeView : BaseNodeView
 {
 	public override void Enable()
 	{
-		controlsContainer.Add(AddControlField(nameof(ColorNode.color)));
+		AddControlField(nameof(ColorNode.color));
 		style.width = 200;
 	}
 }

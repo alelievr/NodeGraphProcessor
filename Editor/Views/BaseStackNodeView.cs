@@ -47,13 +47,17 @@ namespace GraphProcessor
 
         void InitializeInnerNodes()
         {
+            int i = 0;
             // Sanitize the GUID list in case some nodes were removed
             stackNode.nodeGUIDs.RemoveAll(nodeGUID =>
             {
                 if (owner.graph.nodesPerGUID.ContainsKey(nodeGUID))
                 {
                     var node = owner.graph.nodesPerGUID[nodeGUID];
-                    AddElement(owner.nodeViewsPerNode[node]);
+                    var view = owner.nodeViewsPerNode[node];
+                    view.AddToClassList("stack-child__" + i);
+                    i++;
+                    AddElement(view);
                     return false;
                 }
                 else

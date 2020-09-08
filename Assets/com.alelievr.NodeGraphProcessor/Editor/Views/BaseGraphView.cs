@@ -626,9 +626,9 @@ namespace GraphProcessor
 
 		public void ClearGraphElements()
 		{
+			RemoveGroups();
 			RemoveNodeViews();
 			RemoveEdges();
-			RemoveGroups();
 			RemoveStackNodeViews();
 			RemovePinnedElementViews();
 		}

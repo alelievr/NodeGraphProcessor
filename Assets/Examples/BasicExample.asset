@@ -41,10 +41,7 @@ MonoBehaviour:
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"42bd42f7-7c33-4d6c-8cff-24e051b0e644","computeOrder":12,"position":{"serializedVersion":"2","x":88.17012786865235,"y":211.09640502929688,"width":74.0,"height":90.0},"expanded":false,"debug":false,"nodeLock":false}'
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"c647797a-972a-442d-86fe-327825c1fe11","computeOrder":14,"position":{"serializedVersion":"2","x":347.8111267089844,"y":446.6003723144531,"width":108.00000762939453,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0,"input":0.0}'
-  - type: RelayNode, com.alelievr.NodeGraphProcessor.Runtime, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"e896146f-3f81-490d-85e4-18ffdb60f87c","computeOrder":13,"position":{"serializedVersion":"2","x":174.81114196777345,"y":426.6003723144531,"width":200.0,"height":200.0},"expanded":false,"debug":false,"nodeLock":false,"unpackOutput":false,"inputEdgeCount":0}'
+    jsonDatas: '{"GUID":"c647797a-972a-442d-86fe-327825c1fe11","computeOrder":13,"position":{"serializedVersion":"2","x":347.8111267089844,"y":446.6003723144531,"width":108.00000762939453,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0,"input":0.0}'
   - type: CustomPortData, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"acf42c0b-dc50-476f-8d14-b9e756fd1e2d","computeOrder":15,"position":{"serializedVersion":"2","x":605.9840087890625,"y":456.5184020996094,"width":115.0,"height":149.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -98,14 +95,6 @@ MonoBehaviour:
     outputFieldName: output
     inputPortIdentifier: 
     outputPortIdentifier: 
-  - GUID: 8076c785-67a2-4fb8-87f0-867d022b8da6
-    owner: {fileID: 11400000}
-    inputNodeGUID: c647797a-972a-442d-86fe-327825c1fe11
-    outputNodeGUID: e896146f-3f81-490d-85e4-18ffdb60f87c
-    inputFieldName: input
-    outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 0
   - GUID: 46622e62-ce25-420f-8a6f-3211fb51fdac
     owner: {fileID: 11400000}
     inputNodeGUID: 0bb81f44-19ac-4b15-a7a6-f0f319a6d5c7
@@ -252,7 +241,7 @@ MonoBehaviour:
     input: 1
     settings:
       isHidden: 0
-  position: {x: -78, y: -181, z: 0}
+  position: {x: 299, y: 85, z: 0}
   scale: {x: 0.8695652, y: 0.8695652, z: 1}
   references:
     version: 1

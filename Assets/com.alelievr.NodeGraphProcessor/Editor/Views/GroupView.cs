@@ -85,11 +85,18 @@ namespace GraphProcessor
 
         protected override void OnElementsRemoved(IEnumerable<GraphElement> elements)
         {
-            foreach (var elem in elements)
+            // Only remove the nodes when the group exists in the hierarchy
+            if (parent != null)
             {
-                if (elem is BaseNodeView nodeView)
-                    group.innerNodeGUIDs.Remove(nodeView.nodeTarget.GUID);
+                foreach (var elem in elements)
+                {
+                    if (elem is BaseNodeView nodeView)
+                    {
+                        group.innerNodeGUIDs.Remove(nodeView.nodeTarget.GUID);
+                    }
+                }
             }
+
             base.OnElementsRemoved(elements);
         }
 

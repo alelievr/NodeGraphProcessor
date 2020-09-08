@@ -29,8 +29,6 @@ namespace GraphProcessor
         {
             this.stackNode = stackNode;
             styleSheets.Add(Resources.Load<StyleSheet>(styleSheet));
-
-            onNodeReordered += (n, a, b) => Debug.Log(n.nodeTarget + " | " + a + " -> " + b);
         }
 
         /// <inheritdoc />

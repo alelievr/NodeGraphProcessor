@@ -13,17 +13,24 @@ namespace GraphProcessor
     /// </summary>
     public class BaseStackNodeView : StackNode
     {
+        public delegate void ReorderNodeAction(BaseNodeView nodeView, int oldIndex, int newIndex);
+    
         /// <summary>
         /// StackNode data from the graph
         /// </summary>
         protected internal BaseStackNode    stackNode;
-        protected BaseGraphView owner;
-        readonly string         styleSheet = "GraphProcessorStyles/BaseStackNodeView";
+        protected BaseGraphView             owner;
+        readonly string                     styleSheet = "GraphProcessorStyles/BaseStackNodeView";
+
+        /// <summary>Triggered when a node is re-ordered in the stack.</summary>
+        public event ReorderNodeAction      onNodeReordered;
 
         public BaseStackNodeView(BaseStackNode stackNode)
         {
             this.stackNode = stackNode;
             styleSheets.Add(Resources.Load<StyleSheet>(styleSheet));
+
+            onNodeReordered += (n, a, b) => Debug.Log(n.nodeTarget + " | " + a + " -> " + b);
         }
 
         /// <inheritdoc />
@@ -84,8 +91,13 @@ namespace GraphProcessor
             {
                 var index = Mathf.Clamp(proposedIndex, 0, stackNode.nodeGUIDs.Count - 1);
 
-                if (stackNode.nodeGUIDs.Contains(nodeView.nodeTarget.GUID))
+                int oldIndex = stackNode.nodeGUIDs.FindIndex(g => g == nodeView.nodeTarget.GUID);
+                if (oldIndex != -1)
+                {
                     stackNode.nodeGUIDs.Remove(nodeView.nodeTarget.GUID);
+                    if (oldIndex != index)
+                        onNodeReordered?.Invoke(nodeView, oldIndex, index);
+                }
 
                 stackNode.nodeGUIDs.Insert(index, nodeView.nodeTarget.GUID);
             }

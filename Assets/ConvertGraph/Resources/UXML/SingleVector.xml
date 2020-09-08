@@ -1,7 +1,0 @@
-<UXML xmlns="UnityEngine.UIElements">
-  <!-- Creates the button. -->
-  <FloatField class="SingleVector">      
-    <!-- Adds a VisualElement child (corresponding to the button's icon). -->
-    <!-- <VisualElement class="SingleVector-icon"/>    -->
-  </FloatField>
-</UXML>

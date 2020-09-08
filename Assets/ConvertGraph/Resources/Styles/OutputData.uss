@@ -1,0 +1,10 @@
+#RightTitleContainer
+{
+    justify-content: flex-end;
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+#title {
+    background-color: rgba(51, 238, 238, 0.8);
+}

@@ -1,0 +1,12 @@
+using UnityEngine;
+using Cr7Sund.ConvertGraph;
+
+[ConvertClass("Custom/Converters")]  // Catalog, e.g. Menu Level 1: Custom, Menu Levl 2: Covnerters
+public static class #SCRIPTNAME#
+{
+    [ConvertFunc("Mamba Out")]      // Converter description
+    public static void ConvertWhatYouWant(int a, out int b, float c = 3)
+    {
+        b = (int) (a + c);
+    }
+}

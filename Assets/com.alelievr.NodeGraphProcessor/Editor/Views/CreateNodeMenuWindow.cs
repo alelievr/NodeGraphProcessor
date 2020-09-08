@@ -108,7 +108,7 @@ namespace GraphProcessor
             };
         }
 
-        void CreateEdgeNodeMenu(List<SearchTreeEntry> tree)
+        protected virtual void CreateEdgeNodeMenu(List<SearchTreeEntry> tree)
         {
             var entries = NodeProvider.GetEdgeCreationNodeMenuEntry((edgeFilter.input ?? edgeFilter.output) as PortView);
 
@@ -130,23 +130,23 @@ namespace GraphProcessor
             });
 
 			foreach (var nodeMenuItem in entries.OrderBy(n => n.nodeType.ToString()))
-			{
-                var nodePath = nodePaths.FirstOrDefault(kp => kp.Value == nodeMenuItem.nodeType).Key;
+            {
+                var nodePath = GetEdgeNodePath(nodePaths, nodeMenuItem);
 
                 // Ignore the node if it's not in the create menu
                 if (String.IsNullOrEmpty(nodePath))
                     continue;
 
                 var nodeName = nodePath;
-                var level    = 0;
-                var parts    = nodePath.Split('/');
+                var level = 0;
+                var parts = nodePath.Split('/');
 
                 if (parts.Length > 1)
                 {
                     level++;
                     nodeName = parts[parts.Length - 1];
                     var fullTitleAsPath = "";
-                    
+
                     for (var i = 0; i < parts.Length - 1; i++)
                     {
                         var title = parts[i];
@@ -156,7 +156,8 @@ namespace GraphProcessor
                         // Add section title if the node is in subcategory
                         if (!titlePaths.Contains(fullTitleAsPath))
                         {
-                            tree.Add(new SearchTreeGroupEntry(new GUIContent(title)){
+                            tree.Add(new SearchTreeGroupEntry(new GUIContent(title))
+                            {
                                 level = level
                             });
                             titlePaths.Add(fullTitleAsPath);
@@ -168,6 +169,9 @@ namespace GraphProcessor
             }
         }
 
+        protected virtual string GetEdgeNodePath(Dictionary<string, Type> nodePaths, NodeProvider.PortDescription nodeMenuItem)=>
+             nodePaths.FirstOrDefault(kp => kp.Value == nodeMenuItem.nodeType).Key;
+        
         protected virtual SearchTreeEntry AddEdgeNodeSearchEntry(NodeProvider.PortDescription nodeMenuItem, string nodeName, int level)
         {
             return new SearchTreeEntry(new GUIContent($"{nodeName}:  {nodeMenuItem.portDisplayName}", icon))
@@ -188,7 +192,7 @@ namespace GraphProcessor
             if (searchTreeEntry.userData is Type nodeType)
             {
                 graphView.RegisterCompleteObjectUndo("Added " + nodeType);
-                var view = graphView.AddNode(BaseNode.CreateFromType(nodeType, graphMousePosition));
+                var view = graphView.AddNode(CreateNode(nodeType, graphMousePosition));
             }
             else if (searchTreeEntry.userData is NodeProvider.PortDescription desc)
             {
@@ -213,7 +217,7 @@ namespace GraphProcessor
             return view.GetPortViewFromFieldName(desc.portFieldName, desc.portIdentifier);
         }
 
-
+        protected virtual BaseNode CreateNode(Type nodeType, Vector2 graphMousePosition) => BaseNode.CreateFromType(nodeType, graphMousePosition);
         protected virtual BaseNode CreateCustomNode(string menuItem, Vector2 graphMousePosition) { return null; }
     }
 }

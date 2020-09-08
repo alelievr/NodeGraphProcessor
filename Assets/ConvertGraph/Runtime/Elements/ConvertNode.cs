@@ -12,10 +12,12 @@ namespace Cr7Sund.ConvertGraph
     {
         private Func<List<object>, object> converting;
 
-        const string convertFuncName = ConvertCollector.ConverMethodName;
-        [HideInInspector] public TypeInfo typeInfo;
+        [HideInInspector] public string convertFuncName;
+        [HideInInspector] public TypeInfo classTypeInfo;
+        [HideInInspector] public string description;
 
-        public Type convertClassType => Assembly.Load(typeInfo.assemblyName).GetType(typeInfo.typeName);
+
+        public Type convertClassType => Assembly.Load(classTypeInfo.assemblyName).GetType(classTypeInfo.fullName);
         protected MethodInfo MInfo => convertClassType.GetMethod(convertFuncName);
         public ParameterInfo[] ParameterInfos => MInfo.GetParameters();
 
@@ -28,25 +30,15 @@ namespace Cr7Sund.ConvertGraph
         private int defaultIndex = -1;
         private int outputIndex = 0;
 
-        public string tID;
-        public int gLevel;
-
-        public override string name => convertClassType.ToString().Split('.').LastOrDefault();
+        public override string name => convertFuncName;
 
         protected override void Process()
         {
-            tID = treeID;
-            gLevel = graphLevel;
-            //https://codeblog.jonskeet.uk/2008/08/09/making-reflection-fly-and-exploring-delegates/
+            //PLAN replace method invoke by delegate https://codeblog.jonskeet.uk/2008/08/09/making-reflection-fly-and-exploring-delegates/
             // converting = (Func<List<object>, object>)
             //              Delegate.CreateDelegate(typeof(Func<List<object>, object>), null, method);
             // value = converting(inputs);
 
-            // TODO a message center to handle warning and error
-            foreach (var item in inputs)
-            {
-                if (item == null) AddMessage("Using Default Values", NodeMessageType.Warning);
-            }
 
             var paramList = new List<object>();
             int i = 0;
@@ -76,7 +68,15 @@ namespace Cr7Sund.ConvertGraph
             }
 
             object[] parameters = paramList.ToArray();
-            MInfo.Invoke(null, parameters);
+            try
+            {
+                MInfo.Invoke(null, parameters);
+            }
+            catch
+            {
+                // PLAN a message center to handle warning and error
+                AddMessage("The input data is null or there is wrong with your converter logic", NodeMessageType.Warning);  // Maybe you are assuming your test value is been delete
+            }
 
             for (i = inputIndex; i < inputIndex + outputLength; i++)
             {
@@ -157,7 +157,7 @@ namespace Cr7Sund.ConvertGraph
                 }
                 catch
                 {
-                    throw new Exception(typeInfo.typeName);
+                    throw new Exception(classTypeInfo.fullName);
                 }
             }
 

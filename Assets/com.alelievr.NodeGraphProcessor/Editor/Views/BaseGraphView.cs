@@ -176,7 +176,7 @@ namespace GraphProcessor
 			return JsonUtility.ToJson(data, true);
 		}
 
-		bool CanPasteSerializedDataCallback(string serializedData)
+		public bool CanPasteSerializedDataCallback(string serializedData)
 		{
 			try {
 				return JsonUtility.FromJson(serializedData, typeof(CopyPasteHelper)) != null;

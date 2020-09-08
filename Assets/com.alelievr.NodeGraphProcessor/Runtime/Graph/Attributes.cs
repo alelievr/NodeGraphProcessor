@@ -197,16 +197,27 @@ namespace GraphProcessor
 		}
 	}
 
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-	public class ConvertFuncAttribute : Attribute
-	{
-		// public Func<>;
-		public string catalog;
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    public class ConvertClassAttribute : Attribute
+    {
+        // public Func<>;
+        public string catalog;
 
-		public ConvertFuncAttribute(string converterName)
-		{
-			this.catalog = converterName;
+        public ConvertClassAttribute(string converterName)
+        {
+            this.catalog = converterName;
 
-		}
-	}
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    public class ConvertFuncAttribute : Attribute
+    {
+        public string hint;
+        public ConvertFuncAttribute(string hint)
+        {
+            this.hint = hint;
+        }
+    }
+		
 }

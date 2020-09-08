@@ -1,74 +1,40 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Cr7Sund.ConvertGraph;
+using System;
 using GraphProcessor;
 
-[ConvertFunc("ConvertCommon/Convet2Color")]
-public static class Convert2Color
+[ConvertClass("Custom/Converters")]  // Catalog, e.g. Menu Level 1: Custom, Menu Levl 2: Covnerters
+public static class TestConverter
 {
-    public static void Convert(int a, int bTest, float c, float d, out Color color)
+    [ConvertFunc("Mamba Out")]      // Converter description
+    public static void ConvertWhatYouWant(int a, out int b, float c = 3)
     {
-        color = new Vector4(a + 2, bTest, c, d);
-    }
-}
-
-[ConvertFunc("ConvertCommon/ConvertV4ToFloats")]
-public static class ConvertV4ToFloats
-{
-    public static void Convert(Vector4 v4, out float a, out float b, out float c, out float d)
-    {
-        a = v4.x;
-        b = v4.y;
-        c = v4.z;
-        d = v4.w;
-    }
-}
-
-[ConvertFunc("ConvertCommon/Convet2IntAndFloat")]
-public static class Convet2IntAndFloat
-{
-    public static void Convert(float a, float b, float c, float d, out int oa, out float ob)
-    {
-        oa = (int)a;
-        ob = b + c;
+        b = (int)(a + c);
     }
 
-}
-
-[ConvertFunc("ConvertCommon/ConvetStr2Float")]
-public static class ConvetStr2Float
-{
-    public static void Convert(string str, out int oa, out float ob)
+    [ConvertFunc("Return the different type of string length")]
+    public static void StrLegnth(string str, out float length, out int count)
     {
-        oa = 2;
-        ob = 4f;
+        length = Convert.ToInt32(str.Length);
+        count = str.Length;
     }
 
-}
 
-[ConvertFunc("ConvertCommon/ConvetBool2Str")]
-public static class ConvetBool2Str
-{
-    public static void Convert(bool tf, out string str)
+    [ConvertFunc("Create a str with int")]
+    public static void CreateStr(int a, out string str)
     {
-        str = "Hello World";
+        str = a.ToString();
     }
-}
 
-
-[ConvertFunc("ConvertBack/ConvetBackToStr")]
-public static class ConvetBackToStr
-{
-    public static void Convert(float a, float d, out string str)
+    [ConvertFunc("")]
+    public static void Str2Bool(string str, out bool tf)
     {
-        str = "Hello World";
+        tf = str.Length == 0;
     }
-}
 
-[ConvertFunc("ConvertBack/ConvertBackToBool")]
-public static class ConvertBackToBool
-{
-    public static void Convert(float a, float d, out bool tf)
+    [ConvertFunc("")]
+    public static void Bool2Str(bool tf, out string str)
     {
-        tf = true;
+        str = tf ? "true" : "false";
     }
 }

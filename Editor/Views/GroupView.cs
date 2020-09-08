@@ -83,6 +83,16 @@ namespace GraphProcessor
             base.OnElementsAdded(elements);
         }
 
+        protected override void OnElementsRemoved(IEnumerable<GraphElement> elements)
+        {
+            foreach (var elem in elements)
+            {
+                if (elem is BaseNodeView nodeView)
+                    group.innerNodeGUIDs.Remove(nodeView.nodeTarget.GUID);
+            }
+            base.OnElementsRemoved(elements);
+        }
+
         public void UpdateGroupColor(Color newColor)
         {
             group.color = newColor;

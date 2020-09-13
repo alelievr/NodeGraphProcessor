@@ -70,7 +70,7 @@ namespace GraphProcessor
 			{
 				nodeCreatePortDescription.Add(new PortDescription{
 					nodeType = nodeType,
-					portType = p.fieldInfo.FieldType,
+					portType = p.portData.displayType ?? p.fieldInfo.FieldType,
 					isInput = input,
 					portFieldName = p.fieldName,
 					portDisplayName = p.portData.displayName ?? p.fieldName,

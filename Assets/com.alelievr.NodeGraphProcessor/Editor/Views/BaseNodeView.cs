@@ -305,12 +305,12 @@ namespace GraphProcessor
 			if (p.direction == Direction.Input)
 			{
 				if (inputPortViews.Remove(p))
-					inputContainer.Remove(p);
+					p.RemoveFromHierarchy();
 			}
 			else
 			{
 				if (outputPortViews.Remove(p))
-					outputContainer.Remove(p);
+					p.RemoveFromHierarchy();
 			}
 
 			List< PortView > ports;
@@ -918,7 +918,7 @@ namespace GraphProcessor
 		// 	}
 		// }
 
-		public new bool RefreshPorts()
+		public virtual new bool RefreshPorts()
 		{
 			// If a port behavior was attached to one port, then
 			// the port count might have been updated by the node
@@ -957,7 +957,7 @@ namespace GraphProcessor
 			return base.RefreshPorts();
 		}
 
-		protected void ForceUpdatePorts()
+		public void ForceUpdatePorts()
 		{
 			nodeTarget.UpdateAllPorts();
 

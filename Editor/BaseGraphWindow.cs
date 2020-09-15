@@ -27,6 +27,8 @@ namespace GraphProcessor
 			get { return graphView != null && graphView.graph != null; }
 		}
 
+		bool						reloadWorkaround = false;
+
 		public event Action< BaseGraph >	graphLoaded;
 		public event Action< BaseGraph >	graphUnloaded;
 
@@ -38,13 +40,30 @@ namespace GraphProcessor
 			InitializeRootView();
 
 			if (graph != null)
+				LoadGraph();
+			else
+				reloadWorkaround = true;
+		}
+
+		protected virtual void Update()
+		{
+			// Workaround for the Refresh option of the editor window:
+			// When Refresh is clicked, OnEnable is called before the serialized data in the
+			// editor window is deserialized, causing the graph view to not be loaded
+			if (reloadWorkaround && graph != null)
 			{
-				// We wait for the graph to be initialized
-				if (graph.isEnabled)
-					InitializeGraph(graph);
-				else
-					graph.onEnabled += () => InitializeGraph(graph);
+				LoadGraph();
+				reloadWorkaround = false;
 			}
+		}
+
+		void LoadGraph()
+		{
+            // We wait for the graph to be initialized
+            if (graph.isEnabled)
+                InitializeGraph(graph);
+            else
+                graph.onEnabled += () => InitializeGraph(graph);
 		}
 
 		/// <summary>

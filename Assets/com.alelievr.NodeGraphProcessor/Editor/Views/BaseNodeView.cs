@@ -40,7 +40,7 @@ namespace GraphProcessor
 		public event Action< PortView >			onPortConnected;
 		public event Action< PortView >			onPortDisconnected;
 
-		protected virtual bool					hasSettings => false;
+		protected virtual bool					hasSettings { get; set; }
 
         public bool								initializing = false; //Used for applying SetPosition on locked node at init.
 
@@ -173,7 +173,12 @@ namespace GraphProcessor
 				settings.Add(CreateSettingsView());
 				settingsContainer.Add(settings);
 				Add(settingsContainer);
+				
+				var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
+				foreach(var field in fields)
+					if(field.GetCustomAttribute(typeof(SettingAttribute)) != null) 
+						AddSettingField(field);
 			}
 		}
 
@@ -555,6 +560,13 @@ namespace GraphProcessor
 
 			foreach (var field in fields)
 			{
+				//skip if the field is a node setting
+				if(field.GetCustomAttribute(typeof(SettingAttribute)) != null)
+				{
+					hasSettings = true;
+					continue;
+				}
+				
 				//skip if the field is not serializable
 				if(!field.IsPublic && field.GetCustomAttribute(typeof(SerializeField)) == null)
 				{
@@ -735,6 +747,25 @@ namespace GraphProcessor
 		{
 			foreach (var kp in fieldControlsMap)
 				UpdateOtherFieldValue(kp.Key, kp.Key.GetValue(nodeTarget));
+		}
+		
+		protected void AddSettingField(FieldInfo field)
+		{
+			if (field == null)
+				return;
+
+			var label = field.GetCustomAttribute<SettingAttribute>().name;
+
+			var element = FieldFactory.CreateField(field.FieldType, field.GetValue(nodeTarget), (newValue) => {
+				owner.RegisterCompleteObjectUndo("Updated " + newValue);
+				field.SetValue(nodeTarget, newValue);
+			}, label);
+
+			if(element != null)
+			{
+				settingsContainer.Add(element);
+				element.name = field.Name;
+			}
 		}
 
 		internal void OnPortConnected(PortView port)
@@ -972,7 +1003,7 @@ namespace GraphProcessor
 			RefreshPorts();
 		}
 
-		protected virtual VisualElement CreateSettingsView() => new Label("Settings");
+		protected virtual VisualElement CreateSettingsView() => new Label("Settings") {name = "header"};
 
 		/// <summary>
 		/// Send an event to the graph telling that the content of this node have changed

@@ -14,10 +14,13 @@ public class MessageNode : BaseNode
 
 	public override string		name => "MessageNode";
 
+	[Setting("Message Type")]
+	public NodeMessageType messageType = NodeMessageType.Error;
+
 	protected override void Process()
 	{
 		if (input != 42)
-			AddMessage(k_InputIsNot42Error, NodeMessageType.Error);
+			AddMessage(k_InputIsNot42Error, messageType);
 		else
 			RemoveMessage(k_InputIsNot42Error);
 	}

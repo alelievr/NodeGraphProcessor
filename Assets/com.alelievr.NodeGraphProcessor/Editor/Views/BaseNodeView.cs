@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using System.Reflection;
 using System;
+using System.Collections;
 using System.Linq;
 using UnityEditorInternal;
 
@@ -590,6 +591,7 @@ namespace GraphProcessor
 				var showInputDrawer = field.GetCustomAttribute(typeof(InputAttribute)) != null && field.GetCustomAttribute(typeof(SerializeField)) != null;
 				showInputDrawer |= field.GetCustomAttribute(typeof(InputAttribute)) != null && field.GetCustomAttribute(typeof(ShowAsDrawer)) != null;
 				showInputDrawer &= !fromInspector; // We can't show a drawer in the inspector
+				showInputDrawer &= typeof(IEnumerable).IsAssignableFrom(field.FieldType);
 
 				var elem = AddControlField(field, ObjectNames.NicifyVariableName(field.Name), showInputDrawer);
 				if (hasInputAttribute)

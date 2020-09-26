@@ -61,6 +61,15 @@ namespace GraphProcessor
 		/// <returns></returns>
         public List< GroupView >         			groupViews = new List< GroupView >();
 
+#if UNITY_2020_1_OR_NEWER
+		/// <summary>
+		/// List of all sticky note views in the graph
+		/// </summary>
+		/// <typeparam name="StickyNoteView"></typeparam>
+		/// <returns></returns>
+		public List< StickyNoteView >				stickyNoteViews = new List<StickyNoteView>();
+#endif
+
 		/// <summary>
 		/// List of all stack node views in the graph
 		/// </summary>
@@ -330,6 +339,12 @@ namespace GraphProcessor
 							graph.RemoveStackNode(stackNodeView.stackNode);
 							RemoveElement(stackNodeView);
 							return true;
+#if UNITY_2020_1_OR_NEWER
+						case StickyNoteView stickyNoteView:
+							graph.RemoveStickyNote(stickyNoteView.note);
+							RemoveElement(stickyNoteView);
+							return true;
+#endif
 					}
 
 					return false;
@@ -400,6 +415,7 @@ namespace GraphProcessor
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			BuildGroupContextualMenu(evt);
+			BuildStickyNoteContextualMenu(evt);
 			base.BuildContextualMenu(evt);
 			BuildViewContextualMenu(evt);
 			BuildSelectAssetContextualMenu(evt);
@@ -415,6 +431,18 @@ namespace GraphProcessor
 		{
 			Vector2 position = (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
             evt.menu.AppendAction("New Group", (e) => AddSelectionsToGroup(AddGroup(new Group("New Group", position))), DropdownMenuAction.AlwaysEnabled);
+		}
+
+		/// <summary>
+		/// -Add the New Sticky Note entry to the context menu
+		/// </summary>
+		/// <param name="evt"></param>
+		protected virtual void BuildStickyNoteContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+#if UNITY_2020_1_OR_NEWER
+			Vector2 position = (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
+            evt.menu.AppendAction("New Sticky Note", (e) => AddStickyNote(new StickyNote("New Note", position)), DropdownMenuAction.AlwaysEnabled);
+#endif
 		}
 
 		/// <summary>
@@ -580,12 +608,16 @@ namespace GraphProcessor
 			RemoveNodeViews();
 			RemoveEdges();
 			RemoveGroups();
+#if UNITY_2020_1_OR_NEWER
+			RemoveStrickyNotes();
+#endif
 			RemoveStackNodeViews();
 
 			// And re-add with new up to date datas
 			InitializeNodeViews();
 			InitializeEdgeViews();
             InitializeGroups();
+			InitializeStickyNotes();
 			InitializeStackNodes();
 
 			Reload();
@@ -616,6 +648,7 @@ namespace GraphProcessor
 			InitializeEdgeViews();
 			InitializeViews();
             InitializeGroups();
+			InitializeStickyNotes();
 			InitializeStackNodes();
 
 			initialized?.Invoke();
@@ -696,6 +729,14 @@ namespace GraphProcessor
             foreach (var group in graph.groups)
                 AddGroupView(group);
         }
+
+		void InitializeStickyNotes()
+		{
+#if UNITY_2020_1_OR_NEWER
+            foreach (var group in graph.stickyNotes)
+                AddStickyNoteView(group);
+#endif
+		}
 
 		void InitializeStackNodes()
 		{
@@ -844,6 +885,39 @@ namespace GraphProcessor
 			stackNodeViews.Remove(stackNodeView);
 			RemoveElement(stackNodeView);
 		}
+
+#if UNITY_2020_1_OR_NEWER
+        public StickyNoteView AddStickyNote(StickyNote note)
+        {
+            graph.AddStickyNote(note);
+            return AddStickyNoteView(note);
+        }
+
+		public StickyNoteView AddStickyNoteView(StickyNote note)
+		{
+			var c = new StickyNoteView();
+
+			c.Initialize(this, note);
+
+			AddElement(c);
+
+            stickyNoteViews.Add(c);
+            return c;
+		}
+
+		public void RemoveStickyNoteView(StickyNoteView view)
+		{
+			stickyNoteViews.Remove(view);
+			RemoveElement(view);
+		}
+
+		public void RemoveStrickyNotes()
+		{
+			foreach (var stickyNodeView in stickyNoteViews)
+				RemoveElement(stickyNodeView);
+			stickyNoteViews.Clear();
+		}
+#endif
 
         public void AddSelectionsToGroup(GroupView view)
         {
@@ -1164,6 +1238,5 @@ namespace GraphProcessor
         }
 
         #endregion
-
     }
 }

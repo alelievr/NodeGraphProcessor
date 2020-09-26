@@ -43,17 +43,17 @@ MonoBehaviour:
   - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     jsonDatas: '{"GUID":"c647797a-972a-442d-86fe-327825c1fe11","computeOrder":13,"position":{"serializedVersion":"2","x":347.8111267089844,"y":446.6003723144531,"width":108.00000762939453,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0,"input":0.0}'
   - type: CustomPortData, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"acf42c0b-dc50-476f-8d14-b9e756fd1e2d","computeOrder":15,"position":{"serializedVersion":"2","x":605.9840087890625,"y":456.5184020996094,"width":115.0,"height":149.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0}'
+    jsonDatas: '{"GUID":"acf42c0b-dc50-476f-8d14-b9e756fd1e2d","computeOrder":14,"position":{"serializedVersion":"2","x":605.9840087890625,"y":456.5184020996094,"width":115.0,"height":149.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0}'
   - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"ea0aaa89-4654-402b-9518-0c8d3b0a0be7","computeOrder":16,"position":{"serializedVersion":"2","x":850.1000366210938,"y":509.8000183105469,"width":74.00001525878906,"height":90.0},"expanded":false,"debug":false,"nodeLock":false}'
+    jsonDatas: '{"GUID":"ea0aaa89-4654-402b-9518-0c8d3b0a0be7","computeOrder":15,"position":{"serializedVersion":"2","x":850.1000366210938,"y":509.8000183105469,"width":74.00001525878906,"height":90.0},"expanded":false,"debug":false,"nodeLock":false}'
   - type: PortConnectionTests, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"d0c72054-62bf-409c-a49f-4230da5526d5","computeOrder":17,"position":{"serializedVersion":"2","x":1248.0,"y":637.0,"width":127.0,"height":245.0},"expanded":true,"debug":false,"nodeLock":false,"padding":0.0}'
+    jsonDatas: '{"GUID":"d0c72054-62bf-409c-a49f-4230da5526d5","computeOrder":16,"position":{"serializedVersion":"2","x":1248.0,"y":637.0,"width":127.0,"height":245.0},"expanded":true,"debug":false,"nodeLock":false,"padding":0.0}'
   - type: ColorNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"9df78625-a020-4242-b1f2-00dab72837f0","computeOrder":18,"position":{"serializedVersion":"2","x":672.1738891601563,"y":765.478271484375,"width":200.0,"height":97.0},"expanded":true,"debug":false,"nodeLock":false,"color":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
+    jsonDatas: '{"GUID":"9df78625-a020-4242-b1f2-00dab72837f0","computeOrder":17,"position":{"serializedVersion":"2","x":672.1738891601563,"y":765.478271484375,"width":200.0,"height":97.0},"expanded":true,"debug":false,"nodeLock":false,"color":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: PortConnectionTests, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"0bb81f44-19ac-4b15-a7a6-f0f319a6d5c7","computeOrder":19,"position":{"serializedVersion":"2","x":1584.0,"y":639.0,"width":178.0,"height":264.0},"expanded":true,"debug":false,"nodeLock":false,"padding":0.0}'
+    jsonDatas: '{"GUID":"0bb81f44-19ac-4b15-a7a6-f0f319a6d5c7","computeOrder":18,"position":{"serializedVersion":"2","x":1584.0,"y":639.0,"width":178.0,"height":264.0},"expanded":true,"debug":false,"nodeLock":false,"padding":0.0}'
   edges:
   - GUID: 04cee6c7-b233-40e1-b41a-31f6093f1482
     owner: {fileID: 11400000}
@@ -241,8 +241,25 @@ MonoBehaviour:
     input: 1
     settings:
       isHidden: 0
-  position: {x: 299, y: 85, z: 0}
-  scale: {x: 0.8695652, y: 0.8695652, z: 1}
+  stickyNotes:
+  - position:
+      serializedVersion: 2
+      x: 548
+      y: -378
+      width: 179
+      height: 309
+    title: New Sticky Note
+    content: Write your text here
+  - position:
+      serializedVersion: 2
+      x: 224.40001
+      y: 719.285
+      width: 233
+      height: 101
+    title: New Sticky Note
+    content: Write your text here
+  position: {x: 98, y: -716, z: 0}
+  scale: {x: 1.520875, y: 1.520875, z: 1}
   references:
     version: 1
     00000000:

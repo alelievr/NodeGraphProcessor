@@ -154,3 +154,6 @@ For more details consult our [Github Project page](https://github.com/alelievr/N
 
 #### Field Drawers (Thanks [@TeorikDeli](https://github.com/TeorikDeli)!)
 ![](https://user-images.githubusercontent.com/6877923/92417811-775f9d80-f164-11ea-9031-e6b61c98b88e.png)
+
+### Sticky Notes (2020.1 or more requires)
+![image](https://user-images.githubusercontent.com/6877923/94344807-208e0b00-0022-11eb-9f93-62acd6478e30.png)

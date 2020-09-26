@@ -28,6 +28,13 @@ namespace GraphProcessor
 			this.note = note;
 			owner = graphView;
 
+            this.Q<TextField>("title-field").RegisterCallback<ChangeEvent<string>>(e => {
+                note.title = e.newValue;
+            });
+            this.Q<TextField>("contents-field").RegisterCallback<ChangeEvent<string>>(e => {
+                note.content = e.newValue;
+            });
+        
             title = note.title;
             contents = note.content;
             SetPosition(note.position);

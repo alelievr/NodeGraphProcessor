@@ -190,6 +190,7 @@ ParameterNodeView #controls EnumField > VisualElement > VisualElement {
 
 #input-container > .port-input-element.empty {
     width: 0;
+    padding: 0;
 }
 
 .collapsed #input-container {

@@ -664,6 +664,9 @@ namespace GraphProcessor
 			RemoveEdges();
 			RemoveStackNodeViews();
 			RemovePinnedElementViews();
+#if UNITY_2020_1_OR_NEWER
+			RemoveStrickyNotes();
+#endif
 		}
 
 		/// <summary>

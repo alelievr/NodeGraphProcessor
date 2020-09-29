@@ -570,7 +570,7 @@ namespace GraphProcessor
 				//skip if the field is not serializable
 				if(!field.IsPublic && field.GetCustomAttribute(typeof(SerializeField)) == null)
 				{
-					AddEmptyField(field);
+					AddEmptyField(field, fromInspector);
 					continue;
 				}
 
@@ -581,14 +581,14 @@ namespace GraphProcessor
 				bool showAsDrawer			   = !fromInspector && field.GetCustomAttribute(typeof(ShowAsDrawer)) != null;
 				if (field.GetCustomAttribute(typeof(SerializeField)) == null && hasInputOrOutputAttribute && !showAsDrawer)
 				{
-					AddEmptyField(field);
+					AddEmptyField(field, fromInspector);
 					continue;
 				}
 
 				//skip if marked with NonSerialized or HideInInspector
 				if (field.GetCustomAttribute(typeof(System.NonSerializedAttribute)) != null || field.GetCustomAttribute(typeof(HideInInspector)) != null)
 				{
-					AddEmptyField(field);
+					AddEmptyField(field, fromInspector);
 					continue;
 				}
 
@@ -596,7 +596,7 @@ namespace GraphProcessor
 				var showInInspector = field.GetCustomAttribute<ShowInInspector>();
 				if (showInInspector != null && !showInInspector.showInNode && !fromInspector)
 				{
-					AddEmptyField(field);
+					AddEmptyField(field, fromInspector);
 					continue;
 				}
 
@@ -618,9 +618,9 @@ namespace GraphProcessor
 			}
 		}
 
-		private void AddEmptyField(FieldInfo field)
+		private void AddEmptyField(FieldInfo field, bool fromInspector)
 		{
-			if(field.GetCustomAttribute(typeof(InputAttribute)) == null) return;
+			if(field.GetCustomAttribute(typeof(InputAttribute)) == null || fromInspector) return;
 			
 			var box = new VisualElement {name = field.Name};
 			box.AddToClassList("port-input-element");

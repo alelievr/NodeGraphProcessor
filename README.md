@@ -43,7 +43,7 @@ public class SubNode : BaseNode
 ### Unity Compatible versions
 
 This project requires at least Unity **2019.3** with a scripting runtime version of 4.x in player settings.
-The current Unity version used for the project is **2019.3.12f1**
+The current Unity version used for the project is **2019.3.12f1**, **2020.1.0+** is fine too.
 
 ### Installation
 

@@ -236,6 +236,20 @@ namespace GraphProcessor
 		}
 
 		/// <summary>
+		/// Update all ports of the node without updating the connected ports. Only use this method when you need to update all the nodes ports in your graph.
+		/// </summary>
+		public bool UpdateAllPortsLocal()
+		{
+			bool changed = false;
+
+			foreach (var field in nodeFields)
+				changed |= UpdatePortsForFieldLocal(field.Value.fieldName);
+
+			return changed;
+		}
+
+
+		/// <summary>
 		/// Update the ports related to one C# property field (only for this node)
 		/// </summary>
 		/// <param name="fieldName"></param>

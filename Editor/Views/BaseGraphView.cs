@@ -322,11 +322,14 @@ namespace GraphProcessor
 							Disconnect(edge);
 							return true;
 						case BaseNodeView node:
-							ExceptionToLog.Call(() => node.OnRemoved());
-							graph.RemoveNode(node.nodeTarget);
-							RemoveElement(node);
-							if (Selection.activeObject == nodeInspector)
-								UpdateNodeInspectorSelection();
+							if(node.nodeTarget.canDelete)
+							{ 
+							    ExceptionToLog.Call(() => node.OnRemoved());
+							    graph.RemoveNode(node.nodeTarget);
+							    RemoveElement(node);
+							    if (Selection.activeObject == nodeInspector)
+								    UpdateNodeInspectorSelection();
+                            }
 							return true;
 						case GroupView group:
 							graph.RemoveGroup(group.group);
@@ -1210,7 +1213,7 @@ namespace GraphProcessor
 		public virtual IEnumerable< KeyValuePair< string, Type > > FilterCreateNodeMenuEntries()
 		{
 			// By default we don't filter anything
-			foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries())
+			foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries(graph.GetType()))
 				yield return nodeMenuItem;
 
 			// TODO: add exposed properties to this list

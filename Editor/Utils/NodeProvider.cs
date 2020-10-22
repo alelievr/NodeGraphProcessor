@@ -6,6 +6,7 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine.Assertions;
 
 namespace GraphProcessor
 {
@@ -21,12 +22,14 @@ namespace GraphProcessor
 			public string portDisplayName;
 		}
 
-		static Dictionary< Type, Type >			nodeViewPerType = new Dictionary< Type, Type >();
-		static Dictionary< string, Type >		nodePerMenuTitle = new Dictionary< string, Type >();
-		static Dictionary< Type, MonoScript >	nodeViewScripts = new Dictionary< Type, MonoScript >();
-		static Dictionary< Type, MonoScript >	nodeScripts = new Dictionary< Type, MonoScript >();
-		static List< Type >						slotTypes = new List< Type >();
-		static List< PortDescription >			nodeCreatePortDescription = new List<PortDescription>();
+        static Dictionary< string, Type >                      emptyMap = new Dictionary< string, Type >();
+		static Dictionary< Type, Type >			               nodeViewPerType = new Dictionary< Type, Type >();
+        static Dictionary<Type, Dictionary<string, Type>>      cacheNodePerMenuTitle = new Dictionary<Type, Dictionary<string, Type>>();
+		static Dictionary< Type, Dictionary< string, Type >>   nodePerMenuTitle = new Dictionary< Type, Dictionary<string, Type > >();
+		static Dictionary< Type, MonoScript >	               nodeViewScripts = new Dictionary< Type, MonoScript >();
+		static Dictionary< Type, MonoScript >	               nodeScripts = new Dictionary< Type, MonoScript >();
+		static List< Type >						               slotTypes = new List< Type >();
+		static List< PortDescription >			               nodeCreatePortDescription = new List<PortDescription>();
 
 		static NodeProvider()
 		{
@@ -85,8 +88,20 @@ namespace GraphProcessor
 
 			if (attrs != null && attrs.Length > 0)
 			{
-				foreach (var attr in attrs)
-					nodePerMenuTitle[attr.menuTitle] = type;
+                foreach (var attr in attrs)
+                {
+                    if (attr.menuTitle != null)
+                    {
+                        var currentType = attr.graphType;
+                        Dictionary<string, Type> map;
+                        if (!nodePerMenuTitle.TryGetValue(currentType, out map))
+                        {
+                            nodePerMenuTitle[currentType] = map = new Dictionary<string, Type>();
+                        }
+
+                        map[attr.menuTitle] = type;
+                    }
+                }
 			}
 
 			var nodeScriptAsset = FindScriptFromClassName(type.Name);
@@ -154,10 +169,48 @@ namespace GraphProcessor
 			return view;
 		}
 
-		public static Dictionary< string, Type >	GetNodeMenuEntries()
+		public static Dictionary< Type, Dictionary< string, Type > >	GetNodeMenuEntries()
 		{
 			return nodePerMenuTitle;
 		}
+
+        public static Dictionary<string, Type> GetNodeMenuEntries(Type type)
+        {
+			Assert.IsNotNull(type);
+			Assert.IsTrue(type == typeof(BaseGraph) || type.IsSubclassOf(typeof(BaseGraph)));
+            Dictionary<string, Type> result;
+            if (!cacheNodePerMenuTitle.TryGetValue(type, out result))
+            {
+                cacheNodePerMenuTitle[type] = result = new Dictionary<string, Type>();
+                var currentType = type;
+                while (currentType != null && (currentType == typeof(BaseGraph) || currentType.IsSubclassOf(typeof(BaseGraph))))
+                {
+                    var nodeMenuEntriesDirect = GetNodeMenuEntriesDirect(currentType);
+                    if (nodeMenuEntriesDirect != null)
+                    {
+                        foreach (var pair in nodeMenuEntriesDirect)
+                        {
+                            if (!result.ContainsKey(pair.Key))
+                            {
+                                result[pair.Key] = pair.Value;
+                            }
+                        }
+                    }
+
+                    currentType = currentType.BaseType;
+                }
+            }
+
+            return result;
+        }
+
+        public static Dictionary<string, Type> GetNodeMenuEntriesDirect(Type type)
+        {
+            Assert.IsTrue(type == typeof(BaseGraph) || type.IsSubclassOf(typeof(BaseGraph)));
+            Dictionary<string, Type> result;
+            nodePerMenuTitle.TryGetValue(type, out result);
+            return result;
+        }
 
 		public static MonoScript GetNodeViewScript(Type type)
 		{

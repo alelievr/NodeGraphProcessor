@@ -54,15 +54,17 @@ namespace GraphProcessor
 	public class NodeMenuItemAttribute : Attribute
 	{
 		public string	menuTitle;
+        public Type     graphType;
 
 		/// <summary>
 		/// Register the node in the NodeProvider class. The node will also be available in the node creation window.
 		/// </summary>
 		/// <param name="menuTitle">Path in the menu, use / as folder separators</param>
-		public NodeMenuItemAttribute(string menuTitle = null)
+		public NodeMenuItemAttribute(string menuTitle = null, Type graphType = null)
 		{
 			this.menuTitle = menuTitle;
-		}
+            this.graphType = graphType ?? typeof(BaseGraph);
+        }
 	}
 
 	/// <summary>

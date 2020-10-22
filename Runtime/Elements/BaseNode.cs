@@ -111,6 +111,8 @@ namespace GraphProcessor
 		[NonSerialized]
 		protected BaseGraph			graph;
 
+        public virtual bool canDelete { get; } = true;
+
 		internal class NodeFieldInformation
 		{
 			public string						name;

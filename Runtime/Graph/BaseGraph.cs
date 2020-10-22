@@ -202,6 +202,8 @@ namespace GraphProcessor
 		/// <param name="node"></param>
 		public void RemoveNode(BaseNode node)
 		{
+			if(!node.canDelete) return;
+
 			node.DestroyInternal();
 
 			nodesPerGUID.Remove(node.GUID);

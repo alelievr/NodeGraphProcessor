@@ -108,6 +108,14 @@ The user manual is hosted using [Github Wiki](https://github.com/alelievr/NodeGr
 
 For more details consult our [Github Project page](https://github.com/alelievr/NodeGraphProcessor/projects/2).
 
+### Projects made with NodeGraphProcessor
+
+#### [Mixture](https://github.com/alelievr/Mixture)
+
+[![image](https://user-images.githubusercontent.com/6877923/98482247-61239b80-2200-11eb-9d83-a1cba4cc376a.png)](https://github.com/alelievr/Mixture)
+
+Want to be in the made with list? [Send a message to the issue #14](https://github.com/alelievr/NodeGraphProcessor/issues/14)
+
 ### Gallery
 
 #### Minimap

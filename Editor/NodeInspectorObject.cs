@@ -87,5 +87,11 @@ namespace GraphProcessor
             selectedNodes = views;
             nodeSelectionUpdated?.Invoke();
         }
+
+        public virtual void NodeViewRemoved(BaseNodeView view)
+        {
+            selectedNodes.Remove(view);
+            nodeSelectionUpdated?.Invoke();
+        }
     }
 }

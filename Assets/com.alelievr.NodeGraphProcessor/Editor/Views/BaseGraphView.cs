@@ -604,6 +604,14 @@ namespace GraphProcessor
 			// so the one that are not serialized need to be synchronized)
 			graph.Deserialize();
 
+			// Get selected nodes
+			var selectedNodeGUIDs = new List<string>();
+			foreach (var e in selection)
+			{
+				if (e is BaseNodeView v && this.Contains(v))
+					selectedNodeGUIDs.Add(v.nodeTarget.GUID);
+			}
+	
 			// Remove everything
 			RemoveNodeViews();
 			RemoveEdges();
@@ -623,6 +631,15 @@ namespace GraphProcessor
 			Reload();
 
 			UpdateComputeOrder();
+
+			// Restore selection after re-creating all views
+			// selection = nodeViews.Where(v => selectedNodeGUIDs.Contains(v.nodeTarget.GUID)).Select(v => v as ISelectable).ToList();
+			foreach (var guid in selectedNodeGUIDs)
+			{
+				AddToSelection(nodeViews.FirstOrDefault(n => n.nodeTarget.GUID == guid));
+			}
+
+			UpdateNodeInspectorSelection();
 		}
 
 		public void Initialize(BaseGraph graph)

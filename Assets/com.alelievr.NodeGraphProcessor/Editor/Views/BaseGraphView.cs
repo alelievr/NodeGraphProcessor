@@ -321,10 +321,11 @@ namespace GraphProcessor
 						case EdgeView edge:
 							Disconnect(edge);
 							return true;
-						case BaseNodeView node:
-							ExceptionToLog.Call(() => node.OnRemoved());
-							graph.RemoveNode(node.nodeTarget);
-							RemoveElement(node);
+						case BaseNodeView nodeView:
+							nodeInspector.NodeViewRemoved(nodeView);
+							ExceptionToLog.Call(() => nodeView.OnRemoved());
+							graph.RemoveNode(nodeView.nodeTarget);
+							RemoveElement(nodeView);
 							if (Selection.activeObject == nodeInspector)
 								UpdateNodeInspectorSelection();
 							return true;

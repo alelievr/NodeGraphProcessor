@@ -918,19 +918,6 @@ namespace GraphProcessor
 			var portViewList = portViews.ToList();
 			var portsList = ports.ToList();
 
-			if (portViewList.Count == portsList.Count)
-			{
-				bool needReorder = false;
-
-				// Check if we need to re-order the ports:
-				for (int i = 0; i < portsList.Count; i++)
-					if (portsList[i].portData.identifier != portViewList[i].portData.identifier)
-						needReorder = true;
-					
-				if (!needReorder)
-					return;
-			}
-
 			// Re-order the port views to match the ports order in case a custom behavior re-ordered the ports
 			for (int i = 0; i < portsList.Count; i++)
 			{

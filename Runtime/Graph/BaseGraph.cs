@@ -419,6 +419,13 @@ namespace GraphProcessor
 		// so we can load objects references
 		public void Deserialize()
 		{
+			// Disable nodes correctly before removing them:
+			if (nodes != null)
+			{
+				foreach (var node in nodes)
+					node.DisableInternal();
+			}
+
 			nodes.Clear();
 
 			foreach (var serializedNode in serializedNodes.ToList())

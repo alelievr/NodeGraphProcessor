@@ -321,15 +321,13 @@ namespace GraphProcessor
 						case EdgeView edge:
 							Disconnect(edge);
 							return true;
-						case BaseNodeView node:
-							if(node.nodeTarget.canDelete)
-							{ 
-							    ExceptionToLog.Call(() => node.OnRemoved());
-							    graph.RemoveNode(node.nodeTarget);
-							    RemoveElement(node);
-							    if (Selection.activeObject == nodeInspector)
-								    UpdateNodeInspectorSelection();
-                            }
+						case BaseNodeView nodeView:
+							nodeInspector.NodeViewRemoved(nodeView);
+							ExceptionToLog.Call(() => nodeView.OnRemoved());
+							graph.RemoveNode(nodeView.nodeTarget);
+							RemoveElement(nodeView);
+							if (Selection.activeObject == nodeInspector)
+								UpdateNodeInspectorSelection();
 							return true;
 						case GroupView group:
 							graph.RemoveGroup(group.group);
@@ -607,6 +605,14 @@ namespace GraphProcessor
 			// so the one that are not serialized need to be synchronized)
 			graph.Deserialize();
 
+			// Get selected nodes
+			var selectedNodeGUIDs = new List<string>();
+			foreach (var e in selection)
+			{
+				if (e is BaseNodeView v && this.Contains(v))
+					selectedNodeGUIDs.Add(v.nodeTarget.GUID);
+			}
+	
 			// Remove everything
 			RemoveNodeViews();
 			RemoveEdges();
@@ -626,6 +632,15 @@ namespace GraphProcessor
 			Reload();
 
 			UpdateComputeOrder();
+
+			// Restore selection after re-creating all views
+			// selection = nodeViews.Where(v => selectedNodeGUIDs.Contains(v.nodeTarget.GUID)).Select(v => v as ISelectable).ToList();
+			foreach (var guid in selectedNodeGUIDs)
+			{
+				AddToSelection(nodeViews.FirstOrDefault(n => n.nodeTarget.GUID == guid));
+			}
+
+			UpdateNodeInspectorSelection();
 		}
 
 		public void Initialize(BaseGraph graph)

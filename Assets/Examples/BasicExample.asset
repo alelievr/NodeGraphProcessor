@@ -49,16 +49,17 @@ MonoBehaviour:
   - type: PortConnectionTests, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     jsonDatas: '{"GUID":"d0c72054-62bf-409c-a49f-4230da5526d5","computeOrder":16,"position":{"serializedVersion":"2","x":1248.0,"y":637.0,"width":127.0,"height":245.0},"expanded":true,"debug":false,"nodeLock":false,"padding":0.0}'
-  - type: ColorNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"9df78625-a020-4242-b1f2-00dab72837f0","computeOrder":17,"position":{"serializedVersion":"2","x":672.1738891601563,"y":765.478271484375,"width":200.0,"height":97.0},"expanded":true,"debug":false,"nodeLock":false,"color":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
   - type: PortConnectionTests, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"0bb81f44-19ac-4b15-a7a6-f0f319a6d5c7","computeOrder":18,"position":{"serializedVersion":"2","x":1584.0,"y":639.0,"width":178.0,"height":264.0},"expanded":true,"debug":false,"nodeLock":false,"padding":0.0}'
+    jsonDatas: '{"GUID":"0bb81f44-19ac-4b15-a7a6-f0f319a6d5c7","computeOrder":17,"position":{"serializedVersion":"2","x":1584.0,"y":639.0,"width":178.0,"height":264.0},"expanded":true,"debug":false,"nodeLock":false,"padding":0.0}'
   - type: DrawerFieldTestNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-    jsonDatas: '{"GUID":"a93ff68f-3bcb-4234-815f-f44501daf144","computeOrder":19,"position":{"serializedVersion":"2","x":716.8695678710938,"y":886.3478393554688,"width":369.0000305175781,"height":501.0},"expanded":false,"debug":false,"nodeLock":false,"vector4":{"x":0.0,"y":0.0,"z":0.0,"w":0.0},"vector3":{"x":0.0,"y":0.0,"z":0.0},"vector2":{"x":0.0,"y":0.0},"floatInput":0.0,"intInput":0,"intInput2":0,"stringInput":"Hello","color":{"r":0.0,"g":0.0,"b":0.0,"a":0.0},"gameObject":{"instanceID":0},"animationCurve":{"serializedVersion":"2","m_Curve":[],"m_PreInfinity":2,"m_PostInfinity":2,"m_RotationOrder":4},"rigidbody":{"instanceID":0},"layerMask":{"serializedVersion":"2","m_Bits":0}}'
+    jsonDatas: '{"GUID":"a93ff68f-3bcb-4234-815f-f44501daf144","computeOrder":18,"position":{"serializedVersion":"2","x":728.0,"y":893.0,"width":146.0,"height":341.0},"expanded":true,"debug":false,"nodeLock":false,"vector4":{"x":0.0,"y":0.0,"z":0.0,"w":0.0},"vector3":{"x":0.0,"y":0.0,"z":0.0},"vector2":{"x":0.0,"y":0.0},"floatInput":0.0,"intInput":0,"intInput2":0,"stringInput":"Hello","color":{"r":0.0,"g":0.0,"b":0.0,"a":0.0},"gameObject":{"instanceID":0},"animationCurve":{"serializedVersion":"2","m_Curve":[],"m_PreInfinity":2,"m_PostInfinity":2,"m_RotationOrder":4},"rigidbody":{"instanceID":0},"layerMask":{"serializedVersion":"2","m_Bits":0}}'
   - type: InspectorNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"fc76049e-5e1f-422a-a991-b02e5ed5ee67","computeOrder":20,"position":{"serializedVersion":"2","x":1024.9176025390625,"y":766.064697265625,"width":100.0,"height":100.0},"expanded":false,"debug":false,"nodeLock":false,"input":0.0,"output":0.0,"additionalSettings":false,"additionalParam":""}'
+    jsonDatas: '{"GUID":"fc76049e-5e1f-422a-a991-b02e5ed5ee67","computeOrder":19,"position":{"serializedVersion":"2","x":1024.9176025390625,"y":766.064697265625,"width":100.0,"height":100.0},"expanded":false,"debug":false,"nodeLock":false,"input":0.0,"output":0.0,"additionalSettings":false,"additionalParam":""}'
+  - type: DrawerFieldTestNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    jsonDatas: '{"GUID":"ac9a5d83-a834-41cb-89cf-eb5239cc0868","computeOrder":20,"position":{"serializedVersion":"2","x":1210.0,"y":995.4347534179688,"width":146.0,"height":341.0},"expanded":false,"debug":false,"nodeLock":false,"vector4":{"x":0.0,"y":0.0,"z":0.0,"w":0.0},"vector3":{"x":0.0,"y":0.0,"z":0.0},"vector2":{"x":0.0,"y":0.0},"floatInput":0.0,"intInput":0,"intInput2":0,"stringInput":"","color":{"r":0.0,"g":0.0,"b":0.0,"a":0.0},"gameObject":{"instanceID":0},"animationCurve":{"serializedVersion":"2","m_Curve":[],"m_PreInfinity":2,"m_PostInfinity":2,"m_RotationOrder":4},"rigidbody":{"instanceID":0},"layerMask":{"serializedVersion":"2","m_Bits":0}}'
   edges:
   - GUID: 04cee6c7-b233-40e1-b41a-31f6093f1482
     owner: {fileID: 11400000}
@@ -263,7 +264,7 @@ MonoBehaviour:
       height: 101
     title: New Sticky Note
     content: Write your text here
-  position: {x: -688, y: -349, z: 0}
+  position: {x: -416, y: -575, z: 0}
   scale: {x: 1.15, y: 1.15, z: 1}
   references:
     version: 1

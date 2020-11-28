@@ -1231,7 +1231,7 @@ namespace GraphProcessor
 		public virtual IEnumerable<(string path, Type type)> FilterCreateNodeMenuEntries()
 		{
 			// By default we don't filter anything
-			foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries())
+			foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries(graph))
 				yield return nodeMenuItem;
 
 			// TODO: add exposed properties to this list

@@ -650,6 +650,7 @@ namespace GraphProcessor
 				SaveGraphToDisk();
 				// Close pinned windows from old graph:
 				ClearGraphElements();
+				NodeProvider.UnloadGraph(graph);
 			}
 
 			this.graph = graph;
@@ -673,6 +674,8 @@ namespace GraphProcessor
 			UpdateComputeOrder();
 
 			InitializeView();
+
+			NodeProvider.LoadGraph(graph);
 		}
 
 		public void ClearGraphElements()
@@ -1225,7 +1228,7 @@ namespace GraphProcessor
 
 		protected virtual void InitializeView() {}
 
-		public virtual IEnumerable< KeyValuePair< string, Type > > FilterCreateNodeMenuEntries()
+		public virtual IEnumerable<(string path, Type type)> FilterCreateNodeMenuEntries()
 		{
 			// By default we don't filter anything
 			foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries())
@@ -1256,6 +1259,7 @@ namespace GraphProcessor
 			RemoveFromHierarchy();
 			Undo.undoRedoPerformed -= ReloadView;
 			Object.DestroyImmediate(nodeInspector);
+			NodeProvider.UnloadGraph(graph);
         }
 
         #endregion

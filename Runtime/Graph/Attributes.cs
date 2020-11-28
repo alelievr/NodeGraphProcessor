@@ -54,14 +54,16 @@ namespace GraphProcessor
 	public class NodeMenuItemAttribute : Attribute
 	{
 		public string	menuTitle;
+		public Type		onlyCompatibleWithGraph;
 
 		/// <summary>
 		/// Register the node in the NodeProvider class. The node will also be available in the node creation window.
 		/// </summary>
 		/// <param name="menuTitle">Path in the menu, use / as folder separators</param>
-		public NodeMenuItemAttribute(string menuTitle = null)
+		public NodeMenuItemAttribute(string menuTitle = null, Type onlyCompatibleWithGraph = null)
 		{
 			this.menuTitle = menuTitle;
+			this.onlyCompatibleWithGraph = onlyCompatibleWithGraph;
 		}
 	}
 
@@ -212,4 +214,7 @@ namespace GraphProcessor
 			this.name = name;
 		}
 	}
+
+	[AttributeUsage(AttributeTargets.Method)]
+	public class IsCompatibleWithGraph : Attribute {}
 }

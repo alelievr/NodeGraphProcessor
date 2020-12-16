@@ -158,6 +158,23 @@ namespace GraphProcessor
 	}
 
 	/// <summary>
+	/// Allow to bind a method to generate a specific set of ports based on a field type in a node
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+	public class CustomPortTypeBehavior : Attribute
+	{
+		/// <summary>
+		/// Target type
+		/// </summary>
+		public Type type;
+
+		public CustomPortTypeBehavior(Type type)
+		{
+			this.type = type;
+		}
+	}
+
+	/// <summary>
 	/// Allow you to have a custom view for your stack nodes
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]

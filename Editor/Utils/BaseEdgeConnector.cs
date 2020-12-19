@@ -9,19 +9,24 @@ namespace GraphProcessor
 {
 	public class BaseEdgeConnector : EdgeConnector
 	{
-		BaseEdgeDragHelper dragHelper;
+		protected BaseEdgeDragHelper dragHelper;
         Edge edgeCandidate;
-        private bool active;
+        protected bool active;
         Vector2 mouseDownPosition;
 
         internal const float k_ConnectionDistanceTreshold = 10f;
 
 		public BaseEdgeConnector(IEdgeConnectorListener listener) : base()
 		{
-            dragHelper = new BaseEdgeDragHelper(listener);
             active = false;
+            initEdgeConnector(listener);
+        }
+
+        protected void initEdgeConnector(IEdgeConnectorListener listener)
+        {
+            dragHelper = new BaseEdgeDragHelper(listener);
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
-		}
+        }
 
 		public override EdgeDragHelper edgeDragHelper => dragHelper;
 
@@ -63,7 +68,7 @@ namespace GraphProcessor
 
             mouseDownPosition = e.localMousePosition;
 
-            edgeCandidate = new EdgeView();
+            edgeCandidate = CreateEdgeView();
             edgeDragHelper.draggedPort = graphElement;
             edgeDragHelper.edgeCandidate = edgeCandidate;
 
@@ -79,6 +84,11 @@ namespace GraphProcessor
                 edgeDragHelper.Reset();
                 edgeCandidate = null;
             }
+        }
+
+        protected EdgeView CreateEdgeView()
+        {
+            return new EdgeView();
         }
 
         void OnCaptureOut(MouseCaptureOutEvent e)

@@ -263,10 +263,11 @@ namespace GraphProcessor
 			});
 		}
 
+
 		public PortView AddPort(FieldInfo fieldInfo, Direction direction, BaseEdgeConnectorListener listener, PortData portData)
 		{
 			// TODO: hardcoded value
-			PortView p = PortView.CreatePV(Orientation.Horizontal, direction, fieldInfo, portData, listener);
+			PortView p = CreatePortView(Orientation.Horizontal, direction, fieldInfo, portData, listener);
 
 			if (p.direction == Direction.Input)
 			{
@@ -293,7 +294,12 @@ namespace GraphProcessor
 			return p;
 		}
 
-		public void InsertPort(PortView portView, int index)
+        protected virtual PortView CreatePortView(Orientation horizontal, Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener listener)
+        {
+			return PortView.CreatePV(horizontal, direction, fieldInfo, portData, listener);
+        }
+
+        public void InsertPort(PortView portView, int index)
 		{
 			if (portView.direction == Direction.Input)
 				inputContainer.Insert(index, portView);

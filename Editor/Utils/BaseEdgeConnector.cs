@@ -22,7 +22,7 @@ namespace GraphProcessor
             initEdgeConnector(listener);
         }
 
-        protected void initEdgeConnector(IEdgeConnectorListener listener)
+        protected virtual void initEdgeConnector(IEdgeConnectorListener listener)
         {
             dragHelper = new BaseEdgeDragHelper(listener);
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
@@ -86,7 +86,7 @@ namespace GraphProcessor
             }
         }
 
-        protected EdgeView CreateEdgeView()
+        protected virtual EdgeView CreateEdgeView()
         {
             return new EdgeView();
         }

@@ -260,7 +260,7 @@ namespace GraphProcessor
             }
         }
 
-        protected EdgeView CreateEdgeView()
+        protected virtual EdgeView CreateEdgeView()
         {
             return new EdgeView();
         }

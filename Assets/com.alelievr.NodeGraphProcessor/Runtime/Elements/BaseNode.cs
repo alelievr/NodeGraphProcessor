@@ -190,7 +190,6 @@ namespace GraphProcessor
 		public void Initialize(BaseGraph graph)
 		{
 			this.graph = graph;
-			InitializeCustomPortTypeMethods();
 
 			ExceptionToLog.Call(() => Enable());
 
@@ -199,11 +198,6 @@ namespace GraphProcessor
 
 		void InitializeCustomPortTypeMethods()
 		{
-			// var methods = GetType().GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy);
-
-			// if (GetType().Name.Contains("Distance"))
-			// 	Debug.Log(GetType().GetMethod("GetTypeFromTextureDim", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy));
-
 			MethodInfo[] methods = new MethodInfo[0];
 			Type baseType = GetType();
 			while (true)
@@ -243,6 +237,8 @@ namespace GraphProcessor
 		/// </summary>
 		public virtual void InitializePorts()
 		{
+			InitializeCustomPortTypeMethods();
+
 			foreach (var nodeFieldKP in nodeFields.ToList().OrderByDescending(kp => kp.Value.info.MetadataToken))
 			{
 				var nodeField = nodeFieldKP.Value;

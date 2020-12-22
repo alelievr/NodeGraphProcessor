@@ -13,12 +13,17 @@ namespace GraphProcessor
     /// </summary>
     public class BaseStackNodeView : StackNode
     {
+        public delegate void ReorderNodeAction(BaseNodeView nodeView, int oldIndex, int newIndex);
+    
         /// <summary>
         /// StackNode data from the graph
         /// </summary>
         protected internal BaseStackNode    stackNode;
-        protected BaseGraphView owner;
-        readonly string         styleSheet = "GraphProcessorStyles/BaseStackNodeView";
+        protected BaseGraphView             owner;
+        readonly string                     styleSheet = "GraphProcessorStyles/BaseStackNodeView";
+
+        /// <summary>Triggered when a node is re-ordered in the stack.</summary>
+        public event ReorderNodeAction      onNodeReordered;
 
         public BaseStackNodeView(BaseStackNode stackNode)
         {
@@ -47,13 +52,17 @@ namespace GraphProcessor
 
         void InitializeInnerNodes()
         {
+            int i = 0;
             // Sanitize the GUID list in case some nodes were removed
             stackNode.nodeGUIDs.RemoveAll(nodeGUID =>
             {
                 if (owner.graph.nodesPerGUID.ContainsKey(nodeGUID))
                 {
                     var node = owner.graph.nodesPerGUID[nodeGUID];
-                    AddElement(owner.nodeViewsPerNode[node]);
+                    var view = owner.nodeViewsPerNode[node];
+                    view.AddToClassList("stack-child__" + i);
+                    i++;
+                    AddElement(view);
                     return false;
                 }
                 else
@@ -80,8 +89,13 @@ namespace GraphProcessor
             {
                 var index = Mathf.Clamp(proposedIndex, 0, stackNode.nodeGUIDs.Count - 1);
 
-                if (stackNode.nodeGUIDs.Contains(nodeView.nodeTarget.GUID))
+                int oldIndex = stackNode.nodeGUIDs.FindIndex(g => g == nodeView.nodeTarget.GUID);
+                if (oldIndex != -1)
+                {
                     stackNode.nodeGUIDs.Remove(nodeView.nodeTarget.GUID);
+                    if (oldIndex != index)
+                        onNodeReordered?.Invoke(nodeView, oldIndex, index);
+                }
 
                 stackNode.nodeGUIDs.Insert(index, nodeView.nodeTarget.GUID);
             }

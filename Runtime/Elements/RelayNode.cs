@@ -5,7 +5,7 @@ using GraphProcessor;
 using System.Linq;
 using System;
 
-[System.Serializable, NodeMenuItem("Custom/Relay")]
+[System.Serializable, NodeMenuItem("Utils/Relay")]
 public class RelayNode : BaseNode
 {
 	const string packIdentifier = "_Pack";
@@ -69,6 +69,9 @@ public class RelayNode : BaseNode
 	[CustomPortOutput(nameof(output), typeof(object), true)]
 	public void PushOutputs(List< SerializableEdge > edges, NodePort outputPort)
 	{
+		if (inputPorts.Count == 0)
+			return;
+
 		var inputPortEdges = inputPorts[0].GetEdges();
 
 		if (outputPort.portData.identifier != packIdentifier && outputIndex >= 0 && (unpackOutput || inputPortEdges.Count == 1))
@@ -120,6 +123,18 @@ public class RelayNode : BaseNode
 	[CustomPortBehavior(nameof(output))]
 	IEnumerable< PortData > OutputPortBehavior(List< SerializableEdge > edges)
 	{
+		if (inputPorts.Count == 0)
+		{
+			// Default dummy port to avoid having a relay without any output:
+			yield return new PortData {
+				displayName = "",
+				displayType = typeof(object),
+				identifier = "0",
+				acceptMultipleEdges = true,
+			};
+			yield break;
+		}
+
 		var inputPortEdges = inputPorts[0].GetEdges();
 		var underlyingPortData = GetUnderlyingPortDataList();
 		if (unpackOutput && inputPortEdges.Count == 1)

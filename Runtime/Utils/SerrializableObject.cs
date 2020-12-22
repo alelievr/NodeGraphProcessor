@@ -76,7 +76,7 @@ namespace GraphProcessor
             serializedType = value.GetType().AssemblyQualifiedName;
 
             if (value.GetType().IsPrimitive)
-                serializedValue = value.ToString();
+                serializedValue = Convert.ToString(value, CultureInfo.InvariantCulture);
             else if (value is UnityEngine.Object) //type is a unity object
             {
                 if ((value as UnityEngine.Object) == null)

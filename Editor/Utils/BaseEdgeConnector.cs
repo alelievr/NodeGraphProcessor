@@ -10,26 +10,20 @@ namespace GraphProcessor
 	public class BaseEdgeConnector : EdgeConnector
 	{
 		BaseEdgeDragHelper dragHelper;
-        Edge m_EdgeCandidate;
-        private bool m_Active;
-        Vector2 m_MouseDownPosition;
+        Edge edgeCandidate;
+        private bool active;
+        Vector2 mouseDownPosition;
 
         internal const float k_ConnectionDistanceTreshold = 10f;
 
 		public BaseEdgeConnector(IEdgeConnectorListener listener) : base()
 		{
             dragHelper = new BaseEdgeDragHelper(listener);
-            m_Active = false;
+            active = false;
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
 		}
 
-		public override EdgeDragHelper edgeDragHelper
-		{
-			get
-			{
-				return dragHelper;
-			}
-		}
+		public override EdgeDragHelper edgeDragHelper => dragHelper;
 
         protected override void RegisterCallbacksOnTarget()
         {
@@ -50,7 +44,7 @@ namespace GraphProcessor
 
         protected virtual void OnMouseDown(MouseDownEvent e)
         {
-            if (m_Active)
+            if (active)
             {
                 e.StopImmediatePropagation();
                 return;
@@ -67,15 +61,15 @@ namespace GraphProcessor
                 return;
             }
 
-            m_MouseDownPosition = e.localMousePosition;
+            mouseDownPosition = e.localMousePosition;
 
-            m_EdgeCandidate = new EdgeView();
+            edgeCandidate = new EdgeView();
             edgeDragHelper.draggedPort = graphElement;
-            edgeDragHelper.edgeCandidate = m_EdgeCandidate;
+            edgeDragHelper.edgeCandidate = edgeCandidate;
 
             if (edgeDragHelper.HandleMouseDown(e))
             {
-                m_Active = true;
+                active = true;
                 target.CaptureMouse();
 
                 e.StopPropagation();
@@ -83,30 +77,30 @@ namespace GraphProcessor
             else
             {
                 edgeDragHelper.Reset();
-                m_EdgeCandidate = null;
+                edgeCandidate = null;
             }
         }
 
         void OnCaptureOut(MouseCaptureOutEvent e)
         {
-            m_Active = false;
-            if (m_EdgeCandidate != null)
+            active = false;
+            if (edgeCandidate != null)
                 Abort();
         }
 
         protected virtual void OnMouseMove(MouseMoveEvent e)
         {
-            if (!m_Active) return;
+            if (!active) return;
 
             edgeDragHelper.HandleMouseMove(e);
-            m_EdgeCandidate.candidatePosition = e.mousePosition;
-            m_EdgeCandidate.UpdateEdgeControl();
+            edgeCandidate.candidatePosition = e.mousePosition;
+            edgeCandidate.UpdateEdgeControl();
             e.StopPropagation();
         }
 
         protected virtual void OnMouseUp(MouseUpEvent e)
         {
-            if (!m_Active || !CanStopManipulation(e))
+            if (!active || !CanStopManipulation(e))
                 return;
 
             if (CanPerformConnection(e.localMousePosition))
@@ -114,20 +108,20 @@ namespace GraphProcessor
             else
                 Abort();
 
-            m_Active = false;
-            m_EdgeCandidate = null;
+            active = false;
+            edgeCandidate = null;
             target.ReleaseMouse();
             e.StopPropagation();
         }
 
         private void OnKeyDown(KeyDownEvent e)
         {
-            if (e.keyCode != KeyCode.Escape || !m_Active)
+            if (e.keyCode != KeyCode.Escape || !active)
                 return;
 
             Abort();
 
-            m_Active = false;
+            active = false;
             target.ReleaseMouse();
             e.StopPropagation();
         }
@@ -135,18 +129,18 @@ namespace GraphProcessor
         void Abort()
         {
             var graphView = target?.GetFirstAncestorOfType<GraphView>();
-            graphView?.RemoveElement(m_EdgeCandidate);
+            graphView?.RemoveElement(edgeCandidate);
 
-            m_EdgeCandidate.input = null;
-            m_EdgeCandidate.output = null;
-            m_EdgeCandidate = null;
+            edgeCandidate.input = null;
+            edgeCandidate.output = null;
+            edgeCandidate = null;
 
             edgeDragHelper.Reset();
         }
 
         bool CanPerformConnection(Vector2 mousePosition)
         {
-            return Vector2.Distance(m_MouseDownPosition, mousePosition) > k_ConnectionDistanceTreshold;
+            return Vector2.Distance(mouseDownPosition, mousePosition) > k_ConnectionDistanceTreshold;
         }
     }
 }

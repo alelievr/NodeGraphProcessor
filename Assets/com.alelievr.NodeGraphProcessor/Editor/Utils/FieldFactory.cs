@@ -147,29 +147,44 @@ namespace GraphProcessor
 
 			VisualElement field = null;
 
-			try
+			// Handle special cases here
+			if (fieldType == typeof(LayerMask))
 			{
-				var createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(fieldType);
+				// LayerMasks inherit from INotifyValueChanged<int> instead of INotifyValueChanged<LayerMask>
+				// so we can't register it inside our factory system :(
+				var layerField = new LayerMaskField(label, ((LayerMask)value).value);
+				layerField.RegisterValueChangedCallback(e => {
+					onValueChanged(new LayerMask{ value = e.newValue});
+				});
+
+				field = layerField;
+			}
+			else
+			{
 				try
 				{
-					field = createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged, label}) as VisualElement;
-				} catch {}
-
-				// handle the Object field case
-				if (field == null && (value == null || value is UnityEngine.Object))
-				{
-					createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(typeof(UnityEngine.Object));
-					field = createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged, label}) as VisualElement;
-					if (field is ObjectField objField)
+					var createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(fieldType);
+					try
 					{
-						objField.objectType = fieldType;
-						objField.value = value as UnityEngine.Object;
+						field = createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged, label}) as VisualElement;
+					} catch {}
+
+					// handle the Object field case
+					if (field == null && (value == null || value is UnityEngine.Object))
+					{
+						createFieldSpecificMethod = createFieldMethod.MakeGenericMethod(typeof(UnityEngine.Object));
+						field = createFieldSpecificMethod.Invoke(null, new object[]{value, onValueChanged, label}) as VisualElement;
+						if (field is ObjectField objField)
+						{
+							objField.objectType = fieldType;
+							objField.value = value as UnityEngine.Object;
+						}
 					}
 				}
-			}
-			catch (Exception e)
-			{
-				Debug.LogError(e);
+				catch (Exception e)
+				{
+					Debug.LogError(e);
+				}
 			}
 
 			return field;

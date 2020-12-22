@@ -2,6 +2,7 @@
 
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using System.Reflection;
 using System.Linq.Expressions;
@@ -270,8 +271,10 @@ namespace GraphProcessor
 		/// </summary>
 		public void ResetToDefault()
 		{
-			// When type is nullable, we set it to null instead of allocating a dummy class
-			if (fieldInfo.FieldType.GetTypeInfo().IsClass)
+			// Clear lists, set classes to null and struct to default value.
+			if (typeof(IList).IsAssignableFrom(fieldInfo.FieldType))
+				(fieldInfo.GetValue(fieldOwner) as IList)?.Clear();
+			else if (fieldInfo.FieldType.GetTypeInfo().IsClass)
 				fieldInfo.SetValue(fieldOwner, null);
 			else
 			{

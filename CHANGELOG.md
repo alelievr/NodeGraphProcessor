@@ -4,6 +4,47 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.10.1]
+
+### Fixed
+- Node creation menu wasn't showing all graph specific nodes
+
+## [0.10.0]
+
+### Added
+- Added an API to exclude nodes from the creation menu either based on graph type or graph settings. See IsCompatibleWithGraph and NodeMenuItemAttribute attributes. 
+
+### Fixed
+- Fixed locale serialization issue with float and vectors
+
+## [0.9.4]
+
+### Fixed
+- Fixed port order not correct.
+
+## [0.9.3]
+
+### Fixed
+- Fix selection lost after undo / redo
+- Fix node not removed from the inspector when the node is deleted in the graph
+- Fix performance issue with port sync
+- Fix nodes not disabled when deleted due to undo/redo
+
+## [0.9.2]
+
+### Added
+- Added sticky notes (only for 2020.1+)
+
+## [0.9.0]
+
+### Added
+- Added the [ShowAsDrawer] Attribute to display a drawer beside an input port
+
+### Fixed
+- Fixed relay node packing workflow and some deletion issues
+- Fixed ArgumentOutOfRange in relay node
+- Fixed relay node creation from input port
+
 ## [0.8.0]
 
 ### Added

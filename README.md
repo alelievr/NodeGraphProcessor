@@ -43,7 +43,7 @@ public class SubNode : BaseNode
 ### Unity Compatible versions
 
 This project requires at least Unity **2019.3** with a scripting runtime version of 4.x in player settings.
-The current Unity version used for the project is **2019.3.12f1**
+The current Unity version used for the project is **2019.3.12f1**, **2020.1.0+** is fine too.
 
 ### Installation
 
@@ -108,6 +108,14 @@ The user manual is hosted using [Github Wiki](https://github.com/alelievr/NodeGr
 
 For more details consult our [Github Project page](https://github.com/alelievr/NodeGraphProcessor/projects/2).
 
+### Projects made with NodeGraphProcessor
+
+#### [Mixture](https://github.com/alelievr/Mixture)
+
+[![image](https://user-images.githubusercontent.com/6877923/98482247-61239b80-2200-11eb-9d83-a1cba4cc376a.png)](https://github.com/alelievr/Mixture)
+
+Want to be in the made with list? [Send a message to the issue #14](https://github.com/alelievr/NodeGraphProcessor/issues/14)
+
 ### Gallery
 
 #### Minimap
@@ -151,3 +159,9 @@ For more details consult our [Github Project page](https://github.com/alelievr/N
 
 #### Multi-Window support
 ![](https://user-images.githubusercontent.com/6877923/89891415-504d9480-dbd5-11ea-8b1d-873031a0677c.gif)
+
+#### Field Drawers (Thanks [@TeorikDeli](https://github.com/TeorikDeli)!)
+![](https://user-images.githubusercontent.com/6877923/92417811-775f9d80-f164-11ea-9031-e6b61c98b88e.png)
+
+### Sticky Notes (2020.1 or more required)
+![image](https://user-images.githubusercontent.com/6877923/94344807-208e0b00-0022-11eb-9f93-62acd6478e30.png)

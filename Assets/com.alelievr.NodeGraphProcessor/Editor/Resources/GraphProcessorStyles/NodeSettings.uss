@@ -1,6 +1,7 @@
 NodeSettingsView {
-    width: 300px;
     position: absolute;
+    min-width: 110px;
+    max-width: 300px;
     -unity-slice-top: 40;
     -unity-slice-left: 80;
     -unity-slice-right: 25;
@@ -16,5 +17,28 @@ NodeSettingsView > #mainContainer {
     padding-top: 4px;
     padding-left: 4px;
     padding-right: 4px;
+    padding-bottom: 4px;
+}
+
+NodeSettingsView Label#header {
+    padding-bottom: 4px;
+    -unity-font-style: bold;
+}
+
+NodeSettingsView Label.unity-text-element {
+    min-width: 110px;
+    font-size: 10px;
+    padding-right: 6px;
+}
+
+NodeSettingsView .unity-base-field > .unity-base-field__input {
+    justify-content: flex-end;
+    min-width: 20px;
+}
+
+NodeSettingsView > #mainContainer > #contentContainer {
+    padding-top: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
     padding-bottom: 4px;
 }

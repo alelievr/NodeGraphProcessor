@@ -61,6 +61,15 @@ namespace GraphProcessor
 		/// <returns></returns>
         public List< GroupView >         			groupViews = new List< GroupView >();
 
+#if UNITY_2020_1_OR_NEWER
+		/// <summary>
+		/// List of all sticky note views in the graph
+		/// </summary>
+		/// <typeparam name="StickyNoteView"></typeparam>
+		/// <returns></returns>
+		public List< StickyNoteView >				stickyNoteViews = new List<StickyNoteView>();
+#endif
+
 		/// <summary>
 		/// List of all stack node views in the graph
 		/// </summary>
@@ -312,10 +321,11 @@ namespace GraphProcessor
 						case EdgeView edge:
 							Disconnect(edge);
 							return true;
-						case BaseNodeView node:
-							ExceptionToLog.Call(() => node.OnRemoved());
-							graph.RemoveNode(node.nodeTarget);
-							RemoveElement(node);
+						case BaseNodeView nodeView:
+							nodeInspector.NodeViewRemoved(nodeView);
+							ExceptionToLog.Call(() => nodeView.OnRemoved());
+							graph.RemoveNode(nodeView.nodeTarget);
+							RemoveElement(nodeView);
 							if (Selection.activeObject == nodeInspector)
 								UpdateNodeInspectorSelection();
 							return true;
@@ -330,6 +340,12 @@ namespace GraphProcessor
 							graph.RemoveStackNode(stackNodeView.stackNode);
 							RemoveElement(stackNodeView);
 							return true;
+#if UNITY_2020_1_OR_NEWER
+						case StickyNoteView stickyNoteView:
+							graph.RemoveStickyNote(stickyNoteView.note);
+							RemoveElement(stickyNoteView);
+							return true;
+#endif
 					}
 
 					return false;
@@ -400,6 +416,7 @@ namespace GraphProcessor
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
 			BuildGroupContextualMenu(evt);
+			BuildStickyNoteContextualMenu(evt);
 			base.BuildContextualMenu(evt);
 			BuildViewContextualMenu(evt);
 			BuildSelectAssetContextualMenu(evt);
@@ -415,6 +432,18 @@ namespace GraphProcessor
 		{
 			Vector2 position = (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
             evt.menu.AppendAction("New Group", (e) => AddSelectionsToGroup(AddGroup(new Group("New Group", position))), DropdownMenuAction.AlwaysEnabled);
+		}
+
+		/// <summary>
+		/// -Add the New Sticky Note entry to the context menu
+		/// </summary>
+		/// <param name="evt"></param>
+		protected virtual void BuildStickyNoteContextualMenu(ContextualMenuPopulateEvent evt)
+		{
+#if UNITY_2020_1_OR_NEWER
+			Vector2 position = (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
+            evt.menu.AppendAction("New Sticky Note", (e) => AddStickyNote(new StickyNote("New Note", position)), DropdownMenuAction.AlwaysEnabled);
+#endif
 		}
 
 		/// <summary>
@@ -576,21 +605,42 @@ namespace GraphProcessor
 			// so the one that are not serialized need to be synchronized)
 			graph.Deserialize();
 
+			// Get selected nodes
+			var selectedNodeGUIDs = new List<string>();
+			foreach (var e in selection)
+			{
+				if (e is BaseNodeView v && this.Contains(v))
+					selectedNodeGUIDs.Add(v.nodeTarget.GUID);
+			}
+	
 			// Remove everything
 			RemoveNodeViews();
 			RemoveEdges();
 			RemoveGroups();
+#if UNITY_2020_1_OR_NEWER
+			RemoveStrickyNotes();
+#endif
 			RemoveStackNodeViews();
 
 			// And re-add with new up to date datas
 			InitializeNodeViews();
 			InitializeEdgeViews();
             InitializeGroups();
+			InitializeStickyNotes();
 			InitializeStackNodes();
 
 			Reload();
 
 			UpdateComputeOrder();
+
+			// Restore selection after re-creating all views
+			// selection = nodeViews.Where(v => selectedNodeGUIDs.Contains(v.nodeTarget.GUID)).Select(v => v as ISelectable).ToList();
+			foreach (var guid in selectedNodeGUIDs)
+			{
+				AddToSelection(nodeViews.FirstOrDefault(n => n.nodeTarget.GUID == guid));
+			}
+
+			UpdateNodeInspectorSelection();
 		}
 
 		public void Initialize(BaseGraph graph)
@@ -599,7 +649,8 @@ namespace GraphProcessor
 			{
 				SaveGraphToDisk();
 				// Close pinned windows from old graph:
-				pinnedElements.Clear();
+				ClearGraphElements();
+				NodeProvider.UnloadGraph(graph);
 			}
 
 			this.graph = graph;
@@ -616,21 +667,27 @@ namespace GraphProcessor
 			InitializeEdgeViews();
 			InitializeViews();
             InitializeGroups();
+			InitializeStickyNotes();
 			InitializeStackNodes();
 
 			initialized?.Invoke();
 			UpdateComputeOrder();
 
 			InitializeView();
+
+			NodeProvider.LoadGraph(graph);
 		}
 
 		public void ClearGraphElements()
 		{
+			RemoveGroups();
 			RemoveNodeViews();
 			RemoveEdges();
-			RemoveGroups();
 			RemoveStackNodeViews();
 			RemovePinnedElementViews();
+#if UNITY_2020_1_OR_NEWER
+			RemoveStrickyNotes();
+#endif
 		}
 
 		/// <summary>
@@ -696,6 +753,14 @@ namespace GraphProcessor
             foreach (var group in graph.groups)
                 AddGroupView(group);
         }
+
+		void InitializeStickyNotes()
+		{
+#if UNITY_2020_1_OR_NEWER
+            foreach (var group in graph.stickyNotes)
+                AddStickyNoteView(group);
+#endif
+		}
 
 		void InitializeStackNodes()
 		{
@@ -844,6 +909,39 @@ namespace GraphProcessor
 			stackNodeViews.Remove(stackNodeView);
 			RemoveElement(stackNodeView);
 		}
+
+#if UNITY_2020_1_OR_NEWER
+        public StickyNoteView AddStickyNote(StickyNote note)
+        {
+            graph.AddStickyNote(note);
+            return AddStickyNoteView(note);
+        }
+
+		public StickyNoteView AddStickyNoteView(StickyNote note)
+		{
+			var c = new StickyNoteView();
+
+			c.Initialize(this, note);
+
+			AddElement(c);
+
+            stickyNoteViews.Add(c);
+            return c;
+		}
+
+		public void RemoveStickyNoteView(StickyNoteView view)
+		{
+			stickyNoteViews.Remove(view);
+			RemoveElement(view);
+		}
+
+		public void RemoveStrickyNotes()
+		{
+			foreach (var stickyNodeView in stickyNoteViews)
+				RemoveElement(stickyNodeView);
+			stickyNoteViews.Clear();
+		}
+#endif
 
         public void AddSelectionsToGroup(GroupView view)
         {
@@ -1130,10 +1228,10 @@ namespace GraphProcessor
 
 		protected virtual void InitializeView() {}
 
-		public virtual IEnumerable< KeyValuePair< string, Type > > FilterCreateNodeMenuEntries()
+		public virtual IEnumerable<(string path, Type type)> FilterCreateNodeMenuEntries()
 		{
 			// By default we don't filter anything
-			foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries())
+			foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries(graph))
 				yield return nodeMenuItem;
 
 			// TODO: add exposed properties to this list
@@ -1161,9 +1259,9 @@ namespace GraphProcessor
 			RemoveFromHierarchy();
 			Undo.undoRedoPerformed -= ReloadView;
 			Object.DestroyImmediate(nodeInspector);
+			NodeProvider.UnloadGraph(graph);
         }
 
         #endregion
-
     }
 }

@@ -54,14 +54,16 @@ namespace GraphProcessor
 	public class NodeMenuItemAttribute : Attribute
 	{
 		public string	menuTitle;
+		public Type		onlyCompatibleWithGraph;
 
 		/// <summary>
 		/// Register the node in the NodeProvider class. The node will also be available in the node creation window.
 		/// </summary>
 		/// <param name="menuTitle">Path in the menu, use / as folder separators</param>
-		public NodeMenuItemAttribute(string menuTitle = null)
+		public NodeMenuItemAttribute(string menuTitle = null, Type onlyCompatibleWithGraph = null)
 		{
 			this.menuTitle = menuTitle;
+			this.onlyCompatibleWithGraph = onlyCompatibleWithGraph;
 		}
 	}
 
@@ -156,6 +158,23 @@ namespace GraphProcessor
 	}
 
 	/// <summary>
+	/// Allow to bind a method to generate a specific set of ports based on a field type in a node
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+	public class CustomPortTypeBehavior : Attribute
+	{
+		/// <summary>
+		/// Target type
+		/// </summary>
+		public Type type;
+
+		public CustomPortTypeBehavior(Type type)
+		{
+			this.type = type;
+		}
+	}
+
+	/// <summary>
 	/// Allow you to have a custom view for your stack nodes
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
@@ -196,4 +215,23 @@ namespace GraphProcessor
 			this.showInNode = showInNode;
 		}
 	}
+	
+	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+	public class ShowAsDrawer : Attribute
+	{
+	}
+	
+	[AttributeUsage(AttributeTargets.Field)]
+	public class SettingAttribute : Attribute
+	{
+		public string name;
+
+		public SettingAttribute(string name = null)
+		{
+			this.name = name;
+		}
+	}
+
+	[AttributeUsage(AttributeTargets.Method)]
+	public class IsCompatibleWithGraph : Attribute {}
 }

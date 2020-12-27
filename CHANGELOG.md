@@ -4,6 +4,14 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0]
+
+### Added
+- Added support of custom property drawers for exposed parameters in the graph inspector (the one that shows in the inspector when the graph is selected).
+
+### Change
+- Serialization backend (use [SerializeReference] instead of JSON)
+
 ## [0.10.1]
 
 ### Fixed

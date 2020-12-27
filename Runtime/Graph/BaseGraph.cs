@@ -114,6 +114,9 @@ namespace GraphProcessor
 		[SerializeField, SerializeReference]
 		public List< ExposedParameter >					exposedParameters = new List< ExposedParameter >();
 
+		[SerializeField, FormerlySerializedAs("exposedParameters")] // We keep this for upgrade
+		List< ExposedParameter >						serializedParameterList = new List<ExposedParameter>();
+
 		[SerializeField]
 		public List< StickyNote >						stickyNotes = new List<StickyNote>();
 
@@ -408,6 +411,8 @@ namespace GraphProcessor
 			// Migration step from JSON serialized nodes to [SerializeReference]
 			if (serializedNodes.Count > 0)
 			{
+				Debug.Log("node count:" + serializedNodes.Count);
+				nodes.Clear();
 				foreach (var serializedNode in serializedNodes.ToList())
 				{
                     var node = JsonSerializer.DeserializeNode(serializedNode) as BaseNode;
@@ -417,10 +422,13 @@ namespace GraphProcessor
 				serializedNodes.Clear();
 
 				// we also migrate parameters here:
-				var paramsToMigrate = exposedParameters.ToList();
+				var paramsToMigrate = serializedParameterList.ToList();
+				Debug.Log(paramsToMigrate.Count);
 				exposedParameters.Clear();
+				Debug.Log(paramsToMigrate.Count);
 				foreach (var param in paramsToMigrate)
 				{
+					Debug.Log("param: " + param);
 					if (param == null)
 						continue;
 
@@ -432,7 +440,10 @@ namespace GraphProcessor
 						continue;
 					}
 					else
+					{
+						Debug.Log("new param: " + newParam);
 						exposedParameters.Add(newParam);
+					}
 				}
 			}
 #pragma warning restore CS0618

@@ -41,7 +41,7 @@ ExposedParameterFieldView Image {
 }
 
 .parameter-Boolean {
-	background-color: #ff6d29;
+	background-color: #30FFFF;
 }
 
 .parameter-Single {
@@ -66,4 +66,12 @@ ExposedParameterFieldView Image {
 
 .parameter-Color {
 	background-color: #FF00FF;
+}
+
+.parameter-AnimationCurve{
+	background-color: #FF0080;
+}
+
+.parameter-Gradient{
+	background-color: #FF8000;
 }

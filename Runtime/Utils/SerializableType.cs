@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GraphProcessor
@@ -6,6 +7,9 @@ namespace GraphProcessor
 	[Serializable]
 	public class SerializableType : ISerializationCallbackReceiver
 	{
+		static Dictionary<string, Type> typeCache = new Dictionary<string, Type>();
+		static Dictionary<Type, string> typeNameCache = new Dictionary<Type, string>();
+
 		[SerializeField]
 		public string	serializedType;
 
@@ -20,13 +24,25 @@ namespace GraphProcessor
         public void OnAfterDeserialize()
         {
 			if (!String.IsNullOrEmpty(serializedType))
-				type = Type.GetType(serializedType);
+			{
+				if (!typeCache.TryGetValue(serializedType, out type))
+				{
+					type = Type.GetType(serializedType);
+					typeCache[serializedType] = type;
+				}
+			}
         }
 
         public void OnBeforeSerialize()
         {
 			if (type != null)
-				serializedType = type.AssemblyQualifiedName;
+			{
+				if (!typeNameCache.TryGetValue(type, out serializedType))
+				{
+					serializedType = type.AssemblyQualifiedName;
+					typeNameCache[type] = serializedType;
+				}
+			}
         }
     }
 }

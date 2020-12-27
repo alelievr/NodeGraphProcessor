@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GraphProcessor
 {
 	[System.Serializable]
-	public abstract class ExposedParameter : ISerializationCallbackReceiver
+	public class ExposedParameter : ISerializationCallbackReceiver
 	{
 		public string				guid; // unique id to keep track of the parameter
 		public string				name;
@@ -32,7 +32,7 @@ namespace GraphProcessor
 
 		void ISerializationCallbackReceiver.OnBeforeSerialize() {}
 
-        public abstract object value { get; set; }
+        public virtual object value { get; set; }
         public virtual Type GetValueType() => value.GetType();
 
         static Dictionary<Type, Type> exposedParameterTypeCache = new Dictionary<Type, Type>();

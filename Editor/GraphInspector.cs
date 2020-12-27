@@ -48,55 +48,41 @@ namespace GraphProcessor
         {
             if (graph.exposedParameters.Count != 0)
                 parameterContainer.Add(new Label("Exposed Parameters:"));
-            
-            var exposedParameterDrawers = TypeCache.GetTypesWithAttribute<CustomPropertyDrawer>();
-
-            // foreach (var drawerType in exposedParameterDrawers)
-            // {
-            //     var drawers = drawerType.GetCustomAttributes<CustomPropertyDrawer>();
-
-            //     foreach (var drawer in drawers)
-            //     {
-            //         drawer.Match.
-            //     }
-            // }
 
             SerializedObject so = new SerializedObject(graph);
 
-            // foreach (var param in graph.exposedParameters)
+            var exposedParameters = so.FindProperty(nameof(graph.exposedParameters));
+
+            for (int i = 0; i < exposedParameters.arraySize; i++)
             {
-                var exposedParameters = so.FindProperty(nameof(graph.exposedParameters));
+                var param = exposedParameters.GetArrayElementAtIndex(i);
+                var value = graph.exposedParameters[i];
+                Debug.Log(value);
+                if(value.settings.isHidden)
+                    continue;
 
-                for (int i = 0; i < exposedParameters.arraySize; i++)
-                {
-                    var param = exposedParameters.GetArrayElementAtIndex(i);
-                    var value = graph.exposedParameters[i];
-                    if(value.settings.isHidden)
-                        continue;
+                // PropertyField f = new PropertyField(param);
+                // var name = param.FindPropertyRelative("name").stringValue;
 
-                    // PropertyField f = new PropertyField(param);
-                    // var name = param.FindPropertyRelative("name").stringValue;
+                var e = new PropertyField(param);
 
-                    var e = new PropertyField(param);
+                // param.type.
 
-                    // param.type.
+                // var im = new IMGUIContainer(() => {
+                //     EditorGUIUtility.wideMode = true;
+                //     EditorGUI.BeginChangeCheck();
+                //     EditorGUILayout.PropertyField(param, new GUIContent(name), true);
+                //     if (EditorGUI.EndChangeCheck())
+                //     {
+                //         so.ApplyModifiedProperties();
+                //     }
+                // });
+                // var im = new PropertyField(param.FindPropertyRelative("name"), "HUFIWH");
+                // var referenceField = new PropertyField(property.FindPropertyRelative("value.referenceValue"), name);
+                // var objectField = new PropertyField(property.FindPropertyRelative("value.unityObjectValue"), name);
 
-                    // var im = new IMGUIContainer(() => {
-                    //     EditorGUIUtility.wideMode = true;
-                    //     EditorGUI.BeginChangeCheck();
-                    //     EditorGUILayout.PropertyField(param, new GUIContent(name), true);
-                    //     if (EditorGUI.EndChangeCheck())
-                    //     {
-                    //         so.ApplyModifiedProperties();
-                    //     }
-                    // });
-                    // var im = new PropertyField(param.FindPropertyRelative("name"), "HUFIWH");
-                    // var referenceField = new PropertyField(property.FindPropertyRelative("value.referenceValue"), name);
-                    // var objectField = new PropertyField(property.FindPropertyRelative("value.unityObjectValue"), name);
-
-                    // prop.style.display = DisplayStyle.Flex;
-                    parameterContainer.Add(e);
-                }
+                // prop.style.display = DisplayStyle.Flex;
+                parameterContainer.Add(e);
                 // PropertyField field = param.value.value;
                 // VisualElement prop = new VisualElement();
                 // prop.style.display = DisplayStyle.Flex;

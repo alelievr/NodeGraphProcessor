@@ -12,6 +12,10 @@ The list of nodes and parameters in the graph ScriptableObject is now stored usi
 
 This changes will allow us to correctly serialize references of GameObject, having custom property drawers for exposed properties and in the future, use SerializedFields instead of the fieldFactory to display the fields in the nodes (which will bring the support of all field atributes like [Min], [Range], ect.)
 
+## When does the migration occurs?
+
+When the graph is deserialized. So it can be either wheen you click on it in the project window, open it or load it from a script in the editor.
+
 ## What can break while upgrading
 
 Parameters are the most impacted by this change, now you need to write your own parameter class that inherits from `ExposedParameter` to be able to expose a parameter. Like this:

@@ -421,6 +421,9 @@ namespace GraphProcessor
 				exposedParameters.Clear();
 				foreach (var param in paramsToMigrate)
 				{
+					if (param == null)
+						continue;
+
 					var newParam = param.Migrate();
 
 					if (newParam == null)

@@ -12,54 +12,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
   m_Name: BasicExample
   m_EditorClassIdentifier: 
-  serializedNodes:
-  - type: ColorNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"c2542e31-668d-4816-b7e9-f41dcdec423d","computeOrder":0,"position":{"serializedVersion":"2","x":-53.5,"y":-129.5,"width":369.0,"height":97.0},"expanded":true,"debug":false,"nodeLock":false,"color":{"r":1.0,"g":0.0,"b":0.2509803771972656,"a":1.0}}'
-  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"3327402b-5ad1-4564-af17-2025a850d4bb","computeOrder":1,"position":{"serializedVersion":"2","x":242.0,"y":101.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":10.0,"input":10.0}'
-  - type: MultiAddNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"9a1c513a-65bc-4906-83b7-4a7b66699064","computeOrder":2,"position":{"serializedVersion":"2","x":402.0,"y":95.0,"width":132.0,"height":114.0},"expanded":false,"debug":true,"nodeLock":false,"output":10.0}'
-  - type: SubNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"95bce55f-47d9-4c5d-bdcd-1f5bbbf57d1b","computeOrder":4,"position":{"serializedVersion":"2","x":699.0,"y":169.0,"width":113.0,"height":114.0},"expanded":false,"debug":true,"nodeLock":false,"inputA":0.0,"inputB":140.0,"output":-140.0}'
-  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"42eb43b8-ac7e-4f38-b49b-26ba1bc42732","computeOrder":5,"position":{"serializedVersion":"2","x":954.0,"y":219.0,"width":112.0,"height":105.0},"expanded":false,"debug":true,"nodeLock":false}'
-  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"6398414c-0e45-44d7-a62f-3267016dbca1","computeOrder":6,"position":{"serializedVersion":"2","x":337.5,"y":-129.0,"width":74.0,"height":90.0},"expanded":false,"debug":false,"nodeLock":false}'
-  - type: PrefabNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"ffd2cf4b-87c3-42a6-9822-04bae7a5700b","computeOrder":7,"position":{"serializedVersion":"2","x":1066.0,"y":344.0,"width":136.0,"height":225.0},"expanded":true,"debug":false,"nodeLock":false,"output":{"fileID":1636575971871760,"guid":"f78111bdbdeaf6644806fc49fcaf1d30","type":3}}'
-  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"e99da4fb-6a11-4b19-8594-f37f55d96114","computeOrder":8,"position":{"serializedVersion":"2","x":931.2900390625,"y":381.58001708984377,"width":136.0,"height":101.00001525878906},"expanded":true,"debug":false,"nodeLock":false,"output":140.0,"input":140.0}'
-  - type: TextNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"ab7c80f0-51fd-401a-9d67-0b6543025f87","computeOrder":9,"position":{"serializedVersion":"2","x":-184.46311950683595,"y":143.2401123046875,"width":240.0,"height":96.0},"expanded":false,"debug":false,"nodeLock":false,"output":"Hello
-      World"}'
-  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"e277d5c6-386e-4f6b-bd63-af2353f3e4d8","computeOrder":10,"position":{"serializedVersion":"2","x":87.17012023925781,"y":116.09642028808594,"width":74.0,"height":90.0},"expanded":false,"debug":false,"nodeLock":false}'
-  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"34e17a0c-9187-47eb-a21c-d105ee6ed911","computeOrder":3,"position":{"serializedVersion":"2","x":501.0,"y":282.0,"width":105.0,"height":101.0},"expanded":true,"debug":false,"nodeLock":false,"output":140.0,"input":140.0}'
-  - type: SettingsNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"b14b2e69-b835-4b73-ae8e-6f7f986575bb","computeOrder":11,"position":{"serializedVersion":"2","x":-66.125244140625,"y":411.890625,"width":143.0,"height":91.0},"expanded":true,"debug":false,"nodeLock":false,"setting":0,"input":0.0,"output":0.0}'
-  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"42bd42f7-7c33-4d6c-8cff-24e051b0e644","computeOrder":12,"position":{"serializedVersion":"2","x":88.17012786865235,"y":211.09640502929688,"width":74.0,"height":90.0},"expanded":false,"debug":false,"nodeLock":false}'
-  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"c647797a-972a-442d-86fe-327825c1fe11","computeOrder":13,"position":{"serializedVersion":"2","x":347.8111267089844,"y":446.6003723144531,"width":108.00000762939453,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0,"input":0.0}'
-  - type: CustomPortData, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"acf42c0b-dc50-476f-8d14-b9e756fd1e2d","computeOrder":14,"position":{"serializedVersion":"2","x":605.9840087890625,"y":456.5184020996094,"width":115.0,"height":149.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0}'
-  - type: PrintNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"ea0aaa89-4654-402b-9518-0c8d3b0a0be7","computeOrder":15,"position":{"serializedVersion":"2","x":850.1000366210938,"y":509.8000183105469,"width":74.00001525878906,"height":90.0},"expanded":false,"debug":false,"nodeLock":false}'
-  - type: PortConnectionTests, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"d0c72054-62bf-409c-a49f-4230da5526d5","computeOrder":16,"position":{"serializedVersion":"2","x":1248.0,"y":637.0,"width":127.0,"height":245.0},"expanded":true,"debug":false,"nodeLock":false,"padding":0.0}'
-  - type: PortConnectionTests, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"0bb81f44-19ac-4b15-a7a6-f0f319a6d5c7","computeOrder":17,"position":{"serializedVersion":"2","x":1584.0,"y":639.0,"width":178.0,"height":264.0},"expanded":true,"debug":false,"nodeLock":false,"padding":0.0}'
-  - type: DrawerFieldTestNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"a93ff68f-3bcb-4234-815f-f44501daf144","computeOrder":18,"position":{"serializedVersion":"2","x":728.0,"y":893.0,"width":146.0,"height":341.0},"expanded":true,"debug":false,"nodeLock":false,"vector4":{"x":0.0,"y":0.0,"z":0.0,"w":0.0},"vector3":{"x":0.0,"y":0.0,"z":0.0},"vector2":{"x":0.0,"y":0.0},"floatInput":0.0,"intInput":0,"intInput2":0,"stringInput":"Hello","color":{"r":0.0,"g":0.0,"b":0.0,"a":0.0},"gameObject":{"instanceID":0},"animationCurve":{"serializedVersion":"2","m_Curve":[],"m_PreInfinity":2,"m_PostInfinity":2,"m_RotationOrder":4},"rigidbody":{"instanceID":0},"layerMask":{"serializedVersion":"2","m_Bits":0}}'
-  - type: InspectorNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    jsonDatas: '{"GUID":"fc76049e-5e1f-422a-a991-b02e5ed5ee67","computeOrder":19,"position":{"serializedVersion":"2","x":1024.9176025390625,"y":766.064697265625,"width":100.0,"height":100.0},"expanded":false,"debug":false,"nodeLock":false,"input":0.0,"output":0.0,"additionalSettings":false,"additionalParam":""}'
-  - type: DrawerFieldTestNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    jsonDatas: '{"GUID":"ac9a5d83-a834-41cb-89cf-eb5239cc0868","computeOrder":20,"position":{"serializedVersion":"2","x":1210.0,"y":995.4347534179688,"width":146.0,"height":341.0},"expanded":false,"debug":false,"nodeLock":false,"vector4":{"x":0.0,"y":0.0,"z":0.0,"w":0.0},"vector3":{"x":0.0,"y":0.0,"z":0.0},"vector2":{"x":0.0,"y":0.0},"floatInput":0.0,"intInput":0,"intInput2":0,"stringInput":"","color":{"r":0.0,"g":0.0,"b":0.0,"a":0.0},"gameObject":{"instanceID":0},"animationCurve":{"serializedVersion":"2","m_Curve":[],"m_PreInfinity":2,"m_PostInfinity":2,"m_RotationOrder":4},"rigidbody":{"instanceID":0},"layerMask":{"serializedVersion":"2","m_Bits":0}}'
+  serializedNodes: []
+  nodes:
+  - id: 0
+  - id: 1
+  - id: 2
+  - id: 3
+  - id: 4
+  - id: 5
+  - id: 6
+  - id: 7
+  - id: 8
+  - id: 9
+  - id: 10
+  - id: 11
+  - id: 12
+  - id: 13
+  - id: 14
+  - id: 15
+  - id: 16
+  - id: 17
+  - id: 18
+  - id: 19
+  - id: 20
+  - id: 21
+  - id: 22
+  - id: 23
+  - id: 24
+  - id: 25
+  - id: 26
+  - id: 27
+  - id: 28
+  - id: 29
+  - id: 30
+  - id: 31
+  - id: 32
+  - id: 33
+  - id: 34
+  - id: 35
+  - id: 36
+  - id: 37
+  - id: 38
+  - id: 39
+  - id: 40
+  - id: 41
   edges:
   - GUID: 04cee6c7-b233-40e1-b41a-31f6093f1482
     owner: {fileID: 11400000}
@@ -175,10 +171,7 @@ MonoBehaviour:
       width: 460
       height: 370
     size: {x: 300, y: 100}
-    innerNodeGUIDs:
-    - 9a1c513a-65bc-4906-83b7-4a7b66699064
-    - 95bce55f-47d9-4c5d-bdcd-1f5bbbf57d1b
-    - 34e17a0c-9187-47eb-a21c-d105ee6ed911
+    innerNodeGUIDs: []
   - title: Print
     color: {r: 0.4627451, g: 0.14901963, b: 0.20610665, a: 1}
     position:
@@ -188,12 +181,9 @@ MonoBehaviour:
       width: 260
       height: 346.99997
     size: {x: 300, y: 100}
-    innerNodeGUIDs:
-    - ab7c80f0-51fd-401a-9d67-0b6543025f87
-    - 42bd42f7-7c33-4d6c-8cff-24e051b0e644
-    - e277d5c6-386e-4f6b-bd63-af2353f3e4d8
+    innerNodeGUIDs: []
   stackNodes:
-  - id: 0
+  - id: 42
   pinnedElements:
   - position:
       serializedVersion: 2
@@ -217,10 +207,10 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - position:
       serializedVersion: 2
-      x: 0
-      y: 106
-      width: 203
-      height: 190
+      x: 177
+      y: 114
+      width: 294
+      height: 345
     opened: 1
     editorType:
       serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor.Editor,
@@ -236,22 +226,20 @@ MonoBehaviour:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor.Editor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters:
-  - guid: 4f5bc9d8-e5d3-4935-8d09-5cf903694414
-    name: Counter
-    type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-    serializedValue:
-      serializedType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-      serializedName: 
-      serializedValue: 0
-    input: 1
-    settings:
-      isHidden: 0
+  - id: 43
+  - id: 44
+  - id: 45
+  - id: 46
+  - id: 47
+  - id: 48
+  - id: 49
+  - id: 50
+  - id: 51
   stickyNotes:
   - position:
       serializedVersion: 2
-      x: 548
-      y: -378
+      x: 623.38257
+      y: -350.2275
       width: 179
       height: 309
     title: Hello World!
@@ -264,11 +252,1423 @@ MonoBehaviour:
       height: 101
     title: New Sticky Note
     content: Write your text here
-  position: {x: -416, y: -575, z: 0}
-  scale: {x: 1.15, y: 1.15, z: 1}
+  position: {x: 133, y: -902, z: 0}
+  scale: {x: 0.8695652, y: 0.8695652, z: 1}
   references:
     version: 1
     00000000:
+      type: {class: ColorNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: c2542e31-668d-4816-b7e9-f41dcdec423d
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: -53.5
+          y: -129.5
+          width: 369
+          height: 97
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        color: {r: 1, g: 0, b: 0.25098038, a: 1}
+    00000001:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 3327402b-5ad1-4564-af17-2025a850d4bb
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: 242
+          y: 101
+          width: 73
+          height: 101
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        output: 10
+        input: 10
+    00000002:
+      type: {class: MultiAddNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 9a1c513a-65bc-4906-83b7-4a7b66699064
+        computeOrder: 2
+        position:
+          serializedVersion: 2
+          x: 402
+          y: 95
+          width: 132
+          height: 114
+        expanded: 0
+        debug: 1
+        nodeLock: 0
+        output: 10
+    00000003:
+      type: {class: SubNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 95bce55f-47d9-4c5d-bdcd-1f5bbbf57d1b
+        computeOrder: 4
+        position:
+          serializedVersion: 2
+          x: 699
+          y: 169
+          width: 113
+          height: 114
+        expanded: 0
+        debug: 1
+        nodeLock: 0
+        inputA: 0
+        inputB: 140
+        output: -140
+    00000004:
+      type: {class: PrintNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 42eb43b8-ac7e-4f38-b49b-26ba1bc42732
+        computeOrder: 5
+        position:
+          serializedVersion: 2
+          x: 954
+          y: 219
+          width: 112
+          height: 105
+        expanded: 0
+        debug: 1
+        nodeLock: 0
+    00000005:
+      type: {class: PrintNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 6398414c-0e45-44d7-a62f-3267016dbca1
+        computeOrder: 6
+        position:
+          serializedVersion: 2
+          x: 337.5
+          y: -129
+          width: 74
+          height: 90
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+    00000006:
+      type: {class: PrefabNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: ffd2cf4b-87c3-42a6-9822-04bae7a5700b
+        computeOrder: 7
+        position:
+          serializedVersion: 2
+          x: 1066
+          y: 344
+          width: 136
+          height: 225
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        output: {fileID: 1636575971871760, guid: f78111bdbdeaf6644806fc49fcaf1d30,
+          type: 3}
+    00000007:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: e99da4fb-6a11-4b19-8594-f37f55d96114
+        computeOrder: 8
+        position:
+          serializedVersion: 2
+          x: 931.29004
+          y: 381.58002
+          width: 136
+          height: 101.000015
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        output: 140
+        input: 140
+    00000008:
+      type: {class: TextNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: ab7c80f0-51fd-401a-9d67-0b6543025f87
+        computeOrder: 9
+        position:
+          serializedVersion: 2
+          x: -184.46312
+          y: 143.24011
+          width: 240
+          height: 96
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        output: Hello World
+    00000009:
+      type: {class: PrintNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: e277d5c6-386e-4f6b-bd63-af2353f3e4d8
+        computeOrder: 10
+        position:
+          serializedVersion: 2
+          x: 87.17012
+          y: 116.09642
+          width: 74
+          height: 90
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+    0000000A:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 34e17a0c-9187-47eb-a21c-d105ee6ed911
+        computeOrder: 3
+        position:
+          serializedVersion: 2
+          x: 501
+          y: 282
+          width: 105
+          height: 101
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        output: 140
+        input: 140
+    0000000B:
+      type: {class: SettingsNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: b14b2e69-b835-4b73-ae8e-6f7f986575bb
+        computeOrder: 11
+        position:
+          serializedVersion: 2
+          x: -124.79325
+          y: 477.20392
+          width: 159
+          height: 92
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        setting: 0
+        input: 0
+        output: 0
+    0000000C:
+      type: {class: PrintNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 42bd42f7-7c33-4d6c-8cff-24e051b0e644
+        computeOrder: 12
+        position:
+          serializedVersion: 2
+          x: 88.17013
+          y: 211.0964
+          width: 74
+          height: 90
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+    0000000D:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: c647797a-972a-442d-86fe-327825c1fe11
+        computeOrder: 13
+        position:
+          serializedVersion: 2
+          x: 347.81113
+          y: 446.60037
+          width: 108.00001
+          height: 101
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        output: 0
+        input: 0
+    0000000E:
+      type: {class: CustomPortData, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: acf42c0b-dc50-476f-8d14-b9e756fd1e2d
+        computeOrder: 14
+        position:
+          serializedVersion: 2
+          x: 605.984
+          y: 456.5184
+          width: 115
+          height: 149
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        output: 0
+    0000000F:
+      type: {class: PrintNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: ea0aaa89-4654-402b-9518-0c8d3b0a0be7
+        computeOrder: 15
+        position:
+          serializedVersion: 2
+          x: 850.10004
+          y: 509.80002
+          width: 74.000015
+          height: 90
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+    00000010:
+      type: {class: PortConnectionTests, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: d0c72054-62bf-409c-a49f-4230da5526d5
+        computeOrder: 16
+        position:
+          serializedVersion: 2
+          x: 1248
+          y: 637
+          width: 127
+          height: 245
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        padding: 0
+    00000011:
+      type: {class: PortConnectionTests, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 0bb81f44-19ac-4b15-a7a6-f0f319a6d5c7
+        computeOrder: 17
+        position:
+          serializedVersion: 2
+          x: 1584
+          y: 639
+          width: 178
+          height: 264
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        padding: 0
+    00000012:
+      type: {class: DrawerFieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: a93ff68f-3bcb-4234-815f-f44501daf144
+        computeOrder: 18
+        position:
+          serializedVersion: 2
+          x: 606
+          y: 856.08
+          width: 146
+          height: 341
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        vector4: {x: 0, y: 0, z: 0, w: 0}
+        vector3: {x: 0, y: 0, z: 0}
+        vector2: {x: 0, y: 0}
+        floatInput: 0
+        intInput: 0
+        intInput2: 0
+        stringInput: Hello
+        color: {r: 0, g: 0, b: 0, a: 0}
+        gameObject: {fileID: 0}
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        rigidbody: {fileID: 0}
+        layerMask:
+          serializedVersion: 2
+          m_Bits: 0
+    00000013:
+      type: {class: InspectorNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: fc76049e-5e1f-422a-a991-b02e5ed5ee67
+        computeOrder: 19
+        position:
+          serializedVersion: 2
+          x: 991.95654
+          y: 666.86957
+          width: 129
+          height: 77
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        input: 0
+        output: 0
+        additionalSettings: 0
+        additionalParam: 
+    00000014:
+      type: {class: DrawerFieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: ac9a5d83-a834-41cb-89cf-eb5239cc0868
+        computeOrder: 20
+        position:
+          serializedVersion: 2
+          x: 922
+          y: 856.08
+          width: 146
+          height: 341
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        vector4: {x: 0, y: 0, z: 0, w: 0}
+        vector3: {x: 0, y: 0, z: 0}
+        vector2: {x: 0, y: 0}
+        floatInput: 0
+        intInput: 0
+        intInput2: 0
+        stringInput: 
+        color: {r: 0, g: 0, b: 0, a: 0}
+        gameObject: {fileID: 0}
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        rigidbody: {fileID: 0}
+        layerMask:
+          serializedVersion: 2
+          m_Bits: 0
+    00000015:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 14b82653-ebb2-4fe6-98c3-5a7f87047b3f
+        computeOrder: 21
+        position:
+          serializedVersion: 2
+          x: 87
+          y: 396.5
+          width: 102
+          height: 101
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        output: 42
+        input: 42
+    00000016:
+      type: {class: ColorNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: fca11789-0eba-4f38-a9cb-4f6f829515d0
+        computeOrder: 22
+        position:
+          serializedVersion: 2
+          x: -405.48395
+          y: 354.0001
+          width: 200
+          height: 97
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        color: {r: 0.47539377, g: 0, b: 1, a: 0}
+    00000017:
+      type: {class: MultiAddNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: a72964c7-8c86-4c52-808e-3d88920df180
+        computeOrder: 23
+        position:
+          serializedVersion: 2
+          x: 77.5
+          y: 783.78
+          width: 121
+          height: 101
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        output: 0
+    00000018:
+      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 27d6c0e1-48c9-44cd-ab98-3f7137ff1486
+        computeOrder: 24
+        position:
+          serializedVersion: 2
+          x: 198.99998
+          y: 1069.5099
+          width: 369
+          height: 389
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        s: 
+        i: 0
+        f: 0
+        v2: {x: 0, y: 0}
+        v3: {x: 0, y: 0, z: 0}
+        v4: {x: 0, y: 0, z: 0, w: 0}
+        layer:
+          serializedVersion: 2
+          m_Bits: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+        bounds:
+          m_Center: {x: 0, y: 0, z: 0}
+          m_Extent: {x: -0.96, y: 0, z: 0}
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        flags: 2
+        toggle: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    00000019:
+      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: e0b1148e-efc8-4132-b4e9-5fd7c3d7634d
+        computeOrder: 25
+        position:
+          serializedVersion: 2
+          x: -204.00005
+          y: 1087
+          width: 369
+          height: 389
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        s: 
+        i: 68
+        f: 1.73
+        v2: {x: 0.24, y: 0}
+        v3: {x: 0, y: 0, z: 0}
+        v4: {x: 0, y: 0, z: 0, w: 0}
+        layer:
+          serializedVersion: 2
+          m_Bits: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+        bounds:
+          m_Center: {x: 0, y: 0, z: 0}
+          m_Extent: {x: 0, y: 0, z: 0}
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        flags: 2
+        toggle: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    0000001A:
+      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 186886f2-2b2a-4ec0-a520-fd9f0247211e
+        computeOrder: 26
+        position:
+          serializedVersion: 2
+          x: -617.549
+          y: 1245.37
+          width: 369
+          height: 389
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        s: 
+        i: 223
+        f: 0
+        v2: {x: 0, y: 0}
+        v3: {x: 0, y: 0, z: 0}
+        v4: {x: 0, y: 0, z: 0, w: 0}
+        layer:
+          serializedVersion: 2
+          m_Bits: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+        bounds:
+          m_Center: {x: 0, y: 0, z: 0}
+          m_Extent: {x: 0, y: 0, z: 0}
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        flags: 2
+        toggle: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 0.021718264, g: 1, b: 0, a: 1}
+          key1: {r: 0.747265, g: 0.99607843, b: 0, a: 1}
+          key2: {r: 1, g: 0.989954, b: 0, a: 0}
+          key3: {r: 1, g: 0.42356986, b: 0, a: 0}
+          key4: {r: 1, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 14456
+          ctime2: 26985
+          ctime3: 49537
+          ctime4: 65535
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 5
+          m_NumAlphaKeys: 2
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    0000001B:
+      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: b3a42f89-30c4-45b0-afbc-f274bd3c5459
+        computeOrder: 27
+        position:
+          serializedVersion: 2
+          x: 236.99998
+          y: 1542.9926
+          width: 369
+          height: 389
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        s: 
+        i: 0
+        f: 0
+        v2: {x: 0, y: 0}
+        v3: {x: 0, y: 0, z: 0}
+        v4: {x: 0, y: 0, z: 0, w: 0}
+        layer:
+          serializedVersion: 2
+          m_Bits: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+        bounds:
+          m_Center: {x: 0, y: 0, z: 0}
+          m_Extent: {x: -0.96, y: 0, z: 0}
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        flags: 2
+        toggle: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    0000001C:
+      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: a875e7ae-4758-4fe4-ab7e-edf45f79b247
+        computeOrder: 28
+        position:
+          serializedVersion: 2
+          x: -204
+          y: 1576.9921
+          width: 369
+          height: 389
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        s: 
+        i: 0
+        f: 0
+        v2: {x: 0, y: 0}
+        v3: {x: 0, y: 0, z: 0}
+        v4: {x: 0, y: 0, z: 0, w: 0}
+        layer:
+          serializedVersion: 2
+          m_Bits: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+        bounds:
+          m_Center: {x: 0, y: 0, z: 0}
+          m_Extent: {x: -0.96, y: 0, z: 0}
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        flags: 2
+        toggle: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    0000001D:
+      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: fdf13544-4d16-47c6-b3d3-4e86223f52c1
+        computeOrder: 29
+        position:
+          serializedVersion: 2
+          x: 583.81396
+          y: 1543
+          width: 369
+          height: 389
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        s: 
+        i: 0
+        f: 0
+        v2: {x: 0, y: 0}
+        v3: {x: 0, y: 0, z: 0}
+        v4: {x: 0, y: 0, z: 0, w: 0}
+        layer:
+          serializedVersion: 2
+          m_Bits: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+        bounds:
+          m_Center: {x: 0, y: 0, z: 0}
+          m_Extent: {x: -0.96, y: 0, z: 0}
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        flags: 2
+        toggle: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    0000001E:
+      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 5da2d21d-fe1f-49d4-898c-7e4202d7926f
+        computeOrder: 30
+        position:
+          serializedVersion: 2
+          x: -700.7585
+          y: 1687.1793
+          width: 369
+          height: 389
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        s: 
+        i: 0
+        f: 0
+        v2: {x: 0, y: 0}
+        v3: {x: 0, y: 0, z: 0}
+        v4: {x: 0, y: 0, z: 0, w: 0}
+        layer:
+          serializedVersion: 2
+          m_Bits: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+        bounds:
+          m_Center: {x: 0, y: 0, z: 0}
+          m_Extent: {x: -0.96, y: 0, z: 0}
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        flags: 2
+        toggle: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    0000001F:
+      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: ef229bdb-403b-484d-93f1-25444a8a96fb
+        computeOrder: 31
+        position:
+          serializedVersion: 2
+          x: -204.00006
+          y: 2055.0522
+          width: 369
+          height: 389
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        s: 
+        i: 0
+        f: 0
+        v2: {x: 0, y: 0}
+        v3: {x: 0, y: 0, z: 0}
+        v4: {x: 0, y: 0, z: 0, w: 0}
+        layer:
+          serializedVersion: 2
+          m_Bits: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+        bounds:
+          m_Center: {x: 0, y: 0, z: 0}
+          m_Extent: {x: -0.96, y: 0, z: 0}
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        flags: 2
+        toggle: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    00000020:
+      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: c8a0d130-20ec-4a44-92e0-ba4e535882c8
+        computeOrder: 32
+        position:
+          serializedVersion: 2
+          x: 623.40015
+          y: 2032.8503
+          width: 369
+          height: 389
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        s: 
+        i: 0
+        f: 0
+        v2: {x: 0, y: 0}
+        v3: {x: 0, y: 0, z: 0}
+        v4: {x: 0, y: 0, z: 0, w: 0}
+        layer:
+          serializedVersion: 2
+          m_Bits: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+        bounds:
+          m_Center: {x: 0, y: 0, z: 0}
+          m_Extent: {x: -0.96, y: 0, z: 0}
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        flags: 2
+        toggle: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    00000021:
+      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: f657582b-d3bb-4636-9b0f-25f2263478ac
+        computeOrder: 33
+        position:
+          serializedVersion: 2
+          x: 1157.1
+          y: 2122.0005
+          width: 369
+          height: 389
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        s: 
+        i: 0
+        f: 0
+        v2: {x: 0, y: 0}
+        v3: {x: 0, y: 0, z: 0}
+        v4: {x: 0, y: 0, z: 0, w: 0}
+        layer:
+          serializedVersion: 2
+          m_Bits: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+        bounds:
+          m_Center: {x: 0, y: 0, z: 0}
+          m_Extent: {x: 0, y: 0, z: 0}
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        flags: 2
+        toggle: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    00000022:
+      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 8727c33e-d351-4fb0-a466-6355b2e6b414
+        computeOrder: 34
+        position:
+          serializedVersion: 2
+          x: 274.6
+          y: 2055
+          width: 129
+          height: 44
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        s: 
+        i: 0
+        f: 0
+        v2: {x: 0, y: 0}
+        v3: {x: 0, y: 0, z: 0}
+        v4: {x: 0, y: 0, z: 0, w: 0}
+        layer:
+          serializedVersion: 2
+          m_Bits: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+        bounds:
+          m_Center: {x: 0, y: 0, z: 0}
+          m_Extent: {x: 0, y: 0, z: 0}
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        flags: 2
+        toggle: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    00000023:
+      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 774571aa-1bfd-4807-89bb-11199971c15e
+        computeOrder: 35
+        position:
+          serializedVersion: 2
+          x: 1107.4501
+          y: 2033.2002
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        s: 
+        i: 0
+        f: 0
+        v2: {x: 0, y: 0}
+        v3: {x: 0, y: 0, z: 0}
+        v4: {x: 0, y: 0, z: 0, w: 0}
+        layer:
+          serializedVersion: 2
+          m_Bits: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+        bounds:
+          m_Center: {x: 0, y: 0, z: 0}
+          m_Extent: {x: 0, y: 0, z: 0}
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        flags: 2
+        toggle: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    00000024:
+      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 422a38a4-cda1-4d67-8cbb-4c584852b520
+        computeOrder: 36
+        position:
+          serializedVersion: 2
+          x: 422
+          y: 2479
+          width: 369
+          height: 390
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        s: 
+        i: 0
+        f: 0
+        v2: {x: 0, y: 0}
+        v3: {x: 0, y: 0, z: 0}
+        v4: {x: 0, y: 0, z: 0, w: 0}
+        layer:
+          serializedVersion: 2
+          m_Bits: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+        bounds:
+          m_Center: {x: 0, y: 0, z: 0}
+          m_Extent: {x: 0, y: 0, z: 0}
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        flags: 2
+        toggle: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 2
+            outSlope: 2
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    00000025:
+      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        GUID: 4addc6cc-be1d-4106-a635-f04c54e68f15
+        computeOrder: 37
+        position:
+          serializedVersion: 2
+          x: 781.09644
+          y: 1256.7108
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        parameterGUID: 34588777-464d-4445-9e27-bbfa731670db
+        accessor: 0
+    00000026:
+      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        GUID: 29eb1cee-044d-4e9e-95b3-bb11b50b8817
+        computeOrder: 38
+        position:
+          serializedVersion: 2
+          x: 862.8271
+          y: 1317.5697
+          width: 152
+          height: 39
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        parameterGUID: 50b5209a-f32a-408c-b8d0-020f021992bb
+        accessor: 1
+    00000027:
+      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        GUID: 20259cef-2164-4a02-9b6f-5a6e89a276e0
+        computeOrder: 39
+        position:
+          serializedVersion: 2
+          x: 692.00006
+          y: 1307.998
+          width: 89
+          height: 39
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        parameterGUID: 92ccb5f1-dcc7-4d0a-b43d-9dbef21acc32
+        accessor: 1
+    00000028:
+      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        GUID: dcf965c6-0ab5-4d6a-bfad-7d98f396f2e0
+        computeOrder: 40
+        position:
+          serializedVersion: 2
+          x: 735.7607
+          y: 1403.1396
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        parameterGUID: c6f693c2-49ef-4967-ae79-7a0bdf8c90e4
+        accessor: 0
+    00000029:
+      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        GUID: 9bd89d3b-ef93-4f53-9457-ca5489f5c4ec
+        computeOrder: 41
+        position:
+          serializedVersion: 2
+          x: 906.0001
+          y: 1403
+          width: 109
+          height: 39
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        parameterGUID: 625ec217-4f3d-4231-9629-252e95cb0563
+        accessor: 0
+    0000002A:
       type: {class: BaseStackNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
       data:
         position: {x: 914.0975, y: 6.5799994}
@@ -279,3 +1679,166 @@ MonoBehaviour:
         - ffd2cf4b-87c3-42a6-9822-04bae7a5700b
         - 42eb43b8-ac7e-4f38-b49b-26ba1bc42732
         - e99da4fb-6a11-4b19-8594-f37f55d96114
+    0000002B:
+      type: {class: FloatParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        guid: 669635a4-841d-4ec2-986a-995938e30bc1
+        name: New Float
+        type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        serializedValue:
+          serializedType: 
+          serializedName: 
+          serializedValue: 
+        input: 1
+        settings:
+          isHidden: 0
+        val: 0.93
+    0000002C:
+      type: {class: ColorParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        guid: 3b05a13c-3ab0-4b75-8570-0eb80903f4ce
+        name: New Color
+        type: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedValue:
+          serializedType: 
+          serializedName: 
+          serializedValue: 
+        input: 1
+        settings:
+          isHidden: 0
+        val: {r: 1, g: 0, b: 0, a: 0}
+    0000002D:
+      type: {class: StringParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        guid: 50b5209a-f32a-408c-b8d0-020f021992bb
+        name: New String Parameter
+        type: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+        serializedValue:
+          serializedType: 
+          serializedName: 
+          serializedValue: 
+        input: 1
+        settings:
+          isHidden: 0
+        val: grehrrhe
+    0000002E:
+      type: {class: Vector4Parameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        guid: 2d7fabac-dfe0-4ecb-8034-1f99d4166570
+        name: New Vector 4 Parameter
+        type: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedValue:
+          serializedType: 
+          serializedName: 
+          serializedValue: 
+        input: 1
+        settings:
+          isHidden: 0
+        val: {x: 0, y: 0, z: 0, w: 0}
+    0000002F:
+      type: {class: Vector2Parameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        guid: 3191cf8b-3a88-4003-bb3d-9dd5543cfbfb
+        name: New Vector 2 Parameter
+        type: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedValue:
+          serializedType: 
+          serializedName: 
+          serializedValue: 
+        input: 1
+        settings:
+          isHidden: 0
+        val: {x: 0, y: 0}
+    00000030:
+      type: {class: Vector3Parameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        guid: 34588777-464d-4445-9e27-bbfa731670db
+        name: New Vector 3 Parameter
+        type: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        serializedValue:
+          serializedType: 
+          serializedName: 
+          serializedValue: 
+        input: 1
+        settings:
+          isHidden: 0
+        val: {x: 0, y: 0, z: 0}
+    00000031:
+      type: {class: AnimationCurveParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        guid: c6f693c2-49ef-4967-ae79-7a0bdf8c90e4
+        name: New Animation Curve
+        type: 
+        serializedValue:
+          serializedType: 
+          serializedName: 
+          serializedValue: 
+        input: 1
+        settings:
+          isHidden: 0
+        val:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    00000032:
+      type: {class: BoolParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        guid: 92ccb5f1-dcc7-4d0a-b43d-9dbef21acc32
+        name: New Bool
+        type: 
+        serializedValue:
+          serializedType: 
+          serializedName: 
+          serializedValue: 
+        input: 1
+        settings:
+          isHidden: 0
+        val: 0
+    00000033:
+      type: {class: GradientParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        guid: 625ec217-4f3d-4231-9629-252e95cb0563
+        name: New Gradient
+        type: 
+        serializedValue:
+          serializedType: 
+          serializedName: 
+          serializedValue: 
+        input: 1
+        settings:
+          isHidden: 0
+        val:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2

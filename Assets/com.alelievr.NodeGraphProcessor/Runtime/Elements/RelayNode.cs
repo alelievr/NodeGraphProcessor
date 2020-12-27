@@ -30,14 +30,9 @@ public class RelayNode : BaseNode
 	[System.NonSerialized]
 	int				outputIndex = 0;
 
-	SerializableType inputType;
+	SerializableType inputType = new SerializableType(typeof(object));
 
 	const int		k_MaxPortSize = 14;
-
-	protected override void Enable()
-	{
-		inputType = new SerializableType(typeof(object));
-	}
 
 	protected override void Process()
 	{

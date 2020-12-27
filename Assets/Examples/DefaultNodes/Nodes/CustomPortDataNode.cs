@@ -10,8 +10,6 @@ public class CustomPortData : BaseNode
 	[Input(name = "In Values", allowMultiple = true)]
 	public IEnumerable< object >	inputs = null;
 
-	// Be careful, if this variable is not static, it won't be initialized at the construction of the class
-	// This is because we uses [SerializeReference] for the serialization
 	static PortData[] portDatas = new PortData[] {
 		new PortData{displayName = "0", displayType = typeof(float), identifier = "0"},
 		new PortData{displayName = "1", displayType = typeof(int), identifier = "1"},

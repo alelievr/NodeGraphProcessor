@@ -71,7 +71,7 @@ namespace GraphProcessor
 				{
 					identifier = "output",
 					displayName = "Value",
-					displayType = (parameter == null) ? typeof(object) : Type.GetType(parameter.type),
+					displayType = (parameter == null) ? typeof(object) : parameter.GetValueType(),
 					acceptMultipleEdges = true
 				};
 			}
@@ -86,7 +86,7 @@ namespace GraphProcessor
 				{
 					identifier = "input",
 					displayName = "Value",
-					displayType = (parameter == null) ? typeof(object) : Type.GetType(parameter.type),
+					displayType = (parameter == null) ? typeof(object) : parameter.GetValueType(),
 				};
 			}
 		}

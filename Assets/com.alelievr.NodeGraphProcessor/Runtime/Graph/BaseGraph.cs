@@ -7,41 +7,6 @@ using UnityEngine.Serialization;
 
 namespace GraphProcessor
 {
-	[System.Serializable]
-	public class ExposedParameter : ISerializationCallbackReceiver
-	{
-		public string				guid; // unique id to keep track of the parameter
-		public string				name;
-		public string				type;
-		[Obsolete("Use value instead")]
-		public SerializableObject	serializedValue;
-		public SerializeReferenceWrapper	value;
-		public bool					input = true;
-		public ExposedParameterSettings settings;
-		public string shortType => Type.GetType(type)?.Name;
-
-		void ISerializationCallbackReceiver.OnAfterDeserialize()
-		{
-			// SerializeReference migration step:
-#pragma warning disable CS0618
-			if (serializedValue?.value != null) // old serialization system can't serialize null values
-			{
-				value.value = serializedValue.value;
-				Debug.Log("Migrated: " + serializedValue.value + " | " + serializedValue.serializedName);
-				serializedValue.value = null;
-			}
-#pragma warning restore CS0618
-		}
-
-		void ISerializationCallbackReceiver.OnBeforeSerialize() {}
-	}
-
-	[Serializable]
-	public class ExposedParameterSettings
-	{
-		public bool  isHidden;
-	}
-
 	public class GraphChanges
 	{
 		public SerializableEdge	removedEdge;
@@ -146,7 +111,7 @@ namespace GraphProcessor
 		/// </summary>
 		/// <typeparam name="ExposedParameter"></typeparam>
 		/// <returns></returns>
-		[SerializeField]
+		[SerializeField, SerializeReference]
 		public List< ExposedParameter >					exposedParameters = new List< ExposedParameter >();
 
 		[SerializeField]
@@ -439,10 +404,8 @@ namespace GraphProcessor
 					node.DisableInternal();
 			}
 
-			nodes.Clear();
-
-			// Migration step from JSON serialized nodes to [SerializeReference]
 #pragma warning disable CS0618
+			// Migration step from JSON serialized nodes to [SerializeReference]
 			if (serializedNodes.Count > 0)
 			{
 				foreach (var serializedNode in serializedNodes.ToList())
@@ -452,10 +415,26 @@ namespace GraphProcessor
                         nodes.Add(node);
 				}
 				serializedNodes.Clear();
+
+				// we also migrate parameters here:
+				var paramsToMigrate = exposedParameters.ToList();
+				exposedParameters.Clear();
+				foreach (var param in paramsToMigrate)
+				{
+					var newParam = param.Migrate();
+
+					if (newParam == null)
+					{
+						Debug.LogError($"Can't migrate parameter of type {param.type}, please create an Exposed Parameter class that implements this type.");
+						continue;
+					}
+					else
+						exposedParameters.Add(newParam);
+				}
 			}
 #pragma warning restore CS0618
 
-			foreach (var node in nodes)
+			foreach (var node in nodes.ToList())
 			{
 				nodesPerGUID[node.GUID] = node;
 				node.Initialize(this);
@@ -519,20 +498,52 @@ namespace GraphProcessor
 		/// Add an exposed parameter
 		/// </summary>
 		/// <param name="name">parameter name</param>
-		/// <param name="type">parameter type</param>
+		/// <param name="type">parameter type (must be a subclass of ExposedParameter)</param>
 		/// <param name="value">default value</param>
-		/// <returns></returns>
-		public string AddExposedParameter(string name, Type type, object value)
+		/// <returns>The unique id of the parameter</returns>
+		public string AddExposedParameter(string name, Type type, object value = null)
 		{
 			string guid = Guid.NewGuid().ToString(); // Generated once and unique per parameter
 
-			exposedParameters.Add(new ExposedParameter{
-				guid = guid,
-				name = name,
-				type = type.AssemblyQualifiedName,
-				settings = new ExposedParameterSettings(),
-				value = new SerializeReferenceWrapper(value),
-			});
+			if (!type.IsSubclassOf(typeof(ExposedParameter)))
+			{
+				Debug.LogError($"Can't add parameter of type {type}, the type doesn't inherit from ExposedParameter.");
+			}
+
+			var param = Activator.CreateInstance(type) as ExposedParameter;
+
+			// patch value with correct type:
+			if (param.GetValueType().IsValueType)
+				value = Activator.CreateInstance(param.GetValueType());
+
+			param.guid = guid;
+			param.name = name;
+			param.settings = new ExposedParameterSettings();
+			param.value = value;
+			exposedParameters.Add(param);
+
+			onExposedParameterListChanged?.Invoke();
+
+			return guid;
+		}
+
+		/// <summary>
+		/// Allow to customize the settings of the exposed parameters, this is useful when combined with a custom exposed parameter view (see ExposedParameterView.cs).
+		/// </summary>
+		/// <returns></returns>
+		protected virtual ExposedParameterSettings CreateExposedParameterSettings() => new ExposedParameterSettings();
+
+		/// <summary>
+		/// Add an already allocated / initialized parameter to the graph
+		/// </summary>
+		/// <param name="parameter">The parameter to add</param>
+		/// <returns>The unique id of the parameter</returns>
+		public string AddExposedParameter(ExposedParameter parameter)
+		{
+			string guid = Guid.NewGuid().ToString(); // Generated once and unique per parameter
+
+			parameter.guid = guid;
+			exposedParameters.Add(parameter);
 
 			onExposedParameterListChanged?.Invoke();
 
@@ -571,10 +582,10 @@ namespace GraphProcessor
 			if (param == null)
 				return;
 
-			if (value != null && value.GetType().AssemblyQualifiedName != param.type)
-				throw new Exception("Type mismatch when updating parameter " + param.name + ": from " + param.type + " to " + value.GetType().AssemblyQualifiedName);
+			if (value != null && !param.GetValueType().IsAssignableFrom(value.GetType()))
+				throw new Exception("Type mismatch when updating parameter " + param.name + ": from " + param.GetValueType() + " to " + value.GetType().AssemblyQualifiedName);
 
-			param.value.value = value;
+			param.value = value;
 			onExposedParameterModified.Invoke(param.guid);
 		}
 
@@ -617,7 +628,7 @@ namespace GraphProcessor
 		/// <returns>The parameter</returns>
 		public ExposedParameter GetExposedParameterFromGUID(string guid)
 		{
-			return exposedParameters.FirstOrDefault(e => e.guid == guid);
+			return exposedParameters.FirstOrDefault(e => e?.guid == guid);
 		}
 
 		/// <summary>
@@ -633,7 +644,7 @@ namespace GraphProcessor
 			if (e == null)
 				return false;
 
-			e.value.value = value;
+			e.value = value;
 
 			return true;
 		}

@@ -51,12 +51,12 @@ namespace GraphProcessor
 		/// Container of input ports
 		/// </summary>
 		[NonSerialized]
-		public NodeInputPortContainer	inputPorts;
+		public readonly NodeInputPortContainer	inputPorts;
 		/// <summary>
 		/// Container of output ports
 		/// </summary>
 		[NonSerialized]
-		public NodeOutputPortContainer	outputPorts;
+		public readonly NodeOutputPortContainer	outputPorts;
 
 		//Node view datas
 		public Rect					position;
@@ -110,7 +110,7 @@ namespace GraphProcessor
 		internal Dictionary< Type, CustomPortTypeBehaviorDelegate> customPortTypeBehaviorMap = new Dictionary<Type, CustomPortTypeBehaviorDelegate>();
 
 		[NonSerialized]
-		List< string >				messages;
+		List< string >				messages = new List<string>();
 
 		[NonSerialized]
 		protected BaseGraph			graph;
@@ -150,8 +150,8 @@ namespace GraphProcessor
 		}
 
 		// Used in port update algorithm
-		Stack<PortUpdate> fieldsToUpdate;
-		HashSet<PortUpdate> updatedFields;
+		Stack<PortUpdate> fieldsToUpdate = new Stack<PortUpdate>();
+		HashSet<PortUpdate> updatedFields = new HashSet<PortUpdate>();
 
 		/// <summary>
 		/// Creates a node of type T at a certain position
@@ -186,23 +186,10 @@ namespace GraphProcessor
 
 		#region Initialization
 
-		[System.NonSerialized]
-		public bool constructed = false;
-		public bool initialized = false;
-
 		// called by the BaseGraph when the node is added to the graph
 		public void Initialize(BaseGraph graph)
 		{
-			initialized =true;
 			this.graph = graph;
-
-			constructed = true;
-            fieldsToUpdate = new Stack<PortUpdate>();
-            updatedFields = new HashSet<PortUpdate>();
-
-			messages = new List< string >();
-
-			InitializeInOutDatas();
 
 			ExceptionToLog.Call(() => Enable());
 
@@ -268,8 +255,13 @@ namespace GraphProcessor
 			}
 		}
 
-		// Class constructors are broken with the [SerializeReference] attribute
-		protected BaseNode() {  }
+		protected BaseNode()
+		{
+            inputPorts = new NodeInputPortContainer(this);
+            outputPorts = new NodeOutputPortContainer(this);
+
+			InitializeInOutDatas();
+		}
 
 		/// <summary>
 		/// Update all ports of the node

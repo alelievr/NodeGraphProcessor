@@ -56,7 +56,7 @@ namespace GraphProcessor
 
 		void OnParamChanged(string modifiedParameterName)
 		{
-			if (parameter?.name == modifiedParameterName)
+			if (parameter?.guid == modifiedParameterName)
 			{
 				onParameterChanged?.Invoke();
 			}

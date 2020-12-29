@@ -57,42 +57,13 @@ namespace GraphProcessor
             {
                 var param = exposedParameters.GetArrayElementAtIndex(i);
                 var value = graph.exposedParameters[i];
-                Debug.Log(value);
-                if(value.settings.isHidden)
+
+                if (value.settings.isHidden)
                     continue;
 
-                // PropertyField f = new PropertyField(param);
-                // var name = param.FindPropertyRelative("name").stringValue;
-
-                var e = new PropertyField(param);
-
-                // param.type.
-
-                // var im = new IMGUIContainer(() => {
-                //     EditorGUIUtility.wideMode = true;
-                //     EditorGUI.BeginChangeCheck();
-                //     EditorGUILayout.PropertyField(param, new GUIContent(name), true);
-                //     if (EditorGUI.EndChangeCheck())
-                //     {
-                //         so.ApplyModifiedProperties();
-                //     }
-                // });
-                // var im = new PropertyField(param.FindPropertyRelative("name"), "HUFIWH");
-                // var referenceField = new PropertyField(property.FindPropertyRelative("value.referenceValue"), name);
-                // var objectField = new PropertyField(property.FindPropertyRelative("value.unityObjectValue"), name);
-
-                // prop.style.display = DisplayStyle.Flex;
-                parameterContainer.Add(e);
-                // PropertyField field = param.value.value;
-                // VisualElement prop = new VisualElement();
-                // prop.style.display = DisplayStyle.Flex;
-                // Type paramType = Type.GetType(param.type);
-                // var field = FieldFactory.CreateField(paramType, param.value.value, (newValue) => {
-				// 	Undo.RegisterCompleteObjectUndo(graph, "Changed Parameter " + param.name + " to " + newValue);
-                //     param.value.value = newValue;
-                // }, param.name);
-                // prop.Add(field);
-                // parameterContainer.Add(prop);
+                var p = new PropertyField(param);
+                p.Bind(so);
+                parameterContainer.Add(p);
             }
         }
 

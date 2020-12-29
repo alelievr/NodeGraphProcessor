@@ -150,6 +150,16 @@ namespace GraphProcessor
 
         protected virtual void OnEnable()
         {
+			MigrateGraphIfNeeded();
+			InitializeGraphElements();
+			DestroyBrokenGraphElements();
+			UpdateComputeOrder();
+			isEnabled = true;
+			onEnabled?.Invoke();
+        }
+
+		void InitializeGraphElements()
+		{
 			foreach (var node in nodes.ToList())
 			{
 				nodesPerGUID[node.GUID] = node;
@@ -172,12 +182,7 @@ namespace GraphProcessor
 				edge.inputPort.owner.OnEdgeConnected(edge);
 				edge.outputPort.owner.OnEdgeConnected(edge);
 			}
-
-			DestroyBrokenGraphElements();
-			UpdateComputeOrder();
-			isEnabled = true;
-			onEnabled?.Invoke();
-        }
+		}
 
 		protected virtual void OnDisable()
 		{
@@ -428,6 +433,13 @@ namespace GraphProcessor
 					node.DisableInternal();
 			}
 
+			MigrateGraphIfNeeded();
+
+			InitializeGraphElements();
+		}
+
+		void MigrateGraphIfNeeded()
+		{
 #pragma warning disable CS0618
 			// Migration step from JSON serialized nodes to [SerializeReference]
 			if (serializedNodes.Count > 0)
@@ -461,29 +473,6 @@ namespace GraphProcessor
 				}
 			}
 #pragma warning restore CS0618
-
-			foreach (var node in nodes.ToList())
-			{
-				nodesPerGUID[node.GUID] = node;
-				node.Initialize(this);
-			}
-
-			foreach (var edge in edges.ToList())
-			{
-				edge.Deserialize();
-				edgesPerGUID[edge.GUID] = edge;
-
-				// Sanity check for the edge:
-				if (edge.inputPort == null || edge.outputPort == null)
-				{
-					Disconnect(edge.GUID);
-					continue;
-				}
-
-				// Add the edge to the non-serialized port data
-				edge.inputPort.owner.OnEdgeConnected(edge);
-				edge.outputPort.owner.OnEdgeConnected(edge);
-			}
 		}
 
 		public void OnAfterDeserialize() {}

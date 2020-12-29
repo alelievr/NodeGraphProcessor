@@ -82,7 +82,8 @@ namespace GraphProcessor
             newParam.guid = guid;
             newParam.name = name;
             newParam.input = input;
-            newParam.settings = settings;
+            newParam.settings = newParam.CreateSettings();
+            newParam.settings.guid = guid;
 
             return newParam;
         }

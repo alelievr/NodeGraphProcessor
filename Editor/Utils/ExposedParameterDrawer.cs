@@ -18,12 +18,257 @@ namespace GraphProcessor
             return container;
         }
 
-        protected VisualElement CreateValProperty(SerializedProperty property)
+        protected VisualElement CreateValProperty(SerializedProperty property, string displayName = null)
         {
-            var val = property.FindPropertyRelative("val");
-            var name = property.FindPropertyRelative("name").stringValue;
+            if (displayName == null)
+                displayName = GetNameProperty(property).stringValue;
 
-            return new PropertyField(val, name);
+            return new PropertyField(GetValProperty(property), displayName);
+        }
+
+        protected SerializedProperty GetSettingsProperty(SerializedProperty property) => property.FindPropertyRelative(nameof(ExposedParameter.settings));
+        protected SerializedProperty GetValProperty(SerializedProperty property) => property.FindPropertyRelative("val");
+        protected SerializedProperty GetNameProperty(SerializedProperty property) => property.FindPropertyRelative(nameof(ExposedParameter.name));
+    }
+
+    [CustomPropertyDrawer(typeof(FloatParameter))]
+    public class FloatParameterDrawer : ExposedParameterDrawer
+    {
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            var container = new VisualElement();
+            var val = GetValProperty(property);
+            var name = GetNameProperty(property);
+
+            var settings = GetSettingsProperty(property);
+            var mode = settings.FindPropertyRelative(nameof(FloatParameter.FloatSettings.mode));
+            var min = settings.FindPropertyRelative(nameof(FloatParameter.FloatSettings.min));
+            var max = settings.FindPropertyRelative(nameof(FloatParameter.FloatSettings.max));
+            container.Add(new IMGUIContainer(() => {
+                float newValue;
+                if ((FloatParameter.FloatMode)mode.enumValueIndex == FloatParameter.FloatMode.Slider)
+                    newValue = EditorGUILayout.Slider(name.stringValue, val.floatValue, min.floatValue, max.floatValue);
+                else
+                    newValue = EditorGUILayout.FloatField(name.stringValue, val.floatValue);
+                newValue = Mathf.Clamp(newValue, min.floatValue, max.floatValue);
+                if (newValue != val.floatValue)
+                {
+                    val.floatValue = newValue;
+                    val.serializedObject.ApplyModifiedProperties();
+                }
+            }));
+
+            return container;
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(IntParameter))]
+    public class IntParameterDrawer : ExposedParameterDrawer
+    {
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            var container = new VisualElement();
+            var val = GetValProperty(property);
+            var name = GetNameProperty(property);
+
+            var settings = GetSettingsProperty(property);
+            var mode = settings.FindPropertyRelative(nameof(IntParameter.IntSettings.mode));
+            var min = settings.FindPropertyRelative(nameof(IntParameter.IntSettings.min));
+            var max = settings.FindPropertyRelative(nameof(IntParameter.IntSettings.max));
+            container.Add(new IMGUIContainer(() => {
+                int newValue;
+                if ((IntParameter.IntMode)mode.enumValueIndex == IntParameter.IntMode.Slider)
+                    newValue = EditorGUILayout.IntSlider(name.stringValue, val.intValue, min.intValue, max.intValue);
+                else
+                    newValue = EditorGUILayout.IntField(name.stringValue, val.intValue);
+                newValue = Mathf.Clamp(newValue, min.intValue, max.intValue);
+                if (newValue != val.floatValue)
+                {
+                    val.intValue = newValue;
+                    val.serializedObject.ApplyModifiedProperties();
+                }
+            }));
+
+            return container;
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(GradientParameter))]
+    public class GradientParameterDrawer : ExposedParameterDrawer
+    {
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            var name = GetNameProperty(property);
+            var settings = GetSettingsProperty(property);
+            var mode = (GradientParameter.GradientColorMode)settings.FindPropertyRelative(nameof(GradientParameter.GradientSettings.mode)).enumValueIndex;
+            if (mode == GradientParameter.GradientColorMode.HDR)
+                return new PropertyField(property.FindPropertyRelative("hdrVal"), name.stringValue);
+            else
+                return new PropertyField(property.FindPropertyRelative("val"), name.stringValue);
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(ExposedParameter.Settings))]
+    public class ExposedParameterSettingsDrawer : PropertyDrawer
+    {
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            return CreateHideInInspectorField(property);
+        }
+
+        protected VisualElement CreateHideInInspectorField(SerializedProperty settingsProperty)
+        {
+            var isHidden = settingsProperty.FindPropertyRelative(nameof(ExposedParameter.Settings.isHidden));
+            var graph = GetGraph(settingsProperty);
+            var param = GetParameter(settingsProperty); 
+			var p =  new PropertyField(isHidden, "Hide in Inspector");
+
+            p.RegisterValueChangeCallback(e => {
+                settingsProperty.serializedObject.ApplyModifiedProperties();
+                graph.NotifyExposedParameterChanged(param);
+            });
+
+            return p;
+        }
+
+        protected static BaseGraph GetGraph(SerializedProperty property) => property.serializedObject.targetObject as BaseGraph;
+        protected static ExposedParameter GetParameter(SerializedProperty settingsProperty)
+        {
+            var guid = settingsProperty.FindPropertyRelative(nameof(ExposedParameter.Settings.guid)).stringValue;
+            return GetGraph(settingsProperty).GetExposedParameterFromGUID(guid);
+        }
+
+        protected static PropertyField CreateSettingsField(SerializedProperty settingsProperty, string fieldName, string displayName = null)
+        {
+            var prop = settingsProperty.FindPropertyRelative(fieldName);
+            var param = GetParameter(settingsProperty); 
+            var graph = GetGraph(settingsProperty);
+
+            if (displayName == null)
+                displayName = ObjectNames.NicifyVariableName(fieldName);
+
+            var p =  new PropertyField(prop, displayName);
+            p.Bind(settingsProperty.serializedObject);
+            p.RegisterValueChangeCallback(e => {
+                settingsProperty.serializedObject.ApplyModifiedProperties();
+                graph.NotifyExposedParameterChanged(param);
+            });
+
+            return p;
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(ColorParameter.ColorSettings))]
+    public class ExposedColorSettingsDrawer : ExposedParameterSettingsDrawer
+    {
+        public override VisualElement CreatePropertyGUI(SerializedProperty settingsProperty)
+        {
+            VisualElement settings = new VisualElement();
+
+            settings.Add(CreateHideInInspectorField(settingsProperty));
+            settings.Add(CreateSettingsField(settingsProperty, nameof(ColorParameter.ColorSettings.mode), "Mode"));
+
+            return settings;
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(FloatParameter.FloatSettings))]
+    public class FloatSettingsDrawer : ExposedParameterSettingsDrawer
+    {
+        public override VisualElement CreatePropertyGUI(SerializedProperty settingsProperty)
+        {
+            VisualElement settings = new VisualElement();
+            settings.Bind(settingsProperty.serializedObject);
+
+            settings.Add(CreateHideInInspectorField(settingsProperty));
+            var mode = CreateSettingsField(settingsProperty, nameof(FloatParameter.FloatSettings.mode), "Mode");
+            var min = CreateSettingsField(settingsProperty, nameof(FloatParameter.FloatSettings.min), "Min");
+            var max = CreateSettingsField(settingsProperty, nameof(FloatParameter.FloatSettings.max), "Max");
+
+            mode.RegisterValueChangeCallback(e => UpdateVisibility(e.changedProperty));
+            UpdateVisibility(settingsProperty.FindPropertyRelative(nameof(FloatParameter.FloatSettings.mode)));
+
+            void UpdateVisibility(SerializedProperty property)
+            {
+                if (property == null)
+                    return;
+                var newValue = (FloatParameter.FloatMode)property.enumValueIndex;
+
+                if (newValue == FloatParameter.FloatMode.Slider)
+                    min.style.display = max.style.display = DisplayStyle.Flex;
+                else
+                    min.style.display = max.style.display = DisplayStyle.None;
+            }
+
+            settings.Add(mode);
+            settings.Add(min);
+            settings.Add(max);
+
+            return settings;
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(IntParameter.IntSettings))]
+    public class IntSettingsDrawer : ExposedParameterSettingsDrawer
+    {
+        public override VisualElement CreatePropertyGUI(SerializedProperty settingsProperty)
+        {
+            VisualElement settings = new VisualElement();
+            settings.Bind(settingsProperty.serializedObject);
+
+            settings.Add(CreateHideInInspectorField(settingsProperty));
+            var mode = CreateSettingsField(settingsProperty, nameof(IntParameter.IntSettings.mode), "Mode");
+            var min = CreateSettingsField(settingsProperty, nameof(IntParameter.IntSettings.min), "Min");
+            var max = CreateSettingsField(settingsProperty, nameof(IntParameter.IntSettings.max), "Max");
+
+            mode.RegisterValueChangeCallback(e => UpdateVisibility(e.changedProperty));
+            UpdateVisibility(settingsProperty.FindPropertyRelative(nameof(IntParameter.IntSettings.mode)));
+
+            void UpdateVisibility(SerializedProperty property)
+            {
+                if (property == null)
+                    return;
+                var newValue = (IntParameter.IntMode)property.enumValueIndex;
+
+                if (newValue == IntParameter.IntMode.Slider)
+                    min.style.display = max.style.display = DisplayStyle.Flex;
+                else
+                    min.style.display = max.style.display = DisplayStyle.None;
+            }
+
+            settings.Add(mode);
+            settings.Add(min);
+            settings.Add(max);
+
+            return settings;
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(Vector2Parameter.Vector2Settings))]
+    public class Vector2SettingsDrawer : ExposedParameterSettingsDrawer
+    {
+        public override VisualElement CreatePropertyGUI(SerializedProperty settingsProperty)
+        {
+            VisualElement settings = new VisualElement();
+
+            settings.Add(CreateHideInInspectorField(settingsProperty));
+            settings.Add(CreateSettingsField(settingsProperty, nameof(Vector2Parameter.Vector2Settings.mode), "Mode"));
+
+            return settings;
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(GradientParameter.GradientSettings))]
+    public class GradientSettingsDrawer : ExposedParameterSettingsDrawer
+    {
+        public override VisualElement CreatePropertyGUI(SerializedProperty settingsProperty)
+        {
+            VisualElement settings = new VisualElement();
+
+            settings.Add(CreateHideInInspectorField(settingsProperty));
+            settings.Add(CreateSettingsField(settingsProperty, nameof(GradientParameter.GradientSettings.mode), "Mode"));
+
+            return settings;
         }
     }
 }

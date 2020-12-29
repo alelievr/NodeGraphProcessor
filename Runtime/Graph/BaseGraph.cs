@@ -150,7 +150,28 @@ namespace GraphProcessor
 
         protected virtual void OnEnable()
         {
-			Deserialize();
+			foreach (var node in nodes.ToList())
+			{
+				nodesPerGUID[node.GUID] = node;
+				node.Initialize(this);
+			}
+
+			foreach (var edge in edges.ToList())
+			{
+				edge.Deserialize();
+				edgesPerGUID[edge.GUID] = edge;
+
+				// Sanity check for the edge:
+				if (edge.inputPort == null || edge.outputPort == null)
+				{
+					Disconnect(edge.GUID);
+					continue;
+				}
+
+				// Add the edge to the non-serialized port data
+				edge.inputPort.owner.OnEdgeConnected(edge);
+				edge.outputPort.owner.OnEdgeConnected(edge);
+			}
 
 			DestroyBrokenGraphElements();
 			UpdateComputeOrder();
@@ -411,7 +432,6 @@ namespace GraphProcessor
 			// Migration step from JSON serialized nodes to [SerializeReference]
 			if (serializedNodes.Count > 0)
 			{
-				Debug.Log("node count:" + serializedNodes.Count);
 				nodes.Clear();
 				foreach (var serializedNode in serializedNodes.ToList())
 				{
@@ -423,12 +443,9 @@ namespace GraphProcessor
 
 				// we also migrate parameters here:
 				var paramsToMigrate = serializedParameterList.ToList();
-				Debug.Log(paramsToMigrate.Count);
 				exposedParameters.Clear();
-				Debug.Log(paramsToMigrate.Count);
 				foreach (var param in paramsToMigrate)
 				{
-					Debug.Log("param: " + param);
 					if (param == null)
 						continue;
 
@@ -440,10 +457,7 @@ namespace GraphProcessor
 						continue;
 					}
 					else
-					{
-						Debug.Log("new param: " + newParam);
 						exposedParameters.Add(newParam);
-					}
 				}
 			}
 #pragma warning restore CS0618
@@ -517,7 +531,6 @@ namespace GraphProcessor
 		/// <returns>The unique id of the parameter</returns>
 		public string AddExposedParameter(string name, Type type, object value = null)
 		{
-			string guid = Guid.NewGuid().ToString(); // Generated once and unique per parameter
 
 			if (!type.IsSubclassOf(typeof(ExposedParameter)))
 			{
@@ -529,23 +542,14 @@ namespace GraphProcessor
 			// patch value with correct type:
 			if (param.GetValueType().IsValueType)
 				value = Activator.CreateInstance(param.GetValueType());
-
-			param.guid = guid;
-			param.name = name;
-			param.settings = new ExposedParameterSettings();
-			param.value = value;
+			
+			param.Initialize(name, value);
 			exposedParameters.Add(param);
 
 			onExposedParameterListChanged?.Invoke();
 
-			return guid;
+			return param.guid;
 		}
-
-		/// <summary>
-		/// Allow to customize the settings of the exposed parameters, this is useful when combined with a custom exposed parameter view (see ExposedParameterView.cs).
-		/// </summary>
-		/// <returns></returns>
-		protected virtual ExposedParameterSettings CreateExposedParameterSettings() => new ExposedParameterSettings();
 
 		/// <summary>
 		/// Add an already allocated / initialized parameter to the graph
@@ -600,7 +604,7 @@ namespace GraphProcessor
 				throw new Exception("Type mismatch when updating parameter " + param.name + ": from " + param.GetValueType() + " to " + value.GetType().AssemblyQualifiedName);
 
 			param.value = value;
-			onExposedParameterModified.Invoke(param.guid);
+			onExposedParameterModified?.Invoke(param.guid);
 		}
 
 		/// <summary>
@@ -611,7 +615,7 @@ namespace GraphProcessor
 		public void UpdateExposedParameterName(ExposedParameter parameter, string name)
 		{
 			parameter.name = name;
-			onExposedParameterModified.Invoke(name);
+			onExposedParameterModified?.Invoke(parameter.guid);
 		}
 
 		/// <summary>
@@ -619,10 +623,9 @@ namespace GraphProcessor
 		/// </summary>
 		/// <param name="parameter">The parameter</param>
 		/// <param name="isHidden">is Hidden</param>
-		public void UpdateExposedParameterVisibility(ExposedParameter parameter, bool isHidden)
+		public void NotifyExposedParameterChanged(ExposedParameter parameter)
 		{
-			parameter.settings.isHidden = isHidden;
-			onExposedParameterModified.Invoke(name);
+			onExposedParameterModified?.Invoke(parameter.guid);
 		}
 
 		/// <summary>

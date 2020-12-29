@@ -118,6 +118,7 @@ namespace GraphProcessor
 
 		public SerializedObject		serializedGraph { get; private set; }
 		public SerializedProperty	serializedNodes { get; private set; }
+		public SerializedProperty	serializedParameters { get; private set; }
 
 		public BaseGraphView(EditorWindow window)
 		{
@@ -706,6 +707,7 @@ namespace GraphProcessor
 		{
 			serializedGraph = new SerializedObject(graph);
 			serializedNodes = serializedGraph.FindProperty(nameof(BaseGraph.nodes));
+			serializedParameters = serializedGraph.FindProperty(nameof(BaseGraph.exposedParameters));
 		}
 
 		/// <summary>
@@ -717,7 +719,11 @@ namespace GraphProcessor
 
 		void InitializeGraphView()
 		{
-			graph.onExposedParameterListChanged += () => onExposedParameterListChanged?.Invoke();
+			graph.onExposedParameterListChanged += () =>
+			{
+				UpdateSerializedProperties();
+				onExposedParameterListChanged?.Invoke();
+			};
 			graph.onExposedParameterModified += (s) => onExposedParameterModified?.Invoke(s);
 			graph.onGraphChanges += GraphChangesCallback;
 			viewTransform.position = graph.position;

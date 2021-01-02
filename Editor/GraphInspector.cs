@@ -11,20 +11,23 @@ namespace GraphProcessor
     {
         protected VisualElement root;
         protected BaseGraph     graph;
+        protected ExposedParameterFieldFactory exposedParameterFactory;
 
-        VisualElement   parameterContainer;
+        VisualElement           parameterContainer;
 
         protected virtual void OnEnable()
         {
             graph = target as BaseGraph;
             graph.onExposedParameterListChanged += UpdateExposedParameters;
             graph.onExposedParameterModified += UpdateExposedParameters;
+            exposedParameterFactory = new ExposedParameterFieldFactory(graph);
         }
 
         protected virtual void OnDisable()
         {
             graph.onExposedParameterListChanged -= UpdateExposedParameters;
             graph.onExposedParameterModified -= UpdateExposedParameters;
+            exposedParameterFactory.Dispose();
         }
 
         public sealed override VisualElement CreateInspectorGUI()
@@ -50,25 +53,22 @@ namespace GraphProcessor
                 parameterContainer.Add(new Label("Exposed Parameters:"));
 
             SerializedObject so = new SerializedObject(graph);
-
             var exposedParameters = so.FindProperty(nameof(graph.exposedParameters));
-
-            for (int i = 0; i < exposedParameters.arraySize; i++)
+            
+            foreach (var param in graph.exposedParameters)
             {
-                var param = exposedParameters.GetArrayElementAtIndex(i);
-                var value = graph.exposedParameters[i];
-
-                if (value.settings.isHidden)
-                    continue;
-
-                var p = new PropertyField(param);
-                p.Bind(so);
-                parameterContainer.Add(p);
+                var field = exposedParameterFactory.GetParameterValueField(param, (newValue) => {
+                    Debug.Log("changed: " + param.value + " => " + newValue);
+                    param.value = newValue;
+                    serializedObject.ApplyModifiedProperties();
+                    graph.NotifyExposedParameterValueChanged(param);
+                });
+                parameterContainer.Add(field);
             }
         }
 
-        void UpdateExposedParameters(string guid) => UpdateExposedParameters();
-		
+        void UpdateExposedParameters(ExposedParameter param) => UpdateExposedParameters();
+
         void UpdateExposedParameters()
         {
             parameterContainer.Clear();

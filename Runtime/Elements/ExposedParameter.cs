@@ -86,7 +86,36 @@ namespace GraphProcessor
             newParam.settings.guid = guid;
 
             return newParam;
+     
         }
+
+        public static bool operator ==(ExposedParameter param1, ExposedParameter param2)
+        {
+            if (ReferenceEquals(param1, null) && ReferenceEquals(param2, null))
+                return true;
+            if (ReferenceEquals(param1, param2))
+                return true;
+            if (ReferenceEquals(param1, null))
+                return false;
+            if (ReferenceEquals(param2, null))
+                return false;
+
+            return param1.Equals(param2);
+        }
+
+        public static bool operator !=(ExposedParameter param1, ExposedParameter param2) => !(param1 == param2);
+
+        public bool Equals(ExposedParameter parameter) => guid == parameter.guid;
+
+        public override bool Equals(object obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+                return false;
+            else
+                return Equals((ExposedParameter)obj);
+        }
+
+        public override int GetHashCode() => guid.GetHashCode();
 	}
 
     // Due to polymorphic constraints with [SerializeReference] we need to explicitly create a class for

@@ -130,8 +130,9 @@ namespace GraphProcessor
 		/// <summary>
 		/// Triggered when something is changed in the list of exposed parameters
 		/// </summary>
-		public event Action				onExposedParameterListChanged;
-		public event Action< string >	onExposedParameterModified;
+		public event Action						onExposedParameterListChanged;
+		public event Action< ExposedParameter >	onExposedParameterModified;
+		public event Action< ExposedParameter >	onExposedParameterValueChanged;
 		/// <summary>
 		/// Triggered when the graph is enabled
 		/// </summary>
@@ -593,7 +594,7 @@ namespace GraphProcessor
 				throw new Exception("Type mismatch when updating parameter " + param.name + ": from " + param.GetValueType() + " to " + value.GetType().AssemblyQualifiedName);
 
 			param.value = value;
-			onExposedParameterModified?.Invoke(param.guid);
+			onExposedParameterModified?.Invoke(param);
 		}
 
 		/// <summary>
@@ -604,7 +605,7 @@ namespace GraphProcessor
 		public void UpdateExposedParameterName(ExposedParameter parameter, string name)
 		{
 			parameter.name = name;
-			onExposedParameterModified?.Invoke(parameter.guid);
+			onExposedParameterModified?.Invoke(parameter);
 		}
 
 		/// <summary>
@@ -614,7 +615,12 @@ namespace GraphProcessor
 		/// <param name="isHidden">is Hidden</param>
 		public void NotifyExposedParameterChanged(ExposedParameter parameter)
 		{
-			onExposedParameterModified?.Invoke(parameter.guid);
+			onExposedParameterModified?.Invoke(parameter);
+		}
+
+		public void NotifyExposedParameterValueChanged(ExposedParameter parameter)
+		{
+			onExposedParameterValueChanged?.Invoke(parameter);
 		}
 
 		/// <summary>

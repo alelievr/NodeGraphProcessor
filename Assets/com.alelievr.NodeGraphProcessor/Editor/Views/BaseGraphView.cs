@@ -103,7 +103,7 @@ namespace GraphProcessor
 		/// Same event than BaseGraph.onExposedParameterModified
 		/// Safe event (not triggered in case the graph is null).
 		/// </summary>
-		public event Action< string >	onExposedParameterModified;
+		public event Action< ExposedParameter >	onExposedParameterModified;
 
 		/// <summary>
 		/// Triggered when a node is duplicated (crt-d) or copy-pasted (crtl-c/crtl-v)

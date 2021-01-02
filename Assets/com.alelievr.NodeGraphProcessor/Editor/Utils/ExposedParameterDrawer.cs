@@ -23,12 +23,21 @@ namespace GraphProcessor
             if (displayName == null)
                 displayName = GetNameProperty(property).stringValue;
 
-            return new PropertyField(GetValProperty(property), displayName);
+            var p = new PropertyField(GetValProperty(property), displayName);
+
+            p.RegisterValueChangeCallback(e => {
+                ApplyModifiedProperties(property);
+            });
+
+            return p;
         }
 
         protected SerializedProperty GetSettingsProperty(SerializedProperty property) => property.FindPropertyRelative(nameof(ExposedParameter.settings));
         protected SerializedProperty GetValProperty(SerializedProperty property) => property.FindPropertyRelative("val");
         protected SerializedProperty GetNameProperty(SerializedProperty property) => property.FindPropertyRelative(nameof(ExposedParameter.name));
+
+        protected void ApplyModifiedProperties(SerializedProperty property)
+            => property.serializedObject.ApplyModifiedProperties();
     }
 
     [CustomPropertyDrawer(typeof(FloatParameter))]
@@ -47,14 +56,16 @@ namespace GraphProcessor
             container.Add(new IMGUIContainer(() => {
                 float newValue;
                 if ((FloatParameter.FloatMode)mode.enumValueIndex == FloatParameter.FloatMode.Slider)
+                {
                     newValue = EditorGUILayout.Slider(name.stringValue, val.floatValue, min.floatValue, max.floatValue);
+                    newValue = Mathf.Clamp(newValue, min.floatValue, max.floatValue);
+                }
                 else
                     newValue = EditorGUILayout.FloatField(name.stringValue, val.floatValue);
-                newValue = Mathf.Clamp(newValue, min.floatValue, max.floatValue);
                 if (newValue != val.floatValue)
                 {
                     val.floatValue = newValue;
-                    val.serializedObject.ApplyModifiedProperties();
+                    ApplyModifiedProperties(property);
                 }
             }));
 
@@ -78,14 +89,16 @@ namespace GraphProcessor
             container.Add(new IMGUIContainer(() => {
                 int newValue;
                 if ((IntParameter.IntMode)mode.enumValueIndex == IntParameter.IntMode.Slider)
+                {
                     newValue = EditorGUILayout.IntSlider(name.stringValue, val.intValue, min.intValue, max.intValue);
+                    newValue = Mathf.Clamp(newValue, min.intValue, max.intValue);
+                }
                 else
                     newValue = EditorGUILayout.IntField(name.stringValue, val.intValue);
-                newValue = Mathf.Clamp(newValue, min.intValue, max.intValue);
                 if (newValue != val.floatValue)
                 {
                     val.intValue = newValue;
-                    val.serializedObject.ApplyModifiedProperties();
+                    ApplyModifiedProperties(property);
                 }
             }));
 

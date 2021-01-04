@@ -116,9 +116,12 @@ namespace GraphProcessor
 		[NonSerialized]
 		protected NodeInspectorObject		nodeInspector;
 
+		/// <summary>
+		/// Workaround object for creating exposed parameter property fields.
+		/// </summary>
+		public ExposedParameterFieldFactory exposedParameterFactory { get; private set; }
+
 		public SerializedObject		serializedGraph { get; private set; }
-		public SerializedProperty	serializedNodes { get; private set; }
-		public SerializedProperty	serializedParameters { get; private set; }
 
 		public BaseGraphView(EditorWindow window)
 		{
@@ -666,6 +669,8 @@ namespace GraphProcessor
 
 			this.graph = graph;
 
+			exposedParameterFactory = new ExposedParameterFieldFactory(graph);
+
 			UpdateSerializedProperties();
 
             connectorListener = CreateEdgeConnectorListener();
@@ -706,8 +711,6 @@ namespace GraphProcessor
 		void UpdateSerializedProperties()
 		{
 			serializedGraph = new SerializedObject(graph);
-			serializedNodes = serializedGraph.FindProperty(nameof(BaseGraph.nodes));
-			serializedParameters = serializedGraph.FindProperty(nameof(BaseGraph.exposedParameters));
 		}
 
 		/// <summary>
@@ -1286,6 +1289,7 @@ namespace GraphProcessor
 			Undo.undoRedoPerformed -= ReloadView;
 			Object.DestroyImmediate(nodeInspector);
 			NodeProvider.UnloadGraph(graph);
+			exposedParameterFactory.Dispose();
         }
 
         #endregion

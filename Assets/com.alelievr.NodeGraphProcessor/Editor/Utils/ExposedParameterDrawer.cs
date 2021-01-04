@@ -37,7 +37,11 @@ namespace GraphProcessor
         protected SerializedProperty GetNameProperty(SerializedProperty property) => property.FindPropertyRelative(nameof(ExposedParameter.name));
 
         protected void ApplyModifiedProperties(SerializedProperty property)
-            => property.serializedObject.ApplyModifiedProperties();
+        {
+            property.serializedObject.ApplyModifiedProperties();
+            property.serializedObject.Update();
+            property.serializedObject.ApplyModifiedProperties();
+        }
     }
 
     [CustomPropertyDrawer(typeof(FloatParameter))]
@@ -144,7 +148,7 @@ namespace GraphProcessor
             return p;
         }
 
-        protected static BaseGraph GetGraph(SerializedProperty property) => property.serializedObject.targetObject as BaseGraph;
+        protected static BaseGraph GetGraph(SerializedProperty property) => property.serializedObject.FindProperty("graph").objectReferenceValue as BaseGraph;
         protected static ExposedParameter GetParameter(SerializedProperty settingsProperty)
         {
             var guid = settingsProperty.FindPropertyRelative(nameof(ExposedParameter.Settings.guid)).stringValue;

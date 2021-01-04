@@ -15,6 +15,19 @@ namespace GraphProcessor
 
             [SerializeField]
             internal string guid = null;
+
+            public override bool Equals(object obj)
+            {
+                if (obj is Settings s && s != null)
+                    return Equals(s);
+                else
+                    return false;
+            }
+
+            public virtual bool Equals(Settings param)
+                => isHidden == param.isHidden && expanded == param.expanded;
+
+            public override int GetHashCode() => base.GetHashCode();
         }
 
 		public string				guid; // unique id to keep track of the parameter
@@ -116,6 +129,19 @@ namespace GraphProcessor
         }
 
         public override int GetHashCode() => guid.GetHashCode();
+
+        public ExposedParameter Clone()
+        {
+            var clonedParam = Activator.CreateInstance(GetType()) as ExposedParameter;
+
+            clonedParam.guid = guid;
+            clonedParam.name = name;
+            clonedParam.input = input;
+            clonedParam.settings = settings;
+            clonedParam.value = value;
+
+            return clonedParam;
+        }
 	}
 
     // Due to polymorphic constraints with [SerializeReference] we need to explicitly create a class for
@@ -133,6 +159,9 @@ namespace GraphProcessor
         public class ColorSettings : Settings
         {
             public ColorMode mode;
+
+            public override bool Equals(Settings param)
+                => base.Equals(param) && mode == ((ColorSettings)param).mode;
         }
 
         [SerializeField] Color val;
@@ -156,6 +185,9 @@ namespace GraphProcessor
             public FloatMode mode;
             public float min = 0;
             public float max = 1;
+
+            public override bool Equals(Settings param)
+                => base.Equals(param) && mode == ((FloatSettings)param).mode && min == ((FloatSettings)param).min && max == ((FloatSettings)param).max;
         }
 
         [SerializeField] float val;
@@ -177,6 +209,9 @@ namespace GraphProcessor
         public class Vector2Settings : Settings
         {
             public Vector2Mode mode;
+
+            public override bool Equals(Settings param)
+                => base.Equals(param) && mode == ((Vector2Settings)param).mode;
         }
 
         [SerializeField] Vector2 val;
@@ -216,6 +251,9 @@ namespace GraphProcessor
             public IntMode mode;
             public int min;
             public int max;
+
+            public override bool Equals(Settings param)
+                => base.Equals(param) && mode == ((IntSettings)param).mode && min == ((IntSettings)param).min && max == ((IntSettings)param).max;
         }
 
         [SerializeField] int val;
@@ -319,6 +357,9 @@ namespace GraphProcessor
         public class GradientSettings : Settings
         {
             public GradientColorMode mode;
+
+            public override bool Equals(Settings param)
+                => base.Equals(param) && mode == ((GradientSettings)param).mode;
         }
 
         [SerializeField] Gradient val;

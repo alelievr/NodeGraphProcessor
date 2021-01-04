@@ -722,16 +722,18 @@ namespace GraphProcessor
 
 		void InitializeGraphView()
 		{
-			graph.onExposedParameterListChanged += () =>
-			{
-				UpdateSerializedProperties();
-				onExposedParameterListChanged?.Invoke();
-			};
+			graph.onExposedParameterListChanged += OnExposedParameterListChanged;
 			graph.onExposedParameterModified += (s) => onExposedParameterModified?.Invoke(s);
 			graph.onGraphChanges += GraphChangesCallback;
 			viewTransform.position = graph.position;
 			viewTransform.scale = graph.scale;
 			nodeCreationRequest = (c) => SearchWindow.Open(new SearchWindowContext(c.screenMousePosition), createNodeMenu);
+		}
+
+		void OnExposedParameterListChanged()
+		{
+			UpdateSerializedProperties();
+			onExposedParameterListChanged?.Invoke();
 		}
 
 		void InitializeNodeViews()
@@ -1290,6 +1292,12 @@ namespace GraphProcessor
 			Object.DestroyImmediate(nodeInspector);
 			NodeProvider.UnloadGraph(graph);
 			exposedParameterFactory.Dispose();
+			exposedParameterFactory = null;
+			Debug.Log("Dispose field factory!");
+
+			graph.onExposedParameterListChanged -= OnExposedParameterListChanged;
+			graph.onExposedParameterModified += (s) => onExposedParameterModified?.Invoke(s);
+			graph.onGraphChanges -= GraphChangesCallback;
         }
 
         #endregion

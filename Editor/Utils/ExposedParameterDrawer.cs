@@ -125,6 +125,25 @@ namespace GraphProcessor
         }
     }
 
+    [CustomPropertyDrawer(typeof(ColorParameter))]
+    public class ColorParameterDrawer : ExposedParameterDrawer
+    {
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            var name = GetNameProperty(property);
+            var settings = GetSettingsProperty(property);
+            var val = GetValProperty(property);
+            var mode = (ColorParameter.ColorMode)settings.FindPropertyRelative(nameof(ColorParameter.ColorSettings.mode)).enumValueIndex;
+
+            var colorField = new ColorField(name.stringValue) { value = val.colorValue, hdr = mode == ColorParameter.ColorMode.HDR };
+            colorField.RegisterValueChangedCallback(e => {
+                val.colorValue = e.newValue;
+                ApplyModifiedProperties(property);
+            });
+            return colorField;
+        }
+    }
+
     [CustomPropertyDrawer(typeof(ExposedParameter.Settings))]
     public class ExposedParameterSettingsDrawer : PropertyDrawer
     {

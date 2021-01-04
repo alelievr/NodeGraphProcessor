@@ -56,6 +56,9 @@ namespace GraphProcessor
 
             foreach (var param in graph.exposedParameters)
             {
+                if (param.settings.isHidden)
+                    continue;
+
                 var field = exposedParameterFactory.GetParameterValueField(param, (newValue) => {
                     param.value = newValue;
                     serializedObject.ApplyModifiedProperties();

@@ -13,15 +13,15 @@ namespace GraphProcessor
 
 		public Toggle     hideInInspector { get; private set; }
 
-		public ExposedParameterPropertyView(BaseGraphView graphView, ExposedParameter param, SerializedProperty serializedParam)
+		public ExposedParameterPropertyView(BaseGraphView graphView, ExposedParameter param)
 		{
 			baseGraphView = graphView;
 			parameter      = param;
 
-			var settings = serializedParam.FindPropertyRelative("settings");
+			var field = graphView.exposedParameterFactory.GetParameterSettingsField(param, (newValue) => {
+				param.settings = newValue as ExposedParameter.Settings;
+			});
 
-			var field = new PropertyField(settings);
-			field.Bind(serializedParam.serializedObject);
 			Add(field);
 		}
 	}

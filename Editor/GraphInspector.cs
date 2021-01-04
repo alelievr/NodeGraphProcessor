@@ -20,7 +20,8 @@ namespace GraphProcessor
             graph = target as BaseGraph;
             graph.onExposedParameterListChanged += UpdateExposedParameters;
             graph.onExposedParameterModified += UpdateExposedParameters;
-            exposedParameterFactory = new ExposedParameterFieldFactory(graph);
+            if (exposedParameterFactory == null)
+                exposedParameterFactory = new ExposedParameterFieldFactory(graph);
         }
 
         protected virtual void OnDisable()
@@ -28,6 +29,7 @@ namespace GraphProcessor
             graph.onExposedParameterListChanged -= UpdateExposedParameters;
             graph.onExposedParameterModified -= UpdateExposedParameters;
             exposedParameterFactory.Dispose();
+            exposedParameterFactory = null;
         }
 
         public sealed override VisualElement CreateInspectorGUI()
@@ -52,13 +54,9 @@ namespace GraphProcessor
             if (graph.exposedParameters.Count != 0)
                 parameterContainer.Add(new Label("Exposed Parameters:"));
 
-            SerializedObject so = new SerializedObject(graph);
-            var exposedParameters = so.FindProperty(nameof(graph.exposedParameters));
-            
             foreach (var param in graph.exposedParameters)
             {
                 var field = exposedParameterFactory.GetParameterValueField(param, (newValue) => {
-                    Debug.Log("changed: " + param.value + " => " + newValue);
                     param.value = newValue;
                     serializedObject.ApplyModifiedProperties();
                     graph.NotifyExposedParameterValueChanged(param);

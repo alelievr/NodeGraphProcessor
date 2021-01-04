@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 using System;
 using System.Collections.Generic;
 
@@ -21,11 +22,6 @@ namespace GraphProcessor
             [SerializeReference]
             public List<ExposedParameter>   parameters = new List<ExposedParameter>();
             public BaseGraph                graph;
-
-            public ExposedParameterWorkaround()
-            {
-                Debug.Log("re-create workaround");
-            }
         }
 
         BaseGraph graph;
@@ -34,38 +30,84 @@ namespace GraphProcessor
         SerializedObject            serializedObject;
         SerializedProperty          serializedParameters;
 
-        public ExposedParameterFieldFactory(BaseGraph graph)
+        Dictionary<ExposedParameter, object> oldParameterValues = new Dictionary<ExposedParameter, object>();
+        Dictionary<ExposedParameter, ExposedParameter.Settings> oldParameterSettings = new Dictionary<ExposedParameter, ExposedParameter.Settings>();
+
+        public ExposedParameterFieldFactory(BaseGraph graph, List<ExposedParameter> customParameters = null)
         {
             this.graph = graph;
 
             exposedParameterObject = ScriptableObject.CreateInstance<ExposedParameterWorkaround>();
             exposedParameterObject.graph = graph;
             serializedObject = new SerializedObject(exposedParameterObject);
-            serializedParameters = serializedObject.FindProperty(nameof(ExposedParameterWorkaround.parameters));
-            UpdateSerializedProperties();
+            UpdateSerializedProperties(customParameters);
         }
 
-        void UpdateSerializedProperties()
+        public void UpdateSerializedProperties(List<ExposedParameter> parameters = null)
         {
-            exposedParameterObject.parameters = graph.exposedParameters;
+            if (parameters != null)
+                exposedParameterObject.parameters = parameters;
+            else
+                exposedParameterObject.parameters = graph.exposedParameters;
             serializedObject.Update();
             serializedParameters = serializedObject.FindProperty(nameof(ExposedParameterWorkaround.parameters));
-            Debug.Log(serializedParameters.arraySize);
         }
 
-        public PropertyField GetParameterValueField(ExposedParameter parameter, Action<object> valueChangedCallback)
+        public VisualElement GetParameterValueField(ExposedParameter parameter, Action<object> valueChangedCallback)
         {
             serializedObject.Update();
             int propIndex = FindPropertyIndex(parameter);
             var field = new PropertyField(serializedParameters.GetArrayElementAtIndex(propIndex));
-
-            field.schedule.Execute(() => {
-                if (!parameter.value.Equals(exposedParameterObject.parameters[propIndex].value))
-                    valueChangedCallback(exposedParameterObject.parameters[propIndex].value);
-            }).Every(50);
             field.Bind(serializedObject);
 
-            return field;
+            VisualElement view = new VisualElement();
+            view.Add(field);
+
+            oldParameterValues[parameter] = parameter.value;
+            view.Add(new IMGUIContainer(() =>
+            {
+                if (oldParameterValues.TryGetValue(parameter, out var value))
+                {
+                    if (parameter.value != null && !parameter.value.Equals(value))
+                        valueChangedCallback(parameter.value);
+                }
+                oldParameterValues[parameter] = parameter.value;
+            }));
+
+            return view;
+        }
+
+        public VisualElement GetParameterSettingsField(ExposedParameter parameter, Action<object> valueChangedCallback)
+        {
+            serializedObject.Update();
+            int propIndex = FindPropertyIndex(parameter);
+            var serializedParameter = serializedParameters.GetArrayElementAtIndex(propIndex);
+            var serializedSettings = serializedParameter.FindPropertyRelative(nameof(ExposedParameter.settings));
+            var settingsField = new PropertyField(serializedSettings);
+            settingsField.Bind(serializedObject);
+
+            VisualElement view = new VisualElement();
+            view.Add(settingsField);
+
+            // TODO: see if we can replace this with an event
+            oldParameterSettings[parameter] = parameter.settings;
+            view.Add(new IMGUIContainer(() =>
+            {
+                if (oldParameterSettings.TryGetValue(parameter, out var settings))
+                {
+                    if (!settings.Equals(parameter.settings))
+                        valueChangedCallback(parameter.settings);
+                }
+                oldParameterSettings[parameter] = parameter.settings;
+            }));
+
+            return view;
+        }
+
+        public void ResetOldParameter(ExposedParameter parameter)
+        {
+            oldParameterValues.Remove(parameter);
+            oldParameterSettings.Remove(parameter);
         }
 
         int FindPropertyIndex(ExposedParameter param) => exposedParameterObject.parameters.FindIndex(p => p == param);

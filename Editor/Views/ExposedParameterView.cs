@@ -76,12 +76,9 @@ namespace GraphProcessor
         {
             content.Clear();
 
-            for (int i = 0; i < graphView.serializedParameters.arraySize; i++)
+            foreach (var param in graphView.graph.exposedParameters)
             {
-                var param = graphView.graph.exposedParameters[i];
-                var serializedParam = graphView.serializedParameters.GetArrayElementAtIndex(i);
-
-                var row = new BlackboardRow(new ExposedParameterFieldView(graphView, param), new ExposedParameterPropertyView(graphView, param, serializedParam));
+                var row = new BlackboardRow(new ExposedParameterFieldView(graphView, param), new ExposedParameterPropertyView(graphView, param));
                 row.expanded = param.settings.expanded;
                 row.RegisterCallback<GeometryChangedEvent>(e => {
                     param.settings.expanded = row.expanded;

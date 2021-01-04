@@ -16,14 +16,6 @@ namespace GraphProcessor
     // but it's far better than having to re-create the graph every time a parameter or a setting is changed.
     public class ExposedParameterFieldFactory : IDisposable
     {
-        [Serializable]
-        public class ExposedParameterWorkaround : ScriptableObject
-        {
-            [SerializeReference]
-            public List<ExposedParameter>   parameters = new List<ExposedParameter>();
-            public BaseGraph                graph;
-        }
-
         BaseGraph graph;
         [SerializeField]
         ExposedParameterWorkaround  exposedParameterObject;
@@ -39,6 +31,7 @@ namespace GraphProcessor
 
             exposedParameterObject = ScriptableObject.CreateInstance<ExposedParameterWorkaround>();
             exposedParameterObject.graph = graph;
+            exposedParameterObject.hideFlags = HideFlags.HideAndDontSave;
             serializedObject = new SerializedObject(exposedParameterObject);
             UpdateSerializedProperties(customParameters);
         }

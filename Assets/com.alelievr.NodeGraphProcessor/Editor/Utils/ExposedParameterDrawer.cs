@@ -94,6 +94,7 @@ namespace GraphProcessor
             var max = settings.FindPropertyRelative(nameof(IntParameter.IntSettings.max));
             container.Add(new IMGUIContainer(() => {
                 int newValue;
+                EditorGUIUtility.labelWidth = 150;
                 if ((IntParameter.IntMode)mode.enumValueIndex == IntParameter.IntMode.Slider)
                 {
                     newValue = EditorGUILayout.IntSlider(name.stringValue, val.intValue, min.intValue, max.intValue);
@@ -106,6 +107,7 @@ namespace GraphProcessor
                     val.intValue = newValue;
                     ApplyModifiedProperties(property);
                 }
+                EditorGUIUtility.labelWidth = 0;
             }));
 
             return container;
@@ -126,6 +128,7 @@ namespace GraphProcessor
             var min = settings.FindPropertyRelative(nameof(Vector2Parameter.Vector2Settings.min));
             var max = settings.FindPropertyRelative(nameof(Vector2Parameter.Vector2Settings.max));
             container.Add(new IMGUIContainer(() => {
+                EditorGUIUtility.labelWidth = 150;
                 EditorGUI.BeginChangeCheck();
                 if ((Vector2Parameter.Vector2Mode)mode.enumValueIndex == Vector2Parameter.Vector2Mode.MinMaxSlider)
                 {
@@ -138,6 +141,7 @@ namespace GraphProcessor
                     val.vector2Value = EditorGUILayout.Vector2Field(name.stringValue, val.vector2Value);
                 if (EditorGUI.EndChangeCheck())
                     ApplyModifiedProperties(property);
+                EditorGUIUtility.labelWidth = 0;
             }));
 
             return container;

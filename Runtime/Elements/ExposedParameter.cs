@@ -202,16 +202,18 @@ namespace GraphProcessor
         public enum Vector2Mode
         {
             Default,
-            MinMaxRange,
+            MinMaxSlider,
         }
 
         [Serializable]
         public class Vector2Settings : Settings
         {
             public Vector2Mode mode;
+            public float min = 0;
+            public float max = 1;
 
             public override bool Equals(Settings param)
-                => base.Equals(param) && mode == ((Vector2Settings)param).mode;
+                => base.Equals(param) && mode == ((Vector2Settings)param).mode && min == ((Vector2Settings)param).min && max == ((Vector2Settings)param).max;
         }
 
         [SerializeField] Vector2 val;

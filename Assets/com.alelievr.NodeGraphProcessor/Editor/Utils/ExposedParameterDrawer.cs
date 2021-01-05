@@ -110,6 +110,38 @@ namespace GraphProcessor
         }
     }
 
+    [CustomPropertyDrawer(typeof(Vector2Parameter))]
+    public class Vector2ParameterDrawer : ExposedParameterDrawer
+    {
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            var container = new VisualElement();
+            var val = GetValProperty(property);
+            var name = GetNameProperty(property);
+
+            var settings = GetSettingsProperty(property);
+            var mode = settings.FindPropertyRelative(nameof(Vector2Parameter.Vector2Settings.mode));
+            var min = settings.FindPropertyRelative(nameof(Vector2Parameter.Vector2Settings.min));
+            var max = settings.FindPropertyRelative(nameof(Vector2Parameter.Vector2Settings.max));
+            container.Add(new IMGUIContainer(() => {
+                EditorGUI.BeginChangeCheck();
+                if ((Vector2Parameter.Vector2Mode)mode.enumValueIndex == Vector2Parameter.Vector2Mode.MinMaxSlider)
+                {
+                    float x = val.vector2Value.x;
+                    float y = val.vector2Value.y;
+                    EditorGUILayout.MinMaxSlider(name.stringValue, ref x, ref y, min.floatValue, max.floatValue);
+                    val.vector2Value = new Vector2(x, y);
+                }
+                else
+                    val.vector2Value = EditorGUILayout.Vector2Field(name.stringValue, val.vector2Value);
+                if (EditorGUI.EndChangeCheck())
+                    ApplyModifiedProperties(property);
+            }));
+
+            return container;
+        }
+    }
+
     [CustomPropertyDrawer(typeof(GradientParameter))]
     public class GradientParameterDrawer : ExposedParameterDrawer
     {
@@ -289,6 +321,8 @@ namespace GraphProcessor
 
             settings.Add(CreateHideInInspectorField(settingsProperty));
             settings.Add(CreateSettingsField(settingsProperty, nameof(Vector2Parameter.Vector2Settings.mode), "Mode"));
+            settings.Add(CreateSettingsField(settingsProperty, nameof(Vector2Parameter.Vector2Settings.min), "Min"));
+            settings.Add(CreateSettingsField(settingsProperty, nameof(Vector2Parameter.Vector2Settings.max), "Max"));
 
             return settings;
         }

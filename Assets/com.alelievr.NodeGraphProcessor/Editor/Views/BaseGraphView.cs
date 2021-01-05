@@ -1293,7 +1293,6 @@ namespace GraphProcessor
 			NodeProvider.UnloadGraph(graph);
 			exposedParameterFactory.Dispose();
 			exposedParameterFactory = null;
-			Debug.Log("Dispose field factory!");
 
 			graph.onExposedParameterListChanged -= OnExposedParameterListChanged;
 			graph.onExposedParameterModified += (s) => onExposedParameterModified?.Invoke(s);

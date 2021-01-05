@@ -59,6 +59,7 @@ namespace GraphProcessor
             var max = settings.FindPropertyRelative(nameof(FloatParameter.FloatSettings.max));
             container.Add(new IMGUIContainer(() => {
                 float newValue;
+                EditorGUIUtility.labelWidth = 150;
                 if ((FloatParameter.FloatMode)mode.enumValueIndex == FloatParameter.FloatMode.Slider)
                 {
                     newValue = EditorGUILayout.Slider(name.stringValue, val.floatValue, min.floatValue, max.floatValue);
@@ -71,6 +72,7 @@ namespace GraphProcessor
                     val.floatValue = newValue;
                     ApplyModifiedProperties(property);
                 }
+                EditorGUIUtility.labelWidth = 0;
             }));
 
             return container;
@@ -99,7 +101,7 @@ namespace GraphProcessor
                 }
                 else
                     newValue = EditorGUILayout.IntField(name.stringValue, val.intValue);
-                if (newValue != val.floatValue)
+                if (newValue != val.intValue)
                 {
                     val.intValue = newValue;
                     ApplyModifiedProperties(property);

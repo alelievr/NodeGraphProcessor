@@ -251,8 +251,8 @@ namespace GraphProcessor
         public class IntSettings : Settings
         {
             public IntMode mode;
-            public int min;
-            public int max;
+            public int min = 0;
+            public int max = 10;
 
             public override bool Equals(Settings param)
                 => base.Equals(param) && mode == ((IntSettings)param).mode && min == ((IntSettings)param).min && max == ((IntSettings)param).max;

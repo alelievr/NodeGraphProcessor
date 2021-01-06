@@ -40,7 +40,6 @@ namespace GraphProcessor
         {
             property.serializedObject.ApplyModifiedProperties();
             property.serializedObject.Update();
-            property.serializedObject.ApplyModifiedProperties();
         }
     }
 

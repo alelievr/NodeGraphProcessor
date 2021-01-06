@@ -75,7 +75,9 @@ namespace GraphProcessor
             serializedObject.Update();
             int propIndex = FindPropertyIndex(parameter);
             var serializedParameter = serializedParameters.GetArrayElementAtIndex(propIndex);
+            serializedParameter.managedReferenceValue = exposedParameterObject.parameters[propIndex];
             var serializedSettings = serializedParameter.FindPropertyRelative(nameof(ExposedParameter.settings));
+            serializedSettings.managedReferenceValue = exposedParameterObject.parameters[propIndex].settings;
             var settingsField = new PropertyField(serializedSettings);
             settingsField.Bind(serializedObject);
 

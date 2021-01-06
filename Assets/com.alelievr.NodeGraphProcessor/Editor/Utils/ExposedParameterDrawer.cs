@@ -59,7 +59,7 @@ namespace GraphProcessor
             container.Add(new IMGUIContainer(() => {
                 float newValue;
                 EditorGUIUtility.labelWidth = 150;
-                if ((FloatParameter.FloatMode)mode.enumValueIndex == FloatParameter.FloatMode.Slider)
+                if ((FloatParameter.FloatMode)mode.intValue == FloatParameter.FloatMode.Slider)
                 {
                     newValue = EditorGUILayout.Slider(name.stringValue, val.floatValue, min.floatValue, max.floatValue);
                     newValue = Mathf.Clamp(newValue, min.floatValue, max.floatValue);
@@ -94,7 +94,7 @@ namespace GraphProcessor
             container.Add(new IMGUIContainer(() => {
                 int newValue;
                 EditorGUIUtility.labelWidth = 150;
-                if ((IntParameter.IntMode)mode.enumValueIndex == IntParameter.IntMode.Slider)
+                if ((IntParameter.IntMode)mode.intValue == IntParameter.IntMode.Slider)
                 {
                     newValue = EditorGUILayout.IntSlider(name.stringValue, val.intValue, min.intValue, max.intValue);
                     newValue = Mathf.Clamp(newValue, min.intValue, max.intValue);
@@ -129,7 +129,7 @@ namespace GraphProcessor
             container.Add(new IMGUIContainer(() => {
                 EditorGUIUtility.labelWidth = 150;
                 EditorGUI.BeginChangeCheck();
-                if ((Vector2Parameter.Vector2Mode)mode.enumValueIndex == Vector2Parameter.Vector2Mode.MinMaxSlider)
+                if ((Vector2Parameter.Vector2Mode)mode.intValue == Vector2Parameter.Vector2Mode.MinMaxSlider)
                 {
                     float x = val.vector2Value.x;
                     float y = val.vector2Value.y;
@@ -154,7 +154,7 @@ namespace GraphProcessor
         {
             var name = GetNameProperty(property);
             var settings = GetSettingsProperty(property);
-            var mode = (GradientParameter.GradientColorMode)settings.FindPropertyRelative(nameof(GradientParameter.GradientSettings.mode)).enumValueIndex;
+            var mode = (GradientParameter.GradientColorMode)settings.FindPropertyRelative(nameof(GradientParameter.GradientSettings.mode)).intValue;
             if (mode == GradientParameter.GradientColorMode.HDR)
                 return new PropertyField(property.FindPropertyRelative("hdrVal"), name.stringValue);
             else
@@ -170,7 +170,7 @@ namespace GraphProcessor
             var name = GetNameProperty(property);
             var settings = GetSettingsProperty(property);
             var val = GetValProperty(property);
-            var mode = (ColorParameter.ColorMode)settings.FindPropertyRelative(nameof(ColorParameter.ColorSettings.mode)).enumValueIndex;
+            var mode = (ColorParameter.ColorMode)settings.FindPropertyRelative(nameof(ColorParameter.ColorSettings.mode)).intValue;
 
             var colorField = new ColorField(name.stringValue) { value = val.colorValue, hdr = mode == ColorParameter.ColorMode.HDR };
             colorField.RegisterValueChangedCallback(e => {
@@ -265,7 +265,7 @@ namespace GraphProcessor
             {
                 if (property == null)
                     return;
-                var newValue = (FloatParameter.FloatMode)property.enumValueIndex;
+                var newValue = (FloatParameter.FloatMode)property.intValue;
 
                 if (newValue == FloatParameter.FloatMode.Slider)
                     min.style.display = max.style.display = DisplayStyle.Flex;
@@ -301,7 +301,7 @@ namespace GraphProcessor
             {
                 if (property == null)
                     return;
-                var newValue = (IntParameter.IntMode)property.enumValueIndex;
+                var newValue = (IntParameter.IntMode)property.intValue;
 
                 if (newValue == IntParameter.IntMode.Slider)
                     min.style.display = max.style.display = DisplayStyle.Flex;

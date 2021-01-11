@@ -728,6 +728,11 @@ namespace GraphProcessor
 					controlsContainer.Add(element);
 				}
 			}
+			else
+			{
+				// Make sure we create an empty placeholder if FieldFactory can not provide a drawer
+				if (showInputDrawer) AddEmptyField(field, false);
+			}
 
 			var visibleCondition = field.GetCustomAttribute(typeof(VisibleIf)) as VisibleIf;
 			if (visibleCondition != null)

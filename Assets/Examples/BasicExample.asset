@@ -38,24 +38,6 @@ MonoBehaviour:
   - id: 21
   - id: 22
   - id: 23
-  - id: 24
-  - id: 25
-  - id: 26
-  - id: 27
-  - id: 28
-  - id: 29
-  - id: 30
-  - id: 31
-  - id: 32
-  - id: 33
-  - id: 34
-  - id: 35
-  - id: 36
-  - id: 37
-  - id: 38
-  - id: 39
-  - id: 40
-  - id: 41
   edges:
   - GUID: 04cee6c7-b233-40e1-b41a-31f6093f1482
     owner: {fileID: 11400000}
@@ -183,7 +165,7 @@ MonoBehaviour:
     size: {x: 300, y: 100}
     innerNodeGUIDs: []
   stackNodes:
-  - id: 42
+  - id: 24
   pinnedElements:
   - position:
       serializedVersion: 2
@@ -207,8 +189,8 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - position:
       serializedVersion: 2
-      x: 177
-      y: 114
+      x: 0
+      y: 35
       width: 294
       height: 345
     opened: 1
@@ -226,15 +208,98 @@ MonoBehaviour:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor.Editor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters:
-  - id: 43
-  - id: 44
-  - id: 45
-  - id: 46
-  - id: 47
-  - id: 48
-  - id: 49
-  - id: 50
-  - id: 51
+  - id: 25
+  serializedParameterList:
+  - guid: 
+    name: 
+    type: 
+    serializedValue:
+      serializedType: 
+      serializedName: 
+      serializedValue: 
+    input: 1
+    settings:
+      id: 26
+  - guid: 
+    name: 
+    type: 
+    serializedValue:
+      serializedType: 
+      serializedName: 
+      serializedValue: 
+    input: 1
+    settings:
+      id: 26
+  - guid: 
+    name: 
+    type: 
+    serializedValue:
+      serializedType: 
+      serializedName: 
+      serializedValue: 
+    input: 1
+    settings:
+      id: 26
+  - guid: 
+    name: 
+    type: 
+    serializedValue:
+      serializedType: 
+      serializedName: 
+      serializedValue: 
+    input: 1
+    settings:
+      id: 26
+  - guid: 
+    name: 
+    type: 
+    serializedValue:
+      serializedType: 
+      serializedName: 
+      serializedValue: 
+    input: 1
+    settings:
+      id: 26
+  - guid: 
+    name: 
+    type: 
+    serializedValue:
+      serializedType: 
+      serializedName: 
+      serializedValue: 
+    input: 1
+    settings:
+      id: 26
+  - guid: 
+    name: 
+    type: 
+    serializedValue:
+      serializedType: 
+      serializedName: 
+      serializedValue: 
+    input: 1
+    settings:
+      id: 26
+  - guid: 
+    name: 
+    type: 
+    serializedValue:
+      serializedType: 
+      serializedName: 
+      serializedValue: 
+    input: 1
+    settings:
+      id: 26
+  - guid: 
+    name: 
+    type: 
+    serializedValue:
+      serializedType: 
+      serializedName: 
+      serializedValue: 
+    input: 1
+    settings:
+      id: 26
   stickyNotes:
   - position:
       serializedVersion: 2
@@ -252,8 +317,8 @@ MonoBehaviour:
       height: 101
     title: New Sticky Note
     content: Write your text here
-  position: {x: 133, y: -902, z: 0}
-  scale: {x: 0.8695652, y: 0.8695652, z: 1}
+  position: {x: 267, y: 305, z: 0}
+  scale: {x: 0.375937, y: 0.375937, z: 1}
   references:
     version: 1
     00000000:
@@ -661,1014 +726,6 @@ MonoBehaviour:
         nodeLock: 0
         output: 0
     00000018:
-      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: 27d6c0e1-48c9-44cd-ab98-3f7137ff1486
-        computeOrder: 24
-        position:
-          serializedVersion: 2
-          x: 198.99998
-          y: 1069.5099
-          width: 369
-          height: 389
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        s: 
-        i: 0
-        f: 0
-        v2: {x: 0, y: 0}
-        v3: {x: 0, y: 0, z: 0}
-        v4: {x: 0, y: 0, z: 0, w: 0}
-        layer:
-          serializedVersion: 2
-          m_Bits: 0
-        color: {r: 0, g: 0, b: 0, a: 0}
-        bounds:
-          m_Center: {x: 0, y: 0, z: 0}
-          m_Extent: {x: -0.96, y: 0, z: 0}
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        flags: 2
-        toggle: 0
-        gradient:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    00000019:
-      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: e0b1148e-efc8-4132-b4e9-5fd7c3d7634d
-        computeOrder: 25
-        position:
-          serializedVersion: 2
-          x: -204.00005
-          y: 1087
-          width: 369
-          height: 389
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        s: 
-        i: 68
-        f: 1.73
-        v2: {x: 0.24, y: 0}
-        v3: {x: 0, y: 0, z: 0}
-        v4: {x: 0, y: 0, z: 0, w: 0}
-        layer:
-          serializedVersion: 2
-          m_Bits: 0
-        color: {r: 0, g: 0, b: 0, a: 0}
-        bounds:
-          m_Center: {x: 0, y: 0, z: 0}
-          m_Extent: {x: 0, y: 0, z: 0}
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        flags: 2
-        toggle: 0
-        gradient:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    0000001A:
-      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: 186886f2-2b2a-4ec0-a520-fd9f0247211e
-        computeOrder: 26
-        position:
-          serializedVersion: 2
-          x: -617.549
-          y: 1245.37
-          width: 369
-          height: 389
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        s: 
-        i: 223
-        f: 0
-        v2: {x: 0, y: 0}
-        v3: {x: 0, y: 0, z: 0}
-        v4: {x: 0, y: 0, z: 0, w: 0}
-        layer:
-          serializedVersion: 2
-          m_Bits: 0
-        color: {r: 0, g: 0, b: 0, a: 0}
-        bounds:
-          m_Center: {x: 0, y: 0, z: 0}
-          m_Extent: {x: 0, y: 0, z: 0}
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        flags: 2
-        toggle: 0
-        gradient:
-          serializedVersion: 2
-          key0: {r: 0.021718264, g: 1, b: 0, a: 1}
-          key1: {r: 0.747265, g: 0.99607843, b: 0, a: 1}
-          key2: {r: 1, g: 0.989954, b: 0, a: 0}
-          key3: {r: 1, g: 0.42356986, b: 0, a: 0}
-          key4: {r: 1, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 14456
-          ctime2: 26985
-          ctime3: 49537
-          ctime4: 65535
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 5
-          m_NumAlphaKeys: 2
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    0000001B:
-      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: b3a42f89-30c4-45b0-afbc-f274bd3c5459
-        computeOrder: 27
-        position:
-          serializedVersion: 2
-          x: 236.99998
-          y: 1542.9926
-          width: 369
-          height: 389
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        s: 
-        i: 0
-        f: 0
-        v2: {x: 0, y: 0}
-        v3: {x: 0, y: 0, z: 0}
-        v4: {x: 0, y: 0, z: 0, w: 0}
-        layer:
-          serializedVersion: 2
-          m_Bits: 0
-        color: {r: 0, g: 0, b: 0, a: 0}
-        bounds:
-          m_Center: {x: 0, y: 0, z: 0}
-          m_Extent: {x: -0.96, y: 0, z: 0}
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        flags: 2
-        toggle: 0
-        gradient:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    0000001C:
-      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: a875e7ae-4758-4fe4-ab7e-edf45f79b247
-        computeOrder: 28
-        position:
-          serializedVersion: 2
-          x: -204
-          y: 1576.9921
-          width: 369
-          height: 389
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        s: 
-        i: 0
-        f: 0
-        v2: {x: 0, y: 0}
-        v3: {x: 0, y: 0, z: 0}
-        v4: {x: 0, y: 0, z: 0, w: 0}
-        layer:
-          serializedVersion: 2
-          m_Bits: 0
-        color: {r: 0, g: 0, b: 0, a: 0}
-        bounds:
-          m_Center: {x: 0, y: 0, z: 0}
-          m_Extent: {x: -0.96, y: 0, z: 0}
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        flags: 2
-        toggle: 0
-        gradient:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    0000001D:
-      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: fdf13544-4d16-47c6-b3d3-4e86223f52c1
-        computeOrder: 29
-        position:
-          serializedVersion: 2
-          x: 583.81396
-          y: 1543
-          width: 369
-          height: 389
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        s: 
-        i: 0
-        f: 0
-        v2: {x: 0, y: 0}
-        v3: {x: 0, y: 0, z: 0}
-        v4: {x: 0, y: 0, z: 0, w: 0}
-        layer:
-          serializedVersion: 2
-          m_Bits: 0
-        color: {r: 0, g: 0, b: 0, a: 0}
-        bounds:
-          m_Center: {x: 0, y: 0, z: 0}
-          m_Extent: {x: -0.96, y: 0, z: 0}
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        flags: 2
-        toggle: 0
-        gradient:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    0000001E:
-      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: 5da2d21d-fe1f-49d4-898c-7e4202d7926f
-        computeOrder: 30
-        position:
-          serializedVersion: 2
-          x: -700.7585
-          y: 1687.1793
-          width: 369
-          height: 389
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        s: 
-        i: 0
-        f: 0
-        v2: {x: 0, y: 0}
-        v3: {x: 0, y: 0, z: 0}
-        v4: {x: 0, y: 0, z: 0, w: 0}
-        layer:
-          serializedVersion: 2
-          m_Bits: 0
-        color: {r: 0, g: 0, b: 0, a: 0}
-        bounds:
-          m_Center: {x: 0, y: 0, z: 0}
-          m_Extent: {x: -0.96, y: 0, z: 0}
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        flags: 2
-        toggle: 0
-        gradient:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    0000001F:
-      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: ef229bdb-403b-484d-93f1-25444a8a96fb
-        computeOrder: 31
-        position:
-          serializedVersion: 2
-          x: -204.00006
-          y: 2055.0522
-          width: 369
-          height: 389
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        s: 
-        i: 0
-        f: 0
-        v2: {x: 0, y: 0}
-        v3: {x: 0, y: 0, z: 0}
-        v4: {x: 0, y: 0, z: 0, w: 0}
-        layer:
-          serializedVersion: 2
-          m_Bits: 0
-        color: {r: 0, g: 0, b: 0, a: 0}
-        bounds:
-          m_Center: {x: 0, y: 0, z: 0}
-          m_Extent: {x: -0.96, y: 0, z: 0}
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        flags: 2
-        toggle: 0
-        gradient:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    00000020:
-      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: c8a0d130-20ec-4a44-92e0-ba4e535882c8
-        computeOrder: 32
-        position:
-          serializedVersion: 2
-          x: 623.40015
-          y: 2032.8503
-          width: 369
-          height: 389
-        expanded: 1
-        debug: 0
-        nodeLock: 0
-        s: 
-        i: 0
-        f: 0
-        v2: {x: 0, y: 0}
-        v3: {x: 0, y: 0, z: 0}
-        v4: {x: 0, y: 0, z: 0, w: 0}
-        layer:
-          serializedVersion: 2
-          m_Bits: 0
-        color: {r: 0, g: 0, b: 0, a: 0}
-        bounds:
-          m_Center: {x: 0, y: 0, z: 0}
-          m_Extent: {x: -0.96, y: 0, z: 0}
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        flags: 2
-        toggle: 0
-        gradient:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    00000021:
-      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: f657582b-d3bb-4636-9b0f-25f2263478ac
-        computeOrder: 33
-        position:
-          serializedVersion: 2
-          x: 1157.1
-          y: 2122.0005
-          width: 369
-          height: 389
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        s: 
-        i: 0
-        f: 0
-        v2: {x: 0, y: 0}
-        v3: {x: 0, y: 0, z: 0}
-        v4: {x: 0, y: 0, z: 0, w: 0}
-        layer:
-          serializedVersion: 2
-          m_Bits: 0
-        color: {r: 0, g: 0, b: 0, a: 0}
-        bounds:
-          m_Center: {x: 0, y: 0, z: 0}
-          m_Extent: {x: 0, y: 0, z: 0}
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        flags: 2
-        toggle: 0
-        gradient:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    00000022:
-      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: 8727c33e-d351-4fb0-a466-6355b2e6b414
-        computeOrder: 34
-        position:
-          serializedVersion: 2
-          x: 274.6
-          y: 2055
-          width: 129
-          height: 44
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        s: 
-        i: 0
-        f: 0
-        v2: {x: 0, y: 0}
-        v3: {x: 0, y: 0, z: 0}
-        v4: {x: 0, y: 0, z: 0, w: 0}
-        layer:
-          serializedVersion: 2
-          m_Bits: 0
-        color: {r: 0, g: 0, b: 0, a: 0}
-        bounds:
-          m_Center: {x: 0, y: 0, z: 0}
-          m_Extent: {x: 0, y: 0, z: 0}
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        flags: 2
-        toggle: 0
-        gradient:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    00000023:
-      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: 774571aa-1bfd-4807-89bb-11199971c15e
-        computeOrder: 35
-        position:
-          serializedVersion: 2
-          x: 1107.4501
-          y: 2033.2002
-          width: 100
-          height: 100
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        s: 
-        i: 0
-        f: 0
-        v2: {x: 0, y: 0}
-        v3: {x: 0, y: 0, z: 0}
-        v4: {x: 0, y: 0, z: 0, w: 0}
-        layer:
-          serializedVersion: 2
-          m_Bits: 0
-        color: {r: 0, g: 0, b: 0, a: 0}
-        bounds:
-          m_Center: {x: 0, y: 0, z: 0}
-          m_Extent: {x: 0, y: 0, z: 0}
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        flags: 2
-        toggle: 0
-        gradient:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        curve:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    00000024:
-      type: {class: FieldTestNode, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: 422a38a4-cda1-4d67-8cbb-4c584852b520
-        computeOrder: 36
-        position:
-          serializedVersion: 2
-          x: 422
-          y: 2479
-          width: 369
-          height: 390
-        expanded: 1
-        debug: 0
-        nodeLock: 0
-        s: 
-        i: 0
-        f: 0
-        v2: {x: 0, y: 0}
-        v3: {x: 0, y: 0, z: 0}
-        v4: {x: 0, y: 0, z: 0, w: 0}
-        layer:
-          serializedVersion: 2
-          m_Bits: 0
-        color: {r: 0, g: 0, b: 0, a: 0}
-        bounds:
-          m_Center: {x: 0, y: 0, z: 0}
-          m_Extent: {x: 0, y: 0, z: 0}
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        flags: 2
-        toggle: 0
-        gradient:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
-        curve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 2
-            outSlope: 2
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    00000025:
-      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
-      data:
-        GUID: 4addc6cc-be1d-4106-a635-f04c54e68f15
-        computeOrder: 37
-        position:
-          serializedVersion: 2
-          x: 781.09644
-          y: 1256.7108
-          width: 100
-          height: 100
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        parameterGUID: 34588777-464d-4445-9e27-bbfa731670db
-        accessor: 0
-    00000026:
-      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
-      data:
-        GUID: 29eb1cee-044d-4e9e-95b3-bb11b50b8817
-        computeOrder: 38
-        position:
-          serializedVersion: 2
-          x: 862.8271
-          y: 1317.5697
-          width: 152
-          height: 39
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        parameterGUID: 50b5209a-f32a-408c-b8d0-020f021992bb
-        accessor: 1
-    00000027:
-      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
-      data:
-        GUID: 20259cef-2164-4a02-9b6f-5a6e89a276e0
-        computeOrder: 39
-        position:
-          serializedVersion: 2
-          x: 692.00006
-          y: 1307.998
-          width: 89
-          height: 39
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        parameterGUID: 92ccb5f1-dcc7-4d0a-b43d-9dbef21acc32
-        accessor: 1
-    00000028:
-      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
-      data:
-        GUID: dcf965c6-0ab5-4d6a-bfad-7d98f396f2e0
-        computeOrder: 40
-        position:
-          serializedVersion: 2
-          x: 735.7607
-          y: 1403.1396
-          width: 100
-          height: 100
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        parameterGUID: c6f693c2-49ef-4967-ae79-7a0bdf8c90e4
-        accessor: 0
-    00000029:
-      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
-      data:
-        GUID: 9bd89d3b-ef93-4f53-9457-ca5489f5c4ec
-        computeOrder: 41
-        position:
-          serializedVersion: 2
-          x: 906.0001
-          y: 1403
-          width: 109
-          height: 39
-        expanded: 0
-        debug: 0
-        nodeLock: 0
-        parameterGUID: 625ec217-4f3d-4231-9629-252e95cb0563
-        accessor: 0
-    0000002A:
       type: {class: BaseStackNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
       data:
         position: {x: 914.0975, y: 6.5799994}
@@ -1679,99 +736,11 @@ MonoBehaviour:
         - ffd2cf4b-87c3-42a6-9822-04bae7a5700b
         - 42eb43b8-ac7e-4f38-b49b-26ba1bc42732
         - e99da4fb-6a11-4b19-8594-f37f55d96114
-    0000002B:
+    00000019:
       type: {class: FloatParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
       data:
-        guid: 669635a4-841d-4ec2-986a-995938e30bc1
+        guid: eb80df62-f248-4ec9-afd4-f9ed08bfaa16
         name: New Float
-        type: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-        serializedValue:
-          serializedType: 
-          serializedName: 
-          serializedValue: 
-        input: 1
-        settings:
-          isHidden: 0
-        val: 0.93
-    0000002C:
-      type: {class: ColorParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
-      data:
-        guid: 3b05a13c-3ab0-4b75-8570-0eb80903f4ce
-        name: New Color
-        type: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-        serializedValue:
-          serializedType: 
-          serializedName: 
-          serializedValue: 
-        input: 1
-        settings:
-          isHidden: 0
-        val: {r: 1, g: 0, b: 0, a: 0}
-    0000002D:
-      type: {class: StringParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
-      data:
-        guid: 50b5209a-f32a-408c-b8d0-020f021992bb
-        name: New String Parameter
-        type: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-        serializedValue:
-          serializedType: 
-          serializedName: 
-          serializedValue: 
-        input: 1
-        settings:
-          isHidden: 0
-        val: grehrrhe
-    0000002E:
-      type: {class: Vector4Parameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
-      data:
-        guid: 2d7fabac-dfe0-4ecb-8034-1f99d4166570
-        name: New Vector 4 Parameter
-        type: UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-        serializedValue:
-          serializedType: 
-          serializedName: 
-          serializedValue: 
-        input: 1
-        settings:
-          isHidden: 0
-        val: {x: 0, y: 0, z: 0, w: 0}
-    0000002F:
-      type: {class: Vector2Parameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
-      data:
-        guid: 3191cf8b-3a88-4003-bb3d-9dd5543cfbfb
-        name: New Vector 2 Parameter
-        type: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-        serializedValue:
-          serializedType: 
-          serializedName: 
-          serializedValue: 
-        input: 1
-        settings:
-          isHidden: 0
-        val: {x: 0, y: 0}
-    00000030:
-      type: {class: Vector3Parameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
-      data:
-        guid: 34588777-464d-4445-9e27-bbfa731670db
-        name: New Vector 3 Parameter
-        type: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
-        serializedValue:
-          serializedType: 
-          serializedName: 
-          serializedValue: 
-        input: 1
-        settings:
-          isHidden: 0
-        val: {x: 0, y: 0, z: 0}
-    00000031:
-      type: {class: AnimationCurveParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
-      data:
-        guid: c6f693c2-49ef-4967-ae79-7a0bdf8c90e4
-        name: New Animation Curve
         type: 
         serializedValue:
           serializedType: 
@@ -1779,66 +748,16 @@ MonoBehaviour:
           serializedValue: 
         input: 1
         settings:
-          isHidden: 0
-        val:
-          serializedVersion: 2
-          m_Curve: []
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-    00000032:
-      type: {class: BoolParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
-      data:
-        guid: 92ccb5f1-dcc7-4d0a-b43d-9dbef21acc32
-        name: New Bool
-        type: 
-        serializedValue:
-          serializedType: 
-          serializedName: 
-          serializedValue: 
-        input: 1
-        settings:
-          isHidden: 0
+          id: 27
         val: 0
-    00000033:
-      type: {class: GradientParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+    0000001A:
+      type: {class: , ns: , asm: }
+    0000001B:
+      type: {class: FloatParameter/FloatSettings, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
       data:
-        guid: 625ec217-4f3d-4231-9629-252e95cb0563
-        name: New Gradient
-        type: 
-        serializedValue:
-          serializedType: 
-          serializedName: 
-          serializedValue: 
-        input: 1
-        settings:
-          isHidden: 0
-        val:
-          serializedVersion: 2
-          key0: {r: 1, g: 1, b: 1, a: 1}
-          key1: {r: 1, g: 1, b: 1, a: 1}
-          key2: {r: 0, g: 0, b: 0, a: 0}
-          key3: {r: 0, g: 0, b: 0, a: 0}
-          key4: {r: 0, g: 0, b: 0, a: 0}
-          key5: {r: 0, g: 0, b: 0, a: 0}
-          key6: {r: 0, g: 0, b: 0, a: 0}
-          key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 0
-          ctime1: 65535
-          ctime2: 0
-          ctime3: 0
-          ctime4: 0
-          ctime5: 0
-          ctime6: 0
-          ctime7: 0
-          atime0: 0
-          atime1: 65535
-          atime2: 0
-          atime3: 0
-          atime4: 0
-          atime5: 0
-          atime6: 0
-          atime7: 0
-          m_Mode: 0
-          m_NumColorKeys: 2
-          m_NumAlphaKeys: 2
+        isHidden: 0
+        expanded: 0
+        guid: eb80df62-f248-4ec9-afd4-f9ed08bfaa16
+        mode: 0
+        min: 0
+        max: 1

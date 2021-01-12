@@ -559,7 +559,13 @@ namespace GraphProcessor
 		
 		protected virtual void DrawDefaultInspector(bool fromInspector = false)
 		{
-			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+				// Filter fields from the BaseNode type since we are only interested in user-defined fields
+				// (better than BindingFlags.DeclaredOnly because we keep any inherited user-defined fields) 
+				.Where(f => f.DeclaringType != typeof(BaseNode))
+				// Order by MetadataToken to sync the order with the port order (make sure FieldDrawers are next to the correct port)
+				//TODO: Also consider custom port order
+				.OrderBy(f => f.MetadataToken);
 
 			foreach (var field in fields)
 			{
@@ -724,6 +730,11 @@ namespace GraphProcessor
 				{
 					controlsContainer.Add(element);
 				}
+			}
+			else
+			{
+				// Make sure we create an empty placeholder if FieldFactory can not provide a drawer
+				if (showInputDrawer) AddEmptyField(field, false);
 			}
 
 			var visibleCondition = field.GetCustomAttribute(typeof(VisibleIf)) as VisibleIf;

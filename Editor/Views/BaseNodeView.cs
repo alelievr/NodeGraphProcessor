@@ -969,6 +969,8 @@ namespace GraphProcessor
 					SyncPortCounts(ports, new PortView[]{});
 				else if (ports.Count == 0) // Same when there is no ports
 					SyncPortCounts(new NodePort[]{}, portViews);
+				else if (portViews.Count != ports.Count)
+					SyncPortCounts(ports, portViews);
 				else
 				{
 					var p = ports.GroupBy(n => n.fieldName);

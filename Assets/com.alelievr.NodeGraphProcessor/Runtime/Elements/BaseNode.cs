@@ -47,6 +47,9 @@ namespace GraphProcessor
 		/// <summary>Show the node controlContainer only when the mouse is over the node</summary>
 		public virtual bool			showControlsOnHover => false;
 
+		/// <summary>True if the node can be deleted, false otherwise</summary>
+		public virtual bool			deletable => true;
+
 		/// <summary>
 		/// Container of input ports
 		/// </summary>

@@ -70,6 +70,9 @@ namespace GraphProcessor
 			nodeTarget = node;
 			this.owner = owner;
 
+			if (!node.deletable)
+				capabilities &= ~Capabilities.Deletable;
+
 			owner.computeOrderUpdated += ComputeOrderUpdatedCallback;
 			node.onMessageAdded += AddMessageView;
 			node.onMessageRemoved += RemoveMessageView;

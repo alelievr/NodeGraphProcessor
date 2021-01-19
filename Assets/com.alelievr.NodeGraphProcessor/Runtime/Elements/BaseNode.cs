@@ -19,7 +19,12 @@ namespace GraphProcessor
 		/// </summary>
 		/// <returns></returns>
 		public virtual string       name => GetType().Name;
-
+		
+		/// <summary>
+		/// The accent color of the node
+		/// </summary>
+		public virtual Color color => Color.clear;
+		
 		/// <summary>
 		/// Set a custom uss file for the node. We use a Resources.Load to get the stylesheet so be sure to put the correct resources path
 		/// https://docs.unity3d.com/ScriptReference/Resources.Load.html

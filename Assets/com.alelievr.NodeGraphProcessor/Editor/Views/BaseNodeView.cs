@@ -155,8 +155,15 @@ namespace GraphProcessor
 				mainContainer.Add(debugContainer);
 
 			title = (string.IsNullOrEmpty(nodeTarget.name)) ? nodeTarget.GetType().Name : nodeTarget.name;
+			
+			// Apply node accent color
+			if (nodeTarget.color.a > 0)
+			{
+				titleContainer.style.borderBottomColor = new StyleColor(nodeTarget.color);
+				titleContainer.style.borderBottomWidth = new StyleFloat(5f);
+			}
 
-            initializing = true;
+			initializing = true;
 
             SetPosition(nodeTarget.position);
 

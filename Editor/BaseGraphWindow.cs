@@ -98,8 +98,8 @@ namespace GraphProcessor
 				AssetDatabase.SaveAssets();
 				// Unload the graph
 				graphUnloaded?.Invoke(this.graph);
-				
-				if(this.graph.name != "")	//	Only if it has a file name (GraphBehaviour graphs doesn't have one). This is a temporary solution.
+
+				if (!this.graph.IsLinkedToScene())
 					Resources.UnloadAsset(this.graph);
 			}
 

@@ -137,6 +137,12 @@ namespace GraphProcessor
 		public event Action						onExposedParameterListChanged;
 		public event Action< ExposedParameter >	onExposedParameterModified;
 		public event Action< ExposedParameter >	onExposedParameterValueChanged;
+
+		/// <summary>
+		/// Triggered when the graph is linked to an active scene.
+		/// </summary>
+		public event Action< Scene >			onSceneLinked;
+
 		/// <summary>
 		/// Triggered when the graph is enabled
 		/// </summary>
@@ -685,9 +691,20 @@ namespace GraphProcessor
 		/// </summary>
 		/// <param name="scene">Target scene to link</param>
 		public void LinkToScene(Scene scene)
-			=> linkedScene = scene;
-		
+		{
+			linkedScene = scene;
+			onSceneLinked?.Invoke(scene);
+		}
+
+		/// <summary>
+		/// Return true when the graph is linked to a scene, false otherwise.
+		/// </summary>
 		public bool IsLinkedToScene() => linkedScene.IsValid();
+
+		/// <summary>
+		/// Get the linked scene. If there is no linked scene, it returns an invalid scene
+		/// </summary>
+		public Scene GetLinkedScene() => linkedScene;
 
 		HashSet<BaseNode> infiniteLoopTracker = new HashSet<BaseNode>();
 		int UpdateComputeOrderBreadthFirst(int depth, BaseNode node)

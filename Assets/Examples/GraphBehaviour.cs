@@ -6,9 +6,11 @@ public class GraphBehaviour : MonoBehaviour
 {
     public BaseGraph graph;
 
-    void Start()
+    protected virtual void OnEnable()
     {
         if (graph == null)
             graph = ScriptableObject.CreateInstance<BaseGraph>();
+
+        graph.LinkToScene(gameObject.scene);
     }
 }

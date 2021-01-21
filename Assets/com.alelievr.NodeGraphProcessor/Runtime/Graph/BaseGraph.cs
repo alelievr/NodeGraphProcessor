@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using System;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 namespace GraphProcessor
 {
@@ -122,6 +123,9 @@ namespace GraphProcessor
 
 		[System.NonSerialized]
 		Dictionary< BaseNode, int >						computeOrderDictionary = new Dictionary< BaseNode, int >();
+
+		[NonSerialized]
+		Scene							linkedScene;
 
 		//graph visual properties
 		public Vector3					position = Vector3.zero;
@@ -675,6 +679,15 @@ namespace GraphProcessor
 		/// <typeparam name="T">type of the parameter</typeparam>
 		/// <returns>value</returns>
 		public T GetParameterValue< T >(string name) => (T)GetParameterValue(name);
+
+		/// <summary>
+		/// Link the current graph to the scene in parameter, allowing the graph to pick and serialize objects from the scene.
+		/// </summary>
+		/// <param name="scene">Target scene to link</param>
+		public void LinkToScene(Scene scene)
+			=> linkedScene = scene;
+		
+		public bool IsLinkedToScene() => linkedScene.IsValid();
 
 		HashSet<BaseNode> infiniteLoopTracker = new HashSet<BaseNode>();
 		int UpdateComputeOrderBreadthFirst(int depth, BaseNode node)

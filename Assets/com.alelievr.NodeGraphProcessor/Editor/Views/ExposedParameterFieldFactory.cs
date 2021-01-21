@@ -67,16 +67,13 @@ namespace GraphProcessor
                 oldParameterValues[parameter] = parameter.value;
             }));
 
-            /*if(this.graph.name != "")
+			// Disallow picking scene objects when the graph is not linked to a scene
+            if (!this.graph.IsLinkedToScene())
             {
-			//	TODO: Scene Inspector vs Asset Inspector distinction for scene picking
-                //  If this is a graph file
-                var objectField = view.Q<ObjectField>();
-                // Check field is an ObjectField
-                if(objectField != null)
-                    //  Disallow picking scene objects
-                    objectField.allowSceneObjects = false;
-            }*/
+				var objectField = view.Q<ObjectField>();
+				if (objectField != null)
+					objectField.allowSceneObjects = false;
+            }
             return view;
         }
 

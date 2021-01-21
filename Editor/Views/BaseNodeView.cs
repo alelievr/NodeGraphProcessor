@@ -70,6 +70,9 @@ namespace GraphProcessor
 			nodeTarget = node;
 			this.owner = owner;
 
+			if (!node.deletable)
+				capabilities &= ~Capabilities.Deletable;
+
 			owner.computeOrderUpdated += ComputeOrderUpdatedCallback;
 			node.onMessageAdded += AddMessageView;
 			node.onMessageRemoved += RemoveMessageView;
@@ -561,7 +564,13 @@ namespace GraphProcessor
 		
 		protected virtual void DrawDefaultInspector(bool fromInspector = false)
 		{
-			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+				// Filter fields from the BaseNode type since we are only interested in user-defined fields
+				// (better than BindingFlags.DeclaredOnly because we keep any inherited user-defined fields) 
+				.Where(f => f.DeclaringType != typeof(BaseNode))
+				// Order by MetadataToken to sync the order with the port order (make sure FieldDrawers are next to the correct port)
+				//TODO: Also consider custom port order
+				.OrderBy(f => f.MetadataToken);
 
 			foreach (var field in fields)
 			{
@@ -734,6 +743,11 @@ namespace GraphProcessor
 				{
 					controlsContainer.Add(element);
 				}
+			}
+			else
+			{
+				// Make sure we create an empty placeholder if FieldFactory can not provide a drawer
+				if (showInputDrawer) AddEmptyField(field, false);
 			}
 
 			var visibleCondition = field.GetCustomAttribute(typeof(VisibleIf)) as VisibleIf;
@@ -979,6 +993,8 @@ namespace GraphProcessor
 					SyncPortCounts(ports, new PortView[]{});
 				else if (ports.Count == 0) // Same when there is no ports
 					SyncPortCounts(new NodePort[]{}, portViews);
+				else if (portViews.Count != ports.Count)
+					SyncPortCounts(ports, portViews);
 				else
 				{
 					var p = ports.GroupBy(n => n.fieldName);

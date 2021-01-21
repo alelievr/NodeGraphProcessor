@@ -21,7 +21,7 @@ public class GraphBehaviourEditor : Editor
     public override VisualElement CreateInspectorGUI()
     {
         var root = new VisualElement();
-        var graphContainer = graphEditor.CreateInspectorGUI().Q("ExposedParameters");
+        var graphContainer = graphEditor != null ? graphEditor.CreateInspectorGUI().Q("ExposedParameters") : null;
 
         root.Add(new Button(() => EditorWindow.GetWindow<AllGraphWindow>().InitializeGraph(behaviour.graph))
         {

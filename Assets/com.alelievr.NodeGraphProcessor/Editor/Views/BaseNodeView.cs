@@ -709,6 +709,17 @@ namespace GraphProcessor
 				UpdateOtherFieldValue(field, newValue);
 			}, showInputDrawer ? "" : label);
 
+			/*if(owner.graph.name != "")
+			{
+			//	TODO: Scene Graph vs Asset Graph distinction for scene picking
+				//  If this is a graph file
+				var objectField = element.Q<ObjectField>();
+				// Check field is an ObjectField
+				if(objectField != null)
+					//  Disallow picking scene objects
+					objectField.allowSceneObjects = false;
+			}*/
+
 			if (!fieldControlsMap.TryGetValue(field, out var inputFieldList))
 				inputFieldList = fieldControlsMap[field] = new List<VisualElement>();
 			inputFieldList.Add(element);

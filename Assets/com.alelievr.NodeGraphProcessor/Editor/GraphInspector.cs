@@ -28,7 +28,7 @@ namespace GraphProcessor
         {
             graph.onExposedParameterListChanged -= UpdateExposedParameters;
             graph.onExposedParameterModified -= UpdateExposedParameters;
-            exposedParameterFactory.Dispose();
+            exposedParameterFactory?.Dispose(); //  Graphs that created in GraphBehaviour sometimes gives null ref.
             exposedParameterFactory = null;
         }
 

@@ -16,7 +16,7 @@ namespace GraphProcessor
             }
             catch (Exception e)
             {
-                Debug.LogError(e);
+                Debug.LogException(e);
             }
 #endif
         }

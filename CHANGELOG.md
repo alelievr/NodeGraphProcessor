@@ -12,6 +12,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Change
 - Serialization backend (use [SerializeReference] instead of JSON)
 
+## [0.10.4]
+
+### Added
+- Added deletable bool API on the BaseNode
+
+### Fixed
+- Fix missing and inconsistent field drawers on inherited node fields
+- Fix inconsistent field drawer positions after unsupported fields
+- Fixed port sync code
+- Fixed exception to log not handling correctly the stacktraces
+
 ## [0.10.1]
 
 ### Fixed

@@ -1162,7 +1162,6 @@ namespace GraphProcessor
 
 		public void RegisterCompleteObjectUndo(string name)
 		{
-			//	TODO: GraphBehaviour graphs gives null ref when the scene is changed.
 			Undo.RegisterCompleteObjectUndo(graph, name);
 		}
 

@@ -98,7 +98,9 @@ namespace GraphProcessor
 				AssetDatabase.SaveAssets();
 				// Unload the graph
 				graphUnloaded?.Invoke(this.graph);
-				Resources.UnloadAsset(this.graph);
+				
+				if(this.graph.name != "")	//	Only if it has a file name (GraphBehaviour graphs doesn't have one). This is a temporary solution.
+					Resources.UnloadAsset(this.graph);
 			}
 
 			graphLoaded?.Invoke(graph);

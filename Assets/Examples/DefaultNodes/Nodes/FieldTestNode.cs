@@ -14,7 +14,7 @@ public class FieldTestNode : BaseNode
 	public Vector3 v3;
 	public Vector4 v4;
 	public LayerMask layer;
-	public Color color;
+	new public Color color;
 	public Bounds bounds;
 	public Rect rect;
 	public CameraClearFlags flags = CameraClearFlags.Color;

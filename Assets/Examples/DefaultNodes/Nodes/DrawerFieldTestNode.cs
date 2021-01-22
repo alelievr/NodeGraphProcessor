@@ -30,7 +30,7 @@ public class DrawerFieldTestNode : BaseNode
 	public string stringInput;
 
 	[Input(name = "Color"), ShowAsDrawer]
-	public Color color;
+	new public Color color;
 
 	[Input(name = "Game Object"), ShowAsDrawer]
 	public GameObject gameObject;

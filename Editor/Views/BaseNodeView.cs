@@ -155,11 +155,12 @@ namespace GraphProcessor
 				mainContainer.Add(debugContainer);
 
 			title = (string.IsNullOrEmpty(nodeTarget.name)) ? nodeTarget.GetType().Name : nodeTarget.name;
-
-            initializing = true;
+			
+			initializing = true;
 
             SetPosition(nodeTarget.position);
-
+			SetNodeColor(nodeTarget.color);
+            
 			AddInputContainer();
 		}
 
@@ -632,6 +633,12 @@ namespace GraphProcessor
 			}
 		}
 
+		protected virtual void SetNodeColor(Color color)
+		{
+			titleContainer.style.borderBottomColor = new StyleColor(color);
+			titleContainer.style.borderBottomWidth = new StyleFloat(color.a > 0 ? 5f : 0f);
+		}
+		
 		private void AddEmptyField(FieldInfo field, bool fromInspector)
 		{
 			if(field.GetCustomAttribute(typeof(InputAttribute)) == null || fromInspector) return;

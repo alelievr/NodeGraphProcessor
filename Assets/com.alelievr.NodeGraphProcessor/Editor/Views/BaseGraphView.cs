@@ -103,7 +103,7 @@ namespace GraphProcessor
 		/// Same event than BaseGraph.onExposedParameterModified
 		/// Safe event (not triggered in case the graph is null).
 		/// </summary>
-		public event Action< string >	onExposedParameterModified;
+		public event Action< ExposedParameter >	onExposedParameterModified;
 
 		/// <summary>
 		/// Triggered when a node is duplicated (crt-d) or copy-pasted (crtl-c/crtl-v)
@@ -115,6 +115,13 @@ namespace GraphProcessor
 		/// </summary>
 		[NonSerialized]
 		protected NodeInspectorObject		nodeInspector;
+
+		/// <summary>
+		/// Workaround object for creating exposed parameter property fields.
+		/// </summary>
+		public ExposedParameterFieldFactory exposedParameterFactory { get; private set; }
+
+		public SerializedObject		serializedGraph { get; private set; }
 
 		public BaseGraphView(EditorWindow window)
 		{
@@ -325,24 +332,29 @@ namespace GraphProcessor
 							nodeInspector.NodeViewRemoved(nodeView);
 							ExceptionToLog.Call(() => nodeView.OnRemoved());
 							graph.RemoveNode(nodeView.nodeTarget);
+							UpdateSerializedProperties();
 							RemoveElement(nodeView);
 							if (Selection.activeObject == nodeInspector)
 								UpdateNodeInspectorSelection();
 							return true;
 						case GroupView group:
 							graph.RemoveGroup(group.group);
+							UpdateSerializedProperties();
 							RemoveElement(group);
 							return true;
 						case ExposedParameterFieldView blackboardField:
 							graph.RemoveExposedParameter(blackboardField.parameter);
+							UpdateSerializedProperties();
 							return true;
 						case BaseStackNodeView stackNodeView:
 							graph.RemoveStackNode(stackNodeView.stackNode);
+							UpdateSerializedProperties();
 							RemoveElement(stackNodeView);
 							return true;
 #if UNITY_2020_1_OR_NEWER
 						case StickyNoteView stickyNoteView:
 							graph.RemoveStickyNote(stickyNoteView.note);
+							UpdateSerializedProperties();
 							RemoveElement(stickyNoteView);
 							return true;
 #endif
@@ -601,7 +613,7 @@ namespace GraphProcessor
 
 		void ReloadView()
 		{
-			// Force the graph to reload his datas (Undo have updated the serialized properties of the graph
+			// Force the graph to reload his data (Undo have updated the serialized properties of the graph
 			// so the one that are not serialized need to be synchronized)
 			graph.Deserialize();
 
@@ -621,6 +633,8 @@ namespace GraphProcessor
 			RemoveStrickyNotes();
 #endif
 			RemoveStackNodeViews();
+
+			UpdateSerializedProperties();
 
 			// And re-add with new up to date datas
 			InitializeNodeViews();
@@ -654,6 +668,10 @@ namespace GraphProcessor
 			}
 
 			this.graph = graph;
+
+			exposedParameterFactory = new ExposedParameterFieldFactory(graph);
+
+			UpdateSerializedProperties();
 
             connectorListener = CreateEdgeConnectorListener();
 
@@ -690,6 +708,11 @@ namespace GraphProcessor
 #endif
 		}
 
+		void UpdateSerializedProperties()
+		{
+			serializedGraph = new SerializedObject(graph);
+		}
+
 		/// <summary>
 		/// Allow you to create your own edge connector listener
 		/// </summary>
@@ -699,12 +722,18 @@ namespace GraphProcessor
 
 		void InitializeGraphView()
 		{
-			graph.onExposedParameterListChanged += () => onExposedParameterListChanged?.Invoke();
+			graph.onExposedParameterListChanged += OnExposedParameterListChanged;
 			graph.onExposedParameterModified += (s) => onExposedParameterModified?.Invoke(s);
 			graph.onGraphChanges += GraphChangesCallback;
 			viewTransform.position = graph.position;
 			viewTransform.scale = graph.scale;
 			nodeCreationRequest = (c) => SearchWindow.Open(new SearchWindowContext(c.screenMousePosition), createNodeMenu);
+		}
+
+		void OnExposedParameterListChanged()
+		{
+			UpdateSerializedProperties();
+			onExposedParameterListChanged?.Invoke();
 		}
 
 		void InitializeNodeViews()
@@ -806,6 +835,8 @@ namespace GraphProcessor
 		{
 			// This will initialize the node using the graph instance
 			graph.AddNode(node);
+
+			UpdateSerializedProperties();
 
 			var view = AddNodeView(node);
 
@@ -1260,6 +1291,12 @@ namespace GraphProcessor
 			Undo.undoRedoPerformed -= ReloadView;
 			Object.DestroyImmediate(nodeInspector);
 			NodeProvider.UnloadGraph(graph);
+			exposedParameterFactory.Dispose();
+			exposedParameterFactory = null;
+
+			graph.onExposedParameterListChanged -= OnExposedParameterListChanged;
+			graph.onExposedParameterModified += (s) => onExposedParameterModified?.Invoke(s);
+			graph.onGraphChanges -= GraphChangesCallback;
         }
 
         #endregion

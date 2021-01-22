@@ -4,27 +4,10 @@ using System.Linq;
 using UnityEngine;
 using System;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 namespace GraphProcessor
 {
-	[System.Serializable]
-	public class ExposedParameter
-	{
-		public string				guid; // unique id to keep track of the parameter
-		public string				name;
-		public string				type;
-		public SerializableObject	serializedValue;
-		public bool					input = true;
-		public ExposedParameterSettings settings;
-		public string shortType => Type.GetType(type)?.Name;
-	}
-	
-	[Serializable]
-	public class ExposedParameterSettings
-	{
-		public bool  isHidden;
-	}
-
 	public class GraphChanges
 	{
 		public SerializableEdge	removedEdge;
@@ -60,11 +43,11 @@ namespace GraphProcessor
 		public static readonly int invalidComputeOrder = -1;
 
 		/// <summary>
-		/// Json list of nodes (Serialized)
+		/// Json list of serialized nodes only used for copy pasting in the editor. Note that this field isn't serialized
 		/// </summary>
 		/// <typeparam name="JsonElement"></typeparam>
 		/// <returns></returns>
-		[SerializeField]
+		[SerializeField, Obsolete("Use BaseGraph.nodes instead")]
 		public List< JsonElement >						serializedNodes = new List< JsonElement >();
 
 		/// <summary>
@@ -72,7 +55,7 @@ namespace GraphProcessor
 		/// </summary>
 		/// <typeparam name="BaseNode"></typeparam>
 		/// <returns></returns>
-		[System.NonSerialized]
+		[SerializeReference]
 		public List< BaseNode >							nodes = new List< BaseNode >();
 
 		/// <summary>
@@ -129,14 +112,20 @@ namespace GraphProcessor
 		/// </summary>
 		/// <typeparam name="ExposedParameter"></typeparam>
 		/// <returns></returns>
-		[SerializeField]
+		[SerializeField, SerializeReference]
 		public List< ExposedParameter >					exposedParameters = new List< ExposedParameter >();
+
+		[SerializeField, FormerlySerializedAs("exposedParameters")] // We keep this for upgrade
+		List< ExposedParameter >						serializedParameterList = new List<ExposedParameter>();
 
 		[SerializeField]
 		public List< StickyNote >						stickyNotes = new List<StickyNote>();
 
 		[System.NonSerialized]
 		Dictionary< BaseNode, int >						computeOrderDictionary = new Dictionary< BaseNode, int >();
+
+		[NonSerialized]
+		Scene							linkedScene;
 
 		//graph visual properties
 		public Vector3					position = Vector3.zero;
@@ -145,8 +134,15 @@ namespace GraphProcessor
 		/// <summary>
 		/// Triggered when something is changed in the list of exposed parameters
 		/// </summary>
-		public event Action				onExposedParameterListChanged;
-		public event Action< string >	onExposedParameterModified;
+		public event Action						onExposedParameterListChanged;
+		public event Action< ExposedParameter >	onExposedParameterModified;
+		public event Action< ExposedParameter >	onExposedParameterValueChanged;
+
+		/// <summary>
+		/// Triggered when the graph is linked to an active scene.
+		/// </summary>
+		public event Action< Scene >			onSceneLinked;
+
 		/// <summary>
 		/// Triggered when the graph is enabled
 		/// </summary>
@@ -165,13 +161,39 @@ namespace GraphProcessor
 
         protected virtual void OnEnable()
         {
-			Deserialize();
-
+			MigrateGraphIfNeeded();
+			InitializeGraphElements();
 			DestroyBrokenGraphElements();
 			UpdateComputeOrder();
 			isEnabled = true;
 			onEnabled?.Invoke();
         }
+
+		void InitializeGraphElements()
+		{
+			foreach (var node in nodes.ToList())
+			{
+				nodesPerGUID[node.GUID] = node;
+				node.Initialize(this);
+			}
+
+			foreach (var edge in edges.ToList())
+			{
+				edge.Deserialize();
+				edgesPerGUID[edge.GUID] = edge;
+
+				// Sanity check for the edge:
+				if (edge.inputPort == null || edge.outputPort == null)
+				{
+					Disconnect(edge.GUID);
+					continue;
+				}
+
+				// Add the edge to the non-serialized port data
+				edge.inputPort.owner.OnEdgeConnected(edge);
+				edge.outputPort.owner.OnEdgeConnected(edge);
+			}
+		}
 
 		protected virtual void OnDisable()
 		{
@@ -406,13 +428,9 @@ namespace GraphProcessor
 
 		public void OnBeforeSerialize()
 		{
-			serializedNodes.Clear();
-
-			foreach (var node in nodes)
-				serializedNodes.Add(JsonSerializer.SerializeNode(node));
-			
-			// Cleanup stackNodes
+			// Cleanup broken elements
 			stackNodes.RemoveAll(s => s == null);
+			nodes.RemoveAll(n => n == null);
 		}
 
 		// We can deserialize data here because it's called in a unity context
@@ -426,36 +444,46 @@ namespace GraphProcessor
 					node.DisableInternal();
 			}
 
-			nodes.Clear();
+			MigrateGraphIfNeeded();
 
-			foreach (var serializedNode in serializedNodes.ToList())
+			InitializeGraphElements();
+		}
+
+		void MigrateGraphIfNeeded()
+		{
+#pragma warning disable CS0618
+			// Migration step from JSON serialized nodes to [SerializeReference]
+			if (serializedNodes.Count > 0)
 			{
-				var node = JsonSerializer.DeserializeNode(serializedNode) as BaseNode;
-				if (node == null)
+				nodes.Clear();
+				foreach (var serializedNode in serializedNodes.ToList())
 				{
-					serializedNodes.Remove(serializedNode);
-					continue ;
+                    var node = JsonSerializer.DeserializeNode(serializedNode) as BaseNode;
+                    if (node != null)
+                        nodes.Add(node);
 				}
-				AddNode(node);
-				nodesPerGUID[node.GUID] = node;
-			}
+				serializedNodes.Clear();
 
-			foreach (var edge in edges.ToList())
-			{
-				edge.Deserialize();
-				edgesPerGUID[edge.GUID] = edge;
-
-				// Sanity check for the edge:
-				if (edge.inputPort == null || edge.outputPort == null)
+				// we also migrate parameters here:
+				var paramsToMigrate = serializedParameterList.ToList();
+				exposedParameters.Clear();
+				foreach (var param in paramsToMigrate)
 				{
-					Disconnect(edge.GUID);
-					continue;
-				}
+					if (param == null)
+						continue;
 
-				// Add the edge to the non-serialized port data
-				edge.inputPort.owner.OnEdgeConnected(edge);
-				edge.outputPort.owner.OnEdgeConnected(edge);
+					var newParam = param.Migrate();
+
+					if (newParam == null)
+					{
+						Debug.LogError($"Can't migrate parameter of type {param.type}, please create an Exposed Parameter class that implements this type.");
+						continue;
+					}
+					else
+						exposedParameters.Add(newParam);
+				}
 			}
+#pragma warning restore CS0618
 		}
 
 		public void OnAfterDeserialize() {}
@@ -498,20 +526,42 @@ namespace GraphProcessor
 		/// Add an exposed parameter
 		/// </summary>
 		/// <param name="name">parameter name</param>
-		/// <param name="type">parameter type</param>
+		/// <param name="type">parameter type (must be a subclass of ExposedParameter)</param>
 		/// <param name="value">default value</param>
-		/// <returns></returns>
-		public string AddExposedParameter(string name, Type type, object value)
+		/// <returns>The unique id of the parameter</returns>
+		public string AddExposedParameter(string name, Type type, object value = null)
+		{
+
+			if (!type.IsSubclassOf(typeof(ExposedParameter)))
+			{
+				Debug.LogError($"Can't add parameter of type {type}, the type doesn't inherit from ExposedParameter.");
+			}
+
+			var param = Activator.CreateInstance(type) as ExposedParameter;
+
+			// patch value with correct type:
+			if (param.GetValueType().IsValueType)
+				value = Activator.CreateInstance(param.GetValueType());
+			
+			param.Initialize(name, value);
+			exposedParameters.Add(param);
+
+			onExposedParameterListChanged?.Invoke();
+
+			return param.guid;
+		}
+
+		/// <summary>
+		/// Add an already allocated / initialized parameter to the graph
+		/// </summary>
+		/// <param name="parameter">The parameter to add</param>
+		/// <returns>The unique id of the parameter</returns>
+		public string AddExposedParameter(ExposedParameter parameter)
 		{
 			string guid = Guid.NewGuid().ToString(); // Generated once and unique per parameter
 
-			exposedParameters.Add(new ExposedParameter{
-				guid = guid,
-				name = name,
-				type = type.AssemblyQualifiedName,
-				settings = new ExposedParameterSettings(),
-				serializedValue = new SerializableObject(value, type)
-			});
+			parameter.guid = guid;
+			exposedParameters.Add(parameter);
 
 			onExposedParameterListChanged?.Invoke();
 
@@ -550,11 +600,11 @@ namespace GraphProcessor
 			if (param == null)
 				return;
 
-			if (value != null && value.GetType().AssemblyQualifiedName != param.type)
-				throw new Exception("Type mismatch when updating parameter " + param.name + ": from " + param.type + " to " + value.GetType().AssemblyQualifiedName);
+			if (value != null && !param.GetValueType().IsAssignableFrom(value.GetType()))
+				throw new Exception("Type mismatch when updating parameter " + param.name + ": from " + param.GetValueType() + " to " + value.GetType().AssemblyQualifiedName);
 
-			param.serializedValue.value = value;
-			onExposedParameterModified.Invoke(param.guid);
+			param.value = value;
+			onExposedParameterModified?.Invoke(param);
 		}
 
 		/// <summary>
@@ -565,7 +615,7 @@ namespace GraphProcessor
 		public void UpdateExposedParameterName(ExposedParameter parameter, string name)
 		{
 			parameter.name = name;
-			onExposedParameterModified.Invoke(name);
+			onExposedParameterModified?.Invoke(parameter);
 		}
 
 		/// <summary>
@@ -573,10 +623,14 @@ namespace GraphProcessor
 		/// </summary>
 		/// <param name="parameter">The parameter</param>
 		/// <param name="isHidden">is Hidden</param>
-		public void UpdateExposedParameterVisibility(ExposedParameter parameter, bool isHidden)
+		public void NotifyExposedParameterChanged(ExposedParameter parameter)
 		{
-			parameter.settings.isHidden = isHidden;
-			onExposedParameterModified.Invoke(name);
+			onExposedParameterModified?.Invoke(parameter);
+		}
+
+		public void NotifyExposedParameterValueChanged(ExposedParameter parameter)
+		{
+			onExposedParameterValueChanged?.Invoke(parameter);
 		}
 
 		/// <summary>
@@ -596,7 +650,7 @@ namespace GraphProcessor
 		/// <returns>The parameter</returns>
 		public ExposedParameter GetExposedParameterFromGUID(string guid)
 		{
-			return exposedParameters.FirstOrDefault(e => e.guid == guid);
+			return exposedParameters.FirstOrDefault(e => e?.guid == guid);
 		}
 
 		/// <summary>
@@ -612,7 +666,7 @@ namespace GraphProcessor
 			if (e == null)
 				return false;
 
-			e.serializedValue.value = value;
+			e.value = value;
 
 			return true;
 		}
@@ -622,7 +676,7 @@ namespace GraphProcessor
 		/// </summary>
 		/// <param name="name">parameter name</param>
 		/// <returns>value</returns>
-		public object GetParameterValue(string name) => exposedParameters.FirstOrDefault(p => p.name == name)?.serializedValue?.value;
+		public object GetParameterValue(string name) => exposedParameters.FirstOrDefault(p => p.name == name)?.value;
 
 		/// <summary>
 		/// Get the parameter value template
@@ -631,6 +685,26 @@ namespace GraphProcessor
 		/// <typeparam name="T">type of the parameter</typeparam>
 		/// <returns>value</returns>
 		public T GetParameterValue< T >(string name) => (T)GetParameterValue(name);
+
+		/// <summary>
+		/// Link the current graph to the scene in parameter, allowing the graph to pick and serialize objects from the scene.
+		/// </summary>
+		/// <param name="scene">Target scene to link</param>
+		public void LinkToScene(Scene scene)
+		{
+			linkedScene = scene;
+			onSceneLinked?.Invoke(scene);
+		}
+
+		/// <summary>
+		/// Return true when the graph is linked to a scene, false otherwise.
+		/// </summary>
+		public bool IsLinkedToScene() => linkedScene.IsValid();
+
+		/// <summary>
+		/// Get the linked scene. If there is no linked scene, it returns an invalid scene
+		/// </summary>
+		public Scene GetLinkedScene() => linkedScene;
 
 		HashSet<BaseNode> infiniteLoopTracker = new HashSet<BaseNode>();
 		int UpdateComputeOrderBreadthFirst(int depth, BaseNode node)

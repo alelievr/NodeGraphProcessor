@@ -20,7 +20,9 @@ namespace GraphProcessor
 
         public ExposedParameterView()
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(exposedParameterViewStyle));
+            var style = Resources.Load<StyleSheet>(exposedParameterViewStyle);
+            if (style != null)
+                styleSheets.Add(style);
         }
 
         protected virtual void OnAddClicked()
@@ -28,20 +30,25 @@ namespace GraphProcessor
             var parameterType = new GenericMenu();
 
             foreach (var paramType in GetExposedParameterTypes())
-            parameterType.AddItem(new GUIContent(paramType.Name), false, () => {
-                string uniqueName = "New " + paramType.Name + "Param";
-                object value = null;
-
-                uniqueName = GetUniqueExposedPropertyName(uniqueName);
-
-                if (paramType.IsValueType)
+                parameterType.AddItem(new GUIContent(GetNiceNameFromType(paramType)), false, () =>
                 {
-                    value = Activator.CreateInstance(paramType);
-                }
-                graphView.graph.AddExposedParameter(uniqueName, paramType, value);
-            });
+                    string uniqueName = "New " + GetNiceNameFromType(paramType);
+
+                    uniqueName = GetUniqueExposedPropertyName(uniqueName);
+                    graphView.graph.AddExposedParameter(uniqueName, paramType);
+                });
 
             parameterType.ShowAsContext();
+        }
+
+        protected string GetNiceNameFromType(Type type)
+        {
+            string name = type.Name;
+
+            // Remove parameter in the name of the type if it exists
+            name = name.Replace("Parameter", "");
+
+            return ObjectNames.NicifyVariableName(name);
         }
 
         protected string GetUniqueExposedPropertyName(string name)
@@ -56,8 +63,7 @@ namespace GraphProcessor
 
         protected virtual IEnumerable< Type > GetExposedParameterTypes()
         {
-            // filter the slot types because we don't want generic types (i.e lists)
-            foreach (var type in NodeProvider.GetSlotTypes())
+            foreach (var type in TypeCache.GetTypesDerivedFrom<ExposedParameter>())
             {
                 if (type.IsGenericType)
                     continue ;
@@ -72,7 +78,13 @@ namespace GraphProcessor
 
             foreach (var param in graphView.graph.exposedParameters)
             {
-                content.Add(new BlackboardRow(new ExposedParameterFieldView(graphView, param), new ExposedParameterPropertyView(graphView, param)));
+                var row = new BlackboardRow(new ExposedParameterFieldView(graphView, param), new ExposedParameterPropertyView(graphView, param));
+                row.expanded = param.settings.expanded;
+                row.RegisterCallback<GeometryChangedEvent>(e => {
+                    param.settings.expanded = row.expanded;
+                });
+
+                content.Add(row);
             }
         }
 

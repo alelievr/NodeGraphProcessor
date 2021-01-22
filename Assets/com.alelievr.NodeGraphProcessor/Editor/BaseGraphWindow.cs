@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.Assertions;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
-using UnityEditor.Experimental.GraphView;
+using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
 
 namespace GraphProcessor
 {
@@ -98,7 +95,9 @@ namespace GraphProcessor
 				AssetDatabase.SaveAssets();
 				// Unload the graph
 				graphUnloaded?.Invoke(this.graph);
-				Resources.UnloadAsset(this.graph);
+
+				if (!this.graph.IsLinkedToScene())
+					Resources.UnloadAsset(this.graph);
 			}
 
 			graphLoaded?.Invoke(graph);
@@ -121,6 +120,27 @@ namespace GraphProcessor
 			graphView.Initialize(graph);
 
 			InitializeGraphView(graphView);
+
+			// TOOD: onSceneLinked...
+
+			if (graph.IsLinkedToScene())
+				LinkGraphWindowToScene(graph.GetLinkedScene());
+			else
+				graph.onSceneLinked += LinkGraphWindowToScene;
+		}
+
+		void LinkGraphWindowToScene(Scene scene)
+		{
+			EditorSceneManager.sceneClosed += CloseWindowWhenSceneIsClosed;
+
+			void CloseWindowWhenSceneIsClosed(Scene closedScene)
+			{
+				if (scene == closedScene)
+				{
+					Close();
+					EditorSceneManager.sceneClosed -= CloseWindowWhenSceneIsClosed;
+				}
+			}
 		}
 
 		public virtual void OnGraphDeleted()

@@ -113,7 +113,7 @@ namespace GraphProcessor
 		internal Dictionary< Type, CustomPortTypeBehaviorDelegate> customPortTypeBehaviorMap = new Dictionary<Type, CustomPortTypeBehaviorDelegate>();
 
 		[NonSerialized]
-		List< string >				messages = new List< string >();
+		List< string >				messages = new List<string>();
 
 		[NonSerialized]
 		protected BaseGraph			graph;
@@ -260,8 +260,8 @@ namespace GraphProcessor
 
 		protected BaseNode()
 		{
-			inputPorts = new NodeInputPortContainer(this);
-			outputPorts = new NodeOutputPortContainer(this);
+            inputPorts = new NodeInputPortContainer(this);
+            outputPorts = new NodeOutputPortContainer(this);
 
 			InitializeInOutDatas();
 		}

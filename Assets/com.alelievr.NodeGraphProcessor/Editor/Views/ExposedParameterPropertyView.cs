@@ -1,4 +1,7 @@
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
+using UnityEditor;
+using UnityEngine;
 
 namespace GraphProcessor
 {
@@ -15,17 +18,11 @@ namespace GraphProcessor
 			baseGraphView = graphView;
 			parameter      = param;
 
-			hideInInspector = new Toggle
-			{
-				text  = "Hide in Inspector",
-				value = parameter.settings.isHidden
-			};
-			hideInInspector.RegisterValueChangedCallback(e =>
-			{
-				baseGraphView.graph.UpdateExposedParameterVisibility(parameter, e.newValue);
+			var field = graphView.exposedParameterFactory.GetParameterSettingsField(param, (newValue) => {
+				param.settings = newValue as ExposedParameter.Settings;
 			});
 
-			Add(hideInInspector);
+			Add(field);
 		}
 	}
 } 

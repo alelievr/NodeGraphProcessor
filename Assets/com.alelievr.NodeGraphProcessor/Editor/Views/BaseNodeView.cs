@@ -7,7 +7,7 @@ using System.Reflection;
 using System;
 using System.Collections;
 using System.Linq;
-using UnityEditorInternal;
+using UnityEditor.UIElements;
 
 using Status = UnityEngine.UIElements.DropdownMenuAction.Status;
 using NodeView = UnityEditor.Experimental.GraphView.Node;
@@ -161,6 +161,11 @@ namespace GraphProcessor
             SetPosition(nodeTarget.position);
 
 			AddInputContainer();
+		}
+
+		public void UpdateNodeSerializedPropertyBindings()
+		{
+
 		}
 
 		void InitializeSettings()
@@ -575,9 +580,9 @@ namespace GraphProcessor
 					hasSettings = true;
 					continue;
 				}
-				
+
 				//skip if the field is not serializable
-				if(!field.IsPublic && field.GetCustomAttribute(typeof(SerializeField)) == null)
+				if((!field.IsPublic && field.GetCustomAttribute(typeof(SerializeField)) == null) || field.IsNotSerialized)
 				{
 					AddEmptyField(field, fromInspector);
 					continue;
@@ -712,6 +717,14 @@ namespace GraphProcessor
 				// property. We need to update those manually otherwise they still have the old value in the inspector.
 				UpdateOtherFieldValue(field, newValue);
 			}, showInputDrawer ? "" : label);
+
+			// Disallow picking scene objects when the graph is not linked to a scene
+			if (!owner.graph.IsLinkedToScene())
+			{
+				var objectField = element.Q<ObjectField>();
+				if (objectField != null)
+					objectField.allowSceneObjects = false;
+			}
 
 			if (!fieldControlsMap.TryGetValue(field, out var inputFieldList))
 				inputFieldList = fieldControlsMap[field] = new List<VisualElement>();

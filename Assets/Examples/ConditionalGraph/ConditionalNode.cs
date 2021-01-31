@@ -45,4 +45,28 @@ namespace NodeGraphProcessor.Examples
 				.GetEdges().Select(e => e.inputNode as ConditionalNode);
 		}
 	}
+	
+	[System.Serializable]
+	/// <summary>
+	/// This class represent a waitable node which invokes another node after a time/frame
+	/// </summary>
+	public abstract class WaitableNode : LinearConditionalNode
+	{
+		[Output(name = "Execute After")]
+		public ConditionalLink executeAfter;
+
+		protected void ProcessFinished()
+		{
+			onProcessFinished.Invoke(this);
+		}
+
+		[HideInInspector]
+		public Action<WaitableNode> onProcessFinished;
+
+		public IEnumerable< ConditionalNode > GetExecuteAfterNodes()
+		{
+			return outputPorts.FirstOrDefault(n => n.fieldName == nameof(executeAfter))
+			                  .GetEdges().Select(e => e.inputNode as ConditionalNode);
+		}
+	}
 }

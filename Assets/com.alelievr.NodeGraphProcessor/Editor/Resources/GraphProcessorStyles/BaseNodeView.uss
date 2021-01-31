@@ -26,6 +26,7 @@
 
 #contents #top .executed #connector, #contents #top .executed #connector #cap,
 #contents #top .executes #connector, #contents #top .executes #connector #cap,
+#contents #top .executeAfter #connector, #contents #top .executeAfter #connector #cap,
 #contents #top .true #connector, #contents #top .true #connector #cap,
 #contents #top .false #connector, #contents #top .false #connector #cap,
 #contents #top .loopBody #connector, #contents #top .loopBody #connector #cap,

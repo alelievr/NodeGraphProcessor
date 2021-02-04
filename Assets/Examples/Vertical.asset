@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
+  m_Name: Vertical
+  m_EditorClassIdentifier: 
+  serializedNodes: []
+  nodes:
+  - id: 0
+  - id: 1
+  - id: 2
+  - id: 3
+  edges:
+  - GUID: 6fc14a9b-739f-41b2-93d6-0c31954c30d8
+    owner: {fileID: 11400000}
+    inputNodeGUID: dfa1573e-5d96-4dfb-8843-82332c02cea9
+    outputNodeGUID: b5503582-4b12-4ccc-950f-a4ea7d7fa3ec
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: b76076e8-15b9-45f4-86ef-38007eb9d9a3
+    owner: {fileID: 11400000}
+    inputNodeGUID: b5503582-4b12-4ccc-950f-a4ea7d7fa3ec
+    outputNodeGUID: 354bba26-0116-4063-917a-01ecbe069cba
+    inputFieldName: input
+    outputFieldName: output3
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 09116d37-391e-4899-97f2-4d784215b8dd
+    owner: {fileID: 11400000}
+    inputNodeGUID: db7bed3e-aa7e-4099-b072-2546adce6efb
+    outputNodeGUID: b5503582-4b12-4ccc-950f-a4ea7d7fa3ec
+    inputFieldName: input
+    outputFieldName: output3
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  groups: []
+  stackNodes: []
+  pinnedElements: []
+  exposedParameters: []
+  serializedParameterList: []
+  stickyNotes: []
+  position: {x: -582, y: -263, z: 0}
+  scale: {x: 2, y: 2, z: 1}
+  references:
+    version: 1
+    00000000:
+      type: {class: VerticalNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 354bba26-0116-4063-917a-01ecbe069cba
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: 490
+          y: 174
+          width: 90
+          height: 71
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        input: 0
+        output: 0
+        output2: 0
+        output3: 0
+    00000001:
+      type: {class: VerticalNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: b5503582-4b12-4ccc-950f-a4ea7d7fa3ec
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: 554.5
+          y: 298
+          width: 90
+          height: 71
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        input: 0
+        output: 0
+        output2: 0
+        output3: 0
+    00000002:
+      type: {class: VerticalNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: dfa1573e-5d96-4dfb-8843-82332c02cea9
+        computeOrder: 2
+        position:
+          serializedVersion: 2
+          x: 499.5
+          y: 416
+          width: 90
+          height: 71
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        input: 0
+        output: 0
+        output2: 0
+        output3: 0
+    00000003:
+      type: {class: VerticalNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: db7bed3e-aa7e-4099-b072-2546adce6efb
+        computeOrder: 3
+        position:
+          serializedVersion: 2
+          x: 590
+          y: 416
+          width: 90
+          height: 71
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        input: 0
+        output: 0
+        output2: 0
+        output3: 0

@@ -150,7 +150,7 @@ namespace GraphProcessor
 
             // Sort ports by position in the node
             foreach (var kp in compatiblePorts)
-                kp.Value.Sort((e1, e2) => e1.layout.y.CompareTo(e2.layout.y));
+                kp.Value.Sort((e1, e2) => e1.worldBound.y.CompareTo(e2.worldBound.y));
 
             // Only light compatible anchors when dragging an edge.
             graphView.ports.ForEach((p) => {
@@ -359,31 +359,40 @@ namespace GraphProcessor
             var port = portList[index];
             var bounds = port.worldBound;
 
-            bounds.xMin = nodeView.worldBound.xMin;
-            bounds.xMax = nodeView.worldBound.xMax;
-
-            if (index == 0)
-                bounds.yMin = nodeView.worldBound.yMin;
-            if (index == portList.Count - 1)
-                bounds.yMax = nodeView.worldBound.yMax;
-            
-            if (index > 0)
-            {
-                Rect above = portList[index - 1].worldBound;
-                bounds.yMin = (above.yMax + bounds.yMin) / 2.0f;
-            }
-            if (index < portList.Count - 1)
-            {
-                Rect below = portList[index + 1].worldBound;
-                bounds.yMax = (below.yMin + bounds.yMax) / 2.0f;
-            }
-
             if (port.orientation == Orientation.Horizontal)
             {
+                // Increase horizontal port bounds
+                bounds.xMin = nodeView.worldBound.xMin;
+                bounds.xMax = nodeView.worldBound.xMax;
+
+                if (index == 0)
+                    bounds.yMin = nodeView.worldBound.yMin;
+                if (index == portList.Count - 1)
+                    bounds.yMax = nodeView.worldBound.yMax;
+                
+                if (index > 0)
+                {
+                    Rect above = portList[index - 1].worldBound;
+                    bounds.yMin = (above.yMax + bounds.yMin) / 2.0f;
+                }
+                if (index < portList.Count - 1)
+                {
+                    Rect below = portList[index + 1].worldBound;
+                    bounds.yMax = (below.yMin + bounds.yMax) / 2.0f;
+                }
+
                 if (port.direction == Direction.Input)
                     bounds.xMin -= kPortDetectionWidth;
                 else
                     bounds.xMax += kPortDetectionWidth;
+            }
+            else
+            {
+                // Increase vertical port bounds
+                if (port.direction == Direction.Input)
+                    bounds.yMin -= kPortDetectionWidth;
+                else
+                    bounds.yMax += kPortDetectionWidth;
             }
 
             return bounds;

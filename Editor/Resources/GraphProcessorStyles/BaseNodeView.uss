@@ -215,3 +215,19 @@ ParameterNodeView #controls EnumField > VisualElement > VisualElement {
     padding-bottom: 1px;
     height: 15px;
 }
+
+#TopPortContainer, #BottomPortContainer
+{
+   align-self: center; 
+   flex-direction: row;
+}
+
+#TopPortContainer
+{
+    margin-bottom: -1px;
+}
+
+#BottomPortContainer
+{
+    margin-top: -1px;
+}

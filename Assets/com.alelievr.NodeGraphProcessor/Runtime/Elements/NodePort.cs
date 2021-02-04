@@ -39,6 +39,10 @@ namespace GraphProcessor
 		/// Tooltip of the port
 		/// </summary>
 		public string	tooltip;
+		/// <summary>
+		/// Is the port vertical
+		/// </summary>
+		public bool		vertical;
 
         public bool Equals(PortData other)
         {
@@ -47,7 +51,8 @@ namespace GraphProcessor
 				&& displayType == other.displayType
 				&& acceptMultipleEdges == other.acceptMultipleEdges
 				&& sizeInPixel == other.sizeInPixel
-				&& tooltip == other.tooltip;
+				&& tooltip == other.tooltip
+				&& vertical == other.vertical;
         }
 
 		public void CopyFrom(PortData other)
@@ -58,6 +63,7 @@ namespace GraphProcessor
 			acceptMultipleEdges = other.acceptMultipleEdges;
 			sizeInPixel = other.sizeInPixel;
 			tooltip = other.tooltip;
+			vertical = other.vertical;
 		}
     }
 

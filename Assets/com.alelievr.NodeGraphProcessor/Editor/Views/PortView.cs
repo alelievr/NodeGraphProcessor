@@ -30,8 +30,8 @@ namespace GraphProcessor
 
 		readonly string portStyle = "GraphProcessorStyles/PortView";
 
-        PortView(Orientation orientation, Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener edgeConnectorListener)
-            : base(orientation, direction, Capacity.Multi, portData.displayType ?? fieldInfo.FieldType)
+        PortView(Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener edgeConnectorListener)
+            : base(portData.vertical ? Orientation.Vertical : Orientation.Horizontal, direction, Capacity.Multi, portData.displayType ?? fieldInfo.FieldType)
 		{
 			this.fieldInfo = fieldInfo;
 			this.listener = edgeConnectorListener;
@@ -47,12 +47,15 @@ namespace GraphProcessor
 			if (userPortStyle != null)
 				styleSheets.Add(userPortStyle);
 			
+			if (portData.vertical)
+				AddToClassList("Vertical");
+			
 			this.tooltip = portData.tooltip;
 		}
 
-		public static PortView CreatePV(Orientation orientation, Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener edgeConnectorListener)
+		public static PortView CreatePV(Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener edgeConnectorListener)
 		{
-			var pv = new PortView(orientation, direction, fieldInfo, portData, edgeConnectorListener);
+			var pv = new PortView(direction, fieldInfo, portData, edgeConnectorListener);
 			pv.m_EdgeConnector = new BaseEdgeConnector(edgeConnectorListener);
 			pv.AddManipulator(pv.m_EdgeConnector);
 
@@ -63,6 +66,14 @@ namespace GraphProcessor
 				portLabel.pickingMode = PickingMode.Position;
 				portLabel.style.flexGrow = 1;
 			}
+
+			// hide label when the port is vertical
+			if (portData.vertical && portLabel != null)
+				portLabel.style.display = DisplayStyle.None;
+			
+			// Fixup picking mode for vertical top ports
+			if (portData.vertical)
+				pv.Q("connector").pickingMode = PickingMode.Position;
 
 			return pv;
 		}

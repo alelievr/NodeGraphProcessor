@@ -74,3 +74,8 @@ PortView > #connector > #cap:hover
 .Port_Color {
     --port-color: #FF00FF;
 }
+
+.Vertical
+{
+    height: 6px;
+}

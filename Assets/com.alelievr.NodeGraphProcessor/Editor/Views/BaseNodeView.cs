@@ -29,6 +29,8 @@ namespace GraphProcessor
         public VisualElement 					controlsContainer;
 		protected VisualElement					debugContainer;
 		protected VisualElement					rightTitleContainer;
+		protected VisualElement					topPortContainer;
+		protected VisualElement					bottomPortContainer;
 		private VisualElement 					inputContainerElement;
 
 		VisualElement							settings;
@@ -83,8 +85,8 @@ namespace GraphProcessor
             if (!string.IsNullOrEmpty(node.layoutStyle))
                 styleSheets.Add(Resources.Load<StyleSheet>(node.layoutStyle));
 
-			InitializePorts();
 			InitializeView();
+			InitializePorts();
 			InitializeDebug();
 
 			// If the standard Enable method is still overwritten, we call it
@@ -126,6 +128,12 @@ namespace GraphProcessor
 
 			rightTitleContainer = new VisualElement{ name = "RightTitleContainer" };
 			titleContainer.Add(rightTitleContainer);
+
+			topPortContainer = new VisualElement { name = "TopPortContainer" };
+			this.Insert(0, topPortContainer);
+
+			bottomPortContainer = new VisualElement { name = "BottomPortContainer" };
+			this.Add(bottomPortContainer);
 
 			if (nodeTarget.showControlsOnHover)
 			{
@@ -274,18 +282,25 @@ namespace GraphProcessor
 
 		public PortView AddPort(FieldInfo fieldInfo, Direction direction, BaseEdgeConnectorListener listener, PortData portData)
 		{
-			// TODO: hardcoded value
-			PortView p = PortView.CreatePV(Orientation.Horizontal, direction, fieldInfo, portData, listener);
+			PortView p = PortView.CreatePV(direction, fieldInfo, portData, listener);
 
 			if (p.direction == Direction.Input)
 			{
 				inputPortViews.Add(p);
-				inputContainer.Add(p);
+
+				if (portData.vertical)
+					topPortContainer.Add(p);
+				else
+					inputContainer.Add(p);
 			}
 			else
 			{
 				outputPortViews.Add(p);
-				outputContainer.Add(p);
+
+				if (portData.vertical)
+					bottomPortContainer.Add(p);
+				else
+					outputContainer.Add(p);
 			}
 
 			p.Initialize(this, portData?.displayName);
@@ -305,9 +320,19 @@ namespace GraphProcessor
 		public void InsertPort(PortView portView, int index)
 		{
 			if (portView.direction == Direction.Input)
-				inputContainer.Insert(index, portView);
+			{
+				if (portView.portData.vertical)
+					topPortContainer.Insert(index, portView);
+				else
+					inputContainer.Insert(index, portView);
+			}
 			else
-				outputContainer.Insert(index, portView);
+			{
+				if (portView.portData.vertical)
+					bottomPortContainer.Insert(index, portView);
+				else
+					outputContainer.Insert(index, portView);
+			}
 		}
 
 		public void RemovePort(PortView p)

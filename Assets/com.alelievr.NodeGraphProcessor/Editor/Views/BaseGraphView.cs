@@ -329,6 +329,12 @@ namespace GraphProcessor
 							Disconnect(edge);
 							return true;
 						case BaseNodeView nodeView:
+							// For vertical nodes, we need to delete them ourselves as it's not handled by GraphView
+							foreach (var pv in nodeView.inputPortViews.Concat(nodeView.outputPortViews))
+								if (pv.orientation == Orientation.Vertical)
+									foreach (var edge in pv.GetEdges().ToList())
+										Disconnect(edge);
+
 							nodeInspector.NodeViewRemoved(nodeView);
 							ExceptionToLog.Call(() => nodeView.OnRemoved());
 							graph.RemoveNode(nodeView.nodeTarget);

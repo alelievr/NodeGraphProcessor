@@ -18,6 +18,10 @@ MonoBehaviour:
   - id: 1
   - id: 2
   - id: 3
+  - id: 4
+  - id: 5
+  - id: 6
+  - id: 7
   edges:
   - GUID: 6fc14a9b-739f-41b2-93d6-0c31954c30d8
     owner: {fileID: 11400000}
@@ -35,12 +39,44 @@ MonoBehaviour:
     outputFieldName: output3
     inputPortIdentifier: 
     outputPortIdentifier: 
-  - GUID: 09116d37-391e-4899-97f2-4d784215b8dd
+  - GUID: 570cd2d3-3522-4c78-8364-5c194eac9c1c
     owner: {fileID: 11400000}
     inputNodeGUID: db7bed3e-aa7e-4099-b072-2546adce6efb
     outputNodeGUID: b5503582-4b12-4ccc-950f-a4ea7d7fa3ec
     inputFieldName: input
     outputFieldName: output3
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 654938fb-2e48-45f0-818a-0af8dcad896d
+    owner: {fileID: 11400000}
+    inputNodeGUID: 3e8c2ea0-deb9-404b-a704-9916aad94a77
+    outputNodeGUID: dfa1573e-5d96-4dfb-8843-82332c02cea9
+    inputFieldName: input
+    outputFieldName: output2
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 440f93d6-913a-4aa9-b452-66cd4b3f1e0e
+    owner: {fileID: 11400000}
+    inputNodeGUID: 3e8c2ea0-deb9-404b-a704-9916aad94a77
+    outputNodeGUID: 89b7d0e2-ae3f-4cd7-92b8-1191b253cba4
+    inputFieldName: input2
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: b8f0a337-841e-431e-b9e2-f610c4860963
+    owner: {fileID: 11400000}
+    inputNodeGUID: b8fca29c-c5dc-4aa7-8eae-06f8e1454bab
+    outputNodeGUID: 3e8c2ea0-deb9-404b-a704-9916aad94a77
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: d34b7b03-dee1-4036-ac84-2a617b1fd6be
+    owner: {fileID: 11400000}
+    inputNodeGUID: 8435f2e1-a798-47f4-8eb7-cfd8b8d81afe
+    outputNodeGUID: 3e8c2ea0-deb9-404b-a704-9916aad94a77
+    inputFieldName: input
+    outputFieldName: output2
     inputPortIdentifier: 
     outputPortIdentifier: 
   groups: []
@@ -49,8 +85,8 @@ MonoBehaviour:
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: -582, y: -263, z: 0}
-  scale: {x: 2, y: 2, z: 1}
+  position: {x: -163, y: -205, z: 0}
+  scale: {x: 1.3225, y: 1.3225, z: 1}
   references:
     version: 1
     00000000:
@@ -114,10 +150,10 @@ MonoBehaviour:
         computeOrder: 3
         position:
           serializedVersion: 2
-          x: 590
+          x: 614
           y: 416
           width: 90
-          height: 71
+          height: 54
         expanded: 1
         debug: 0
         nodeLock: 0
@@ -125,3 +161,71 @@ MonoBehaviour:
         output: 0
         output2: 0
         output3: 0
+    00000004:
+      type: {class: VerticalNode2, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 3e8c2ea0-deb9-404b-a704-9916aad94a77
+        computeOrder: 5
+        position:
+          serializedVersion: 2
+          x: 555
+          y: 568
+          width: 149
+          height: 87
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        input: 0
+        input2: 0
+        output: 0
+        output2: 0
+    00000005:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 89b7d0e2-ae3f-4cd7-92b8-1191b253cba4
+        computeOrder: 4
+        position:
+          serializedVersion: 2
+          x: 378.21738
+          y: 518.5
+          width: 102
+          height: 99
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        output: 0
+        input: 0
+    00000006:
+      type: {class: VerticalNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: b8fca29c-c5dc-4aa7-8eae-06f8e1454bab
+        computeOrder: 6
+        position:
+          serializedVersion: 2
+          x: 645
+          y: 744
+          width: 90
+          height: 54
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        input: 0
+        output: 0
+        output2: 0
+        output3: 0
+    00000007:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 8435f2e1-a798-47f4-8eb7-cfd8b8d81afe
+        computeOrder: 7
+        position:
+          serializedVersion: 2
+          x: 812.3043
+          y: 645
+          width: 102
+          height: 99
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        output: 0
+        input: 0

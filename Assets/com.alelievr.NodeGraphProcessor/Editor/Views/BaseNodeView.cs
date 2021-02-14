@@ -666,7 +666,11 @@ namespace GraphProcessor
 		
 		private void AddEmptyField(FieldInfo field, bool fromInspector)
 		{
-			if(field.GetCustomAttribute(typeof(InputAttribute)) == null || fromInspector) return;
+			if (field.GetCustomAttribute(typeof(InputAttribute)) == null || fromInspector)
+				return;
+
+			if (field.GetCustomAttribute<VerticalAttribute>() != null)
+				return;
 			
 			var box = new VisualElement {name = field.Name};
 			box.AddToClassList("port-input-element");

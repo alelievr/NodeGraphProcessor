@@ -4,6 +4,36 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.1.0]
+
+### Added
+- Added vertical ports
+- Added an example with Waitable and async nodes
+
+## [1.0.1]
+
+### Added
+- You can now re-order elements inside the blackboard.
+
+## [1.0.0]
+
+### Added
+- Added support of custom property drawers for exposed parameters in the graph inspector (the one that shows in the inspector when the graph is selected).
+
+### Change
+- Serialization backend (use [SerializeReference] instead of JSON)
+
+## [0.10.4]
+
+### Added
+- Added deletable bool API on the BaseNode
+
+### Fixed
+- Fix missing and inconsistent field drawers on inherited node fields
+- Fix inconsistent field drawer positions after unsupported fields
+- Fixed port sync code
+- Fixed exception to log not handling correctly the stacktraces
+
 ## [0.10.1]
 
 ### Fixed

@@ -30,6 +30,8 @@ public class RelayNode : BaseNode
 	[System.NonSerialized]
 	int				outputIndex = 0;
 
+	SerializableType inputType = new SerializableType(typeof(object));
+
 	const int		k_MaxPortSize = 14;
 
 	protected override void Process()
@@ -86,8 +88,6 @@ public class RelayNode : BaseNode
 				edge.passThroughBuffer = output;
 		}
 	}
-
-	SerializableType inputType = new SerializableType(typeof(object));
 
 	[CustomPortBehavior(nameof(input))]
 	IEnumerable< PortData > InputPortBehavior(List< SerializableEdge > edges)

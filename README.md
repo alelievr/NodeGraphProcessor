@@ -42,8 +42,8 @@ public class SubNode : BaseNode
 
 ### Unity Compatible versions
 
-This project requires at least Unity **2019.3** with a scripting runtime version of 4.x in player settings.
-The current Unity version used for the project is **2019.3.12f1**, **2020.1.0+** is fine too.
+This project requires at least Unity **2020.2** with a scripting runtime version of 4.x in player settings.  
+The current Unity version used for the project is **2020.2.0f1**, if you want to install NodeGraphProcessor in an older unity project, you can install it via Open UPM (minimum version: Unity **2019.3**).
 
 ### Installation
 
@@ -89,6 +89,8 @@ Note that you'll not have access to the examples provided in this repo because t
 - Node creation menu on edge drop
 - Simplified edge connection compared to default GraphView (ShaderGraph and VFX Graph)
 - Multiple graph window workflow (copy/paste)
+- Vertical Ports
+- Sticky notes (requires Unity 2020.1)
 
 More details are available [in the Changelog](CHANGELOG.md)
 
@@ -103,8 +105,6 @@ The user manual is hosted using [Github Wiki](https://github.com/alelievr/NodeGr
 - Investigate for ECS/Jobs integration
 - API to create the graph in C#
 - Subgraphs
-- Use SerializedReference instead of Json (faster serialization + smaller assets)
-- Sticky notes (requires Unity 2020.1)
 
 For more details consult our [Github Project page](https://github.com/alelievr/NodeGraphProcessor/projects/2).
 
@@ -165,3 +165,6 @@ Want to be in the made with list? [Send a message to the issue #14](https://gith
 
 ### Sticky Notes (2020.1 or more required)
 ![image](https://user-images.githubusercontent.com/6877923/94344807-208e0b00-0022-11eb-9f93-62acd6478e30.png)
+
+### Vertical Ports
+![image](https://user-images.githubusercontent.com/6877923/106968910-199ea400-674a-11eb-8f0d-76230c3e10c5.png)

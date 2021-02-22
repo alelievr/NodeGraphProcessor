@@ -37,3 +37,11 @@
 .Port_ConditionalLink {
 	--port-color: #FFFF30;
 }
+
+.Port_AnimationCurve{
+	--port-color: #FF0080;
+}
+
+.Port_Gradient{
+	--port-color: #FF8000;
+}

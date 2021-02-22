@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using System;
+using System.Reflection;
 
 namespace GraphProcessor
 {
@@ -10,20 +11,25 @@ namespace GraphProcessor
     {
         protected VisualElement root;
         protected BaseGraph     graph;
+        protected ExposedParameterFieldFactory exposedParameterFactory;
 
-        VisualElement   parameterContainer;
+        VisualElement           parameterContainer;
 
         protected virtual void OnEnable()
         {
             graph = target as BaseGraph;
             graph.onExposedParameterListChanged += UpdateExposedParameters;
             graph.onExposedParameterModified += UpdateExposedParameters;
+            if (exposedParameterFactory == null)
+                exposedParameterFactory = new ExposedParameterFieldFactory(graph);
         }
 
         protected virtual void OnDisable()
         {
             graph.onExposedParameterListChanged -= UpdateExposedParameters;
             graph.onExposedParameterModified -= UpdateExposedParameters;
+            exposedParameterFactory?.Dispose(); //  Graphs that created in GraphBehaviour sometimes gives null ref.
+            exposedParameterFactory = null;
         }
 
         public sealed override VisualElement CreateInspectorGUI()
@@ -50,23 +56,20 @@ namespace GraphProcessor
 
             foreach (var param in graph.exposedParameters)
             {
-                if(param.settings.isHidden)
+                if (param.settings.isHidden)
                     continue;
-                
-                VisualElement prop = new VisualElement();
-                prop.style.display = DisplayStyle.Flex;
-                Type paramType = Type.GetType(param.type);
-                var field = FieldFactory.CreateField(paramType, param.serializedValue.value, (newValue) => {
-					Undo.RegisterCompleteObjectUndo(graph, "Changed Parameter " + param.name + " to " + newValue);
-                    param.serializedValue.value = newValue;
-                }, param.name);
-                prop.Add(field);
-                parameterContainer.Add(prop);
+
+                var field = exposedParameterFactory.GetParameterValueField(param, (newValue) => {
+                    param.value = newValue;
+                    serializedObject.ApplyModifiedProperties();
+                    graph.NotifyExposedParameterValueChanged(param);
+                });
+                parameterContainer.Add(field);
             }
         }
 
-        void UpdateExposedParameters(string guid) => UpdateExposedParameters();
-		
+        void UpdateExposedParameters(ExposedParameter param) => UpdateExposedParameters();
+
         void UpdateExposedParameters()
         {
             parameterContainer.Clear();

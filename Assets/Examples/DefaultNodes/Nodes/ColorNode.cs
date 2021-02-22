@@ -8,7 +8,7 @@ using System.Linq;
 public class ColorNode : BaseNode
 {
 	[Output(name = "Color"), SerializeField]
-	public Color				color;
+	new public Color				color;
 
 	public override string		name => "Color";
 }

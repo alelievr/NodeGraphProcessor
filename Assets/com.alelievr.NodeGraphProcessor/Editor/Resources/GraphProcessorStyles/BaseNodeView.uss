@@ -26,6 +26,7 @@
 
 #contents #top .executed #connector, #contents #top .executed #connector #cap,
 #contents #top .executes #connector, #contents #top .executes #connector #cap,
+#contents #top .executeAfter #connector, #contents #top .executeAfter #connector #cap,
 #contents #top .true #connector, #contents #top .true #connector #cap,
 #contents #top .false #connector, #contents #top .false #connector #cap,
 #contents #top .loopBody #connector, #contents #top .loopBody #connector #cap,
@@ -214,4 +215,20 @@ ParameterNodeView #controls EnumField > VisualElement > VisualElement {
     border-bottom-right-radius: 1px;
     padding-bottom: 1px;
     height: 15px;
+}
+
+#TopPortContainer, #BottomPortContainer
+{
+   align-self: center; 
+   flex-direction: row;
+}
+
+#TopPortContainer
+{
+    margin-bottom: -1px;
+}
+
+#BottomPortContainer
+{
+    margin-top: -1px;
 }

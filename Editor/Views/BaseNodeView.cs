@@ -318,10 +318,8 @@ namespace GraphProcessor
 			return p;
 		}
 
-        protected virtual PortView CreatePortView(Orientation horizontal, Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener listener)
-        {
-			return PortView.CreatePV(horizontal, direction, fieldInfo, portData, listener);
-        }
+        protected virtual PortView CreatePortView(Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener listener)
+        	=> PortView.CreatePortView(direction, fieldInfo, portData, listener);
 
         public void InsertPort(PortView portView, int index)
 		{

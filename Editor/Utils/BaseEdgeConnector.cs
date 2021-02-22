@@ -13,16 +13,18 @@ namespace GraphProcessor
         Edge edgeCandidate;
         protected bool active;
         Vector2 mouseDownPosition;
+        protected BaseGraphView graphView;
 
         internal const float k_ConnectionDistanceTreshold = 10f;
 
 		public BaseEdgeConnector(IEdgeConnectorListener listener) : base()
 		{
+            graphView = (listener as BaseEdgeConnectorListener)?.graphView;
             active = false;
-            initEdgeConnector(listener);
+            InitEdgeConnector(listener);
         }
 
-        protected virtual void initEdgeConnector(IEdgeConnectorListener listener)
+        protected virtual void InitEdgeConnector(IEdgeConnectorListener listener)
         {
             dragHelper = new BaseEdgeDragHelper(listener);
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
@@ -68,7 +70,7 @@ namespace GraphProcessor
 
             mouseDownPosition = e.localMousePosition;
 
-            edgeCandidate = CreateEdgeView();
+            edgeCandidate = graphView != null ? graphView.CreateEdgeView() : new EdgeView();
             edgeDragHelper.draggedPort = graphElement;
             edgeDragHelper.edgeCandidate = edgeCandidate;
 
@@ -84,11 +86,6 @@ namespace GraphProcessor
                 edgeDragHelper.Reset();
                 edgeCandidate = null;
             }
-        }
-
-        protected virtual EdgeView CreateEdgeView()
-        {
-            return new EdgeView();
         }
 
         void OnCaptureOut(MouseCaptureOutEvent e)

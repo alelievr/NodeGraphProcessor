@@ -48,6 +48,14 @@ namespace GraphProcessor
 	}
 
 	/// <summary>
+	/// Creates a vertical port instead of the default horizontal one
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+	public class VerticalAttribute : Attribute
+	{
+	}
+
+	/// <summary>
 	/// Register the node in the NodeProvider class. The node will also be available in the node creation window.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]

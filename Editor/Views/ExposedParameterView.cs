@@ -18,9 +18,13 @@ namespace GraphProcessor
         
         readonly string exposedParameterViewStyle = "GraphProcessorStyles/ExposedParameterView";
 
+        List<Rect> blackboardLayouts = new List<Rect>();
+
         public ExposedParameterView()
         {
-            styleSheets.Add(Resources.Load<StyleSheet>(exposedParameterViewStyle));
+            var style = Resources.Load<StyleSheet>(exposedParameterViewStyle);
+            if (style != null)
+                styleSheets.Add(style);
         }
 
         protected virtual void OnAddClicked()
@@ -28,20 +32,25 @@ namespace GraphProcessor
             var parameterType = new GenericMenu();
 
             foreach (var paramType in GetExposedParameterTypes())
-            parameterType.AddItem(new GUIContent(paramType.Name), false, () => {
-                string uniqueName = "New " + paramType.Name + "Param";
-                object value = null;
-
-                uniqueName = GetUniqueExposedPropertyName(uniqueName);
-
-                if (paramType.IsValueType)
+                parameterType.AddItem(new GUIContent(GetNiceNameFromType(paramType)), false, () =>
                 {
-                    value = Activator.CreateInstance(paramType);
-                }
-                graphView.graph.AddExposedParameter(uniqueName, paramType, value);
-            });
+                    string uniqueName = "New " + GetNiceNameFromType(paramType);
+
+                    uniqueName = GetUniqueExposedPropertyName(uniqueName);
+                    graphView.graph.AddExposedParameter(uniqueName, paramType);
+                });
 
             parameterType.ShowAsContext();
+        }
+
+        protected string GetNiceNameFromType(Type type)
+        {
+            string name = type.Name;
+
+            // Remove parameter in the name of the type if it exists
+            name = name.Replace("Parameter", "");
+
+            return ObjectNames.NicifyVariableName(name);
         }
 
         protected string GetUniqueExposedPropertyName(string name)
@@ -56,8 +65,7 @@ namespace GraphProcessor
 
         protected virtual IEnumerable< Type > GetExposedParameterTypes()
         {
-            // filter the slot types because we don't want generic types (i.e lists)
-            foreach (var type in NodeProvider.GetSlotTypes())
+            foreach (var type in TypeCache.GetTypesDerivedFrom<ExposedParameter>())
             {
                 if (type.IsGenericType)
                     continue ;
@@ -72,7 +80,13 @@ namespace GraphProcessor
 
             foreach (var param in graphView.graph.exposedParameters)
             {
-                content.Add(new BlackboardRow(new ExposedParameterFieldView(graphView, param), new ExposedParameterPropertyView(graphView, param)));
+                var row = new BlackboardRow(new ExposedParameterFieldView(graphView, param), new ExposedParameterPropertyView(graphView, param));
+                row.expanded = param.settings.expanded;
+                row.RegisterCallback<GeometryChangedEvent>(e => {
+                    param.settings.expanded = row.expanded;
+                });
+
+                content.Add(row);
             }
         }
 
@@ -84,6 +98,11 @@ namespace GraphProcessor
 
             graphView.onExposedParameterListChanged += UpdateParameterList;
             graphView.initialized += UpdateParameterList;
+            Undo.undoRedoPerformed += UpdateParameterList;
+
+            RegisterCallback<DragUpdatedEvent>(OnDragUpdatedEvent);
+            RegisterCallback<DragPerformEvent>(OnDragPerformEvent);
+            RegisterCallback<MouseDownEvent>(OnMouseDownEvent, TrickleDown.TrickleDown);
 
             UpdateParameterList();
 
@@ -91,6 +110,86 @@ namespace GraphProcessor
             header.Add(new Button(OnAddClicked){
                 text = "+"
             });
+        }
+
+        void OnMouseDownEvent(MouseDownEvent evt)
+        {
+            blackboardLayouts = content.Children().Select(c => c.layout).ToList();
+        }
+
+        int GetInsertIndexFromMousePosition(Vector2 pos)
+        {
+            pos = content.WorldToLocal(pos);
+            // We only need to look for y axis;
+            float mousePos = pos.y;
+
+            if (mousePos < 0)
+                return 0;
+
+            int index = 0;
+            foreach (var layout in blackboardLayouts)
+            {
+                if (mousePos > layout.yMin && mousePos < layout.yMax)
+                    return index + 1;
+                index++;
+            }
+
+            return content.childCount;
+        }
+
+        void OnDragUpdatedEvent(DragUpdatedEvent evt)
+        {
+            DragAndDrop.visualMode = DragAndDropVisualMode.Move;
+            int newIndex = GetInsertIndexFromMousePosition(evt.mousePosition);
+
+            foreach (var obj in DragAndDrop.GetGenericData("DragSelection") as List<ISelectable>)
+            {
+                if (obj is ExposedParameterFieldView view)
+                {
+                    var blackBoardRow = view.parent.parent.parent.parent.parent.parent;
+                    int oldIndex = content.Children().ToList().FindIndex(c => c == blackBoardRow);
+                    // Try to find the blackboard row
+                    content.Remove(blackBoardRow);
+
+                    if (newIndex > oldIndex)
+                        newIndex--;
+
+                    content.Insert(newIndex, blackBoardRow);
+                }
+            }
+        }
+
+        void OnDragPerformEvent(DragPerformEvent evt)
+        {
+            bool updateList = false;
+
+            int newIndex = GetInsertIndexFromMousePosition(evt.mousePosition);
+            foreach (var obj in DragAndDrop.GetGenericData("DragSelection") as List<ISelectable>)
+            {
+                if (obj is ExposedParameterFieldView view)
+                {
+                    if (!updateList)
+                        graphView.RegisterCompleteObjectUndo("Moved parameters");
+
+                    int oldIndex = graphView.graph.exposedParameters.FindIndex(e => e == view.parameter);
+                    var parameter = graphView.graph.exposedParameters[oldIndex];
+                    graphView.graph.exposedParameters.RemoveAt(oldIndex);
+
+                    // Patch new index after the remove operation:
+                    if (newIndex > oldIndex)
+                        newIndex--;
+
+                    graphView.graph.exposedParameters.Insert(newIndex, parameter);
+
+                    updateList = true;
+                }
+            }
+
+            if (updateList)
+            {
+                evt.StopImmediatePropagation();
+                UpdateParameterList();
+            }
         }
     }
 }

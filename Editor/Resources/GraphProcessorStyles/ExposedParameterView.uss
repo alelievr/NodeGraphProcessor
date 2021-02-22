@@ -2,14 +2,6 @@ ExposedParameterPropertyView {
 	padding-left: 13px;
 }
 
-ExposedParameterPropertyView FloatField {
-	margin-left: 16px;
-}
-
-ExposedParameterPropertyView FloatField > Label {
-	min-width: 90px;
-}
-
 ExposedParameterView #contentContainer {
 	padding-bottom: 12px;
 	padding-top: 2px;
@@ -32,7 +24,7 @@ ExposedParameterFieldView .pill #contents > #top > #icon {
 	width: 4px;
 	height: 4px;
 	border-radius: 2px;
-	margin-top: 0;
+	margin-top: 0px;
 	margin-left: 2px;
 }
 
@@ -41,7 +33,7 @@ ExposedParameterFieldView Image {
 }
 
 .parameter-Boolean {
-	background-color: #ff6d29;
+	background-color: #30FFFF;
 }
 
 .parameter-Single {
@@ -66,4 +58,12 @@ ExposedParameterFieldView Image {
 
 .parameter-Color {
 	background-color: #FF00FF;
+}
+
+.parameter-AnimationCurve{
+	background-color: #FF0080;
+}
+
+.parameter-Gradient{
+	background-color: #FF8000;
 }

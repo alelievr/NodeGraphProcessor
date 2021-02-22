@@ -289,19 +289,22 @@ namespace GraphProcessor
 
 				if (nodeViewsPerNode.ContainsKey(oldInputNode) && nodeViewsPerNode.ContainsKey(oldOutputNode))
 				{
-					var edgeView = new EdgeView()
-					{
-						userData = newEdge,
-						input = nodeViewsPerNode[oldInputNode].GetPortViewFromFieldName(newEdge.inputFieldName, newEdge.inputPortIdentifier),
-						output = nodeViewsPerNode[oldOutputNode].GetPortViewFromFieldName(newEdge.outputFieldName, newEdge.outputPortIdentifier)
-					};
+					var edgeView = CreateEdgeView();
+					edgeView.userData = newEdge;
+					edgeView.input = nodeViewsPerNode[oldInputNode].GetPortViewFromFieldName(newEdge.inputFieldName, newEdge.inputPortIdentifier);
+					edgeView.output = nodeViewsPerNode[oldOutputNode].GetPortViewFromFieldName(newEdge.outputFieldName, newEdge.outputPortIdentifier);
 
 					Connect(edgeView);
 				}
 			}
 		}
 
-		GraphViewChange GraphViewChangedCallback(GraphViewChange changes)
+        public virtual EdgeView CreateEdgeView()
+        {
+			return new EdgeView();
+        }
+
+        GraphViewChange GraphViewChangedCallback(GraphViewChange changes)
 		{
 			if (changes.elementsToRemove != null)
 			{
@@ -764,11 +767,11 @@ namespace GraphProcessor
 				if (inputNodeView == null || outputNodeView == null)
 					continue;
 
-				var edgeView = new EdgeView() {
-					userData = serializedEdge,
-					input = inputNodeView.GetPortViewFromFieldName(serializedEdge.inputFieldName, serializedEdge.inputPortIdentifier),
-					output = outputNodeView.GetPortViewFromFieldName(serializedEdge.outputFieldName, serializedEdge.outputPortIdentifier)
-				};
+				var edgeView = CreateEdgeView();
+				edgeView.userData = serializedEdge;
+				edgeView.input = inputNodeView.GetPortViewFromFieldName(serializedEdge.inputFieldName, serializedEdge.inputPortIdentifier);
+				edgeView.output = outputNodeView.GetPortViewFromFieldName(serializedEdge.outputFieldName, serializedEdge.outputPortIdentifier);
+
 
 				ConnectView(edgeView);
 			}
@@ -1087,12 +1090,11 @@ namespace GraphProcessor
 
 			var newEdge = SerializableEdge.CreateNewEdge(graph, inputPort, outputPort);
 
-			var edgeView = new EdgeView()
-			{
-				userData = newEdge,
-				input = inputPortView,
-				output = outputPortView,
-			};
+			var edgeView = CreateEdgeView();
+			edgeView.userData = newEdge;
+			edgeView.input = inputPortView;
+			edgeView.output = outputPortView;
+
 
 			return Connect(edgeView);
 		}

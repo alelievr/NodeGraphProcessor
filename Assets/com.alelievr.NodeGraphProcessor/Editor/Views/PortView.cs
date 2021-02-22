@@ -30,7 +30,7 @@ namespace GraphProcessor
 
 		readonly string portStyle = "GraphProcessorStyles/PortView";
 
-        PortView(Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener edgeConnectorListener)
+        protected PortView(Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener edgeConnectorListener)
             : base(portData.vertical ? Orientation.Vertical : Orientation.Horizontal, direction, Capacity.Multi, portData.displayType ?? fieldInfo.FieldType)
 		{
 			this.fieldInfo = fieldInfo;
@@ -53,7 +53,7 @@ namespace GraphProcessor
 			this.tooltip = portData.tooltip;
 		}
 
-		public static PortView CreatePV(Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener edgeConnectorListener)
+		public static PortView CreatePortView(Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener edgeConnectorListener)
 		{
 			var pv = new PortView(direction, fieldInfo, portData, edgeConnectorListener);
 			pv.m_EdgeConnector = new BaseEdgeConnector(edgeConnectorListener);

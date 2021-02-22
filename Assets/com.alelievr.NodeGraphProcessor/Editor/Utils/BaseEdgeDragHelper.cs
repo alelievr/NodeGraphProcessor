@@ -218,7 +218,7 @@ namespace GraphProcessor
             {
                 if (ghostEdge == null)
                 {
-                    ghostEdge = new EdgeView();
+                    ghostEdge = CreateEdgeView();
                     ghostEdge.isGhostEdge = true;
                     ghostEdge.pickingMode = PickingMode.Ignore;
                     graphView.AddElement(ghostEdge);
@@ -258,6 +258,11 @@ namespace GraphProcessor
                 ghostEdge.output = null;
                 ghostEdge = null;
             }
+        }
+
+        protected virtual EdgeView CreateEdgeView()
+        {
+            return new EdgeView();
         }
 
         private void Pan(TimerState ts)

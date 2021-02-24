@@ -95,9 +95,6 @@ namespace GraphProcessor
 				AssetDatabase.SaveAssets();
 				// Unload the graph
 				graphUnloaded?.Invoke(this.graph);
-
-				if (!this.graph.IsLinkedToScene())
-					Resources.UnloadAsset(this.graph);
 			}
 
 			graphLoaded?.Invoke(graph);

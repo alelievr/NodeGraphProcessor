@@ -22,6 +22,9 @@ MonoBehaviour:
   - id: 5
   - id: 6
   - id: 7
+  - id: 8
+  - id: 9
+  - id: 10
   edges:
   - GUID: 6fc14a9b-739f-41b2-93d6-0c31954c30d8
     owner: {fileID: 11400000}
@@ -47,46 +50,56 @@ MonoBehaviour:
     outputFieldName: output3
     inputPortIdentifier: 
     outputPortIdentifier: 
-  - GUID: 654938fb-2e48-45f0-818a-0af8dcad896d
+  - GUID: 108a0c57-b6c8-43da-b42f-8d2833457748
     owner: {fileID: 11400000}
-    inputNodeGUID: 3e8c2ea0-deb9-404b-a704-9916aad94a77
-    outputNodeGUID: dfa1573e-5d96-4dfb-8843-82332c02cea9
-    inputFieldName: input
-    outputFieldName: output2
-    inputPortIdentifier: 
-    outputPortIdentifier: 
-  - GUID: 440f93d6-913a-4aa9-b452-66cd4b3f1e0e
-    owner: {fileID: 11400000}
-    inputNodeGUID: 3e8c2ea0-deb9-404b-a704-9916aad94a77
+    inputNodeGUID: 2ed50666-7d0c-4d9a-9c6d-b457ff3bc095
     outputNodeGUID: 89b7d0e2-ae3f-4cd7-92b8-1191b253cba4
     inputFieldName: input2
     outputFieldName: output
     inputPortIdentifier: 
     outputPortIdentifier: 
-  - GUID: b8f0a337-841e-431e-b9e2-f610c4860963
-    owner: {fileID: 11400000}
-    inputNodeGUID: b8fca29c-c5dc-4aa7-8eae-06f8e1454bab
-    outputNodeGUID: 3e8c2ea0-deb9-404b-a704-9916aad94a77
-    inputFieldName: input
-    outputFieldName: output
-    inputPortIdentifier: 
-    outputPortIdentifier: 
-  - GUID: d34b7b03-dee1-4036-ac84-2a617b1fd6be
+  - GUID: abee5fb4-90dd-48c8-a74f-b9529c00f32f
     owner: {fileID: 11400000}
     inputNodeGUID: 8435f2e1-a798-47f4-8eb7-cfd8b8d81afe
-    outputNodeGUID: 3e8c2ea0-deb9-404b-a704-9916aad94a77
+    outputNodeGUID: 2ed50666-7d0c-4d9a-9c6d-b457ff3bc095
     inputFieldName: input
     outputFieldName: output2
     inputPortIdentifier: 
     outputPortIdentifier: 
+  - GUID: 510676ca-204b-4b50-86d7-5816ce384506
+    owner: {fileID: 11400000}
+    inputNodeGUID: 2ed50666-7d0c-4d9a-9c6d-b457ff3bc095
+    outputNodeGUID: db7bed3e-aa7e-4099-b072-2546adce6efb
+    inputFieldName: input
+    outputFieldName: output2
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 106dd16c-3fe8-48e2-9d64-9d77ca758f24
+    owner: {fileID: 11400000}
+    inputNodeGUID: b8fca29c-c5dc-4aa7-8eae-06f8e1454bab
+    outputNodeGUID: 2ed50666-7d0c-4d9a-9c6d-b457ff3bc095
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
   groups: []
   stackNodes: []
-  pinnedElements: []
+  pinnedElements:
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 151
+      width: 150
+      height: 200
+    opened: 0
+    editorType:
+      serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: -163, y: -205, z: 0}
-  scale: {x: 1.3225, y: 1.3225, z: 1}
+  position: {x: -48, y: -358, z: 0}
+  scale: {x: 1.15, y: 1.15, z: 1}
   references:
     version: 1
     00000000:
@@ -162,32 +175,14 @@ MonoBehaviour:
         output2: 0
         output3: 0
     00000004:
-      type: {class: VerticalNode2, ns: , asm: Assembly-CSharp}
-      data:
-        GUID: 3e8c2ea0-deb9-404b-a704-9916aad94a77
-        computeOrder: 5
-        position:
-          serializedVersion: 2
-          x: 555
-          y: 568
-          width: 149
-          height: 87
-        expanded: 1
-        debug: 0
-        nodeLock: 0
-        input: 0
-        input2: 0
-        output: 0
-        output2: 0
-    00000005:
       type: {class: FloatNode, ns: , asm: Assembly-CSharp}
       data:
         GUID: 89b7d0e2-ae3f-4cd7-92b8-1191b253cba4
         computeOrder: 4
         position:
           serializedVersion: 2
-          x: 378.21738
-          y: 518.5
+          x: 377.24387
+          y: 519
           width: 102
           height: 99
         expanded: 0
@@ -195,25 +190,26 @@ MonoBehaviour:
         nodeLock: 0
         output: 0
         input: 0
-    00000006:
+        input2: 0
+    00000005:
       type: {class: VerticalNode, ns: , asm: Assembly-CSharp}
       data:
         GUID: b8fca29c-c5dc-4aa7-8eae-06f8e1454bab
         computeOrder: 6
         position:
           serializedVersion: 2
-          x: 645
+          x: 590
           y: 744
           width: 90
           height: 54
-        expanded: 1
+        expanded: 0
         debug: 0
         nodeLock: 0
         input: 0
         output: 0
         output2: 0
         output3: 0
-    00000007:
+    00000006:
       type: {class: FloatNode, ns: , asm: Assembly-CSharp}
       data:
         GUID: 8435f2e1-a798-47f4-8eb7-cfd8b8d81afe
@@ -229,3 +225,87 @@ MonoBehaviour:
         nodeLock: 0
         output: 0
         input: 0
+        input2: 0
+    00000007:
+      type: {class: VerticalNode2, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 2ed50666-7d0c-4d9a-9c6d-b457ff3bc095
+        computeOrder: 5
+        position:
+          serializedVersion: 2
+          x: 555
+          y: 546.5
+          width: 149
+          height: 87
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        input: 0
+        input2: 0
+        output: 0
+        output2: 0
+    00000008:
+      type: {class: ColorNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: f27e1b25-7714-4a7c-831a-2c804013d6e8
+        computeOrder: 8
+        position:
+          serializedVersion: 2
+          x: 940.5341
+          y: 495.13834
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
+    00000009:
+      type: {class: DrawerFieldTestNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 1c230694-52c9-4f71-93d4-e6823a9850f2
+        computeOrder: 9
+        position:
+          serializedVersion: 2
+          x: 972.43475
+          y: 744
+          width: 146
+          height: 339
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        vector4: {x: 0, y: 0, z: 0, w: 0}
+        vector3: {x: 0, y: 0, z: 0}
+        vector2: {x: 0, y: 0}
+        floatInput: 0
+        intInput: 0
+        intInput2: 0
+        stringInput: 
+        color: {r: 0, g: 0, b: 0, a: 0}
+        gameObject: {fileID: 0}
+        animationCurve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        rigidbody: {fileID: 0}
+        layerMask:
+          serializedVersion: 2
+          m_Bits: 0
+    0000000A:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: 3f6f6a7f-6835-40a7-9e64-2897c73730ec
+        computeOrder: 10
+        position:
+          serializedVersion: 2
+          x: 1309.6409
+          y: 782.6087
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        output: 0
+        input: 0
+        input2: 0

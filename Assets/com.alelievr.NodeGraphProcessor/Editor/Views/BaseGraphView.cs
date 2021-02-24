@@ -179,7 +179,17 @@ namespace GraphProcessor
 			var data = new CopyPasteHelper();
 
 			foreach (BaseNodeView nodeView in elements.Where(e => e is BaseNodeView))
+			{
 				data.copiedNodes.Add(JsonSerializer.SerializeNode(nodeView.nodeTarget));
+				foreach (var port in nodeView.nodeTarget.GetAllPorts())
+				{
+					if (port.portData.vertical)
+					{
+						foreach (var edge in port.GetEdges())
+							data.copiedEdges.Add(JsonSerializer.Serialize(edge));
+					}
+				}
+			}
 
 			foreach (GroupView groupView in elements.Where(e => e is GroupView))
 				data.copiedGroups.Add(JsonSerializer.Serialize(groupView.group));

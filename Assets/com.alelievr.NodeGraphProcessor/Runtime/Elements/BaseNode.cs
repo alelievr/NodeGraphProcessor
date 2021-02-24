@@ -716,6 +716,29 @@ namespace GraphProcessor
 		}
 
 		/// <summary>
+		/// Return all the ports of the node
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable<NodePort> GetAllPorts()
+		{
+			foreach (var port in inputPorts)
+				yield return port;
+			foreach (var port in outputPorts)
+				yield return port;
+		}
+
+		/// <summary>
+		/// Return all the connected edges of the node
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable<SerializableEdge> GetAllEdges()
+		{
+			foreach (var port in GetAllPorts())
+				foreach (var edge in port.GetEdges())
+					yield return edge;
+		}
+
+		/// <summary>
 		/// Is the port an input
 		/// </summary>
 		/// <param name="fieldName"></param>

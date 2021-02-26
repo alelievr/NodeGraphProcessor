@@ -249,9 +249,9 @@ namespace GraphProcessor
 		{
 			InitializeCustomPortTypeMethods();
 
-			foreach (var nodeFieldKP in nodeFields.ToList().OrderByDescending(kp => kp.Value.info.MetadataToken))
+			foreach (var key in OverrideFieldOrder(nodeFields.Values.Select(k => k.info)))
 			{
-				var nodeField = nodeFieldKP.Value;
+				var nodeField = nodeFields[key.Name];
 
 				if (HasCustomBehavior(nodeField))
 				{
@@ -263,6 +263,30 @@ namespace GraphProcessor
 					AddPort(nodeField.input, nodeField.fieldName, new PortData { acceptMultipleEdges = nodeField.isMultiple, displayName = nodeField.name, tooltip = nodeField.tooltip, vertical = nodeField.vertical });
 				}
 			}
+		}
+
+		/// <summary>
+		/// Override the field order inside the node. It allows to re-order all the ports and field in the UI.
+		/// </summary>
+		/// <param name="fields">List of fields to sort</param>
+		/// <returns>Sorted list of fields</returns>
+		public virtual IEnumerable<FieldInfo> OverrideFieldOrder(IEnumerable<FieldInfo> fields)
+		{
+			long GetFieldInheritanceLevel(FieldInfo f)
+			{
+				int level = 0;
+				var t = f.DeclaringType;
+				while (t != null)
+				{
+					t = t.BaseType;
+					level++;
+				}
+
+				return level;
+			}
+
+			// Order by MetadataToken and inheritance level to sync the order with the port order (make sure FieldDrawers are next to the correct port)
+			return fields.OrderByDescending(f => (long)(((GetFieldInheritanceLevel(f) << 32)) | (long)f.MetadataToken));
 		}
 
 		protected BaseNode()

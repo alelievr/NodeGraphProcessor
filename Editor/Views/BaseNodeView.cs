@@ -591,16 +591,15 @@ namespace GraphProcessor
 			inputContainerElement.SendToBack();
 			inputContainerElement.pickingMode = PickingMode.Ignore;
 		}
-		
+
 		protected virtual void DrawDefaultInspector(bool fromInspector = false)
 		{
 			var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
 				// Filter fields from the BaseNode type since we are only interested in user-defined fields
 				// (better than BindingFlags.DeclaredOnly because we keep any inherited user-defined fields) 
-				.Where(f => f.DeclaringType != typeof(BaseNode))
-				// Order by MetadataToken to sync the order with the port order (make sure FieldDrawers are next to the correct port)
-				//TODO: Also consider custom port order
-				.OrderBy(f => f.MetadataToken);
+				.Where(f => f.DeclaringType != typeof(BaseNode));
+
+			fields = nodeTarget.OverrideFieldOrder(fields).Reverse();
 
 			foreach (var field in fields)
 			{

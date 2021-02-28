@@ -696,6 +696,10 @@ namespace GraphProcessor
 
 			// When pressing ctrl-s, we save the graph
 			EditorSceneManager.sceneSaved += _ => SaveGraphToDisk();
+			RegisterCallback<KeyDownEvent>(e => {
+				if (e.keyCode == KeyCode.S && e.actionKey)
+					SaveGraphToDisk();
+			});
 
 			ClearGraphElements();
 

@@ -8,6 +8,7 @@ using UnityEditor.Experimental.GraphView;
 using System.Linq;
 using System;
 using UnityEditor.SceneManagement;
+using System.Reflection;
 
 using Status = UnityEngine.UIElements.DropdownMenuAction.Status;
 using Object = UnityEngine.Object;
@@ -122,6 +123,8 @@ namespace GraphProcessor
 		public ExposedParameterFieldFactory exposedParameterFactory { get; private set; }
 
 		public SerializedObject		serializedGraph { get; private set; }
+
+		Dictionary<Type, Type> nodeTypePerCreateAssetType = new Dictionary<Type, Type>();
 
 		public BaseGraphView(EditorWindow window)
 		{
@@ -588,18 +591,44 @@ namespace GraphProcessor
 			var mousePos = (e.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, e.localMousePosition);
 			var dragData = DragAndDrop.GetGenericData("DragSelection") as List< ISelectable >;
 
-			if (dragData == null)
-				return;
-
-			var exposedParameterFieldViews = dragData.OfType<ExposedParameterFieldView>();
-			if (exposedParameterFieldViews.Any())
+			// Drag and Drop for elements inside the graph
+			if (dragData != null)
 			{
-				foreach (var paramFieldView in exposedParameterFieldViews)
+				var exposedParameterFieldViews = dragData.OfType<ExposedParameterFieldView>();
+				if (exposedParameterFieldViews.Any())
 				{
-					RegisterCompleteObjectUndo("Create Parameter Node");
-					var paramNode = BaseNode.CreateFromType< ParameterNode >(mousePos);
-					paramNode.parameterGUID = paramFieldView.parameter.guid;
-					AddNode(paramNode);
+					foreach (var paramFieldView in exposedParameterFieldViews)
+					{
+						RegisterCompleteObjectUndo("Create Parameter Node");
+						var paramNode = BaseNode.CreateFromType< ParameterNode >(mousePos);
+						paramNode.parameterGUID = paramFieldView.parameter.guid;
+						AddNode(paramNode);
+					}
+				}
+			}
+
+			// External objects drag and drop
+			if (DragAndDrop.objectReferences.Length > 0)
+			{
+				RegisterCompleteObjectUndo("Create Node From Object(s)");
+				foreach (var obj in DragAndDrop.objectReferences)
+				{
+					var objectType = obj.GetType();
+
+					foreach (var kp in nodeTypePerCreateAssetType)
+					{
+						if (kp.Key.IsAssignableFrom(objectType))
+						{
+							var node = BaseNode.CreateFromType(kp.Value, mousePos);
+							var initializeFunction = kp.Value.GetMethod(nameof(ICreateNodeFrom<Object>.InitializeNodeFromObject), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+							if ((bool)initializeFunction.Invoke(node, new []{obj}))
+							{
+								AddNode(node);
+							}
+							else
+								break;	
+						}
+					}
 				}
 			}
 		}
@@ -607,6 +636,7 @@ namespace GraphProcessor
 		void DragUpdatedCallback(DragUpdatedEvent e)
         {
             var dragData = DragAndDrop.GetGenericData("DragSelection") as List<ISelectable>;
+			var dragObjects = DragAndDrop.objectReferences;
             bool dragging = false;
 
             if (dragData != null)
@@ -618,10 +648,11 @@ namespace GraphProcessor
 				}
             }
 
+			if (dragObjects.Length > 0)
+				dragging = true;
+
             if (dragging)
-            {
                 DragAndDrop.visualMode = DragAndDropVisualMode.Generic;
-            }
 
 			UpdateNodeInspectorSelection();
         }
@@ -717,6 +748,20 @@ namespace GraphProcessor
 			InitializeView();
 
 			NodeProvider.LoadGraph(graph);
+
+			// Register the nodes that can be created from assets
+			foreach (var nodeInfo in NodeProvider.GetNodeMenuEntries(graph))
+			{
+				var interfaces = nodeInfo.type.GetInterfaces();
+				foreach (var i in interfaces)
+				{
+					if (i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICreateNodeFrom<>))
+					{
+						var genericArgument = i.GetGenericArguments()[0];
+						nodeTypePerCreateAssetType[genericArgument] = nodeInfo.type;
+					}
+				}
+			}
 		}
 
 		public void ClearGraphElements()
@@ -886,6 +931,13 @@ namespace GraphProcessor
 			nodeViewsPerNode[node] = baseNodeView;
 
 			return baseNodeView;
+		}
+
+		public void RemoveNode(BaseNode node)
+		{
+			var view = nodeViewsPerNode[node];
+			RemoveNodeView(view);
+			graph.RemoveNode(node);
 		}
 
 		public void RemoveNodeView(BaseNodeView nodeView)

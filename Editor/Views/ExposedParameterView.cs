@@ -141,8 +141,12 @@ namespace GraphProcessor
         {
             DragAndDrop.visualMode = DragAndDropVisualMode.Move;
             int newIndex = GetInsertIndexFromMousePosition(evt.mousePosition);
+            var graphSelectionDragData = DragAndDrop.GetGenericData("DragSelection");
 
-            foreach (var obj in DragAndDrop.GetGenericData("DragSelection") as List<ISelectable>)
+            if (graphSelectionDragData == null)
+                return;
+
+            foreach (var obj in graphSelectionDragData as List<ISelectable>)
             {
                 if (obj is ExposedParameterFieldView view)
                 {

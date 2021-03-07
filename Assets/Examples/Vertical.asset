@@ -190,7 +190,6 @@ MonoBehaviour:
         nodeLock: 0
         output: 0
         input: 0
-        input2: 0
     00000005:
       type: {class: VerticalNode, ns: , asm: Assembly-CSharp}
       data:
@@ -225,7 +224,6 @@ MonoBehaviour:
         nodeLock: 0
         output: 0
         input: 0
-        input2: 0
     00000007:
       type: {class: VerticalNode2, ns: , asm: Assembly-CSharp}
       data:
@@ -308,4 +306,3 @@ MonoBehaviour:
         nodeLock: 0
         output: 0
         input: 0
-        input2: 0

@@ -200,11 +200,21 @@ MonoBehaviour:
     editorType:
       serializedType: ConditionalProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 25
+      y: 333
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters: []
   serializedParameterList: []
   stickyNotes: []
-  position: {x: 197.5, y: 334, z: 0}
-  scale: {x: 0.32690176, y: 0.32690176, z: 1}
+  position: {x: 57, y: 77, z: 0}
+  scale: {x: 0.7561437, y: 0.7561437, z: 1}
   references:
     version: 1
     00000000:

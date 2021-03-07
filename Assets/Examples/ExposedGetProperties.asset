@@ -229,7 +229,7 @@ MonoBehaviour:
     settings:
       id: 27
   stickyNotes: []
-  position: {x: 436, y: 157, z: 0}
+  position: {x: 374, y: 92, z: 0}
   scale: {x: 1.3225, y: 1.3225, z: 1}
   references:
     version: 1

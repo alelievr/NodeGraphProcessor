@@ -124,7 +124,7 @@ namespace GraphProcessor
 
 		public SerializedObject		serializedGraph { get; private set; }
 
-		Dictionary<Type, Type> nodeTypePerCreateAssetType = new Dictionary<Type, Type>();
+		Dictionary<Type, (Type nodeType, MethodInfo initalizeNodeFromObject)> nodeTypePerCreateAssetType = new Dictionary<Type, (Type, MethodInfo)>();
 
 		public BaseGraphView(EditorWindow window)
 		{
@@ -619,14 +619,18 @@ namespace GraphProcessor
 					{
 						if (kp.Key.IsAssignableFrom(objectType))
 						{
-							var node = BaseNode.CreateFromType(kp.Value, mousePos);
-							var initializeFunction = kp.Value.GetMethod(nameof(ICreateNodeFrom<Object>.InitializeNodeFromObject), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-							if ((bool)initializeFunction.Invoke(node, new []{obj}))
+							try
 							{
-								AddNode(node);
+								var node = BaseNode.CreateFromType(kp.Value.nodeType, mousePos);
+								if ((bool)kp.Value.initalizeNodeFromObject.Invoke(node, new []{obj}))
+									AddNode(node);
+								else
+									break;	
 							}
-							else
-								break;	
+							catch (Exception exception)
+							{
+								Debug.LogException(exception);
+							}
 						}
 					}
 				}
@@ -753,12 +757,21 @@ namespace GraphProcessor
 			foreach (var nodeInfo in NodeProvider.GetNodeMenuEntries(graph))
 			{
 				var interfaces = nodeInfo.type.GetInterfaces();
+                var exceptInheritedInterfaces = interfaces.Except(interfaces.SelectMany(t => t.GetInterfaces()));
 				foreach (var i in interfaces)
 				{
 					if (i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICreateNodeFrom<>))
 					{
-						var genericArgument = i.GetGenericArguments()[0];
-						nodeTypePerCreateAssetType[genericArgument] = nodeInfo.type;
+						var genericArgumentType = i.GetGenericArguments()[0];
+						var initializeFunction = nodeInfo.type.GetMethod(
+							nameof(ICreateNodeFrom<Object>.InitializeNodeFromObject),
+							BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+							null, new Type[]{ genericArgumentType}, null
+						);
+
+						// We only add the type that implements the interface, not it's children
+						if (initializeFunction.DeclaringType == nodeInfo.type)
+							nodeTypePerCreateAssetType[genericArgumentType] = (nodeInfo.type, initializeFunction);
 					}
 				}
 			}

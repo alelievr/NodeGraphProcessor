@@ -449,9 +449,9 @@ namespace GraphProcessor
 		/// <param name="evt"></param>
 		public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
 		{
-			BuildGroupContextualMenu(evt);
-			BuildStickyNoteContextualMenu(evt);
 			base.BuildContextualMenu(evt);
+			BuildGroupContextualMenu(evt, 1);
+			BuildStickyNoteContextualMenu(evt, 2);
 			BuildViewContextualMenu(evt);
 			BuildSelectAssetContextualMenu(evt);
 			BuildSaveAssetContextualMenu(evt);
@@ -462,21 +462,25 @@ namespace GraphProcessor
 		/// Add the New Group entry to the context menu
 		/// </summary>
 		/// <param name="evt"></param>
-		protected virtual void BuildGroupContextualMenu(ContextualMenuPopulateEvent evt)
+		protected virtual void BuildGroupContextualMenu(ContextualMenuPopulateEvent evt, int menuPosition = -1)
 		{
+			if (menuPosition == -1)
+				menuPosition = evt.menu.MenuItems().Count;
 			Vector2 position = (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
-            evt.menu.AppendAction("New Group", (e) => AddSelectionsToGroup(AddGroup(new Group("New Group", position))), DropdownMenuAction.AlwaysEnabled);
+            evt.menu.InsertAction(menuPosition, "Create Group", (e) => AddSelectionsToGroup(AddGroup(new Group("Create Group", position))), DropdownMenuAction.AlwaysEnabled);
 		}
 
 		/// <summary>
 		/// -Add the New Sticky Note entry to the context menu
 		/// </summary>
 		/// <param name="evt"></param>
-		protected virtual void BuildStickyNoteContextualMenu(ContextualMenuPopulateEvent evt)
+		protected virtual void BuildStickyNoteContextualMenu(ContextualMenuPopulateEvent evt, int menuPosition = -1)
 		{
+			if (menuPosition == -1)
+				menuPosition = evt.menu.MenuItems().Count;
 #if UNITY_2020_1_OR_NEWER
 			Vector2 position = (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
-            evt.menu.AppendAction("New Sticky Note", (e) => AddStickyNote(new StickyNote("New Note", position)), DropdownMenuAction.AlwaysEnabled);
+            evt.menu.InsertAction(menuPosition, "Create Sticky Note", (e) => AddStickyNote(new StickyNote("Create Note", position)), DropdownMenuAction.AlwaysEnabled);
 #endif
 		}
 

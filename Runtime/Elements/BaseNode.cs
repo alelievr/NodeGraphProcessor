@@ -304,8 +304,11 @@ namespace GraphProcessor
 		{
 			bool changed = false;
 
-			foreach (var field in nodeFields)
-				changed |= UpdatePortsForField(field.Value.fieldName);
+			foreach (var key in OverrideFieldOrder(nodeFields.Values.Select(k => k.info)))
+			{
+				var field = nodeFields[key.Name];
+				changed |= UpdatePortsForField(field.fieldName);
+			}
 
 			return changed;
 		}
@@ -317,8 +320,11 @@ namespace GraphProcessor
 		{
 			bool changed = false;
 
-			foreach (var field in nodeFields)
-				changed |= UpdatePortsForFieldLocal(field.Value.fieldName);
+			foreach (var key in OverrideFieldOrder(nodeFields.Values.Select(k => k.info)))
+			{
+				var field = nodeFields[key.Name];
+				changed |= UpdatePortsForFieldLocal(field.fieldName);
+			}
 
 			return changed;
 		}

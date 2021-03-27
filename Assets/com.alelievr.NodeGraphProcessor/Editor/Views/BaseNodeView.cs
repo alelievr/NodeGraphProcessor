@@ -758,7 +758,7 @@ namespace GraphProcessor
 			}, showInputDrawer ? "" : label);
 
 			// Disallow picking scene objects when the graph is not linked to a scene
-			if (!owner.graph.IsLinkedToScene())
+			if (element != null && !owner.graph.IsLinkedToScene())
 			{
 				var objectField = element.Q<ObjectField>();
 				if (objectField != null)
@@ -780,6 +780,7 @@ namespace GraphProcessor
 				}
 				else
 				{
+					element.name = field.Name;
 					controlsContainer.Add(element);
 				}
 			}

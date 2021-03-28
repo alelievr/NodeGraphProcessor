@@ -228,6 +228,7 @@ namespace GraphProcessor
 		/// <param name="node"></param>
 		public void RemoveNode(BaseNode node)
 		{
+			node.DisableInternal();
 			node.DestroyInternal();
 
 			nodesPerGUID.Remove(node.GUID);

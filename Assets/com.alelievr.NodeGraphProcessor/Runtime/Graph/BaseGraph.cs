@@ -161,6 +161,9 @@ namespace GraphProcessor
 
         protected virtual void OnEnable()
         {
+			if (isEnabled)
+				return;
+
 			MigrateGraphIfNeeded();
 			InitializeGraphElements();
 			DestroyBrokenGraphElements();
@@ -197,6 +200,7 @@ namespace GraphProcessor
 
 		protected virtual void OnDisable()
 		{
+			isEnabled = false;
 			foreach (var node in nodes)
 				node.DisableInternal();
 		}

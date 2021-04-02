@@ -682,7 +682,7 @@ namespace GraphProcessor
 				if (e is BaseNodeView v && this.Contains(v))
 					selectedNodeGUIDs.Add(v.nodeTarget.GUID);
 			}
-	
+
 			// Remove everything
 			RemoveNodeViews();
 			RemoveEdges();

@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added an example with Waitable and async nodes
 - Added drag and drop support for assets and scene objects directly into a graph
 
+### Fixed
+- Fixed ports duplicated after undo
+
 ## [1.0.1]
 
 ### Added

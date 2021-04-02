@@ -249,6 +249,8 @@ namespace GraphProcessor
 		{
 			InitializeCustomPortTypeMethods();
 
+			inputPorts.Clear();
+			outputPorts.Clear();
 			foreach (var key in OverrideFieldOrder(nodeFields.Values.Select(k => k.info)))
 			{
 				var nodeField = nodeFields[key.Name];

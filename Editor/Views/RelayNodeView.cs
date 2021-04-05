@@ -83,7 +83,8 @@ public class RelayNodeView : BaseNodeView
 			int inputEdgeCount = relay.GetNonRelayEdges().Count + 1;
 			style.height = Mathf.Max(30, 24 * inputEdgeCount + 5);
 			style.width = -1;
-			input.style.height = -1;
+			if (input != null)
+				input.style.height = -1;
 			if (output != null)
 				output.style.height = -1;
 			RemoveFromClassList("hideLabels");
@@ -92,7 +93,8 @@ public class RelayNodeView : BaseNodeView
 		{
 			style.height = 20;
 			style.width = 50;
-			input.style.height = 16;
+			if (input != null)
+				input.style.height = 16;
 			if (output != null)
 				output.style.height = 16;
 			AddToClassList("hideLabels");

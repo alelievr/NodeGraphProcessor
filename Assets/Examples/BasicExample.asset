@@ -317,8 +317,8 @@ MonoBehaviour:
       height: 101
     title: New Sticky Note
     content: Write your text here
-  position: {x: 267, y: 305, z: 0}
-  scale: {x: 0.375937, y: 0.375937, z: 1}
+  position: {x: 267, y: 191, z: 0}
+  scale: {x: 0.49717674, y: 0.49717674, z: 1}
   references:
     version: 1
     00000000:
@@ -602,10 +602,10 @@ MonoBehaviour:
         computeOrder: 18
         position:
           serializedVersion: 2
-          x: 606
-          y: 856.08
-          width: 146
-          height: 341
+          x: 598.1502
+          y: 856
+          width: 142
+          height: 627
         expanded: 1
         debug: 0
         nodeLock: 0

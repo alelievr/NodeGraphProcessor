@@ -249,15 +249,13 @@ namespace GraphProcessor
 		{
 			InitializeCustomPortTypeMethods();
 
-			inputPorts.Clear();
-			outputPorts.Clear();
 			foreach (var key in OverrideFieldOrder(nodeFields.Values.Select(k => k.info)))
 			{
 				var nodeField = nodeFields[key.Name];
 
 				if (HasCustomBehavior(nodeField))
 				{
-					UpdatePortsForField(nodeField.fieldName);
+					UpdatePortsForField(nodeField.fieldName, sendPortUpdatedEvent: false);
 				}
 				else
 				{
@@ -336,7 +334,7 @@ namespace GraphProcessor
 		/// Update the ports related to one C# property field (only for this node)
 		/// </summary>
 		/// <param name="fieldName"></param>
-		public bool UpdatePortsForFieldLocal(string fieldName)
+		public bool UpdatePortsForFieldLocal(string fieldName, bool sendPortUpdatedEvent = true)
 		{
 			bool changed = false;
 
@@ -426,7 +424,8 @@ namespace GraphProcessor
 				return p1Index.CompareTo(p2Index);
 			});
 
-			onPortsUpdated?.Invoke(fieldName);
+			if (sendPortUpdatedEvent)
+				onPortsUpdated?.Invoke(fieldName);
 
 			return changed;
 		}
@@ -446,7 +445,7 @@ namespace GraphProcessor
 		/// Update the ports related to one C# property field and all connected nodes in the graph
 		/// </summary>
 		/// <param name="fieldName"></param>
-		public bool UpdatePortsForField(string fieldName)
+		public bool UpdatePortsForField(string fieldName, bool sendPortUpdatedEvent = true)
 		{
 			bool changed  = false;
 
@@ -469,7 +468,7 @@ namespace GraphProcessor
 
 				foreach (var field in fields)
 				{
-					if (node.UpdatePortsForFieldLocal(field))
+					if (node.UpdatePortsForFieldLocal(field, sendPortUpdatedEvent))
 					{
 						foreach (var port in node.IsFieldInput(field) ? (NodePortContainer)node.inputPorts : node.outputPorts)
 						{
@@ -493,7 +492,15 @@ namespace GraphProcessor
 
 		HashSet<BaseNode> portUpdateHashSet = new HashSet<BaseNode>();
 
-		internal void DisableInternal() => ExceptionToLog.Call(() => Disable());
+		internal void DisableInternal()
+		{
+			// port containers are initialized in the OnEnable
+			inputPorts.Clear();
+			outputPorts.Clear();
+
+			ExceptionToLog.Call(() => Disable());
+		}
+
 		internal void DestroyInternal() => ExceptionToLog.Call(() => Destroy());
 
 		/// <summary>

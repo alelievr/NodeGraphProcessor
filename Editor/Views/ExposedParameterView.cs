@@ -103,6 +103,7 @@ namespace GraphProcessor
             RegisterCallback<DragUpdatedEvent>(OnDragUpdatedEvent);
             RegisterCallback<DragPerformEvent>(OnDragPerformEvent);
             RegisterCallback<MouseDownEvent>(OnMouseDownEvent, TrickleDown.TrickleDown);
+            RegisterCallback<DetachFromPanelEvent>(OnViewClosed);
 
             UpdateParameterList();
 
@@ -111,6 +112,9 @@ namespace GraphProcessor
                 text = "+"
             });
         }
+
+        void OnViewClosed(DetachFromPanelEvent evt)
+            => Undo.undoRedoPerformed -= UpdateParameterList;
 
         void OnMouseDownEvent(MouseDownEvent evt)
         {

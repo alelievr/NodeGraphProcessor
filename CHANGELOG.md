@@ -4,6 +4,13 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.1.2]
+
+### Fixed
+- Fixed a nullref that happened after closing the graph and undoing a change on a parameter
+- Fixed an issue where an undo broke the parameter values
+- Fixed edges disappearing after an undo made in the scene and a graph was opened.
+
 ## [1.1.1]
 
 ### Fixed

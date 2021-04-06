@@ -1,0 +1,531 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
+  m_Name: Wait-Test
+  m_EditorClassIdentifier: 
+  serializedNodes: []
+  nodes:
+  - id: 0
+  - id: 1
+  - id: 2
+  - id: 3
+  - id: 4
+  - id: 5
+  - id: 6
+  - id: 7
+  - id: 8
+  - id: 9
+  - id: 10
+  - id: 11
+  - id: 12
+  - id: 13
+  - id: 14
+  - id: 15
+  - id: 16
+  - id: 17
+  - id: 18
+  - id: 19
+  edges:
+  - GUID: 844de784-0950-4e73-98f8-b77c2b611050
+    owner: {fileID: 11400000}
+    inputNodeGUID: 8d6341ff-17d1-4821-bd6d-b19223141e77
+    outputNodeGUID: 66ff3cd5-91ce-49c5-a4e9-497aeffce220
+    inputFieldName: executed
+    outputFieldName: executes
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: b7cc328a-2787-4c09-9984-c3d276d19a3b
+    owner: {fileID: 11400000}
+    inputNodeGUID: 5bb82796-a068-40bb-8eda-ff53cd940f70
+    outputNodeGUID: 8d6341ff-17d1-4821-bd6d-b19223141e77
+    inputFieldName: executed
+    outputFieldName: executes
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 0ff85fa3-7ecc-4ce1-845f-3a560403b046
+    owner: {fileID: 11400000}
+    inputNodeGUID: 90a6b4a7-fd45-4443-84be-a8e7d00c73cd
+    outputNodeGUID: 5bb82796-a068-40bb-8eda-ff53cd940f70
+    inputFieldName: executed
+    outputFieldName: executes
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 4b9bc991-f3f9-41a8-b70b-b1570edbba06
+    owner: {fileID: 11400000}
+    inputNodeGUID: 45bfbacc-ef7f-48b1-ad14-7a1d3b318199
+    outputNodeGUID: 5bb82796-a068-40bb-8eda-ff53cd940f70
+    inputFieldName: executed
+    outputFieldName: executeAfter
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 93994cd9-a2b9-4ef4-a79b-a97f6ee8b970
+    owner: {fileID: 11400000}
+    inputNodeGUID: 411c2520-76da-4b5f-b07f-66101ace2921
+    outputNodeGUID: 3eb22d66-d3a1-4ddf-af8e-0eff74fdf9b9
+    inputFieldName: executed
+    outputFieldName: executes
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 3267c5a7-8485-424f-a6ce-3bf75fa91b34
+    owner: {fileID: 11400000}
+    inputNodeGUID: 5131f6bd-4499-4830-948f-66a49e55d585
+    outputNodeGUID: 3eb22d66-d3a1-4ddf-af8e-0eff74fdf9b9
+    inputFieldName: executed
+    outputFieldName: executeAfter
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 3d95990b-b706-408d-a9f3-13e416d35827
+    owner: {fileID: 11400000}
+    inputNodeGUID: 973f3f45-2e71-4d09-82c4-2f99ce8f8219
+    outputNodeGUID: 98722611-d93a-49c1-af52-a4abecc88578
+    inputFieldName: executed
+    outputFieldName: executes
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 1f50a4ad-ce75-4352-8319-f7251a8a7432
+    owner: {fileID: 11400000}
+    inputNodeGUID: d4429a35-a783-41d1-bd49-7f5a210c7356
+    outputNodeGUID: 98722611-d93a-49c1-af52-a4abecc88578
+    inputFieldName: executed
+    outputFieldName: executeAfter
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 5ff5cc6e-f792-4d90-90dc-087f5f5e031e
+    owner: {fileID: 11400000}
+    inputNodeGUID: 3eb22d66-d3a1-4ddf-af8e-0eff74fdf9b9
+    outputNodeGUID: 45bfbacc-ef7f-48b1-ad14-7a1d3b318199
+    inputFieldName: executed
+    outputFieldName: executes
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: f5b5549e-c882-432a-a125-2d867e5a653f
+    owner: {fileID: 11400000}
+    inputNodeGUID: 98722611-d93a-49c1-af52-a4abecc88578
+    outputNodeGUID: 5131f6bd-4499-4830-948f-66a49e55d585
+    inputFieldName: executed
+    outputFieldName: executes
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: b90d114d-1344-47c4-8a9f-e4849a80c0f6
+    owner: {fileID: 11400000}
+    inputNodeGUID: f5157e92-3385-4a70-8b28-e033f24a8ea4
+    outputNodeGUID: e4178912-f9e6-4a51-888f-a665cf7f3d79
+    inputFieldName: executed
+    outputFieldName: executes
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 56833401-57c8-45d1-9339-672ed945898e
+    owner: {fileID: 11400000}
+    inputNodeGUID: 6d5b9460-777f-42f7-8d40-cfb33d9cbc76
+    outputNodeGUID: e4178912-f9e6-4a51-888f-a665cf7f3d79
+    inputFieldName: executed
+    outputFieldName: executeAfter
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 229b8c9f-f58d-45f2-a80d-115c34f494ae
+    owner: {fileID: 11400000}
+    inputNodeGUID: e4178912-f9e6-4a51-888f-a665cf7f3d79
+    outputNodeGUID: 90a6b4a7-fd45-4443-84be-a8e7d00c73cd
+    inputFieldName: executed
+    outputFieldName: executes
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 2480b7b9-c9fd-4a78-953e-427030603ace
+    owner: {fileID: 11400000}
+    inputNodeGUID: 03313284-5841-4c58-b0ca-406ffd09c4f5
+    outputNodeGUID: ebae703f-1cc0-4629-a7fb-7705ab7a3355
+    inputFieldName: executed
+    outputFieldName: executes
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 5408687a-a1aa-4c90-91df-616c46d4e9a3
+    owner: {fileID: 11400000}
+    inputNodeGUID: d4084e8e-2cc4-4770-b5ac-6542dc4cde14
+    outputNodeGUID: ebae703f-1cc0-4629-a7fb-7705ab7a3355
+    inputFieldName: executed
+    outputFieldName: executeAfter
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 6de1b2fc-1652-4abc-a7c1-d4559c885321
+    owner: {fileID: 11400000}
+    inputNodeGUID: ebae703f-1cc0-4629-a7fb-7705ab7a3355
+    outputNodeGUID: 6d5b9460-777f-42f7-8d40-cfb33d9cbc76
+    inputFieldName: executed
+    outputFieldName: executes
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: bb4f7311-5e10-4f2e-ae93-c616b219f8f2
+    owner: {fileID: 11400000}
+    inputNodeGUID: 3f78d110-d8a1-41f0-b0f5-f9dffca143f2
+    outputNodeGUID: 4f5c6615-89b0-4b2d-84e5-00eb8ed02fa6
+    inputFieldName: executed
+    outputFieldName: executes
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: f78e2b69-fe68-476e-b078-a8426054c855
+    owner: {fileID: 11400000}
+    inputNodeGUID: 1d05134c-ab0b-48e3-a59f-17565e1c012a
+    outputNodeGUID: 4f5c6615-89b0-4b2d-84e5-00eb8ed02fa6
+    inputFieldName: executed
+    outputFieldName: executeAfter
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 1036aac6-32bd-4113-9fc8-de83074bc5b7
+    owner: {fileID: 11400000}
+    inputNodeGUID: 4f5c6615-89b0-4b2d-84e5-00eb8ed02fa6
+    outputNodeGUID: d4084e8e-2cc4-4770-b5ac-6542dc4cde14
+    inputFieldName: executed
+    outputFieldName: executes
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  groups: []
+  stackNodes: []
+  pinnedElements:
+  - position:
+      serializedVersion: 2
+      x: 20
+      y: 241
+      width: 150
+      height: 200
+    opened: 0
+    editorType:
+      serializedType: ConditionalProcessorView, Assembly-CSharp-Editor, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 25
+      y: 333
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  exposedParameters: []
+  serializedParameterList: []
+  stickyNotes: []
+  position: {x: 57, y: 77, z: 0}
+  scale: {x: 0.7561437, y: 0.7561437, z: 1}
+  references:
+    version: 1
+    00000000:
+      type: {class: StartNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 66ff3cd5-91ce-49c5-a4e9-497aeffce220
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: 290.17392
+          y: 306.32608
+          width: 87.5
+          height: 77
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+    00000001:
+      type: {class: ConsoleNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 8d6341ff-17d1-4821-bd6d-b19223141e77
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: 459
+          y: 305.69565
+          width: 169
+          height: 125.00001
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        logText: Started
+        logType: 3
+    00000002:
+      type: {class: ConsoleNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 90a6b4a7-fd45-4443-84be-a8e7d00c73cd
+        computeOrder: 3
+        position:
+          serializedVersion: 2
+          x: 1001
+          y: 305
+          width: 169
+          height: 125.00001
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        logText: First Wait Called
+        logType: 3
+    00000003:
+      type: {class: WaitNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 5bb82796-a068-40bb-8eda-ff53cd940f70
+        computeOrder: 2
+        position:
+          serializedVersion: 2
+          x: 701.97833
+          y: 305.56522
+          width: 191
+          height: 101
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        waitTime: 1
+    00000004:
+      type: {class: ConsoleNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 45bfbacc-ef7f-48b1-ad14-7a1d3b318199
+        computeOrder: 4
+        position:
+          serializedVersion: 2
+          x: 1002.5217
+          y: 447.4131
+          width: 169
+          height: 125.00001
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        logText: Waited 1 Second
+        logType: 3
+    00000005:
+      type: {class: WaitNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 3eb22d66-d3a1-4ddf-af8e-0eff74fdf9b9
+        computeOrder: 5
+        position:
+          serializedVersion: 2
+          x: 1235.4886
+          y: 447.80637
+          width: 190.99997
+          height: 101
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        waitTime: 1
+    00000006:
+      type: {class: ConsoleNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 5131f6bd-4499-4830-948f-66a49e55d585
+        computeOrder: 6
+        position:
+          serializedVersion: 2
+          x: 1504.9886
+          y: 590.80615
+          width: 168.99997
+          height: 124.999985
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        logText: Waited 2 Seconds in Total
+        logType: 3
+    00000007:
+      type: {class: ConsoleNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 411c2520-76da-4b5f-b07f-66101ace2921
+        computeOrder: 7
+        position:
+          serializedVersion: 2
+          x: 1503.4884
+          y: 448.30637
+          width: 168.99997
+          height: 124.999985
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        logText: Second Wait Called
+        logType: 3
+    00000008:
+      type: {class: WaitNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 98722611-d93a-49c1-af52-a4abecc88578
+        computeOrder: 8
+        position:
+          serializedVersion: 2
+          x: 1747
+          y: 590.7876
+          width: 191
+          height: 101
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        waitTime: 3
+    00000009:
+      type: {class: ConsoleNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: d4429a35-a783-41d1-bd49-7f5a210c7356
+        computeOrder: 9
+        position:
+          serializedVersion: 2
+          x: 2016.5
+          y: 733.7876
+          width: 169
+          height: 125
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        logText: Waited 5 Seconds in Total
+        logType: 3
+    0000000A:
+      type: {class: ConsoleNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 973f3f45-2e71-4d09-82c4-2f99ce8f8219
+        computeOrder: 10
+        position:
+          serializedVersion: 2
+          x: 2014.9998
+          y: 591.2876
+          width: 169
+          height: 125
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        logText: Third Wait Called
+        logType: 3
+    0000000B:
+      type: {class: WaitFrameNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: e4178912-f9e6-4a51-888f-a665cf7f3d79
+        computeOrder: 11
+        position:
+          serializedVersion: 2
+          x: 1239.8695
+          y: 170.34782
+          width: 191
+          height: 101
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        frame: 30
+    0000000C:
+      type: {class: ConsoleNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: f5157e92-3385-4a70-8b28-e033f24a8ea4
+        computeOrder: 12
+        position:
+          serializedVersion: 2
+          x: 1505.5
+          y: 170.5
+          width: 169
+          height: 125
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        logText: First Wait Frames Called
+        logType: 3
+    0000000D:
+      type: {class: ConsoleNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 6d5b9460-777f-42f7-8d40-cfb33d9cbc76
+        computeOrder: 13
+        position:
+          serializedVersion: 2
+          x: 1508.1086
+          y: 308.49997
+          width: 169
+          height: 125.00001
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        logText: Waited 30 frames
+        logType: 3
+    0000000E:
+      type: {class: WaitFrameNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: ebae703f-1cc0-4629-a7fb-7705ab7a3355
+        computeOrder: 14
+        position:
+          serializedVersion: 2
+          x: 1737
+          y: 308.5
+          width: 191
+          height: 101
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        frame: 50
+    0000000F:
+      type: {class: ConsoleNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 03313284-5841-4c58-b0ca-406ffd09c4f5
+        computeOrder: 15
+        position:
+          serializedVersion: 2
+          x: 2013.5
+          y: 193.5
+          width: 169
+          height: 125
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        logText: Second Wait Frames Called
+        logType: 3
+    00000010:
+      type: {class: ConsoleNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: d4084e8e-2cc4-4770-b5ac-6542dc4cde14
+        computeOrder: 16
+        position:
+          serializedVersion: 2
+          x: 2014
+          y: 332.5
+          width: 169
+          height: 125
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        logText: Waited 80 frames in Total
+        logType: 3
+    00000011:
+      type: {class: WaitFrameNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 4f5c6615-89b0-4b2d-84e5-00eb8ed02fa6
+        computeOrder: 17
+        position:
+          serializedVersion: 2
+          x: 2244
+          y: 332.5
+          width: 191
+          height: 101
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        frame: 250
+    00000012:
+      type: {class: ConsoleNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 3f78d110-d8a1-41f0-b0f5-f9dffca143f2
+        computeOrder: 18
+        position:
+          serializedVersion: 2
+          x: 2555.5
+          y: 332.5
+          width: 169
+          height: 125
+        expanded: 1
+        debug: 0
+        nodeLock: 0
+        logText: Third Wait Frames Called
+        logType: 3
+    00000013:
+      type: {class: ConsoleNode, ns: NodeGraphProcessor.Examples, asm: Assembly-CSharp}
+      data:
+        GUID: 1d05134c-ab0b-48e3-a59f-17565e1c012a
+        computeOrder: 19
+        position:
+          serializedVersion: 2
+          x: 2556
+          y: 471.5
+          width: 169
+          height: 125
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        logText: Waited 330 frames in Total
+        logType: 3

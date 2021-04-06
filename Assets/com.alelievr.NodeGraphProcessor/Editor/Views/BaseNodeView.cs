@@ -996,28 +996,6 @@ namespace GraphProcessor
 			}
 		}
 
-		// void UpdatePortConnections(List< PortView > portViews)
-		// {
-		// 	foreach (var pv in portViews)
-		// 	{
-		// 		Debug.Log("pv: " + pv.portName);
-				
-		// 		// Go over all connected edges and disconnect them if the serialized edge have been removed
-		// 		// This can happens when the new port type is incompatible with the old one.
-		// 		foreach (var edge in pv.GetEdges().ToList())
-		// 		{
-		// 			// TODO: check edge connection compatibility !
-		// 			Debug.Log("Edge !");
-		// 			if (owner.graph.edges.Contains(edge.serializedEdge))
-		// 			{
-		// 				owner.Disconnect(edge);
-		// 				// owner.RemoveElement(edge);
-		// 				// base.RefreshPorts(); // We don't call this.RefreshPorts because it will cause an infinite loop
-		// 			}
-		// 		}
-		// 	}
-		// }
-
 		public virtual new bool RefreshPorts()
 		{
 			// If a port behavior was attached to one port, then
@@ -1028,6 +1006,9 @@ namespace GraphProcessor
 
 			void UpdatePortViewWithPorts(NodePortContainer ports, List< PortView > portViews)
 			{
+				if (ports.Count == 0 && portViews.Count == 0) // Nothing to update
+					return;
+
 				// When there is no current portviews, we can't zip the list so we just add all
 				if (portViews.Count == 0)
 					SyncPortCounts(ports, new PortView[]{});

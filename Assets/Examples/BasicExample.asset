@@ -317,13 +317,14 @@ MonoBehaviour:
       height: 101
     title: New Sticky Note
     content: Write your text here
-  position: {x: 267, y: 191, z: 0}
-  scale: {x: 0.49717674, y: 0.49717674, z: 1}
+  position: {x: 692, y: -105, z: 0}
+  scale: {x: 0.8695652, y: 0.8695652, z: 1}
   references:
     version: 1
     00000000:
       type: {class: ColorNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: c2542e31-668d-4816-b7e9-f41dcdec423d
         computeOrder: 0
         position:
@@ -339,6 +340,7 @@ MonoBehaviour:
     00000001:
       type: {class: FloatNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: 3327402b-5ad1-4564-af17-2025a850d4bb
         computeOrder: 1
         position:
@@ -355,6 +357,7 @@ MonoBehaviour:
     00000002:
       type: {class: MultiAddNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: 9a1c513a-65bc-4906-83b7-4a7b66699064
         computeOrder: 2
         position:
@@ -370,6 +373,7 @@ MonoBehaviour:
     00000003:
       type: {class: SubNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: 95bce55f-47d9-4c5d-bdcd-1f5bbbf57d1b
         computeOrder: 4
         position:
@@ -387,6 +391,7 @@ MonoBehaviour:
     00000004:
       type: {class: PrintNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: 42eb43b8-ac7e-4f38-b49b-26ba1bc42732
         computeOrder: 5
         position:
@@ -401,6 +406,7 @@ MonoBehaviour:
     00000005:
       type: {class: PrintNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: 6398414c-0e45-44d7-a62f-3267016dbca1
         computeOrder: 6
         position:
@@ -415,6 +421,7 @@ MonoBehaviour:
     00000006:
       type: {class: PrefabNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: ffd2cf4b-87c3-42a6-9822-04bae7a5700b
         computeOrder: 7
         position:
@@ -431,6 +438,7 @@ MonoBehaviour:
     00000007:
       type: {class: FloatNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: e99da4fb-6a11-4b19-8594-f37f55d96114
         computeOrder: 8
         position:
@@ -447,6 +455,7 @@ MonoBehaviour:
     00000008:
       type: {class: TextNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: ab7c80f0-51fd-401a-9d67-0b6543025f87
         computeOrder: 9
         position:
@@ -462,6 +471,7 @@ MonoBehaviour:
     00000009:
       type: {class: PrintNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: e277d5c6-386e-4f6b-bd63-af2353f3e4d8
         computeOrder: 10
         position:
@@ -476,6 +486,7 @@ MonoBehaviour:
     0000000A:
       type: {class: FloatNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: 34e17a0c-9187-47eb-a21c-d105ee6ed911
         computeOrder: 3
         position:
@@ -492,6 +503,7 @@ MonoBehaviour:
     0000000B:
       type: {class: SettingsNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: b14b2e69-b835-4b73-ae8e-6f7f986575bb
         computeOrder: 11
         position:
@@ -509,6 +521,7 @@ MonoBehaviour:
     0000000C:
       type: {class: PrintNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: 42bd42f7-7c33-4d6c-8cff-24e051b0e644
         computeOrder: 12
         position:
@@ -523,6 +536,7 @@ MonoBehaviour:
     0000000D:
       type: {class: FloatNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: c647797a-972a-442d-86fe-327825c1fe11
         computeOrder: 13
         position:
@@ -539,6 +553,7 @@ MonoBehaviour:
     0000000E:
       type: {class: CustomPortData, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: acf42c0b-dc50-476f-8d14-b9e756fd1e2d
         computeOrder: 14
         position:
@@ -554,6 +569,7 @@ MonoBehaviour:
     0000000F:
       type: {class: PrintNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: ea0aaa89-4654-402b-9518-0c8d3b0a0be7
         computeOrder: 15
         position:
@@ -568,6 +584,7 @@ MonoBehaviour:
     00000010:
       type: {class: PortConnectionTests, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: d0c72054-62bf-409c-a49f-4230da5526d5
         computeOrder: 16
         position:
@@ -583,6 +600,7 @@ MonoBehaviour:
     00000011:
       type: {class: PortConnectionTests, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: 0bb81f44-19ac-4b15-a7a6-f0f319a6d5c7
         computeOrder: 17
         position:
@@ -598,6 +616,7 @@ MonoBehaviour:
     00000012:
       type: {class: DrawerFieldTestNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: a93ff68f-3bcb-4234-815f-f44501daf144
         computeOrder: 18
         position:
@@ -631,6 +650,7 @@ MonoBehaviour:
     00000013:
       type: {class: InspectorNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: fc76049e-5e1f-422a-a991-b02e5ed5ee67
         computeOrder: 19
         position:
@@ -649,6 +669,7 @@ MonoBehaviour:
     00000014:
       type: {class: DrawerFieldTestNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: ac9a5d83-a834-41cb-89cf-eb5239cc0868
         computeOrder: 20
         position:
@@ -682,6 +703,7 @@ MonoBehaviour:
     00000015:
       type: {class: FloatNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: 14b82653-ebb2-4fe6-98c3-5a7f87047b3f
         computeOrder: 21
         position:
@@ -698,6 +720,7 @@ MonoBehaviour:
     00000016:
       type: {class: ColorNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: fca11789-0eba-4f38-a9cb-4f6f829515d0
         computeOrder: 22
         position:
@@ -713,6 +736,7 @@ MonoBehaviour:
     00000017:
       type: {class: MultiAddNode, ns: , asm: Assembly-CSharp}
       data:
+        nodeCustomName: 
         GUID: a72964c7-8c86-4c52-808e-3d88920df180
         computeOrder: 23
         position:

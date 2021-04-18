@@ -36,6 +36,7 @@ namespace GraphProcessor
 		VisualElement							settings;
 		NodeSettingsView						settingsContainer;
 		Button									settingButton;
+		TextField								titleTextField;
 
 		Label									computeOrderLabel = new Label();
 
@@ -74,6 +75,9 @@ namespace GraphProcessor
 
 			if (!node.deletable)
 				capabilities &= ~Capabilities.Deletable;
+			// Note that the Renamable capability is useless right now as it haven't been implemented in Graphview
+			if (node.isRenamable)
+				capabilities |= Capabilities.Renamable;
 
 			owner.computeOrderUpdated += ComputeOrderUpdatedCallback;
 			node.onMessageAdded += AddMessageView;
@@ -163,14 +167,70 @@ namespace GraphProcessor
 			if (nodeTarget.debug)
 				mainContainer.Add(debugContainer);
 
-			title = (string.IsNullOrEmpty(nodeTarget.name)) ? nodeTarget.GetType().Name : nodeTarget.name;
-			
 			initializing = true;
 
+			UpdateTitle();
             SetPosition(nodeTarget.position);
 			SetNodeColor(nodeTarget.color);
             
 			AddInputContainer();
+
+			// Add renaming capability
+			if ((capabilities & Capabilities.Renamable) != 0)
+				SetupRenamableTitle();
+		}
+
+		void SetupRenamableTitle()
+		{
+			var titleLabel = this.Q("title-label") as Label;
+
+			titleTextField = new TextField{ isDelayed = true };
+			titleTextField.style.display = DisplayStyle.None;
+			titleLabel.parent.Insert(0, titleTextField);
+
+			titleLabel.RegisterCallback<MouseDownEvent>(e => {
+				if (e.clickCount == 2 && e.button == (int)MouseButton.LeftMouse)
+					OpenTitleEditor();
+			});
+
+			titleTextField.RegisterValueChangedCallback(e => CloseAndSaveTitleEditor(e.newValue));
+
+			titleTextField.RegisterCallback<MouseDownEvent>(e => {
+				if (e.clickCount == 2 && e.button == (int)MouseButton.LeftMouse)
+					CloseAndSaveTitleEditor(titleTextField.value);
+			});
+
+			titleTextField.RegisterCallback<FocusOutEvent>(e => CloseAndSaveTitleEditor(titleTextField.value));
+
+			void OpenTitleEditor()
+			{
+				// show title textbox
+				titleTextField.style.display = DisplayStyle.Flex;
+				titleLabel.style.display = DisplayStyle.None;
+				titleTextField.focusable = true;
+
+				titleTextField.SetValueWithoutNotify(title);
+				titleTextField.Focus();
+				titleTextField.SelectAll();
+			}
+
+			void CloseAndSaveTitleEditor(string newTitle)
+			{
+				owner.RegisterCompleteObjectUndo("Renamed node " + newTitle);
+				nodeTarget.SetCustomName(newTitle);
+
+				// hide title TextBox
+				titleTextField.style.display = DisplayStyle.None;
+				titleLabel.style.display = DisplayStyle.Flex;
+				titleTextField.focusable = false;
+
+				UpdateTitle();
+			}
+		}
+
+		void UpdateTitle()
+		{
+			title = (nodeTarget.GetCustomName() == null) ? nodeTarget.GetType().Name : nodeTarget.GetCustomName();
 		}
 
 		public void UpdateNodeSerializedPropertyBindings()

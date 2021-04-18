@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - Renamable nodes
+- Added an API in the toolbar view to add separators and custom UI fields.
 
 ## [1.1.2]
 

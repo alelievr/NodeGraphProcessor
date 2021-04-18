@@ -19,6 +19,9 @@ namespace GraphProcessor
 			Button,
 			Toggle,
 			DropDownButton,
+			Separator,
+			Custom,
+			FlexibleSpace,
 		}
 
 		protected class ToolbarButtonData
@@ -29,6 +32,8 @@ namespace GraphProcessor
 			public bool				visible = true;
 			public Action			buttonCallback;
 			public Action< bool >	toggleCallback;
+			public int				size;
+			public Action			customDrawFunction;
 		}
 
 		List< ToolbarButtonData >	leftButtonDatas = new List< ToolbarButtonData >();
@@ -64,6 +69,32 @@ namespace GraphProcessor
 			};
 			((left) ? leftButtonDatas : rightButtonDatas).Add(data);
 			return data;
+		}
+
+		protected void AddSeparator(int sizeInPixels = 10, bool left = true)
+		{
+			var data = new ToolbarButtonData{
+				type = ElementType.Separator,
+				size = sizeInPixels,
+			};
+			((left) ? leftButtonDatas : rightButtonDatas).Add(data);
+		}
+
+		protected void AddCustom(Action imguiDrawFunction, bool left = true)
+		{
+			if (imguiDrawFunction == null)
+				throw new ArgumentException("imguiDrawFunction can't be null");
+
+			var data = new ToolbarButtonData{
+				type = ElementType.Custom,
+				customDrawFunction = imguiDrawFunction,
+			};
+			((left) ? leftButtonDatas : rightButtonDatas).Add(data);
+		}
+
+		protected void AddFlexibleSpace(bool left = true)
+		{
+			((left) ? leftButtonDatas : rightButtonDatas).Add(new ToolbarButtonData{ type = ElementType.FlexibleSpace });
 		}
 
 		protected ToolbarButtonData AddToggle(string name, bool defaultValue, Action< bool > callback, bool left = true)
@@ -112,7 +143,7 @@ namespace GraphProcessor
 		protected void HideButton(string name)
 		{
 			leftButtonDatas.Concat(rightButtonDatas).All(b => {
-				if (b.content.text == name)
+				if (b?.content?.text == name)
 					b.visible = false;
 				return true;
 			});
@@ -125,7 +156,7 @@ namespace GraphProcessor
 		protected void ShowButton(string name)
 		{
 			leftButtonDatas.Concat(rightButtonDatas).All(b => {
-				if (b.content.text == name)
+				if (b?.content?.text == name)
 					b.visible = true;
 				return true;
 			});
@@ -173,6 +204,16 @@ namespace GraphProcessor
 					case ElementType.DropDownButton:
 						if (EditorGUILayout.DropdownButton(button.content, FocusType.Passive, EditorStyles.toolbarDropDown))
 							button.buttonCallback();
+						break;
+					case ElementType.Separator:
+						EditorGUILayout.Separator();
+						EditorGUILayout.Space(button.size);
+						break;
+					case ElementType.Custom:
+						button.customDrawFunction();
+						break;
+					case ElementType.FlexibleSpace:
+						GUILayout.FlexibleSpace();
 						break;
 				}
 			}

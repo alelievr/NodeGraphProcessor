@@ -171,3 +171,12 @@ Want to be in the made with list? [Send a message to the issue #14](https://gith
 
 ### Drag And Drop Objects
 ![CreateNodeFromObject](https://user-images.githubusercontent.com/6877923/110240003-20d3f000-7f4a-11eb-8adc-e52340945b74.gif)
+
+### Renamable nodes
+
+Just add this bit of code in your Node script to make it renamable in the UI.
+```CSharp
+        public override bool	isRenamable => true;
+```
+
+![RenamableNode](https://user-images.githubusercontent.com/6877923/115143209-33ac0b00-a046-11eb-88f9-3216866e3669.gif)

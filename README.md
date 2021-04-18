@@ -91,6 +91,7 @@ Note that you'll not have access to the examples provided in this repo because t
 - Multiple graph window workflow (copy/paste)
 - Vertical Ports
 - Sticky notes (requires Unity 2020.1)
+- Renamable nodes
 
 More details are available [in the Changelog](CHANGELOG.md)
 

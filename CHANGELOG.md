@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Renamable nodes
 - Added an API in the toolbar view to add separators and custom UI fields.
 
+### Fixed
+- Fixed GetNodeViewTypeFromType not supporting inheritance.
+
 ## [1.1.2]
 
 ### Fixed

@@ -941,11 +941,13 @@ namespace GraphProcessor
 		{
             if (initializing || !nodeTarget.isLocked)
             {
-                initializing = false;
                 base.SetPosition(newPos);
 
-                owner.RegisterCompleteObjectUndo("Moved graph node");
+				if (!initializing)
+					owner.RegisterCompleteObjectUndo("Moved graph node");
+
                 nodeTarget.position = newPos;
+                initializing = false;
             }
 		}
 

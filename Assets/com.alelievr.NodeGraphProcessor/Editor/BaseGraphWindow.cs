@@ -142,7 +142,7 @@ namespace GraphProcessor
 
 		public virtual void OnGraphDeleted()
 		{
-			if (graph != null)
+			if (graph != null && graphView != null)
 				rootView.Remove(graphView);
 
 			graphView = null;

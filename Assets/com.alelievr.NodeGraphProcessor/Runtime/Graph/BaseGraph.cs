@@ -174,6 +174,11 @@ namespace GraphProcessor
 
 		void InitializeGraphElements()
 		{
+			// Sanitize the element lists (it's possible that nodes are null if their full class name have changed)
+			// If you rename / change the assembly of a node or parameter, please use the MovedFrom() attribute to avoid breaking the graph.
+			nodes.RemoveAll(n => n == null);
+			exposedParameters.RemoveAll(e => e == null);
+
 			foreach (var node in nodes.ToList())
 			{
 				nodesPerGUID[node.GUID] = node;

@@ -222,6 +222,8 @@ namespace GraphProcessor
 
 			Dictionary<string, BaseNode> copiedNodesMap = new Dictionary<string, BaseNode>();
 
+			var unserializedGroups = data.copiedGroups.Select(g => JsonSerializer.Deserialize<Group>(g)).ToList();
+
 			foreach (var serializedNode in data.copiedNodes)
 			{
 				var node = JsonSerializer.DeserializeNode(serializedNode);
@@ -232,6 +234,8 @@ namespace GraphProcessor
 				string sourceGUID = node.GUID;
 				graph.nodesPerGUID.TryGetValue(sourceGUID, out var sourceNode);
 				//Call OnNodeCreated on the new fresh copied node
+				node.createdFromDuplication = true;
+				node.createWithinGroup = unserializedGroups.Any(g => g.innerNodeGUIDs.Contains(sourceGUID));
 				node.OnNodeCreated();
 				//And move a bit the new node
 				node.position.position += new Vector2(20, 20);
@@ -247,10 +251,8 @@ namespace GraphProcessor
 				AddToSelection(nodeViewsPerNode[node]);
 			}
 
-            foreach (var serializedGroup in data.copiedGroups)
+            foreach (var group in unserializedGroups)
             {
-                var group = JsonSerializer.Deserialize<Group>(serializedGroup);
-
                 //Same than for node
                 group.OnCreated();
 
@@ -588,7 +590,13 @@ namespace GraphProcessor
 		}
 
 		bool DoesSelectionContainsInspectorNodes()
-			=> selection.Any(s => s is BaseNodeView v && v.nodeTarget.needsInspector);
+		{
+			var selectedNodes = selection.Where(s => s is BaseNodeView).ToList();
+			var selectedNodesNotInInspector = selectedNodes.Except(nodeInspector.selectedNodes).ToList();
+			var nodeInInspectorWithoutSelectedNodes = nodeInspector.selectedNodes.Except(selectedNodes).ToList();
+
+			return selectedNodesNotInInspector.Any() || nodeInInspectorWithoutSelectedNodes.Any();
+		}
 
 		void DragPerformedCallback(DragPerformEvent e)
 		{

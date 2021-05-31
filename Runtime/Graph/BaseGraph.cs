@@ -162,7 +162,7 @@ namespace GraphProcessor
         protected virtual void OnEnable()
         {
 			if (isEnabled)
-				return;
+				OnDisable();
 
 			MigrateGraphIfNeeded();
 			InitializeGraphElements();

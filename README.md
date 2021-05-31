@@ -1,6 +1,7 @@
 # NodeGraphProcessor
 Node graph editor framework focused on data processing using Unity UIElements, GraphView and C# 4.7
 
+[![Discord](https://img.shields.io/discord/823720615965622323.svg)](https://discord.gg/XuMd3Z5Rym)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4c62ece874d14a0b965b92cb163e3146)](https://www.codacy.com/manual/alelievr/NodeGraphProcessor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alelievr/NodeGraphProcessor&amp;utm_campaign=Badge_Grade)
 [![openupm](https://img.shields.io/npm/v/com.alelievr.node-graph-processor?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.alelievr.node-graph-processor/)
 
@@ -40,14 +41,14 @@ public class SubNode : BaseNode
 }
 ```
 
-### Unity Compatible versions
+## Unity Compatible versions
 
 This project requires at least Unity **2020.2** with a scripting runtime version of 4.x in player settings.  
 The current Unity version used for the project is **2020.2.0f1**, if you want to install NodeGraphProcessor in an older unity project, you can install it via Open UPM (minimum version: Unity **2019.3**).
 
-### Installation
+## Installation
 
-#### Install Manually
+### Install Manually
 There are two ways to install this asset: you can use the Unity package manager or move the entire repo inside your Assets folder.
 To install using the package manager:
 
@@ -56,7 +57,7 @@ To install using the package manager:
 - then select the package.json file located in `Assets/NodeGraphProcessor`
 - package is installed :)
 
-#### Install via OpenUPM
+### Install via OpenUPM
 
 The package is available on the [openupm registry](https://openupm.com). It's recommended to install it via [openupm-cli](https://github.com/openupm/openupm-cli).
 
@@ -64,13 +65,13 @@ The package is available on the [openupm registry](https://openupm.com). It's re
 openupm add com.alelievr.node-graph-processor
 ```
 
-#### Install via Git
+### Install via Git
 
 Alternatively, you can use the [git address feature in the package manager](https://forum.unity.com/threads/git-support-on-package-manager.573673/) on the branch [#upm](https://github.com/alelievr/NodeGraphProcessor/tree/upm), it only contains the package but it may be out of sync compared to master.
 
 Note that you'll not have access to the examples provided in this repo because the package only include the core of NodeGraphProcessor.
 
-### Features
+## Features
 
 - Node and Graph property serialization (as json)
 - Scriptable Object to store graph as a Unity asset.
@@ -95,13 +96,13 @@ Note that you'll not have access to the examples provided in this repo because t
 
 More details are available [in the Changelog](CHANGELOG.md)
 
-### Documentation
+## Documentation
 
 API doc is available here: [alelievr.github.io/NodeGraphProcessor](https://alelievr.github.io/NodeGraphProcessor/api/index.html)
 
 The user manual is hosted using [Github Wiki](https://github.com/alelievr/NodeGraphProcessor/wiki).
 
-### Remaining to do
+## Remaining to do
 
 - Investigate for ECS/Jobs integration
 - API to create the graph in C#
@@ -109,59 +110,59 @@ The user manual is hosted using [Github Wiki](https://github.com/alelievr/NodeGr
 
 For more details consult our [Github Project page](https://github.com/alelievr/NodeGraphProcessor/projects/2).
 
-### Projects made with NodeGraphProcessor
+## Projects made with NodeGraphProcessor
 
-#### [Mixture](https://github.com/alelievr/Mixture)
+### [Mixture](https://github.com/alelievr/Mixture)
 
 [![image](https://user-images.githubusercontent.com/6877923/98482247-61239b80-2200-11eb-9d83-a1cba4cc376a.png)](https://github.com/alelievr/Mixture)
 
 Want to be in the made with list? [Send a message to the issue #14](https://github.com/alelievr/NodeGraphProcessor/issues/14)
 
-### Gallery
+## Gallery
 
-#### Minimap
+### Minimap
 ![](https://user-images.githubusercontent.com/6877923/90036471-6043a200-dcc3-11ea-8702-9ccc62cb0f8a.gif)
 
-#### Relay nodes
+### Relay nodes
 ![](https://user-images.githubusercontent.com/6877923/89329982-e04c8500-d68f-11ea-8218-261225170978.gif)
 
-#### Node connection menu
+### Node connection menu
 ![](https://user-images.githubusercontent.com/6877923/89330117-12f67d80-d690-11ea-9b62-f878b86b8342.gif)
 
-#### Node creation menu
+### Node creation menu
 ![](https://user-images.githubusercontent.com/6877923/58935811-893adf80-876e-11e9-9f69-69ce51a432b8.png)
 
-#### Graph Parameters
+### Graph Parameters
 ![](https://user-images.githubusercontent.com/6877923/90035202-d6470980-dcc1-11ea-92e0-a754820bdc55.png)
 
-#### Groups
+### Groups
 ![](https://user-images.githubusercontent.com/6877923/58935692-3fea9000-876e-11e9-945e-8a874a4586a9.png)
 
-#### Node Settings
+### Node Settings
 ![](https://user-images.githubusercontent.com/6877923/71757124-c34e9a00-2e93-11ea-900c-63ecd772af3f.gif)
 
-#### Node Messages
+### Node Messages
 ![](https://user-images.githubusercontent.com/6877923/63230815-51dabb80-c212-11e9-9d54-382e649e77f1.png)
 
-#### Conditional Processing (in Example)
+### Conditional Processing (in Example)
 ![](https://user-images.githubusercontent.com/6877923/69500269-e469b580-0ef9-11ea-9c4b-f58e793f7ecd.gif)
 
-#### Stacks
+### Stacks
 ![](https://user-images.githubusercontent.com/6877923/71782933-25b4b100-2fe0-11ea-9b57-0198f7161535.gif)
 
-#### Relay Node Packing
+### Relay Node Packing
 ![](https://user-images.githubusercontent.com/6877923/77270201-808aaa00-6cab-11ea-9028-e671092be194.gif)
 
-#### Node Inspector
+### Node Inspector
 ![](https://user-images.githubusercontent.com/6877923/87306684-ac5ec380-c518-11ea-9346-1ed47e8cd016.gif)
 
-#### Improved Edge Connection
+### Improved Edge Connection
 ![](https://user-images.githubusercontent.com/6877923/89890139-272c0480-dbd3-11ea-86f4-696d260f707b.gif)
 
-#### Multi-Window support
+### Multi-Window support
 ![](https://user-images.githubusercontent.com/6877923/89891415-504d9480-dbd5-11ea-8b1d-873031a0677c.gif)
 
-#### Field Drawers (Thanks [@TeorikDeli](https://github.com/TeorikDeli)!)
+### Field Drawers (Thanks [@TeorikDeli](https://github.com/TeorikDeli)!)
 ![](https://user-images.githubusercontent.com/6877923/92417811-775f9d80-f164-11ea-9031-e6b61c98b88e.png)
 
 ### Sticky Notes (2020.1 or more required)

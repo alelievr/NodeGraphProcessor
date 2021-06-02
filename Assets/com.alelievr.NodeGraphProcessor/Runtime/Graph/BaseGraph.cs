@@ -127,6 +127,10 @@ namespace GraphProcessor
 		[NonSerialized]
 		Scene							linkedScene;
 
+		// Trick to keep the node inspector alive during the editor session
+		[SerializeField]
+		internal UnityEngine.Object		nodeInspectorReference;
+
 		//graph visual properties
 		public Vector3					position = Vector3.zero;
 		public Vector3					scale = Vector3.one;

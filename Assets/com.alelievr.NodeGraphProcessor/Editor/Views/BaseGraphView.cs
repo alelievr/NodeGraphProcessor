@@ -114,8 +114,17 @@ namespace GraphProcessor
 		/// <summary>
 		/// Object to handle nodes that shows their UI in the inspector.
 		/// </summary>
-		[NonSerialized]
-		protected NodeInspectorObject		nodeInspector;
+		[SerializeField]
+		protected NodeInspectorObject		nodeInspector
+		{
+			get
+			{
+
+				if (graph.nodeInspectorReference == null)
+					graph.nodeInspectorReference = CreateNodeInspectorObject();
+				return graph.nodeInspectorReference as NodeInspectorObject;
+			}
+		}
 
 		/// <summary>
 		/// Workaround object for creating exposed parameter property fields.
@@ -149,9 +158,6 @@ namespace GraphProcessor
 
 			createNodeMenu = ScriptableObject.CreateInstance< CreateNodeMenuWindow >();
 			createNodeMenu.Initialize(this, window);
-
-			if (nodeInspector == null)
-				nodeInspector = CreateNodeInspectorObject();
 
 			this.StretchToParentSize();
 		}

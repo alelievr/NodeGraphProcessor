@@ -28,18 +28,14 @@ namespace GraphProcessor
 		}
 
 		/// <summary>
-		/// Schedule the graph into the job system
+		/// Process all the nodes following the compute order.
 		/// </summary>
 		public override void Run()
 		{
 			int count = processList.Count;
 
 			for (int i = 0; i < count; i++)
-			{
 				processList[i].OnProcess();
-			}
-
-			JobHandle.ScheduleBatchedJobs();
 		}
 	}
 }

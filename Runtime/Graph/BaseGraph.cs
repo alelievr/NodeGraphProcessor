@@ -463,7 +463,7 @@ namespace GraphProcessor
 			InitializeGraphElements();
 		}
 
-		void MigrateGraphIfNeeded()
+		public void MigrateGraphIfNeeded()
 		{
 #pragma warning disable CS0618
 			// Migration step from JSON serialized nodes to [SerializeReference]

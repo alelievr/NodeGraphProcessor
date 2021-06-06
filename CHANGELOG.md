@@ -9,9 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Renamable nodes
 - Added an API in the toolbar view to add separators and custom UI fields.
+- Added API to check if node was created from a duplication operation (see BaseNode.createdFromDuplication and BaseNode.createdWithinGroup).
+
+### Changed
+- Node inspector settings are now serialized for the lifetime of an editor session (not between sessions).
 
 ### Fixed
 - Fixed GetNodeViewTypeFromType not supporting inheritance.
+- Fixed nodes loosing the graph reference after the asset was changed in by an external process.
 
 ## [1.1.2]
 

@@ -127,7 +127,7 @@ namespace GraphProcessor
 		/// <summary>
 		/// True only when the node was created from a duplicate operation and is inside a group that was also duplicated at the same time. 
 		/// </summary>
-		public bool					createWithinGroup {get; internal set; } = false;
+		public bool					createdWithinGroup {get; internal set; } = false;
 
 		[NonSerialized]
 		internal Dictionary< string, NodeFieldInformation >	nodeFields = new Dictionary< string, NodeFieldInformation >();

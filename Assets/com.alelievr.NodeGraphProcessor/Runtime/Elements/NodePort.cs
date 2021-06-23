@@ -310,7 +310,16 @@ namespace GraphProcessor
 			// Only one input connection is handled by this code, if you want to
 			// take multiple inputs, you must create a custom input function see CustomPortsNode.cs
 			if (edges.Count > 0)
-				fieldInfo.SetValue(fieldOwner, edges.First().passThroughBuffer);
+			{
+				var passThroughObject = edges.First().passThroughBuffer;
+
+				// We do an extra convertion step in case the buffer output is not compatible with the input port
+				if (passThroughObject != null)
+					if (TypeAdapter.AreAssignable(fieldInfo.FieldType, passThroughObject.GetType()))
+						passThroughObject = TypeAdapter.Convert(passThroughObject, fieldInfo.FieldType);
+
+				fieldInfo.SetValue(fieldOwner, passThroughObject);
+			}
 		}
 	}
 

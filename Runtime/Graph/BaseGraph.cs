@@ -214,6 +214,8 @@ namespace GraphProcessor
 				node.DisableInternal();
 		}
 
+		public virtual void OnAssetDeleted() {}
+
 		/// <summary>
 		/// Adds a node to the graph
 		/// </summary>

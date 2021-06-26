@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
-using UnityEditor.Callbacks;
 
 namespace GraphProcessor
 {
@@ -11,16 +8,20 @@ namespace GraphProcessor
 	{
 		static AssetDeleteResult OnWillDeleteAsset(string path, RemoveAssetOptions options)
 		{
-			var graph = AssetDatabase.LoadAssetAtPath(path, typeof(BaseGraph));
+			var objects = AssetDatabase.LoadAllAssetsAtPath(path);
 
-			if (graph != null)
+			foreach (var obj in objects)
 			{
-				foreach (var graphWindow in Resources.FindObjectsOfTypeAll< BaseGraphWindow >())
-					graphWindow.OnGraphDeleted();
+				if (obj is BaseGraph b)
+				{
+					foreach (var graphWindow in Resources.FindObjectsOfTypeAll< BaseGraphWindow >())
+						graphWindow.OnGraphDeleted();
+					
+					b.OnAssetDeleted();
+				}
 			}
 
 			return AssetDeleteResult.DidNotDelete;
 		}
 	}
-
 }

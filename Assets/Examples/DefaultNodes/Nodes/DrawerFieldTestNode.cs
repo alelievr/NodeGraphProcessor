@@ -20,6 +20,12 @@ public class DrawerFieldTestNode : BaseNode
 	[Input(name = "Float"), ShowAsDrawer]
 	public float floatInput;
 
+	[Input(name = "Vector 3 Int"), ShowAsDrawer]
+	public Vector3Int vector3Int;
+
+	[Input(name = "Vector 2 Int"), ShowAsDrawer]
+	public Vector2Int vector2Int;
+
 	[Input(name = "Int"), ShowAsDrawer]
 	public int intInput;
 

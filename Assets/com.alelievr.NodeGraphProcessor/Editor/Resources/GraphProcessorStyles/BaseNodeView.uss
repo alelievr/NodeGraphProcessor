@@ -130,7 +130,9 @@ ParameterNodeView #controls EnumField > VisualElement > VisualElement {
 
 #input-container > .port-input-element > Vector4Field Label,
 #input-container > .port-input-element > Vector3Field Label,
-#input-container > .port-input-element > Vector2Field Label {
+#input-container > .port-input-element > Vector2Field Label,
+#input-container > .port-input-element > Vector3IntField Label,
+#input-container > .port-input-element > Vector2IntField Label {
     font-size: 8px;
     min-width: 8px;
     flex-basis: 8px;
@@ -140,11 +142,13 @@ ParameterNodeView #controls EnumField > VisualElement > VisualElement {
 
 #input-container > .port-input-element > Vector4Field FloatInput,
 #input-container > .port-input-element > Vector3Field FloatInput,
-#input-container > .port-input-element > Vector2Field FloatInput {
+#input-container > .port-input-element > Vector2Field FloatInput,
+#input-container > .port-input-element > Vector3IntField IntegerInput,
+#input-container > .port-input-element > Vector2IntField IntegerInput {
     min-width: 28px;
 }
 
-#input-container > .port-input-element > Vector2Field .unity-composite-field__field-spacer {
+#input-container > .port-input-element > * .unity-composite-field__field-spacer {
     flex-grow: 0.01;
 }
 

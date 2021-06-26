@@ -335,7 +335,7 @@ namespace GraphProcessor
 
 			bool IsPortCompatible(PortDescription description)
 			{
-				if (portView.direction == Direction.Input && description.isInput || portView.direction == Direction.Output && !description.isInput)
+				if ((portView.direction == Direction.Input && description.isInput) || (portView.direction == Direction.Output && !description.isInput))
 					return false;
 	
 				if (!BaseGraph.TypesAreConnectable(description.portType, portView.portType))

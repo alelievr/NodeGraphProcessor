@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Fixed relay node not applying custom conversions when needed
 - Fixed the node create menu not listing all nodes when created from edge drag.
+- Fixed Int vector drawer display in nodes.
 
 ## [1.2.0]
 

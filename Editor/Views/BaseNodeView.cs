@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEditor.UIElements;
+using System.Text.RegularExpressions;
 
 using Status = UnityEngine.UIElements.DropdownMenuAction.Status;
 using NodeView = UnityEditor.Experimental.GraphView.Node;
@@ -804,21 +805,37 @@ namespace GraphProcessor
 		protected VisualElement AddControlField(string fieldName, string label = null, bool showInputDrawer = false, Action valueChangedCallback = null)
 			=> AddControlField(nodeTarget.GetType().GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance), label, showInputDrawer, valueChangedCallback);
 
+		Regex s_ReplaceNodeIndexPropertyPath = new Regex(@"(^nodes.Array.data\[)(\d+)(\])");
+		internal void SyncSerializedPropertyPathes()
+		{
+			int nodeIndex = owner.graph.nodes.FindIndex(n => n == nodeTarget);
+			Debug.Log(nodeIndex);
+
+			// If the node is not found, then it means that it has been deleted from serialized data.
+			if (nodeIndex == -1)
+				return;
+
+			var nodeIndexString = nodeIndex.ToString();
+			foreach (var propertyField in this.Query<PropertyField>().ToList())
+			{
+				propertyField.Unbind();
+				// The property path look like this: nodes.Array.data[x].fieldName
+				// And we want to update the value of x with the new node index:
+				propertyField.bindingPath = s_ReplaceNodeIndexPropertyPath.Replace(propertyField.bindingPath, m => m.Groups[1].Value + nodeIndexString + m.Groups[3].Value);
+				propertyField.Bind(owner.serializedGraph);
+			}
+		}
+
 		protected VisualElement AddControlField(FieldInfo field, string label = null, bool showInputDrawer = false, Action valueChangedCallback = null)
 		{
 			if (field == null)
 				return null;
-	
-			var element = FieldFactory.CreateField(field.FieldType, field.GetValue(nodeTarget), (newValue) => {
-				owner.RegisterCompleteObjectUndo("Updated " + newValue);
-				field.SetValue(nodeTarget, newValue);
-				NotifyNodeChanged();
-				valueChangedCallback?.Invoke();
-				UpdateFieldVisibility(field.Name, newValue);
-				// When you have the node inspector, it's possible to have multiple input fields pointing to the same
-				// property. We need to update those manually otherwise they still have the old value in the inspector.
-				UpdateOtherFieldValue(field, newValue);
-			}, showInputDrawer ? "" : label);
+
+			// This doesn't work 
+			int i = owner.graph.nodes.FindIndex(n => n == nodeTarget);
+			var prop = owner.serializedGraph.FindProperty("nodes").GetArrayElementAtIndex(i).FindPropertyRelative(field.Name);
+			var element = new PropertyField(prop, showInputDrawer ? "" : label);
+			element.Bind(owner.serializedGraph);
 
 			// Disallow picking scene objects when the graph is not linked to a scene
 			if (element != null && !owner.graph.IsLinkedToScene())
@@ -843,9 +860,9 @@ namespace GraphProcessor
 				}
 				else
 				{
-					element.name = field.Name;
 					controlsContainer.Add(element);
 				}
+				element.name = field.Name;
 			}
 			else
 			{
@@ -886,6 +903,8 @@ namespace GraphProcessor
 
 			var label = field.GetCustomAttribute<SettingAttribute>().name;
 
+			// TODO: find the property path from the field
+			// var element = new PropertyField();
 			var element = FieldFactory.CreateField(field.FieldType, field.GetValue(nodeTarget), (newValue) => {
 				owner.RegisterCompleteObjectUndo("Updated " + newValue);
 				field.SetValue(nodeTarget, newValue);

@@ -366,6 +366,8 @@ namespace GraphProcessor
 							RemoveElement(nodeView);
 							if (Selection.activeObject == nodeInspector)
 								UpdateNodeInspectorSelection();
+
+							SyncSerializedPropertyPathes();
 							return true;
 						case GroupView group:
 							graph.RemoveGroup(group.group);
@@ -1384,6 +1386,16 @@ namespace GraphProcessor
 				Connect(inputPort, view.outputPortViews[0]);
 
 			return view;
+		}
+
+		/// <summary>
+		/// Update all the serialized property bindings (in case a node was deleted / added, the property pathes needs to be updated)
+		/// </summary>
+		public void SyncSerializedPropertyPathes()
+		{
+			foreach (var nodeView in nodeViews)
+				nodeView.SyncSerializedPropertyPathes();
+			nodeInspector.RefreshNodes();
 		}
 
 		/// <summary>

@@ -79,6 +79,7 @@ namespace GraphProcessor
 	/// Set a custom drawer for a field. It can then be created using the FieldFactory
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+	[Obsolete("You can use the standard Unity CustomPropertyDrawer instead.")]
 	public class FieldDrawerAttribute : Attribute
 	{
 		public Type		fieldType;

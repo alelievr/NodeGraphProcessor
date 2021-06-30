@@ -18,8 +18,6 @@ namespace GraphProcessor
         protected VisualElement selectedNodeList;
         protected VisualElement placeholder;
 
-        Dictionary<BaseNode, VisualElement> nodeInspectorCache = new Dictionary<BaseNode, VisualElement>();
-
         protected virtual void OnEnable()
         {
             inspector = target as NodeInspectorObject;
@@ -87,6 +85,8 @@ namespace GraphProcessor
             selectedNodes = views;
             nodeSelectionUpdated?.Invoke();
         }
+
+        public virtual void RefreshNodes() => nodeSelectionUpdated?.Invoke();
 
         public virtual void NodeViewRemoved(BaseNodeView view)
         {

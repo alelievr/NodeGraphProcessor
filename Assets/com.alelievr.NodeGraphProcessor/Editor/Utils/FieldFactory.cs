@@ -10,6 +10,7 @@ using System.Globalization;
 
 namespace GraphProcessor
 {
+	[Obsolete("Field Factory is not necessary anymore. You can use a SerializedProperty directly instead.")]
 	public static class FieldFactory
 	{
 		static readonly Dictionary< Type, Type >    fieldDrawers = new Dictionary< Type, Type >();

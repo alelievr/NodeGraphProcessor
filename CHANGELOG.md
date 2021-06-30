@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed the node create menu not listing all nodes when created from edge drag.
 - Fixed Int vector drawer display in nodes.
 
+### Changed
+- Deprecated the FieldFactory and [FieldDrawer] system. You can use Unity's CustomPropertyDrawer instead.
+- SerializedProperties are now used to display the properties in the node, so they support Unity's default UI and attributes for all properties.
+
 ## [1.2.0]
 
 ### Added

@@ -826,15 +826,19 @@ namespace GraphProcessor
 			}
 		}
 
+		protected SerializedProperty FindSerializedProperty(string fieldName)
+		{
+			int i = owner.graph.nodes.FindIndex(n => n == nodeTarget);
+			return owner.serializedGraph.FindProperty("nodes").GetArrayElementAtIndex(i).FindPropertyRelative(fieldName);
+		}
+
 		protected VisualElement AddControlField(FieldInfo field, string label = null, bool showInputDrawer = false, Action valueChangedCallback = null)
 		{
 			if (field == null)
 				return null;
 
 			// This doesn't work 
-			int i = owner.graph.nodes.FindIndex(n => n == nodeTarget);
-			var prop = owner.serializedGraph.FindProperty("nodes").GetArrayElementAtIndex(i).FindPropertyRelative(field.Name);
-			var element = new PropertyField(prop, showInputDrawer ? "" : label);
+			var element = new PropertyField(FindSerializedProperty(field.Name), showInputDrawer ? "" : label);
 			element.Bind(owner.serializedGraph);
 
 			// Disallow picking scene objects when the graph is not linked to a scene
@@ -903,14 +907,10 @@ namespace GraphProcessor
 
 			var label = field.GetCustomAttribute<SettingAttribute>().name;
 
-			// TODO: find the property path from the field
-			// var element = new PropertyField();
-			var element = FieldFactory.CreateField(field.FieldType, field.GetValue(nodeTarget), (newValue) => {
-				owner.RegisterCompleteObjectUndo("Updated " + newValue);
-				field.SetValue(nodeTarget, newValue);
-			}, label);
+			var element = new PropertyField(FindSerializedProperty(field.Name));
+			element.Bind(owner.serializedGraph);
 
-			if(element != null)
+			if (element != null)
 			{
 				settingsContainer.Add(element);
 				element.name = field.Name;

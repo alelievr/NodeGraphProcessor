@@ -809,7 +809,6 @@ namespace GraphProcessor
 		internal void SyncSerializedPropertyPathes()
 		{
 			int nodeIndex = owner.graph.nodes.FindIndex(n => n == nodeTarget);
-			Debug.Log(nodeIndex);
 
 			// If the node is not found, then it means that it has been deleted from serialized data.
 			if (nodeIndex == -1)
@@ -837,7 +836,6 @@ namespace GraphProcessor
 			if (field == null)
 				return null;
 
-			// This doesn't work 
 			var element = new PropertyField(FindSerializedProperty(field.Name), showInputDrawer ? "" : label);
 			element.Bind(owner.serializedGraph);
 

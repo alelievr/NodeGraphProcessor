@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - Added a callback on the BaseGraph class to know when the asset is deleted on the disk.
+- Added the support of [InspectorName] to change the display name of fields in the node.
 
 ### Fixed
 - Fixed relay node not applying custom conversions when needed

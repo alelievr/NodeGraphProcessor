@@ -747,6 +747,8 @@ namespace GraphProcessor
 
 		void UpdateFieldVisibility(string fieldName, object newValue)
 		{
+			if (newValue == null)
+				return;
 			if (visibleConditions.TryGetValue(fieldName, out var list))
 			{
 				foreach (var elem in list)
@@ -838,6 +840,10 @@ namespace GraphProcessor
 
 			var element = new PropertyField(FindSerializedProperty(field.Name), showInputDrawer ? "" : label);
 			element.Bind(owner.serializedGraph);
+
+			element.RegisterValueChangeCallback(e => {
+				UpdateFieldVisibility(field.Name, field.GetValue(nodeTarget));
+			});
 
 			// Disallow picking scene objects when the graph is not linked to a scene
 			if (element != null && !owner.graph.IsLinkedToScene())

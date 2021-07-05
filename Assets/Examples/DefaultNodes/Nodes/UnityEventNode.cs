@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
-using System.Linq;
 using UnityEngine.Events;
 
 [System.Serializable, NodeMenuItem("Custom/Unity Event Node")]

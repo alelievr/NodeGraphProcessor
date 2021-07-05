@@ -712,7 +712,13 @@ namespace GraphProcessor
 				showInputDrawer &= !fromInspector; // We can't show a drawer in the inspector
 				showInputDrawer &= !typeof(IList).IsAssignableFrom(field.FieldType);
 
-				var elem = AddControlField(field, ObjectNames.NicifyVariableName(field.Name), showInputDrawer);
+				string displayName = ObjectNames.NicifyVariableName(field.Name);
+
+				var inspectorNameAttribute = field.GetCustomAttribute<InspectorNameAttribute>();
+				if (inspectorNameAttribute != null)
+					displayName = inspectorNameAttribute.displayName;
+
+				var elem = AddControlField(field, displayName, showInputDrawer);
 				if (hasInputAttribute)
 				{
 					hideElementIfConnected[field.Name] = elem;
@@ -842,7 +848,7 @@ namespace GraphProcessor
 			element.Bind(owner.serializedGraph);
 
 #if UNITY_2020_3 // In Unity 2020.3 the empty label on property field doesn't hide it, so we do it manually
-			if (showInputDrawer && element != null)
+			if ((showInputDrawer || String.IsNullOrEmpty(label)) && element != null)
 				element.AddToClassList("DrawerField_2020_3");
 #endif
 

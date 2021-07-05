@@ -248,3 +248,9 @@ ParameterNodeView #controls EnumField > VisualElement > VisualElement {
     height: 16px;
     margin: 4px;
 }
+
+/* In Unity 2020.3, we need to manually hide labels of property fields with empty label */
+.DrawerField_2020_3 > * > Label
+{
+    display: none;
+}

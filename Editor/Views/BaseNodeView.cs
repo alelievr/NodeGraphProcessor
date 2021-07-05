@@ -841,6 +841,11 @@ namespace GraphProcessor
 			var element = new PropertyField(FindSerializedProperty(field.Name), showInputDrawer ? "" : label);
 			element.Bind(owner.serializedGraph);
 
+#if UNITY_2020_3 // In Unity 2020.3 the empty label on property field doesn't hide it, so we do it manually
+			if (showInputDrawer && element != null)
+				element.AddToClassList("DrawerField_2020_3");
+#endif
+
 			element.RegisterValueChangeCallback(e => {
 				UpdateFieldVisibility(field.Name, field.GetValue(nodeTarget));
 			});

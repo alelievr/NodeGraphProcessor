@@ -14,6 +14,7 @@ namespace GraphProcessor
             var vectorField = new Vector4Field() { value = property.vector4Value };
             vectorField.RegisterValueChangedCallback(e => {
                 property.vector4Value = e.newValue;
+                property.serializedObject.ApplyModifiedProperties();
             });
 
             return vectorField;

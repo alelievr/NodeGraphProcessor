@@ -854,6 +854,8 @@ namespace GraphProcessor
 
 			element.RegisterValueChangeCallback(e => {
 				UpdateFieldVisibility(field.Name, field.GetValue(nodeTarget));
+				valueChangedCallback?.Invoke();
+				NotifyNodeChanged();
 			});
 
 			// Disallow picking scene objects when the graph is not linked to a scene

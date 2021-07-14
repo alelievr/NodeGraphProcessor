@@ -234,11 +234,6 @@ namespace GraphProcessor
 			title = (nodeTarget.GetCustomName() == null) ? nodeTarget.GetType().Name : nodeTarget.GetCustomName();
 		}
 
-		public void UpdateNodeSerializedPropertyBindings()
-		{
-
-		}
-
 		void InitializeSettings()
 		{
 			// Initialize settings button:
@@ -268,6 +263,21 @@ namespace GraphProcessor
 				var settingsButtonLayout = settingButton.ChangeCoordinatesTo(settingsContainer.parent, settingButton.layout);
 				settingsContainer.style.top = settingsButtonLayout.yMax - 18f;
 				settingsContainer.style.left = settingsButtonLayout.xMin - layout.width + 20f;
+			}
+		}
+
+		// Workaround for bug in GraphView that makes the node selection border way too big
+		VisualElement selectionBorder, nodeBorder;
+		internal void EnableSyncSelectionBorderHeight()
+		{
+			if (selectionBorder == null || nodeBorder == null)
+			{
+				selectionBorder = this.Q("selection-border");
+				nodeBorder = this.Q("node-border");
+
+				schedule.Execute(() => {
+					selectionBorder.style.height = nodeBorder.localBound.height;
+				}).Every(17);
 			}
 		}
 		
@@ -681,7 +691,6 @@ namespace GraphProcessor
 					continue;
 				}
 
-
 				//skip if the field is an input/output and not marked as SerializedField
 				bool hasInputAttribute         = field.GetCustomAttribute(typeof(InputAttribute)) != null;
 				bool hasInputOrOutputAttribute = hasInputAttribute || field.GetCustomAttribute(typeof(OutputAttribute)) != null;
@@ -851,6 +860,9 @@ namespace GraphProcessor
 			if ((showInputDrawer || String.IsNullOrEmpty(label)) && element != null)
 				element.AddToClassList("DrawerField_2020_3");
 #endif
+
+			if (typeof(IList).IsAssignableFrom(field.FieldType))
+				EnableSyncSelectionBorderHeight();
 
 			element.RegisterValueChangeCallback(e => {
 				UpdateFieldVisibility(field.Name, field.GetValue(nodeTarget));

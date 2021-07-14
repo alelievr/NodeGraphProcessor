@@ -317,8 +317,9 @@ MonoBehaviour:
       height: 101
     title: New Sticky Note
     content: Write your text here
-  position: {x: 692, y: -105, z: 0}
-  scale: {x: 0.8695652, y: 0.8695652, z: 1}
+  nodeInspectorReference: {fileID: 0}
+  position: {x: 781, y: -9.999998, z: 0}
+  scale: {x: 0.7561437, y: 0.7561437, z: 1}
   references:
     version: 1
     00000000:
@@ -632,6 +633,8 @@ MonoBehaviour:
         vector3: {x: 0, y: 0, z: 0}
         vector2: {x: 0, y: 0}
         floatInput: 0
+        vector3Int: {x: 0, y: 0, z: 0}
+        vector2Int: {x: 0, y: 0}
         intInput: 0
         intInput2: 0
         stringInput: Hello
@@ -685,6 +688,8 @@ MonoBehaviour:
         vector3: {x: 0, y: 0, z: 0}
         vector2: {x: 0, y: 0}
         floatInput: 0
+        vector3Int: {x: 0, y: 0, z: 0}
+        vector2Int: {x: 0, y: 0}
         intInput: 0
         intInput2: 0
         stringInput: 

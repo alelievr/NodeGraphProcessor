@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
+  m_Name: MultiPort2
+  m_EditorClassIdentifier: 
+  serializedNodes:
+  - type: CustomPortData, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"70ba29bb-8952-42c4-a417-d522dc5de308","computeOrder":1,"position":{"serializedVersion":"2","x":623.0,"y":116.0,"width":111.0,"height":149.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0}'
+  - type: PrefabNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"4870a082-99ce-4796-a0ed-0b7679b3b75c","computeOrder":0,"position":{"serializedVersion":"2","x":234.0,"y":78.80000305175781,"width":136.0,"height":223.0},"expanded":false,"debug":false,"nodeLock":false,"output":{"fileID":1636575971871760,"guid":"f78111bdbdeaf6644806fc49fcaf1d30","type":3}}'
+  - type: CustomPortsNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"1170b803-926d-41dd-8f9a-31ab41d8eac4","computeOrder":3,"position":{"serializedVersion":"2","x":423.0,"y":283.0,"width":129.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"inputs":[],"outputs":[],"portCount":2}'
+  - type: FloatNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    jsonDatas: '{"GUID":"dad63bae-fb0e-495e-97a4-cfcc6f40b0c4","computeOrder":2,"position":{"serializedVersion":"2","x":244.0,"y":335.0,"width":73.0,"height":101.0},"expanded":false,"debug":false,"nodeLock":false,"output":0.0,"input":0.0}'
+  edges:
+  - GUID: 0c62cdb9-c3bc-4fbe-97c2-00b86ecace64
+    owner: {fileID: 11400000}
+    inputNodeGUID: 1170b803-926d-41dd-8f9a-31ab41d8eac4
+    outputNodeGUID: dad63bae-fb0e-495e-97a4-cfcc6f40b0c4
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 0
+    outputPortIdentifier: 
+  - GUID: 1297d805-e563-4395-a15d-0874bfb0a848
+    owner: {fileID: 11400000}
+    inputNodeGUID: 70ba29bb-8952-42c4-a417-d522dc5de308
+    outputNodeGUID: 4870a082-99ce-4796-a0ed-0b7679b3b75c
+    inputFieldName: inputs
+    outputFieldName: output
+    inputPortIdentifier: 2
+    outputPortIdentifier: 
+  groups: []
+  stackNodes: []
+  pinnedElements:
+  - position:
+      serializedVersion: 2
+      x: 15
+      y: 90
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  exposedParameters: []
+  stickyNotes: []
+  position: {x: -63, y: -59, z: 0}
+  scale: {x: 1.3225, y: 1.3225, z: 1}
+  references:
+    version: 1

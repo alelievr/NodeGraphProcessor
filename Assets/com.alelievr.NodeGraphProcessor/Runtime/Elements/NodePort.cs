@@ -194,9 +194,9 @@ namespace GraphProcessor
 
 // We keep slow checks inside the editor
 #if UNITY_EDITOR
-				if (!BaseGraph.TypesAreConnectable(inputField.FieldType, outputField.FieldType))
+				if (!BaseGraph.TypesAreConnectable(outputField.FieldType, inputField.FieldType))
 				{
-					Debug.LogError("Can't convert from " + inputField.FieldType + " to " + outputField.FieldType + ", you must specify a custom port function (i.e CustomPortInput or CustomPortOutput) for non-implicit convertions");
+					Debug.LogError("Can't convert from " + outputField.FieldType + " to " + inputField.FieldType + ", you must specify a custom port function (i.e CustomPortInput or CustomPortOutput) for non-implicit convertions");
 					return null;
 				}
 #endif

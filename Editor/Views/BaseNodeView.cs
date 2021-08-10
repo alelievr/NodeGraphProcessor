@@ -248,7 +248,7 @@ namespace GraphProcessor
 				settingsContainer.Add(settings);
 				Add(settingsContainer);
 				
-				var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+				var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
 				foreach(var field in fields)
 					if(field.GetCustomAttribute(typeof(SettingAttribute)) != null) 
@@ -907,7 +907,7 @@ namespace GraphProcessor
 			if (visibleCondition != null)
 			{
 				// Check if target field exists:
-				var conditionField = nodeTarget.GetType().GetField(visibleCondition.fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+				var conditionField = nodeTarget.GetType().GetField(visibleCondition.fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 				if (conditionField == null)
 					Debug.LogError($"[VisibleIf] Field {visibleCondition.fieldName} does not exists in node {nodeTarget.GetType()}");
 				else

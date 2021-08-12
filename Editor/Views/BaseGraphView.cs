@@ -643,9 +643,10 @@ namespace GraphProcessor
 							{
 								var node = BaseNode.CreateFromType(kp.Value.nodeType, mousePos);
 								if ((bool)kp.Value.initalizeNodeFromObject.Invoke(node, new []{obj}))
+								{
 									AddNode(node);
-								else
-									break;	
+									break;
+								}
 							}
 							catch (Exception exception)
 							{

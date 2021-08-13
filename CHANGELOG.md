@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Fixed fields with [Settings] attribute not showing up with inheritance.
+- Fixed selection still active when selecting nodes without inspector fields.
 
 ## [1.3.0]
 

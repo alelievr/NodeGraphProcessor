@@ -685,7 +685,8 @@ namespace GraphProcessor
 				}
 
 				//skip if the field is not serializable
-				if((!field.IsPublic && field.GetCustomAttribute(typeof(SerializeField)) == null) || field.IsNotSerialized)
+				bool serializeField = field.GetCustomAttribute(typeof(SerializeField)) != null;
+				if((!field.IsPublic && !serializeField) || field.IsNotSerialized)
 				{
 					AddEmptyField(field, fromInspector);
 					continue;
@@ -695,7 +696,7 @@ namespace GraphProcessor
 				bool hasInputAttribute         = field.GetCustomAttribute(typeof(InputAttribute)) != null;
 				bool hasInputOrOutputAttribute = hasInputAttribute || field.GetCustomAttribute(typeof(OutputAttribute)) != null;
 				bool showAsDrawer			   = !fromInspector && field.GetCustomAttribute(typeof(ShowAsDrawer)) != null;
-				if (field.GetCustomAttribute(typeof(SerializeField)) == null && hasInputOrOutputAttribute && !showAsDrawer)
+				if (!serializeField && hasInputOrOutputAttribute && !showAsDrawer)
 				{
 					AddEmptyField(field, fromInspector);
 					continue;
@@ -710,7 +711,7 @@ namespace GraphProcessor
 
 				// Hide the field if we want to display in in the inspector
 				var showInInspector = field.GetCustomAttribute<ShowInInspector>();
-				if (showInInspector != null && !showInInspector.showInNode && !fromInspector)
+				if (!serializeField && showInInspector != null && !showInInspector.showInNode && !fromInspector)
 				{
 					AddEmptyField(field, fromInspector);
 					continue;

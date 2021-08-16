@@ -48,6 +48,8 @@ The current Unity version used for the project is **2020.2.0f1**, if you want to
 
 ## Installation
 
+<details><summary>Instructions</summary>
+
 ### Install Manually
 There are two ways to install this asset: you can use the Unity package manager or move the entire repo inside your Assets folder.
 To install using the package manager:
@@ -70,6 +72,13 @@ openupm add com.alelievr.node-graph-processor
 Alternatively, you can use the [git address feature in the package manager](https://forum.unity.com/threads/git-support-on-package-manager.573673/) on the branch [#upm](https://github.com/alelievr/NodeGraphProcessor/tree/upm), it only contains the package but it may be out of sync compared to master.
 
 Note that you'll not have access to the examples provided in this repo because the package only include the core of NodeGraphProcessor.
+
+</details>
+
+
+## Community 
+
+Join the [NodeGraphProcessor Discord server](https://discord.gg/XuMd3Z5Rym)! 
 
 ## Features
 

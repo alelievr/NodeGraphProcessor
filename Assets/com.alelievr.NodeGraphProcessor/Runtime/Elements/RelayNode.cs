@@ -30,9 +30,31 @@ public class RelayNode : BaseNode
 	[System.NonSerialized]
 	int				outputIndex = 0;
 
+	[SerializeField]
 	SerializableType inputType = new SerializableType(typeof(object));
 
 	const int		k_MaxPortSize = 14;
+
+	protected internal override bool autoDisconnectEdgeNonAssignableTypes
+	{
+		get
+		{
+			// Relay node can accept any type of data when in object mode. Even the incompatible types in ITypeAdapter.
+			return inputType.type != null && inputType.type != typeof(object);
+		}
+	}
+
+	protected override void Enable()
+	{
+		base.Enable();
+		onAfterEdgeDisconnected += EdgeDisconnected;
+	}
+
+	protected override void Disable()
+	{
+		base.Disable();
+		onAfterEdgeDisconnected -= EdgeDisconnected;
+	}
 
 	protected override void Process()
 	{
@@ -103,11 +125,10 @@ public class RelayNode : BaseNode
 			var inputEdges = inputPorts[0]?.GetEdges();
 			sizeInPixel = inputEdges.Sum(e => Mathf.Max(0, e.outputPort.portData.sizeInPixel - 8));
 		}
-		
+
+
 		if (edges.Count == 1 && !packInput)
 			inputType.type = edges[0].outputPort.portData.displayType;
-		else
-			inputType.type = typeof(object);
 
 		yield return new PortData {
 			displayName = "",
@@ -194,5 +215,17 @@ public class RelayNode : BaseNode
 			inputEdges = inputEdges.First().outputNode.inputPorts[0]?.GetEdges();
 
 		return inputEdges;
+	}
+
+	void EdgeDisconnected(SerializableEdge edge)
+	{
+	Debug.Log("Disconnected");	
+		// When the last edge is disconnected on the node, we reset the internal type to object
+		if (inputPorts.Any(p => p.GetEdges().Count > 0))
+			return;
+		if (outputPorts.Any(p => p.GetEdges().Count > 0))
+			return;
+
+		inputType.type = typeof(object);
 	}
 }

@@ -347,6 +347,7 @@ namespace GraphProcessor
 			return changed;
 		}
 
+		internal virtual protected bool autoDisconnectEdgeNonAssignableTypes => true;
 
 		/// <summary>
 		/// Update the ports related to one C# property field (only for this node)
@@ -368,7 +369,7 @@ namespace GraphProcessor
 
 			var portCollection = fieldInfo.input ? (NodePortContainer)inputPorts : outputPorts;
 
-			// Gather all fields for this port (before to modify them)
+			// Gather all ports for this field (before modification)
 			var nodePorts = portCollection.Where(p => p.fieldName == fieldName);
 			// Gather all edges connected to these fields:
 			var edges = nodePorts.SelectMany(n => n.GetEdges()).ToList();
@@ -398,7 +399,7 @@ namespace GraphProcessor
 				else
 				{
 					// in case the port type have changed for an incompatible type, we disconnect all the edges attached to this port
-					if (!BaseGraph.TypesAreConnectable(port.portData.displayType, portData.displayType))
+					if (autoDisconnectEdgeNonAssignableTypes && !BaseGraph.TypesAreConnectable(port.portData.displayType, portData.displayType))
 					{
 						foreach (var edge in port.GetEdges().ToList())
 							graph.Disconnect(edge.GUID);

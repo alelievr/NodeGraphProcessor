@@ -103,6 +103,32 @@ namespace GraphProcessor
             return accept;
         }
 
+		/// <summary>
+		/// Insert a node in the stack at the specified index.
+		/// </summary>
+		/// <param name="index">Position in the stack</param>
+		/// <param name="node">node to add</param>
+		/// <returns>true if the insertion suceedded. False otherwise (bad index position).</returns>
+		public bool InsertNode(int index, BaseNode node)
+		{
+			if (index < 0 ||  index > stackNode.nodeGUIDs.Count)
+				return false;
+
+			InsertElement(index, owner.nodeViewsPerNode[node]);
+			stackNode.nodeGUIDs.Insert(index, node.GUID);
+			return true;
+		}
+
+		/// <summary>
+		/// Add a node in the stack
+		/// </summary>
+		/// <param name="node">node to add</param>
+		public void AddNode(BaseNode node)
+		{
+			InsertNode(stackNode.nodeGUIDs.Count, node);
+		}
+
+        /// <inheritdoc />
         public override bool DragLeave(DragLeaveEvent evt, IEnumerable<ISelectable> selection, IDropTarget leftTarget, ISelection dragSource)
         {
             foreach (var elem in selection)

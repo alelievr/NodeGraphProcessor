@@ -605,6 +605,9 @@ namespace GraphProcessor
 				onExposedParameterListChanged?.Invoke();
 		}
 
+		internal void NotifyExposedParameterListChanged()
+			=> onExposedParameterListChanged?.Invoke();
+
 		/// <summary>
 		/// Update an exposed parameter value
 		/// </summary>

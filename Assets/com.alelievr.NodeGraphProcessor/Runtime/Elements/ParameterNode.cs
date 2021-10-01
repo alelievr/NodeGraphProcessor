@@ -97,6 +97,13 @@ namespace GraphProcessor
 			parameter = graph.GetExposedParameterFromGUID(parameterGUID);
 #endif
 
+			ClearMessages();
+			if (parameter == null)
+			{
+				AddMessage($"Parameter not found: {parameterGUID}", NodeMessageType.Error);
+				return;
+			}
+
 			if (accessor == ParameterAccessor.Get)
 				output = parameter.value;
 			else

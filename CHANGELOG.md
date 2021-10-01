@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Fixed fields with [Settings] attribute not showing up with inheritance.
 - Fixed selection still active when selecting nodes without inspector fields.
+- Fixed multi-selection drag and drop of edges.
 
 ### Changed
 - Fields with both attributes [SerializeField] and [ShowInInspector] are now visible in both the node and inspector.

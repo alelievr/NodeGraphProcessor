@@ -137,11 +137,11 @@ namespace GraphProcessor
 			if (!(edge as EdgeView).isConnected)
 				return ;
 
-			var inputNode = (edge.input as PortView).owner;
-			var outputNode = (edge.output as PortView).owner;
+			var inputNode = (edge.input as PortView)?.owner;
+			var outputNode = (edge.output as PortView)?.owner;
 
-			inputNode.OnPortDisconnected(edge.input as PortView);
-			outputNode.OnPortDisconnected(edge.output as PortView);
+			inputNode?.OnPortDisconnected(edge.input as PortView);
+			outputNode?.OnPortDisconnected(edge.output as PortView);
 
 			edges.Remove(edge as EdgeView);
 		}

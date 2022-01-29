@@ -812,7 +812,8 @@ namespace GraphProcessor
 
 		void UpdateSerializedProperties()
 		{
-			serializedGraph = new SerializedObject(graph);
+			if(graph != null)
+				serializedGraph = new SerializedObject(graph);
 		}
 
 		/// <summary>

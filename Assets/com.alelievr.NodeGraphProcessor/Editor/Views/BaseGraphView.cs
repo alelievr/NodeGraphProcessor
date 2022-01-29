@@ -1192,8 +1192,60 @@ namespace GraphProcessor
 			edgeView.input = inputPortView;
 			edgeView.output = outputPortView;
 
+			if (ConversionNodeAdapter.AreAssignable(outputPort.portData.displayType, inputPort.portData.displayType))
+			{
+				return ConnectConvertable(edgeView, autoDisconnectInputs);
+			} else
+			{
+				return Connect(edgeView);
+			}
+		}
 
-			return Connect(edgeView);
+		/// <summary>
+		/// Same as connect, but also adds custom conversion nodes inbetween the edges input/output, if neccessary
+		/// </summary>
+		/// <param name="e"></param>
+		/// <param name="autoDisconnectInputs"></param>
+		/// <returns></returns>
+		public bool ConnectConvertable(EdgeView e, bool autoDisconnectInputs = true)
+		{
+			if (!CanConnectEdge(e, autoDisconnectInputs))
+				return false;
+			
+			var inputPortView = e.input as PortView;
+			var outputPortView = e.output as PortView;
+			var inputNodeView = inputPortView.node as BaseNodeView;
+			var outputNodeView = outputPortView.node as BaseNodeView;
+			var inputPort = inputNodeView.nodeTarget.GetPort(inputPortView.fieldName, inputPortView.portData.identifier);
+			var outputPort = outputNodeView.nodeTarget.GetPort(outputPortView.fieldName, outputPortView.portData.identifier);
+			
+			Type conversionNodeType = ConversionNodeAdapter.GetConversionNode(outputPort.portData.displayType, inputPort.portData.displayType);
+			if (conversionNodeType != null)
+			{
+				var nodePosition = (inputPort.owner.position.center + outputPort.owner.position.center) / 2.0f;
+				BaseNode converterNode = BaseNode.CreateFromType(conversionNodeType, nodePosition);
+				IConversionNode conversion = (IConversionNode)converterNode;
+				var converterView = AddNode(converterNode);
+				
+				// set nodes center position to be in the middle of the input/output ports
+				converterNode.position.center = nodePosition - new Vector2(converterNode.position.width / 2.0f,0);
+				converterView.SetPosition(converterNode.position);
+
+				
+				var conversionInputName = conversion.GetConversionInput();
+				var converterInput = converterView.inputPortViews.Find(view => view.fieldName == conversionInputName);
+				var conversionOutputName = conversion.GetConversionOutput();
+				var converterOutput = converterView.outputPortViews.Find(view => view.fieldName == conversionOutputName);
+
+				Connect(inputPortView, converterOutput, autoDisconnectInputs);
+
+				e.input = converterInput; // change from original input to use the converter node
+				return Connect(e, autoDisconnectInputs);
+			}
+			else
+			{
+				return Connect(e, autoDisconnectInputs);
+			}
 		}
 
 		public bool Connect(EdgeView e, bool autoDisconnectInputs = true)

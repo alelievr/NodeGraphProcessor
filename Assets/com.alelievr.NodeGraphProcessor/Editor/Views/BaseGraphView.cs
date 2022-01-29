@@ -430,7 +430,7 @@ namespace GraphProcessor
 		{
 			var compatiblePorts = new List< Port >();
 
-			compatiblePorts.AddRange(ports.ToList().Where(p => {
+			compatiblePorts.AddRange(ports.Where(p => {
 				var portView = p as PortView;
 
 				if (portView.owner == (startPort as PortView).owner)

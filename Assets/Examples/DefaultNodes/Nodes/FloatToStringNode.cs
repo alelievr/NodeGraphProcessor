@@ -28,8 +28,7 @@ public class FloatToStringsNode : BaseNode, IConversionNode
 
 	protected override void Process()
 	{
-		var mult = Mathf.Pow(10, decimalPlaces);
-		float val = Mathf.Round(input * mult) / mult;
+		output = input.ToString("F" + decimalPlace, CultureInfo.InvariantCulture);
 		output = val.ToString(CultureInfo.InvariantCulture);
 	}
 }

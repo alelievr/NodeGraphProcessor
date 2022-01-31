@@ -194,7 +194,7 @@ namespace GraphProcessor
 
 // We keep slow checks inside the editor
 #if UNITY_EDITOR
-				if (!BaseGraph.TypesAreConnectable(inputField.FieldType, outputField.FieldType))
+				if (!BaseGraph.TypesAreConnectable(outputField.FieldType, inputField.FieldType))
 				{
 					Debug.LogError("Can't convert from " + inputField.FieldType + " to " + outputField.FieldType + ", you must specify a custom port function (i.e CustomPortInput or CustomPortOutput) for non-implicit convertions");
 					return null;
@@ -207,14 +207,14 @@ namespace GraphProcessor
 				inType = edge.inputPort.portData.displayType ?? inputField.FieldType;
 				outType = edge.outputPort.portData.displayType ?? outputField.FieldType;
 
-				// If there is a user defined convertion function, then we call it
+				// If there is a user defined conversion function, then we call it
 				if (TypeAdapter.AreAssignable(outType, inType))
 				{
 					// We add a cast in case there we're calling the conversion method with a base class parameter (like object)
 					var convertedParam = Expression.Convert(outputParamField, outType);
-					outputParamField = Expression.Call(TypeAdapter.GetConvertionMethod(outType, inType), convertedParam);
+					outputParamField = Expression.Call(TypeAdapter.GetConversionMethod(outType, inType), convertedParam);
 					// In case there is a custom port behavior in the output, then we need to re-cast to the base type because
-					// the convertion method return type is not always assignable directly:
+					// the conversion method return type is not always assignable directly:
 					outputParamField = Expression.Convert(outputParamField, inputField.FieldType);
 				}
 				else // otherwise we cast

@@ -823,27 +823,30 @@ namespace GraphProcessor
 		/// <summary>
 		/// Tell if two types can be connected in the context of a graph
 		/// </summary>
-		/// <param name="t1"></param>
-		/// <param name="t2"></param>
+		/// <param name="from"></param>
+		/// <param name="to"></param>
 		/// <returns></returns>
-		public static bool TypesAreConnectable(Type t1, Type t2)
+		public static bool TypesAreConnectable(Type from, Type to) // NOTE: Extend this later for adding conversion nodes
 		{
-			if (t1 == null || t2 == null)
+			if (from == null || to == null)
 				return false;
 
-			if (TypeAdapter.AreIncompatible(t1, t2))
+			if (TypeAdapter.AreIncompatible(from, to))
 				return false;
 
 			//Check if there is custom adapters for this assignation
-			if (CustomPortIO.IsAssignable(t1, t2))
+			if (CustomPortIO.IsAssignable(from, to))
 				return true;
 
 			//Check for type assignability
-			if (t2.IsReallyAssignableFrom(t1))
+			if (to.IsReallyAssignableFrom(from))
 				return true;
 
-			// User defined type convertions
-			if (TypeAdapter.AreAssignable(t1, t2))
+			// User defined type conversions
+			if (TypeAdapter.AreAssignable(from, to))
+				return true;
+
+			if (ConversionNodeAdapter.AreAssignable(from, to))
 				return true;
 
 			return false;

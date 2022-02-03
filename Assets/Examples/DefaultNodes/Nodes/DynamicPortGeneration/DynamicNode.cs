@@ -7,12 +7,11 @@ using System.Reflection;
 using System;
 
 [System.Serializable]
-public abstract class DynamicNode<T> : PortUpdaterNode
+public abstract class DynamicNode<T> : BaseNode
 {
     [Input("Action Data", true)]
     public Dictionary<string, List<object>> actionData = new Dictionary<string, List<object>>();
 
-    [ExpandableSO, ValueChangedCallback(nameof(actionData), nameof(OnDataChanged))]
     public T data;
 
     public override bool needsInspector => true;
@@ -36,20 +35,6 @@ public abstract class DynamicNode<T> : PortUpdaterNode
 
                 field.fieldInfo.SetValue(data, default);
                 continue;
-            }
-
-            if (field.inputAttribute is MyInputAttribute)
-            {
-                MyInputAttribute inputAttribute = field.inputAttribute as MyInputAttribute;
-                if (inputAttribute.InputType != null && field.fieldInfo.FieldType.GetInterfaces().Any(x => x == typeof(IList)))
-                {
-                    IList list = Activator.CreateInstance(field.fieldInfo.FieldType) as IList;
-                    foreach (var value in actionDataClone[field.fieldInfo.Name])
-                        list.Add(value);
-
-                    field.fieldInfo.SetValue(data, list);
-                    continue;
-                }
             }
 
             field.fieldInfo.SetValue(data, actionDataClone[field.fieldInfo.Name][0]);
@@ -97,7 +82,7 @@ public abstract class DynamicNode<T> : PortUpdaterNode
         FieldPortInfo field = GetFieldPortInfo(connectedEdges.ElementAt(0).inputPortIdentifier);
 
         if (actionData == null) actionData = new Dictionary<string, List<object>>();
-        foreach (var edge in connectedEdges.GetNonRelayEdges().OrderByInputAttribute(field.inputAttribute))
+        foreach (var edge in connectedEdges)
         {
             if (!actionData.ContainsKey(field.fieldInfo.Name))
                 actionData.Add(field.fieldInfo.Name, new List<object>());
@@ -112,13 +97,6 @@ public abstract class DynamicNode<T> : PortUpdaterNode
         foreach (var field in GetInputFieldsOfType())
         {
             Type displayType = field.fieldInfo.FieldType;
-
-            if (field.inputAttribute is MyInputAttribute)
-            {
-                MyInputAttribute inputAttribute = field.inputAttribute as MyInputAttribute;
-                if (inputAttribute.InputType != null)
-                    displayType = inputAttribute.InputType;
-            }
 
             yield return new PortData
             {

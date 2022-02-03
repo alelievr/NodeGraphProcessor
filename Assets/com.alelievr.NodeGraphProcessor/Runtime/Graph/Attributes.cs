@@ -227,7 +227,7 @@ namespace GraphProcessor
         }
     }
 
-    [Obsolete("ShowAsDrawer attribute is deprecated. Please use the InputAttribute showAsDrawer field.")]
+    // [Obsolete("ShowAsDrawer attribute is deprecated. Please use the InputAttribute showAsDrawer field.")]
 
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class ShowAsDrawer : Attribute

@@ -15,7 +15,7 @@ public class SequenceName : List<SequenceName.ConditionalName>
     [Serializable]
     public class ConditionalName : BaseIsConditional
     {
-        [SerializeField, Input("Name", true)] string name;
+        [SerializeField, Input("Name"), ShowAsDrawer] string name;
         public string Name => name;
     }
 }

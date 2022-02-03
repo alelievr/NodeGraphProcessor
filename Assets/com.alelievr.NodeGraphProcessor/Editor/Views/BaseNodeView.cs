@@ -728,7 +728,7 @@ namespace GraphProcessor
             InputAttribute inputAttribute = field.GetCustomAttribute<InputAttribute>();
             bool hasInputAttribute = inputAttribute != null;
             bool hasInputOrOutputAttribute = hasInputAttribute || field.HasCustomAttribute<OutputAttribute>();
-            bool showAsDrawer = !fromInspector && hasInputAttribute && inputAttribute.showAsDrawer;
+            bool showAsDrawer = !fromInspector && hasInputAttribute && (inputAttribute.showAsDrawer || field.HasCustomAttribute<ShowAsDrawer>());
             if ((!serializeField || isProxied) && hasInputOrOutputAttribute && !showAsDrawer)
             {
                 AddEmptyField(field, fromInspector);
@@ -752,7 +752,7 @@ namespace GraphProcessor
 
 
             var showInputDrawer = hasInputAttribute && serializeField;
-            showInputDrawer |= hasInputAttribute && inputAttribute.showAsDrawer;
+            showInputDrawer |= showAsDrawer;
             showInputDrawer &= !fromInspector; // We can't show a drawer in the inspector
             showInputDrawer &= !typeof(IList).IsAssignableFrom(field.FieldType);
 

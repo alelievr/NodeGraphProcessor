@@ -256,7 +256,7 @@ namespace GraphProcessor
                 var fields = nodeTarget.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
                 foreach (var field in fields)
-                    if (field.GetCustomAttribute(typeof(SettingAttribute)) != null)
+                    if (field.HasCustomAttribute<SettingAttribute>())
                         AddSettingField(field);
             }
         }
@@ -687,9 +687,7 @@ namespace GraphProcessor
             for (int i = 0; i < fields.Count; i++)
             {
                 FieldInfo field = fields[i];
-                InputAttribute inputAttribute = field.GetCustomAttribute<InputAttribute>();
-                bool hasInputAttribute = inputAttribute != null;
-                if (hasInputAttribute && portsPerFieldName.ContainsKey(field.Name))
+                if (field.HasCustomAttribute<InputAttribute>() && portsPerFieldName.ContainsKey(field.Name))
                 {
                     // IF FIELD IS MULTI_PORT DO THIS LOOP OVER THIS WITH RELATED PORTS AND IGNORE THE BASE PORT     
                     foreach (var port in portsPerFieldName[field.Name])
@@ -712,14 +710,14 @@ namespace GraphProcessor
             string fieldPath = fieldInfoList.GetPath();
 
             //skip if the field is a node setting
-            if (field.GetCustomAttribute(typeof(SettingAttribute)) != null)
+            if (field.HasCustomAttribute<SettingAttribute>())
             {
                 hasSettings = true;
                 return;
             }
 
             //skip if the field is not serializable
-            bool serializeField = field.GetCustomAttribute(typeof(SerializeField)) != null;
+            bool serializeField = field.HasCustomAttribute<SerializeField>();
             if ((!field.IsPublic && !serializeField) || field.IsNotSerialized)
             {
                 AddEmptyField(field, fromInspector);
@@ -729,7 +727,7 @@ namespace GraphProcessor
             //skip if the field is an input/output and not marked as SerializedField
             InputAttribute inputAttribute = field.GetCustomAttribute<InputAttribute>();
             bool hasInputAttribute = inputAttribute != null;
-            bool hasInputOrOutputAttribute = hasInputAttribute || field.GetCustomAttribute(typeof(OutputAttribute)) != null;
+            bool hasInputOrOutputAttribute = hasInputAttribute || field.HasCustomAttribute<OutputAttribute>();
             bool showAsDrawer = !fromInspector && hasInputAttribute && inputAttribute.showAsDrawer;
             if ((!serializeField || isProxied) && hasInputOrOutputAttribute && !showAsDrawer)
             {
@@ -738,7 +736,7 @@ namespace GraphProcessor
             }
 
             //skip if marked with NonSerialized or HideInInspector
-            if (field.GetCustomAttribute(typeof(System.NonSerializedAttribute)) != null || field.GetCustomAttribute(typeof(HideInInspector)) != null)
+            if (field.HasCustomAttribute<System.NonSerializedAttribute>() || field.HasCustomAttribute<HideInInspector>())
             {
                 AddEmptyField(field, fromInspector);
                 return;
@@ -753,7 +751,7 @@ namespace GraphProcessor
             }
 
 
-            var showInputDrawer = hasInputAttribute && field.GetCustomAttribute(typeof(SerializeField)) != null;
+            var showInputDrawer = hasInputAttribute && serializeField;
             showInputDrawer |= hasInputAttribute && inputAttribute.showAsDrawer;
             showInputDrawer &= !fromInspector; // We can't show a drawer in the inspector
             showInputDrawer &= !typeof(IList).IsAssignableFrom(field.FieldType);
@@ -801,10 +799,10 @@ namespace GraphProcessor
 
         private void AddEmptyField(FieldInfo field, bool fromInspector)
         {
-            if (field.GetCustomAttribute(typeof(InputAttribute)) == null || fromInspector)
+            if (!field.HasCustomAttribute<InputAttribute>() || fromInspector)
                 return;
 
-            if (field.GetCustomAttribute<VerticalAttribute>() != null)
+            if (field.HasCustomAttribute<VerticalAttribute>())
                 return;
 
             var box = new VisualElement { name = field.Name };
@@ -961,7 +959,7 @@ namespace GraphProcessor
                 if (showInputDrawer) AddEmptyField(field, false);
             }
 
-            var visibleCondition = field.GetCustomAttribute(typeof(VisibleIf)) as VisibleIf;
+            var visibleCondition = field.GetCustomAttribute<VisibleIf>();
             if (visibleCondition != null)
             {
                 // Check if target field exists:
@@ -1239,8 +1237,18 @@ namespace GraphProcessor
         #endregion
     }
 
-    public static class ListHelpers
+    public static class Extensions
     {
+        public static bool HasCustomAttribute<T>(this FieldInfo fieldInfo)
+        {
+            return Attribute.IsDefined(fieldInfo, typeof(T));
+        }
+
+        public static bool HasCustomAttribute(this FieldInfo fieldInfo, Type type)
+        {
+            return Attribute.IsDefined(fieldInfo, type);
+        }
+
         public static object GetValueAt(this IList<FieldInfo> list, object startingValue, int index)
         {
             object currentValue = startingValue;

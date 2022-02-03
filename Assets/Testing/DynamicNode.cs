@@ -127,7 +127,7 @@ public abstract class DynamicNode<T> : PortUpdaterNode
                 identifier = field.fieldInfo.Name,
                 showAsDrawer = field.inputAttribute.showAsDrawer,
                 vertical = false,
-                proxiedFieldPath = "data." + field.fieldInfo.Name,
+                proxiedFieldPath = nameof(data) + '.' + field.fieldInfo.Name,
                 acceptMultipleEdges = field.inputAttribute.allowMultiple,
             };
         }

@@ -733,7 +733,6 @@ namespace GraphProcessor
             bool showAsDrawer = !fromInspector && hasInputAttribute && inputAttribute.showAsDrawer;
             if ((!serializeField || isProxied) && hasInputOrOutputAttribute && !showAsDrawer)
             {
-                Debug.Log("here: " + field.Name);
                 AddEmptyField(field, fromInspector);
                 return;
             }

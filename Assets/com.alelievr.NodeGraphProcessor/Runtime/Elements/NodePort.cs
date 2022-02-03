@@ -52,6 +52,8 @@ namespace GraphProcessor
         /// </summary>
         public bool vertical;
 
+        public bool IsProxied => !String.IsNullOrEmpty(proxiedFieldPath);
+
         public bool Equals(PortData other)
         {
             return identifier == other.identifier

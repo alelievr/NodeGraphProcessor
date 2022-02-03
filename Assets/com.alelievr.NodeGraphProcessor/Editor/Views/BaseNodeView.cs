@@ -689,12 +689,10 @@ namespace GraphProcessor
                 FieldInfo field = fields[i];
                 if (field.HasCustomAttribute<InputAttribute>() && portsPerFieldName.ContainsKey(field.Name))
                 {
-                    // IF FIELD IS MULTI_PORT DO THIS LOOP OVER THIS WITH RELATED PORTS AND IGNORE THE BASE PORT     
                     foreach (var port in portsPerFieldName[field.Name])
                     {
-                        bool isProxied = !String.IsNullOrEmpty(port.portData.proxiedFieldPath);
-                        string fieldPath = isProxied ? port.portData.proxiedFieldPath : port.fieldName;
-                        DrawField(GetFieldInfoPath(fieldPath), fromInspector, isProxied);
+                        string fieldPath = port.portData.IsProxied ? port.portData.proxiedFieldPath : port.fieldName;
+                        DrawField(GetFieldInfoPath(fieldPath), fromInspector, port.portData.IsProxied);
                     }
                 }
                 else
@@ -1004,7 +1002,7 @@ namespace GraphProcessor
 
         internal void OnPortConnected(PortView port)
         {
-            string fieldName = !String.IsNullOrEmpty(port.portData.proxiedFieldPath) ? port.portData.proxiedFieldPath : port.fieldName;
+            string fieldName = port.portData.IsProxied ? port.portData.proxiedFieldPath : port.fieldName;
 
             if (port.direction == Direction.Input && inputContainerElement?.Q(fieldName) != null)
                 inputContainerElement.Q(fieldName).AddToClassList("empty");
@@ -1017,7 +1015,7 @@ namespace GraphProcessor
 
         internal void OnPortDisconnected(PortView port) //
         {
-            string fieldName = !String.IsNullOrEmpty(port.portData.proxiedFieldPath) ? port.portData.proxiedFieldPath : port.fieldName;
+            string fieldName = port.portData.IsProxied ? port.portData.proxiedFieldPath : port.fieldName;
 
             if (port.direction == Direction.Input && inputContainerElement?.Q(fieldName) != null)
             {

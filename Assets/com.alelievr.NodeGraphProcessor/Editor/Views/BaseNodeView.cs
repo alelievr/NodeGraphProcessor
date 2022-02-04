@@ -664,7 +664,7 @@ namespace GraphProcessor
 
         Dictionary<string, List<(object value, VisualElement target)>> visibleConditions = new Dictionary<string, List<(object value, VisualElement target)>>();
         Dictionary<string, VisualElement> hideElementIfConnected = new Dictionary<string, VisualElement>();
-        Dictionary<FieldInfo, List<VisualElement>> fieldControlsMap = new Dictionary<FieldInfo, List<VisualElement>>();
+        Dictionary<FieldInfoWithPath, List<VisualElement>> fieldControlsMap = new Dictionary<FieldInfoWithPath, List<VisualElement>>();
 
         protected void AddInputContainer()
         {
@@ -692,20 +692,20 @@ namespace GraphProcessor
                     foreach (var port in portsPerFieldName[field.Name])
                     {
                         string fieldPath = port.portData.IsProxied ? port.portData.proxiedFieldPath : port.fieldName;
-                        DrawField(GetFieldInfoPath(fieldPath), fromInspector, port.portData.IsProxied);
+                        DrawField(new FieldInfoWithPath(GetFieldInfoPath(fieldPath)), fromInspector, port.portData.IsProxied);
                     }
                 }
                 else
                 {
-                    DrawField(new List<FieldInfo> { field }, fromInspector);
+                    DrawField(new FieldInfoWithPath(field), fromInspector);
                 }
             }
         }
 
-        protected virtual void DrawField(List<FieldInfo> fieldInfoList, bool fromInspector, bool isProxied = false)
+        protected virtual void DrawField(FieldInfoWithPath fieldInfoWithPath, bool fromInspector, bool isProxied = false)
         {
-            FieldInfo field = fieldInfoList.Last();
-            string fieldPath = fieldInfoList.GetPath();
+            FieldInfo field = fieldInfoWithPath.Field;
+            string fieldPath = fieldInfoWithPath.Path;
 
             //skip if the field is a node setting
             if (field.HasCustomAttribute<SettingAttribute>())
@@ -825,7 +825,7 @@ namespace GraphProcessor
             }
         }
 
-        void UpdateOtherFieldValueSpecific<T>(FieldInfo field, object newValue)
+        void UpdateOtherFieldValueSpecific<T>(FieldInfoWithPath field, object newValue)
         {
             foreach (var inputField in fieldControlsMap[field])
             {
@@ -836,16 +836,16 @@ namespace GraphProcessor
         }
 
         static MethodInfo specificUpdateOtherFieldValue = typeof(BaseNodeView).GetMethod(nameof(UpdateOtherFieldValueSpecific), BindingFlags.NonPublic | BindingFlags.Instance);
-        void UpdateOtherFieldValue(FieldInfo info, object newValue)
+        void UpdateOtherFieldValue(FieldInfoWithPath info, object newValue)
         {
             // Warning: Keep in sync with FieldFactory CreateField
-            var fieldType = info.FieldType.IsSubclassOf(typeof(UnityEngine.Object)) ? typeof(UnityEngine.Object) : info.FieldType;
+            var fieldType = info.Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object)) ? typeof(UnityEngine.Object) : info.Field.FieldType;
             var genericUpdate = specificUpdateOtherFieldValue.MakeGenericMethod(fieldType);
 
             genericUpdate.Invoke(this, new object[] { info, newValue });
         }
 
-        object GetInputFieldValueSpecific<T>(FieldInfo field)
+        object GetInputFieldValueSpecific<T>(FieldInfoWithPath field)
         {
             if (fieldControlsMap.TryGetValue(field, out var list))
             {
@@ -871,7 +871,7 @@ namespace GraphProcessor
         protected VisualElement AddControlField(string fieldPath, string label = null, bool showInputDrawer = false, Action valueChangedCallback = null)
         {
             List<FieldInfo> fieldInfoPath = GetFieldInfoPath(fieldPath);
-            return AddControlField(fieldInfoPath, label, showInputDrawer, valueChangedCallback);
+            return AddControlField(new FieldInfoWithPath(fieldInfoPath.Last(), fieldPath), label, showInputDrawer, valueChangedCallback);
         }
         Regex s_ReplaceNodeIndexPropertyPath = new Regex(@"(^nodes.Array.data\[)(\d+)(\])");
         internal void SyncSerializedPropertyPathes()
@@ -902,14 +902,15 @@ namespace GraphProcessor
             return owner.serializedGraph.FindProperty("nodes").GetArrayElementAtIndex(i).FindPropertyRelative(fieldName);
         }
 
-        protected VisualElement AddControlField(List<FieldInfo> fieldInfoPath, string label = null, bool showInputDrawer = false, Action valueChangedCallback = null)
+        protected VisualElement AddControlField(FieldInfoWithPath fieldInfoWithPath, string label = null, bool showInputDrawer = false, Action valueChangedCallback = null)
         {
-            var field = fieldInfoPath.Last(); //
+            var field = fieldInfoWithPath.Field;
+            var fieldPath = fieldInfoWithPath.Path;
 
-            if (fieldInfoPath == null && fieldInfoPath.IsValid())
+            if (field == null)
                 return null;
 
-            var element = new PropertyField(FindSerializedProperty(fieldInfoPath.GetPath()), showInputDrawer ? "" : label);
+            var element = new PropertyField(FindSerializedProperty(fieldPath), showInputDrawer ? "" : label);
             element.Bind(owner.serializedGraph);
 
 #if UNITY_2020_3 // In Unity 2020.3 the empty label on property field doesn't hide it, so we do it manually
@@ -922,7 +923,7 @@ namespace GraphProcessor
 
             element.RegisterValueChangeCallback(e =>
             {
-                UpdateFieldVisibility(field.Name, fieldInfoPath.GetFinalValue(nodeTarget));
+                UpdateFieldVisibility(field.Name, GetFieldInfoPath(fieldPath).GetFinalValue(nodeTarget));
                 valueChangedCallback?.Invoke();
                 NotifyNodeChanged();
             });
@@ -935,8 +936,8 @@ namespace GraphProcessor
                     objectField.allowSceneObjects = false;
             }
 
-            if (!fieldControlsMap.TryGetValue(field, out var inputFieldList))
-                inputFieldList = fieldControlsMap[field] = new List<VisualElement>();
+            if (!fieldControlsMap.TryGetValue(fieldInfoWithPath, out var inputFieldList))
+                inputFieldList = fieldControlsMap[fieldInfoWithPath] = new List<VisualElement>();
             inputFieldList.Add(element);
 
             if (element != null)
@@ -983,7 +984,7 @@ namespace GraphProcessor
         void UpdateFieldValues()
         {
             foreach (var kp in fieldControlsMap)
-                UpdateOtherFieldValue(kp.Key, kp.Key.GetValue(nodeTarget));
+                UpdateOtherFieldValue(kp.Key, GetFieldInfoPath(kp.Key.Path).GetFinalValue(nodeTarget));
         }
 
         protected void AddSettingField(FieldInfo field)
@@ -1237,4 +1238,37 @@ namespace GraphProcessor
 
         #endregion
     }
+
+    public class FieldInfoWithPath : IEquatable<FieldInfoWithPath>
+    {
+        private FieldInfo field;
+        public FieldInfo Field => field;
+        private string path;
+        public string Path => path;
+
+        public FieldInfoWithPath(FieldInfo field, string path)
+        {
+            this.field = field;
+            this.path = path;
+        }
+
+        public FieldInfoWithPath(List<FieldInfo> fieldInfos)
+        {
+            this.field = fieldInfos.Last();
+            this.path = fieldInfos.GetPath();
+        }
+
+        public FieldInfoWithPath(FieldInfo field)
+        {
+            this.field = field;
+            this.path = field.Name;
+        }
+
+        public bool Equals(FieldInfoWithPath other)
+        {
+            return field == other.field
+                && path == other.path;
+        }
+    }
 }
+

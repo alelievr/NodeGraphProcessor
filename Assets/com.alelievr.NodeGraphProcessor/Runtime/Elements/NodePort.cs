@@ -197,9 +197,9 @@ namespace GraphProcessor
 					object convertedValue = outValue;
 					if (TypeAdapter.AreAssignable(outType, inType))
 					{
-						var convertionMethod = TypeAdapter.GetConvertionMethod(outType, inType);
-						Debug.Log("Convertion method: " + convertionMethod.Name);
-						convertedValue = convertionMethod.Invoke(null, new object[]{ outValue });
+						var conversionMethod = TypeAdapter.GetConversionMethod(outType, inType);
+						Debug.Log("Conversion method: " + conversionMethod.Name);
+						convertedValue = conversionMethod.Invoke(null, new object[]{ outValue });
 					}
 
 					inputField.SetValue(edge.inputNode, convertedValue);
@@ -210,7 +210,7 @@ namespace GraphProcessor
 #if UNITY_EDITOR
                 if (!BaseGraph.TypesAreConnectable(inputField.FieldType, outputField.FieldType))
                 {
-                    Debug.LogError("Can't convert from " + inputField.FieldType + " to " + outputField.FieldType + ", you must specify a custom port function (i.e CustomPortInput or CustomPortOutput) for non-implicit convertions");
+                    Debug.LogError("Can't convert from " + inputField.FieldType + " to " + outputField.FieldType + ", you must specify a custom port function (i.e CustomPortInput or CustomPortOutput) for non-implicit conversions");
                     return null;
                 }
 #endif
@@ -221,14 +221,14 @@ namespace GraphProcessor
                 inType = edge.inputPort.portData.displayType ?? inputField.FieldType;
                 outType = edge.outputPort.portData.displayType ?? outputField.FieldType;
 
-                // If there is a user defined convertion function, then we call it
+                // If there is a user defined conversion function, then we call it
                 if (TypeAdapter.AreAssignable(outType, inType))
                 {
                     // We add a cast in case there we're calling the conversion method with a base class parameter (like object)
                     var convertedParam = Expression.Convert(outputParamField, outType);
-                    outputParamField = Expression.Call(TypeAdapter.GetConvertionMethod(outType, inType), convertedParam);
+                    outputParamField = Expression.Call(TypeAdapter.GetConversionMethod(outType, inType), convertedParam);
                     // In case there is a custom port behavior in the output, then we need to re-cast to the base type because
-                    // the convertion method return type is not always assignable directly:
+                    // the conversion method return type is not always assignable directly:
                     outputParamField = Expression.Convert(outputParamField, inputField.FieldType);
                 }
                 else // otherwise we cast
@@ -309,7 +309,7 @@ namespace GraphProcessor
         }
 
         /// <summary>
-        /// Pull values from the edge (in case of a custom convertion method)
+        /// Pull values from the edge (in case of a custom conversion method)
         /// This method can only be called on input ports
         /// </summary>
         public void PullData()
@@ -330,7 +330,7 @@ namespace GraphProcessor
             {
                 var passThroughObject = edges.First().passThroughBuffer;
 
-                // We do an extra convertion step in case the buffer output is not compatible with the input port
+                // We do an extra conversion step in case the buffer output is not compatible with the input port
                 if (passThroughObject != null)
                     if (TypeAdapter.AreAssignable(fieldInfo.FieldType, passThroughObject.GetType()))
                         passThroughObject = TypeAdapter.Convert(passThroughObject, fieldInfo.FieldType);

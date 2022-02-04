@@ -390,7 +390,10 @@ namespace GraphProcessor
             if (fieldInfo.behavior != null)
             {
                 foreach (var portData in fieldInfo.behavior(edges))
-                    AddPortData(portData);
+                {
+                    if (portData != null)
+                        AddPortData(portData);
+                }
             }
             else
             {

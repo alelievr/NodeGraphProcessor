@@ -337,9 +337,18 @@ namespace GraphProcessor
 			{
 				if ((portView.direction == Direction.Input && description.isInput) || (portView.direction == Direction.Output && !description.isInput))
 					return false;
+
+				if (portView.direction == Direction.Input)
+				{
+					if (!BaseGraph.TypesAreConnectable(description.portType, portView.portType))
+						return false;
+				}
+				else
+				{
+					if (!BaseGraph.TypesAreConnectable( portView.portType, description.portType))
+						return false;
+				}
 	
-				if (!BaseGraph.TypesAreConnectable(description.portType, portView.portType))
-					return false;
 					
 				return true;
 			}

@@ -22,13 +22,18 @@ namespace GraphProcessor
         public virtual IEnumerable<(Type, Type)> GetIncompatibleTypes() { yield break; }
     }
 
+    public class ValueTypeConversion : ITypeAdapter
+    {
+	    public static float ConvertIntToFloat(int from) => from;
+    }
+
     public static class TypeAdapter
     {
         static Dictionary< (Type from, Type to), Func<object, object> > adapters = new Dictionary< (Type, Type), Func<object, object> >();
         static Dictionary< (Type from, Type to), MethodInfo > adapterMethods = new Dictionary< (Type, Type), MethodInfo >();
         static List< (Type from, Type to)> incompatibleTypes = new List<( Type from, Type to) >();
 
-        [System.NonSerialized]
+        [NonSerialized]
         static bool adaptersLoaded = false;
 
 #if !ENABLE_IL2CPP
@@ -67,12 +72,12 @@ namespace GraphProcessor
                     {
                         if (method.GetParameters().Length != 1)
                         {
-                            Debug.LogError($"Ignoring convertion method {method} because it does not have exactly one parameter");
+                            Debug.LogError($"Ignoring conversion method {method} because it does not have exactly one parameter");
                             continue;
                         }
                         if (method.ReturnType == typeof(void))
                         {
-                            Debug.LogError($"Ignoring convertion method {method} because it does not returns anything");
+                            Debug.LogError($"Ignoring conversion method {method} because it does not returns anything");
                             continue;
                         }
                         Type from = method.GetParameters()[0].ParameterType;
@@ -81,7 +86,7 @@ namespace GraphProcessor
                         try {
 
 #if ENABLE_IL2CPP
-                            // IL2CPP doesn't suport calling generic functions via reflection (AOT can't generate templated code)
+                            // IL2CPP doesn't support calling generic functions via reflection (AOT can't generate templated code)
                             Func<object, object> r = (object param) => { return (object)method.Invoke(null, new object[]{ param }); };
 #else
                             MethodInfo genericHelper = typeof(TypeAdapter).GetMethod("ConvertTypeMethodHelper", 
@@ -97,19 +102,21 @@ namespace GraphProcessor
                             adapters.Add((method.GetParameters()[0].ParameterType, method.ReturnType), r);
                             adapterMethods.Add((method.GetParameters()[0].ParameterType, method.ReturnType), method);
                         } catch (Exception e) {
-                            Debug.LogError($"Failed to load the type convertion method: {method}\n{e}");
+                            Debug.LogError($"Failed to load the type conversion method: {method}\n{e}");
                         }
                     }
                 }
             }
 
-            // Ensure that the dictionary contains all the convertions in both ways
+            /*
+            // Ensure that the dictionary contains all the conversions in both ways
             // ex: float to vector but no vector to float
             foreach (var kp in adapters)
             {
                 if (!adapters.ContainsKey((kp.Key.to, kp.Key.from)))
-                    Debug.LogError($"Missing convertion method. There is one for {kp.Key.from} to {kp.Key.to} but not for {kp.Key.to} to {kp.Key.from}");
+                    Debug.LogError($"Missing conversion method. There is one for {kp.Key.from} to {kp.Key.to} but not for {kp.Key.to} to {kp.Key.from}");
             }
+            */
 
             adaptersLoaded = true;
         }
@@ -132,7 +139,7 @@ namespace GraphProcessor
             return adapters.ContainsKey((from, to));
         }
 
-        public static MethodInfo GetConvertionMethod(Type from, Type to) => adapterMethods[(from, to)];
+        public static MethodInfo GetConversionMethod(Type from, Type to) => adapterMethods[(from, to)];
 
         public static object Convert(object from, Type targetType)
         {

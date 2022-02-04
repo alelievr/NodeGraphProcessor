@@ -30,7 +30,7 @@ public abstract class DynamicNode<T> : BaseNode
         {
             if (!actionDataClone.ContainsKey(field.fieldInfo.Name))
             {
-                if (field.inputAttribute.showAsDrawer)
+                if (field.inputAttribute.showAsDrawer || field.fieldInfo.HasCustomAttribute<ShowAsDrawer>())
                     continue;
 
                 field.fieldInfo.SetValue(data, default);

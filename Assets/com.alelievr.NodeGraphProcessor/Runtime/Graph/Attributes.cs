@@ -20,11 +20,11 @@ namespace GraphProcessor
         /// </summary>
         /// <param name="name">display name</param>
         /// <param name="allowMultiple">is connecting multiple edges allowed</param>
-        public InputAttribute(string name = null, bool showAsDrawer = false, bool allowMultiple = false)
+        public InputAttribute(string name = null, bool allowMultiple = false, bool showAsDrawer = false)
         {
             this.name = name;
-            this.showAsDrawer = showAsDrawer;
             this.allowMultiple = allowMultiple;
+            this.showAsDrawer = showAsDrawer;
         }
     }
 

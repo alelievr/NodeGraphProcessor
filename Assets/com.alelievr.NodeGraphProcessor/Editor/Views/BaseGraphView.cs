@@ -127,6 +127,11 @@ namespace GraphProcessor
         }
 
         /// <summary>
+        /// Property that can be overridden to change the Node created when Drag&Drop a Parameter into the Graph.
+        /// </summary>
+        protected virtual Type DefaultParameterNode => typeof(ParameterNode);
+
+        /// <summary>
         /// Workaround object for creating exposed parameter property fields.
         /// </summary>
         public ExposedParameterFieldFactory exposedParameterFactory { get; private set; }
@@ -629,7 +634,8 @@ namespace GraphProcessor
                     foreach (var paramFieldView in exposedParameterFieldViews)
                     {
                         RegisterCompleteObjectUndo("Create Parameter Node");
-                        var paramNode = BaseNode.CreateFromType(paramFieldView.parameter.ParameterNodeType, mousePos) as ParameterNode;
+                        Type parameterNodeType = paramFieldView.parameter.CustomParameterNodeType ?? DefaultParameterNode;
+                        var paramNode = BaseNode.CreateFromType(parameterNodeType, mousePos) as ParameterNode;
                         paramNode.parameterGUID = paramFieldView.parameter.guid;
                         AddNode(paramNode);
                     }

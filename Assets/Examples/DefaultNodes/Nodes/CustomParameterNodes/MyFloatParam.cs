@@ -7,5 +7,5 @@ using UnityEngine;
 [System.Serializable]
 public class MyFloatParam : FloatParameter
 {
-    public override Type ParameterNodeType => typeof(CustomParameterNode);
+    public override Type CustomParameterNodeType => typeof(CustomParameterNode);
 }

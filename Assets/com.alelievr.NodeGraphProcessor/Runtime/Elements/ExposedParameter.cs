@@ -67,7 +67,7 @@ namespace GraphProcessor
 
         protected virtual Settings CreateSettings() => new Settings();
 
-        public virtual Type ParameterNodeType => typeof(ParameterNode);
+        public virtual Type CustomParameterNodeType => null;
         public virtual object value { get; set; }
         public virtual Type GetValueType() => value == null ? typeof(object) : value.GetType();
 

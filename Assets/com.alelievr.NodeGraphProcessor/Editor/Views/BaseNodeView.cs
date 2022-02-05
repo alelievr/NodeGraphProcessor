@@ -692,7 +692,7 @@ namespace GraphProcessor
                     foreach (var port in portsPerFieldName[field.Name])
                     {
                         string fieldPath = port.portData.IsProxied ? port.portData.proxiedFieldPath : port.fieldName;
-                        DrawField(new FieldInfoWithPath(GetFieldInfoPath(fieldPath)), fromInspector, port.portData.IsProxied);
+                        DrawField(new FieldInfoWithPath(FieldInfoWithPath.GetFieldInfoPath(fieldPath, nodeTarget)), fromInspector, port.portData.IsProxied);
                     }
                 }
                 else
@@ -772,23 +772,6 @@ namespace GraphProcessor
             }
         }
 
-        private List<FieldInfo> GetFieldInfoPath(string path)
-        {
-            string[] pathArray = path.Split('.');
-            List<FieldInfo> fieldInfoPath = new List<FieldInfo>();
-            object value = nodeTarget;
-            for (int i = 0; i < pathArray.Length; i++)
-            {
-                // Debug.Log(pathArray[i]);
-                fieldInfoPath.Add(value.GetType().GetField(pathArray[i], BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance));
-                if (i + 1 < pathArray.Length)
-                {
-                    value = fieldInfoPath[i].GetValue(value);
-                }
-            }
-            return fieldInfoPath;
-        }
-
         protected virtual void SetNodeColor(Color color)
         {
             titleContainer.style.borderBottomColor = new StyleColor(color);
@@ -859,10 +842,10 @@ namespace GraphProcessor
         }
 
         static MethodInfo specificGetValue = typeof(BaseNodeView).GetMethod(nameof(GetInputFieldValueSpecific), BindingFlags.NonPublic | BindingFlags.Instance);
-        object GetInputFieldValue(FieldInfo info)
+        object GetInputFieldValue(FieldInfoWithPath info)
         {
             // Warning: Keep in sync with FieldFactory CreateField
-            var fieldType = info.FieldType.IsSubclassOf(typeof(UnityEngine.Object)) ? typeof(UnityEngine.Object) : info.FieldType;
+            var fieldType = info.Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object)) ? typeof(UnityEngine.Object) : info.Field.FieldType;
             var genericUpdate = specificGetValue.MakeGenericMethod(fieldType);
 
             return genericUpdate.Invoke(this, new object[] { info });
@@ -870,7 +853,7 @@ namespace GraphProcessor
 
         protected VisualElement AddControlField(string fieldPath, string label = null, bool showInputDrawer = false, Action valueChangedCallback = null)
         {
-            List<FieldInfo> fieldInfoPath = GetFieldInfoPath(fieldPath);
+            List<FieldInfo> fieldInfoPath = FieldInfoWithPath.GetFieldInfoPath(fieldPath, nodeTarget);
             return AddControlField(new FieldInfoWithPath(fieldInfoPath.Last(), fieldPath), label, showInputDrawer, valueChangedCallback);
         }
         Regex s_ReplaceNodeIndexPropertyPath = new Regex(@"(^nodes.Array.data\[)(\d+)(\])");
@@ -923,7 +906,7 @@ namespace GraphProcessor
 
             element.RegisterValueChangeCallback(e =>
             {
-                UpdateFieldVisibility(field.Name, GetFieldInfoPath(fieldPath).GetFinalValue(nodeTarget));
+                UpdateFieldVisibility(field.Name, FieldInfoWithPath.GetFieldInfoPath(fieldPath, nodeTarget).GetFinalValue(nodeTarget));
                 valueChangedCallback?.Invoke();
                 NotifyNodeChanged();
             });
@@ -984,7 +967,7 @@ namespace GraphProcessor
         void UpdateFieldValues()
         {
             foreach (var kp in fieldControlsMap)
-                UpdateOtherFieldValue(kp.Key, GetFieldInfoPath(kp.Key.Path).GetFinalValue(nodeTarget));
+                UpdateOtherFieldValue(kp.Key, FieldInfoWithPath.GetFieldInfoPath(kp.Key.Path, nodeTarget).GetFinalValue(nodeTarget));
         }
 
         protected void AddSettingField(FieldInfo field)
@@ -1019,20 +1002,19 @@ namespace GraphProcessor
 
         internal void OnPortDisconnected(PortView port) //
         {
-            string fieldName = port.portData.IsProxied ? port.portData.proxiedFieldPath : port.fieldName;
+            bool isProxied = port.portData.IsProxied;
+            string fieldName = isProxied ? port.portData.proxiedFieldPath : port.fieldName;
 
             if (port.direction == Direction.Input && inputContainerElement?.Q(fieldName) != null)
             {
                 inputContainerElement.Q(fieldName).RemoveFromClassList("empty");
+                var fieldInfoWithPath = new FieldInfoWithPath(fieldName, nodeTarget);
 
-                if (nodeTarget.nodeFields.TryGetValue(fieldName, out var fieldInfo))
+                var valueBeforeConnection = GetInputFieldValue(fieldInfoWithPath);
+
+                if (valueBeforeConnection != null)
                 {
-                    var valueBeforeConnection = GetInputFieldValue(fieldInfo.info);
-
-                    if (valueBeforeConnection != null)
-                    {
-                        fieldInfo.info.SetValue(nodeTarget, valueBeforeConnection);
-                    }
+                    fieldInfoWithPath.SetValue(nodeTarget, valueBeforeConnection);
                 }
             }
 
@@ -1252,6 +1234,12 @@ namespace GraphProcessor
             this.path = path;
         }
 
+        public FieldInfoWithPath(string path, object startingValue)
+        {
+            this.field = GetFieldInfoPath(path, startingValue).Last();
+            this.path = path;
+        }
+
         public FieldInfoWithPath(List<FieldInfo> fieldInfos)
         {
             this.field = fieldInfos.Last();
@@ -1268,6 +1256,28 @@ namespace GraphProcessor
         {
             return field == other.field
                 && path == other.path;
+        }
+
+        public void SetValue(object startingValue, object finalValue)
+        {
+            GetFieldInfoPath(path, startingValue).SetValue(startingValue, finalValue);
+        }
+
+        public static List<FieldInfo> GetFieldInfoPath(string path, object startValue)
+        {
+            string[] pathArray = path.Split('.');
+            List<FieldInfo> fieldInfoPath = new List<FieldInfo>();
+            object value = startValue;
+            for (int i = 0; i < pathArray.Length; i++)
+            {
+                // Debug.Log(pathArray[i]);
+                fieldInfoPath.Add(value.GetType().GetField(pathArray[i], BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance));
+                if (i + 1 < pathArray.Length)
+                {
+                    value = fieldInfoPath[i].GetValue(value);
+                }
+            }
+            return fieldInfoPath;
         }
     }
 }

@@ -36,7 +36,21 @@ namespace GraphProcessor
                 currentValue = list[i].GetValue(currentValue);
             }
             return currentValue;
+        }
 
+        public static void SetValue(this IList<FieldInfo> list, object startingValue, object finalValue)
+        {
+            object currentValue = startingValue;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (i + 1 == list.Count)
+                {
+                    list[i].SetValue(currentValue, finalValue);
+                    break;
+                }
+
+                currentValue = list[i].GetValue(currentValue);
+            }
         }
 
         public static string GetPath(this IList<FieldInfo> list)

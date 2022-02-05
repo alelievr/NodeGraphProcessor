@@ -7,113 +7,113 @@ using System;
 
 namespace GraphProcessor
 {
-	[System.Serializable]
-	public class ParameterNode : BaseNode
-	{
-		[Input]
-		public object input;
+    [System.Serializable]
+    public class ParameterNode : BaseNode
+    {
+        [Input]
+        public object input;
 
-		[Output]
-		public object output;
+        [Output]
+        public object output;
 
-		public override string name => "Parameter";
+        public override string name => "Parameter";
 
-		// We serialize the GUID of the exposed parameter in the graph so we can retrieve the true ExposedParameter from the graph
-		[SerializeField, HideInInspector]
-		public string parameterGUID;
+        // We serialize the GUID of the exposed parameter in the graph so we can retrieve the true ExposedParameter from the graph
+        [SerializeField, HideInInspector]
+        public string parameterGUID;
 
-		public ExposedParameter parameter { get; private set; }
+        public ExposedParameter parameter { get; private set; }
 
-		public event Action onParameterChanged;
+        public event Action onParameterChanged;
 
-		public ParameterAccessor accessor;
+        public ParameterAccessor accessor;
 
-		protected override void Enable()
-		{
-			// load the parameter
-			LoadExposedParameter();
+        protected override void Enable()
+        {
+            // load the parameter
+            LoadExposedParameter();
 
-			graph.onExposedParameterModified += OnParamChanged;
-			if (onParameterChanged != null)
-				onParameterChanged?.Invoke();
-		}
+            graph.onExposedParameterModified += OnParamChanged;
+            if (onParameterChanged != null)
+                onParameterChanged?.Invoke();
+        }
 
-		void LoadExposedParameter()
-		{
-			parameter = graph.GetExposedParameterFromGUID(parameterGUID);
+        void LoadExposedParameter()
+        {
+            parameter = graph.GetExposedParameterFromGUID(parameterGUID);
 
-			if (parameter == null)
-			{
-				Debug.Log("Property \"" + parameterGUID + "\" Can't be found !");
+            if (parameter == null)
+            {
+                Debug.Log("Property \"" + parameterGUID + "\" Can't be found !");
 
-				// Delete this node as the property can't be found
-				graph.RemoveNode(this);
-				return;
-			}
+                // Delete this node as the property can't be found
+                graph.RemoveNode(this);
+                return;
+            }
 
-			output = parameter.value;
-		}
+            output = parameter.value;
+        }
 
-		void OnParamChanged(ExposedParameter modifiedParam)
-		{
-			if (parameter == modifiedParam)
-			{
-				onParameterChanged?.Invoke();
-			}
-		}
+        void OnParamChanged(ExposedParameter modifiedParam)
+        {
+            if (parameter == modifiedParam)
+            {
+                onParameterChanged?.Invoke();
+            }
+        }
 
-		[CustomPortBehavior(nameof(output))]
-		IEnumerable<PortData> GetOutputPort(List<SerializableEdge> edges)
-		{
-			if (accessor == ParameterAccessor.Get)
-			{
-				yield return new PortData
-				{
-					identifier = "output",
-					displayName = "Value",
-					displayType = (parameter == null) ? typeof(object) : parameter.GetValueType(),
-					acceptMultipleEdges = true
-				};
-			}
-		}
+        [CustomPortBehavior(nameof(output))]
+        protected virtual IEnumerable<PortData> GetOutputPort(List<SerializableEdge> edges)
+        {
+            if (accessor == ParameterAccessor.Get)
+            {
+                yield return new PortData
+                {
+                    identifier = "output",
+                    displayName = "Value",
+                    displayType = (parameter == null) ? typeof(object) : parameter.GetValueType(),
+                    acceptMultipleEdges = true
+                };
+            }
+        }
 
-		[CustomPortBehavior(nameof(input))]
-		IEnumerable<PortData> GetInputPort(List<SerializableEdge> edges)
-		{
-			if (accessor == ParameterAccessor.Set)
-			{
-				yield return new PortData
-				{
-					identifier = "input",
-					displayName = "Value",
-					displayType = (parameter == null) ? typeof(object) : parameter.GetValueType(),
-				};
-			}
-		}
+        [CustomPortBehavior(nameof(input))]
+        protected virtual IEnumerable<PortData> GetInputPort(List<SerializableEdge> edges)
+        {
+            if (accessor == ParameterAccessor.Set)
+            {
+                yield return new PortData
+                {
+                    identifier = "input",
+                    displayName = "Value",
+                    displayType = (parameter == null) ? typeof(object) : parameter.GetValueType(),
+                };
+            }
+        }
 
-		protected override void Process()
-		{
+        protected override void Process()
+        {
 #if UNITY_EDITOR // In the editor, an undo/redo can change the parameter instance in the graph, in this case the field in this class will point to the wrong parameter
-			parameter = graph.GetExposedParameterFromGUID(parameterGUID);
+            parameter = graph.GetExposedParameterFromGUID(parameterGUID);
 #endif
 
-			ClearMessages();
-			if (parameter == null)
-			{
-				AddMessage($"Parameter not found: {parameterGUID}", NodeMessageType.Error);
-				return;
-			}
+            ClearMessages();
+            if (parameter == null)
+            {
+                AddMessage($"Parameter not found: {parameterGUID}", NodeMessageType.Error);
+                return;
+            }
 
-			if (accessor == ParameterAccessor.Get)
-				output = parameter.value;
-			else
-				graph.UpdateExposedParameter(parameter.guid, input);
-		}
-	}
+            if (accessor == ParameterAccessor.Get)
+                output = parameter.value;
+            else
+                graph.UpdateExposedParameter(parameter.guid, input);
+        }
+    }
 
-	public enum ParameterAccessor
-	{
-		Get,
-		Set
-	}
+    public enum ParameterAccessor
+    {
+        Get,
+        Set
+    }
 }

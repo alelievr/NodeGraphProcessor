@@ -247,4 +247,22 @@ namespace GraphProcessor
 
     [AttributeUsage(AttributeTargets.Method)]
     public class IsCompatibleWithGraph : Attribute { }
+
+    [AttributeUsage(AttributeTargets.Method)]
+    public class CustomMenuItem : Attribute
+    {
+        public string menuTitle;
+        public Type onlyCompatibleWithGraph;
+
+        /// <summary>
+        /// Register the node creation method in the NodeProvider class. The node creation method will also be available in the node creation window.
+        /// </summary>
+        /// <param name="menuTitle">Path in the menu, use / as folder separators</param>
+        /// <param name="onlyCompatibleWithGraph">Currently does nothing.</param>
+        public CustomMenuItem(string menuTitle = null, Type onlyCompatibleWithGraph = null)
+        {
+            this.menuTitle = menuTitle;
+            this.onlyCompatibleWithGraph = onlyCompatibleWithGraph;
+        }
+    }
 }

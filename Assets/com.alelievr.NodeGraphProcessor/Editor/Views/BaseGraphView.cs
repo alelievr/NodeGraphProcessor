@@ -1435,13 +1435,20 @@ namespace GraphProcessor
 
         protected virtual void InitializeView() { }
 
-        public virtual IEnumerable<(string path, Type type)> FilterCreateNodeMenuEntries()
+        public virtual IEnumerable<(string path, Type type, Func<Type, Vector2, BaseNode> creationMethod)> FilterCreateNodeMenuEntries()
         {
             // By default we don't filter anything
             foreach (var nodeMenuItem in NodeProvider.GetNodeMenuEntries(graph))
                 yield return nodeMenuItem;
 
             // TODO: add exposed properties to this list
+        }
+
+        public virtual IEnumerable<(string path, Type type, Func<Type, Vector2, BaseNode> creationMethod)> FilterCreateCustomNodeMenuEntries()
+        {
+            // By default we don't filter anything
+            foreach (var customMenuItem in NodeProvider.GetCustomNodeMenuEntries(graph))
+                yield return customMenuItem;
         }
 
         public RelayNodeView AddRelayNode(PortView inputPort, PortView outputPort, Vector2 position)

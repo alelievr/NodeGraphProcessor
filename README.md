@@ -89,17 +89,17 @@ Join the [NodeGraphProcessor Discord server](https://discord.gg/XuMd3Z5Rym)!
 - Graph processor which execute node's logic with a dependency order
 - [Documented C# API to add new nodes / graphs](https://github.com/alelievr/NodeGraphProcessor/wiki/Node-scripting-API)
 - Exposed parameters that can be set per-asset to customize the graph processing from scripts or the inspector
-- Parameter set mode, you can now output data from thegraph using exposed parameters. Their values will be updated when the graph is processed
+- Parameter set mode, you can now output data from the graph using exposed parameters. Their values will be updated when the graph is processed
 - Search window to create new nodes
 - Colored groups
 - Node messages (small message with it's icon beside the node)
-- Stack Nodes
+- Stack nodes
 - Relay nodes
 - Display additional settings in the inspector
 - Node creation menu on edge drop
 - Simplified edge connection compared to default GraphView (ShaderGraph and VFX Graph)
 - Multiple graph window workflow (copy/paste)
-- Vertical Ports
+- Vertical ports
 - Sticky notes (requires Unity 2020.1)
 - Renamable nodes
 

@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace GraphProcessor
 {
-	[Serializable]
-	public class ExposedParameter : ISerializationCallbackReceiver
-	{
+    [Serializable]
+    public class ExposedParameter : ISerializationCallbackReceiver
+    {
         [Serializable]
         public class Settings
         {
@@ -30,43 +30,44 @@ namespace GraphProcessor
             public override int GetHashCode() => base.GetHashCode();
         }
 
-		public string				guid; // unique id to keep track of the parameter
-		public string				name;
-		[Obsolete("Use GetValueType()")]
-		public string				type;
-		[Obsolete("Use value instead")]
-		public SerializableObject	serializedValue;
-		public bool					input = true;
+        public string guid; // unique id to keep track of the parameter
+        public string name;
+        [Obsolete("Use GetValueType()")]
+        public string type;
+        [Obsolete("Use value instead")]
+        public SerializableObject serializedValue;
+        public bool input = true;
         [SerializeReference]
-		public Settings             settings;
-		public string shortType => GetValueType()?.Name;
+        public Settings settings;
+        public string shortType => GetValueType()?.Name;
 
         public void Initialize(string name, object value)
         {
-			guid = Guid.NewGuid().ToString(); // Generated once and unique per parameter
+            guid = Guid.NewGuid().ToString(); // Generated once and unique per parameter
             settings = CreateSettings();
             settings.guid = guid;
-			this.name = name;
-			this.value = value;
+            this.name = name;
+            this.value = value;
         }
 
-		void ISerializationCallbackReceiver.OnAfterDeserialize()
-		{
-			// SerializeReference migration step:
+        void ISerializationCallbackReceiver.OnAfterDeserialize()
+        {
+            // SerializeReference migration step:
 #pragma warning disable CS0618
-			if (serializedValue?.value != null) // old serialization system can't serialize null values
-			{
-				value = serializedValue.value;
-				Debug.Log("Migrated: " + serializedValue.value + " | " + serializedValue.serializedName);
-				serializedValue.value = null;
-			}
+            if (serializedValue?.value != null) // old serialization system can't serialize null values
+            {
+                value = serializedValue.value;
+                Debug.Log("Migrated: " + serializedValue.value + " | " + serializedValue.serializedName);
+                serializedValue.value = null;
+            }
 #pragma warning restore CS0618
-		}
+        }
 
-		void ISerializationCallbackReceiver.OnBeforeSerialize() {}
+        void ISerializationCallbackReceiver.OnBeforeSerialize() { }
 
         protected virtual Settings CreateSettings() => new Settings();
 
+        public virtual Type CustomParameterNodeType => null;
         public virtual object value { get; set; }
         public virtual Type GetValueType() => value == null ? typeof(object) : value.GetType();
 
@@ -89,7 +90,7 @@ namespace GraphProcessor
 #pragma warning restore CS0618
             if (oldType == null || !exposedParameterTypeCache.TryGetValue(oldType, out var newParamType))
                 return null;
-            
+
             var newParam = Activator.CreateInstance(newParamType) as ExposedParameter;
 
             newParam.guid = guid;
@@ -99,7 +100,7 @@ namespace GraphProcessor
             newParam.settings.guid = guid;
 
             return newParam;
-     
+
         }
 
         public static bool operator ==(ExposedParameter param1, ExposedParameter param2)
@@ -142,7 +143,7 @@ namespace GraphProcessor
 
             return clonedParam;
         }
-	}
+    }
 
     // Due to polymorphic constraints with [SerializeReference] we need to explicitly create a class for
     // every parameter type available in the graph (i.e. templating doesn't work)

@@ -39,6 +39,9 @@ MonoBehaviour:
   - rid: 22
   - rid: 23
   - rid: 3708072270747926535
+  - rid: 3708072304043098128
+  - rid: 3708072304043098133
+  - rid: 3708072304043098134
   edges:
   - GUID: 04cee6c7-b233-40e1-b41a-31f6093f1482
     owner: {fileID: 11400000}
@@ -210,6 +213,7 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters:
   - rid: 25
+  - rid: 3708072304043098124
   serializedParameterList:
   - guid: 
     name: 
@@ -319,8 +323,8 @@ MonoBehaviour:
     title: New Sticky Note
     content: Write your text here
   nodeInspectorReference: {fileID: 0}
-  position: {x: 854, y: -5, z: 0}
-  scale: {x: 0.65751624, y: 0.65751624, z: 1}
+  position: {x: 1234, y: -179, z: 0}
+  scale: {x: 1.3225, y: 1.3225, z: 1}
   references:
     version: 2
     RefIds:
@@ -800,9 +804,9 @@ MonoBehaviour:
         computeOrder: 24
         position:
           serializedVersion: 2
-          x: -507.4715
-          y: 334.4306
-          width: 180
+          x: -516.50006
+          y: 126.999985
+          width: 223
           height: 156
         expanded: 0
         debug: 0
@@ -813,3 +817,77 @@ MonoBehaviour:
         dataOutput:
           name: esfesfesf
           value: 0
+    - rid: 3708072304043098124
+      type: {class: MyFloatParam, ns: , asm: Assembly-CSharp}
+      data:
+        guid: 95a64ec0-9ebe-450d-b8f7-501b035f33d6
+        name: New My Float Param
+        type: 
+        serializedValue:
+          serializedType: 
+          serializedName: 
+          serializedValue: 
+        input: 1
+        settings:
+          rid: 3708072304043098125
+        val: 0
+    - rid: 3708072304043098125
+      type: {class: FloatParameter/FloatSettings, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        isHidden: 0
+        expanded: 0
+        guid: 95a64ec0-9ebe-450d-b8f7-501b035f33d6
+        mode: 0
+        min: 0
+        max: 1
+    - rid: 3708072304043098128
+      type: {class: CustomParameterNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: 
+        GUID: d327ef65-ed6e-46f1-bce4-16a6b7d4f61f
+        computeOrder: 25
+        position:
+          serializedVersion: 2
+          x: -671.99994
+          y: 354.00003
+          width: 146
+          height: 36
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        parameterGUID: 95a64ec0-9ebe-450d-b8f7-501b035f33d6
+        accessor: 1
+    - rid: 3708072304043098133
+      type: {class: CustomParameterNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: 
+        GUID: c1b521a8-e1a6-4eb1-a376-b6b22f5699ed
+        computeOrder: 26
+        position:
+          serializedVersion: 2
+          x: -648.01514
+          y: 307.7505
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        parameterGUID: 95a64ec0-9ebe-450d-b8f7-501b035f33d6
+        accessor: 0
+    - rid: 3708072304043098134
+      type: {class: ParameterNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
+      data:
+        nodeCustomName: 
+        GUID: 9c96984e-f0ca-46dc-95cc-de99b8360f93
+        computeOrder: 27
+        position:
+          serializedVersion: 2
+          x: -629.95465
+          y: 412
+          width: 91
+          height: 37
+        expanded: 0
+        debug: 0
+        nodeLock: 0
+        parameterGUID: eb80df62-f248-4ec9-afd4-f9ed08bfaa16
+        accessor: 0

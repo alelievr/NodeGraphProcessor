@@ -79,15 +79,15 @@ namespace GraphProcessor
 					deleg = Expression.Lambda< CustomPortIODelegate >(ex, p1, p2, p3).Compile();
 #endif
 
-					if (deleg == null)
-					{
-						Debug.LogWarning("Can't use custom IO port function " + method + ": The method have to respect this format: " + typeof(CustomPortIODelegate));
-						continue ;
-					}
-
 					string fieldName = (portInputAttr == null) ? portOutputAttr.fieldName : portInputAttr.fieldName;
 					Type customType = (portInputAttr == null) ? portOutputAttr.outputType : portInputAttr.inputType;
-					Type fieldType = type.GetField(fieldName, bindingFlags).FieldType;
+					var field = type.GetField(fieldName, bindingFlags);
+					if (field == null)
+					{
+						Debug.LogWarning("Can't use custom IO port function '" + method.Name + "' of class '" + type.Name + "': No field named " + fieldName + " found");
+						continue ;
+					}
+					Type fieldType = field.FieldType;
 
 					AddCustomIOMethod(type, fieldName, deleg);
 

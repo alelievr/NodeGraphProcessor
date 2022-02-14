@@ -102,10 +102,13 @@ namespace GraphProcessor
                     targetDescription.nodePerMenuTitle[attr.menuTitle] = nodeType;
             }
 
-            foreach (var field in nodeType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+            foreach (var field in nodeType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                .Cast<MemberInfo>()
+                .Concat(nodeType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+            )
             {
                 if (field.GetCustomAttribute<HideInInspector>() == null && field.GetCustomAttributes().Any(c => c is InputAttribute || c is OutputAttribute))
-                    targetDescription.slotTypes.Add(field.FieldType);
+                    targetDescription.slotTypes.Add(field.GetUnderlyingType());
             }
 
             ProvideNodePortCreationDescription(nodeType, targetDescription, graph);
@@ -197,7 +200,7 @@ namespace GraphProcessor
                 targetDescription.nodeCreatePortDescription.Add(new PortDescription
                 {
                     nodeType = nodeType,
-                    portType = p.portData.displayType ?? p.fieldInfo.FieldType,
+                    portType = p.portData.displayType ?? p.fieldInfo.GetUnderlyingType(),
                     isInput = input,
                     portFieldName = p.fieldName,
                     portDisplayName = p.portData.displayName ?? p.fieldName,
@@ -400,6 +403,7 @@ namespace GraphProcessor
 
                 return true;
             }
+
         }
     }
 }

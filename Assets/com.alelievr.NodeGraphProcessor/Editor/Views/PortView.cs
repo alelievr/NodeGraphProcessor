@@ -11,7 +11,7 @@ namespace GraphProcessor
     public class PortView : Port
     {
         public string fieldName => fieldInfo.Name;
-        public Type fieldType => fieldInfo.FieldType;
+        public Type fieldType => fieldInfo.GetUnderlyingType();
         public new Type portType;
         public BaseNodeView owner { get; private set; }
         public PortData portData;
@@ -19,7 +19,7 @@ namespace GraphProcessor
         public event Action<PortView, Edge> OnConnected;
         public event Action<PortView, Edge> OnDisconnected;
 
-        protected FieldInfo fieldInfo;
+        protected MemberInfo fieldInfo;
         protected BaseEdgeConnectorListener listener;
 
         string userPortStyleFile = "PortViewTypes";
@@ -30,12 +30,12 @@ namespace GraphProcessor
 
         readonly string portStyle = "GraphProcessorStyles/PortView";
 
-        protected PortView(Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener edgeConnectorListener)
-            : base(portData.vertical ? Orientation.Vertical : Orientation.Horizontal, direction, Capacity.Multi, portData.displayType ?? fieldInfo.FieldType)
+        protected PortView(Direction direction, MemberInfo fieldInfo, PortData portData, BaseEdgeConnectorListener edgeConnectorListener)
+            : base(portData.vertical ? Orientation.Vertical : Orientation.Horizontal, direction, Capacity.Multi, portData.displayType ?? fieldInfo.GetUnderlyingType())
         {
             this.fieldInfo = fieldInfo;
             this.listener = edgeConnectorListener;
-            this.portType = portData.displayType ?? fieldInfo.FieldType;
+            this.portType = portData.displayType ?? fieldInfo.GetUnderlyingType();
             this.portData = portData;
             this.portName = fieldName;
 
@@ -53,7 +53,7 @@ namespace GraphProcessor
             this.tooltip = portData.tooltip;
         }
 
-        public static PortView CreatePortView(Direction direction, FieldInfo fieldInfo, PortData portData, BaseEdgeConnectorListener edgeConnectorListener)
+        public static PortView CreatePortView(Direction direction, MemberInfo fieldInfo, PortData portData, BaseEdgeConnectorListener edgeConnectorListener)
         {
             var pv = new PortView(direction, fieldInfo, portData, edgeConnectorListener);
             pv.m_EdgeConnector = new BaseEdgeConnector(edgeConnectorListener);

@@ -97,7 +97,7 @@ namespace GraphProcessor
         /// <summary>
         /// The fieldInfo from the fieldName
         /// </summary>
-        public FieldInfo fieldInfo;
+        public MemberInfo fieldInfo;
         /// <summary>
         /// Data of the port
         /// </summary>
@@ -145,6 +145,10 @@ namespace GraphProcessor
             fieldInfo = fieldOwner.GetType().GetField(
                 fieldName,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            if (fieldInfo == null)
+                fieldInfo = fieldOwner.GetType().GetProperty(
+                fieldName,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             customPortIOMethod = CustomPortIO.GetCustomPortMethod(owner.GetType(), fieldName);
         }
 
@@ -183,8 +187,13 @@ namespace GraphProcessor
             try
             {
                 //Creation of the delegate to move the data from the input node to the output node:
-                FieldInfo inputField = edge.inputNode.GetType().GetField(edge.inputFieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                FieldInfo outputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                MemberInfo inputField = edge.inputNode.GetType().GetField(edge.inputFieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                if (inputField == null)
+                    inputField = edge.inputNode.GetType().GetProperty(edge.inputFieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                MemberInfo outputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                if (outputField == null)
+                    outputField = edge.outputNode.GetType().GetProperty(edge.outputFieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
                 Type inType, outType;
 
 #if DEBUG_LAMBDA
@@ -208,18 +217,18 @@ namespace GraphProcessor
 
                 // We keep slow checks inside the editor
 #if UNITY_EDITOR
-                if (!BaseGraph.TypesAreConnectable(inputField.FieldType, outputField.FieldType))
+                if (!BaseGraph.TypesAreConnectable(inputField.GetUnderlyingType(), outputField.GetUnderlyingType()))
                 {
-                    Debug.LogError("Can't convert from " + inputField.FieldType + " to " + outputField.FieldType + ", you must specify a custom port function (i.e CustomPortInput or CustomPortOutput) for non-implicit conversions");
+                    Debug.LogError("Can't convert from " + inputField.GetUnderlyingType() + " to " + outputField.GetUnderlyingType() + ", you must specify a custom port function (i.e CustomPortInput or CustomPortOutput) for non-implicit conversions");
                     return null;
                 }
 #endif
 
-                Expression inputParamField = Expression.Field(Expression.Constant(edge.inputNode), inputField);
-                Expression outputParamField = Expression.Field(Expression.Constant(edge.outputNode), outputField);
+                Expression inputParamField = Expression.PropertyOrField(Expression.Constant(edge.inputNode), inputField.Name);
+                Expression outputParamField = Expression.PropertyOrField(Expression.Constant(edge.outputNode), outputField.Name);
 
-                inType = edge.inputPort.portData.displayType ?? inputField.FieldType;
-                outType = edge.outputPort.portData.displayType ?? outputField.FieldType;
+                inType = edge.inputPort.portData.displayType ?? inputField.GetUnderlyingType();
+                outType = edge.outputPort.portData.displayType ?? outputField.GetUnderlyingType();
 
                 // If there is a user defined conversion function, then we call it
                 if (TypeAdapter.AreAssignable(outType, inType))
@@ -229,10 +238,10 @@ namespace GraphProcessor
                     outputParamField = Expression.Call(TypeAdapter.GetConversionMethod(outType, inType), convertedParam);
                     // In case there is a custom port behavior in the output, then we need to re-cast to the base type because
                     // the conversion method return type is not always assignable directly:
-                    outputParamField = Expression.Convert(outputParamField, inputField.FieldType);
+                    outputParamField = Expression.Convert(outputParamField, inputField.GetUnderlyingType());
                 }
                 else // otherwise we cast
-                    outputParamField = Expression.Convert(outputParamField, inputField.FieldType);
+                    outputParamField = Expression.Convert(outputParamField, inputField.GetUnderlyingType());
 
                 BinaryExpression assign = Expression.Assign(inputParamField, outputParamField);
                 return Expression.Lambda<PushDataDelegate>(assign).Compile();
@@ -294,15 +303,15 @@ namespace GraphProcessor
         public void ResetToDefault()
         {
             // Clear lists, set classes to null and struct to default value.
-            if (typeof(IList).IsAssignableFrom(fieldInfo.FieldType))
+            if (typeof(IList).IsAssignableFrom(fieldInfo.GetUnderlyingType()))
                 (fieldInfo.GetValue(fieldOwner) as IList)?.Clear();
-            else if (fieldInfo.FieldType.GetTypeInfo().IsClass)
+            else if (fieldInfo.GetUnderlyingType().GetTypeInfo().IsClass)
                 fieldInfo.SetValue(fieldOwner, null);
             else
             {
                 try
                 {
-                    fieldInfo.SetValue(fieldOwner, Activator.CreateInstance(fieldInfo.FieldType));
+                    fieldInfo.SetValue(fieldOwner, Activator.CreateInstance(fieldInfo.GetUnderlyingType()));
                 }
                 catch { } // Catch types that don't have any constructors
             }
@@ -332,8 +341,8 @@ namespace GraphProcessor
 
                 // We do an extra conversion step in case the buffer output is not compatible with the input port
                 if (passThroughObject != null)
-                    if (TypeAdapter.AreAssignable(fieldInfo.FieldType, passThroughObject.GetType()))
-                        passThroughObject = TypeAdapter.Convert(passThroughObject, fieldInfo.FieldType);
+                    if (TypeAdapter.AreAssignable(fieldInfo.GetUnderlyingType(), passThroughObject.GetType()))
+                        passThroughObject = TypeAdapter.Convert(passThroughObject, fieldInfo.GetUnderlyingType());
 
                 fieldInfo.SetValue(fieldOwner, passThroughObject);
             }

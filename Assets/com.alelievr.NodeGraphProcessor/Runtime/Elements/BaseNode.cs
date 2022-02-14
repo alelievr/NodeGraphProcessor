@@ -145,7 +145,7 @@ namespace GraphProcessor
         {
             public string name;
             public string fieldName;
-            public FieldInfo info;
+            public MemberInfo info;
             public bool input;
             public bool isMultiple;
             public string tooltip;
@@ -153,7 +153,7 @@ namespace GraphProcessor
             public CustomPortBehaviorDelegate behavior;
             public bool vertical;
 
-            public NodeFieldInformation(FieldInfo info, string name, bool input, bool isMultiple, string tooltip, bool showAsDrawer, bool vertical, CustomPortBehaviorDelegate behavior)
+            public NodeFieldInformation(MemberInfo info, string name, bool input, bool isMultiple, string tooltip, bool showAsDrawer, bool vertical, CustomPortBehaviorDelegate behavior)
             {
                 this.input = input;
                 this.isMultiple = isMultiple;
@@ -302,9 +302,9 @@ namespace GraphProcessor
         /// </summary>
         /// <param name="fields">List of fields to sort</param>
         /// <returns>Sorted list of fields</returns>
-        public virtual IEnumerable<FieldInfo> OverrideFieldOrder(IEnumerable<FieldInfo> fields)
+        public virtual IEnumerable<MemberInfo> OverrideFieldOrder(IEnumerable<MemberInfo> fields)
         {
-            long GetFieldInheritanceLevel(FieldInfo f)
+            long GetFieldInheritanceLevel(MemberInfo f)
             {
                 int level = 0;
                 var t = f.DeclaringType;
@@ -397,7 +397,7 @@ namespace GraphProcessor
             }
             else
             {
-                var customPortTypeBehavior = customPortTypeBehaviorMap[fieldInfo.info.FieldType];
+                var customPortTypeBehavior = customPortTypeBehaviorMap[fieldInfo.info.GetUnderlyingType()];
 
                 foreach (var portData in customPortTypeBehavior(fieldName, fieldInfo.name, fieldInfo.info.GetValue(this)))
                     AddPortData(portData);
@@ -471,7 +471,7 @@ namespace GraphProcessor
             if (info.behavior != null)
                 return true;
 
-            if (customPortTypeBehaviorMap.ContainsKey(info.info.FieldType))
+            if (customPortTypeBehaviorMap.ContainsKey(info.info.GetUnderlyingType()))
                 return true;
 
             return false;
@@ -547,9 +547,12 @@ namespace GraphProcessor
         public virtual FieldInfo[] GetNodeFields()
             => GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
+        public virtual PropertyInfo[] GetNodeProperties()
+            => GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
         void InitializeInOutDatas()
         {
-            var fields = GetNodeFields();
+            var fields = GetNodeFields().Cast<MemberInfo>().Concat(GetNodeProperties()).ToArray();
             var methods = GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
             foreach (var field in fields)
@@ -698,7 +701,7 @@ namespace GraphProcessor
         {
             // Fixup port data info if needed:
             if (portData.displayType == null)
-                portData.displayType = nodeFields[fieldName].info.FieldType;
+                portData.displayType = nodeFields[fieldName].info.GetUnderlyingType();
 
             if (input)
                 inputPorts.Add(new NodePort(this, fieldName, portData));
@@ -890,3 +893,4 @@ namespace GraphProcessor
         #endregion
     }
 }
+

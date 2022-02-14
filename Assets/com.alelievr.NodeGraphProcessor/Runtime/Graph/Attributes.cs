@@ -31,7 +31,7 @@ namespace GraphProcessor
     /// <summary>
     /// Tell that this field is will generate an output port
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
     public class OutputAttribute : Attribute
     {
         public string name;

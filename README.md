@@ -14,11 +14,8 @@ Based on Unity's GraphView technology, NodeGraphProcessor is also very fast and 
 Simple and powerful C# node API to create new nodes and custom views.
 
 ```CSharp
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using GraphProcessor;
-using System.Linq;
 
 [System.Serializable, NodeMenuItem("Operations/Sub")] // Add the node in the node creation context menu
 public class SubNode : BaseNode

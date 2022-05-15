@@ -181,7 +181,7 @@ namespace GraphProcessor
             initializing = true;
 
             UpdateTitle();
-            SetPosition(nodeTarget.initialPosition);
+            SetPosition(nodeTarget.position.position != Vector2.zero ? nodeTarget.position : nodeTarget.initialPosition);
             SetNodeColor(nodeTarget.color);
 
             AddInputContainer();
@@ -1047,7 +1047,7 @@ namespace GraphProcessor
 
         public override void SetPosition(Rect newPos)
         {
-            if (initializing || !nodeTarget.isLocked) return;
+            if (!initializing && nodeTarget.isLocked) return;
 
             base.SetPosition(newPos);
 

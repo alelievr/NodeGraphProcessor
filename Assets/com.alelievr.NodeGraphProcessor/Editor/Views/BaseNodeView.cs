@@ -109,6 +109,13 @@ namespace GraphProcessor
             RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
             RegisterCallback<DetachFromPanelEvent>(e => ExceptionToLog.Call(Disable));
             OnGeometryChanged(null);
+
+            InitializeNodeToViewInterface();
+        }
+
+        private void InitializeNodeToViewInterface()
+        {
+            nodeTarget.View = new ViewDelegates(nodeTarget, this.GetPosition, this.SetPosition);
         }
 
         void InitializePorts()
@@ -263,6 +270,9 @@ namespace GraphProcessor
 
         void OnGeometryChanged(GeometryChangedEvent evt)
         {
+            if (evt != null)
+                nodeTarget.position = new Rect(nodeTarget.position.center, evt.newRect.size);
+
             if (settingButton != null)
             {
                 var settingsButtonLayout = settingButton.ChangeCoordinatesTo(settingsContainer.parent, settingButton.layout);

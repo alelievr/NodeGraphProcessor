@@ -12,7 +12,7 @@ namespace GraphProcessor
     public delegate IEnumerable<PortData> CustomPortTypeBehaviorDelegate(string fieldName, string displayName, object value);
 
     [Serializable]
-    public abstract class BaseNode
+    public abstract partial class BaseNode
     {
         [SerializeField]
         internal string nodeCustomName = null; // The name of the node in case it was renamed by a user
@@ -71,6 +71,11 @@ namespace GraphProcessor
 
         //Node view datas
         public Rect position;
+
+        /// TODO  MY STUFF
+        public ViewDelegates View { get; set; }
+        /// TODO  MY STUFF
+
         /// <summary>
         /// Is the node expanded
         /// </summary>
@@ -141,78 +146,9 @@ namespace GraphProcessor
         [NonSerialized]
         protected BaseGraph graph;
 
-        internal class NodeFieldInformation
-        {
-            public string name;
-            public string fieldName;
-            public MemberInfo info;
-            public bool input;
-            public bool isMultiple;
-            public string tooltip;
-            public bool showAsDrawer;
-            public CustomPortBehaviorDelegate behavior;
-            public bool vertical;
-
-            public NodeFieldInformation(MemberInfo info, string name, bool input, bool isMultiple, string tooltip, bool showAsDrawer, bool vertical, CustomPortBehaviorDelegate behavior)
-            {
-                this.input = input;
-                this.isMultiple = isMultiple;
-                this.info = info;
-                this.name = name;
-                this.fieldName = info.Name;
-                this.behavior = behavior;
-                this.tooltip = tooltip;
-                this.showAsDrawer = showAsDrawer;
-                this.vertical = vertical;
-            }
-        }
-
-        struct PortUpdate
-        {
-            public List<string> fieldNames;
-            public BaseNode node;
-
-            public void Deconstruct(out List<string> fieldNames, out BaseNode node)
-            {
-                fieldNames = this.fieldNames;
-                node = this.node;
-            }
-        }
-
         // Used in port update algorithm
         Stack<PortUpdate> fieldsToUpdate = new Stack<PortUpdate>();
         HashSet<PortUpdate> updatedFields = new HashSet<PortUpdate>();
-
-        /// <summary>
-        /// Creates a node of type T at a certain position
-        /// </summary>
-        /// <param name="position">position in the graph in pixels</param>
-        /// <typeparam name="T">type of the node</typeparam>
-        /// <returns>the node instance</returns>
-        public static T CreateFromType<T>(Vector2 position) where T : BaseNode
-        {
-            return CreateFromType(typeof(T), position) as T;
-        }
-
-        /// <summary>
-        /// Creates a node of type nodeType at a certain position
-        /// </summary>
-        /// <param name="position">position in the graph in pixels</param>
-        /// <typeparam name="nodeType">type of the node</typeparam>
-        /// <returns>the node instance</returns>
-        public static BaseNode CreateFromType(Type nodeType, Vector2 position)
-        {
-            if (!nodeType.IsSubclassOf(typeof(BaseNode)))
-                return null;
-
-            var node = Activator.CreateInstance(nodeType) as BaseNode;
-
-            node.position = new Rect(position, new Vector2(100, 100));
-
-            ExceptionToLog.Call(() => node.OnNodeCreated());
-
-            return node;
-        }
 
         #region Initialization
 

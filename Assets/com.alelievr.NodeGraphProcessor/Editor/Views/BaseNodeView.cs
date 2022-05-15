@@ -181,7 +181,7 @@ namespace GraphProcessor
             initializing = true;
 
             UpdateTitle();
-            SetPosition(nodeTarget.position);
+            SetPosition(nodeTarget.initialPosition);
             SetNodeColor(nodeTarget.color);
 
             AddInputContainer();
@@ -270,9 +270,6 @@ namespace GraphProcessor
 
         void OnGeometryChanged(GeometryChangedEvent evt)
         {
-            if (evt != null)
-                nodeTarget.position = new Rect(nodeTarget.position.center, evt.newRect.size);
-
             if (settingButton != null)
             {
                 var settingsButtonLayout = settingButton.ChangeCoordinatesTo(settingsContainer.parent, settingButton.layout);
@@ -1050,16 +1047,16 @@ namespace GraphProcessor
 
         public override void SetPosition(Rect newPos)
         {
-            if (initializing || !nodeTarget.isLocked)
-            {
-                base.SetPosition(newPos);
+            if (initializing || !nodeTarget.isLocked) return;
 
-                if (!initializing)
-                    owner.RegisterCompleteObjectUndo("Moved graph node");
+            base.SetPosition(newPos);
 
-                nodeTarget.position = newPos;
-                initializing = false;
-            }
+            if (!initializing)
+                owner.RegisterCompleteObjectUndo("Moved graph node");
+
+            nodeTarget.position = newPos;
+            initializing = false;
+
         }
 
         public override bool expanded

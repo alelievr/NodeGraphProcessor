@@ -21,8 +21,8 @@ namespace GraphProcessor
             this._setRect = setRect;
         }
 
-        public Func<Rect> GetRect => _getRect ?? (() => _node.position);
-        public Action<Rect> SetRect => _setRect ?? ((rect) => _node.position = rect);
+        public Func<Rect> GetRect => _getRect ?? (() => _node.initialPosition);
+        public Action<Rect> SetRect => _setRect ?? ((rect) => _node.initialPosition = rect);
 
         public Vector2 GetPosition() => GetRect().position;
         public void SetPosition(Vector2 position) => SetRect(new Rect(position, GetSize()));

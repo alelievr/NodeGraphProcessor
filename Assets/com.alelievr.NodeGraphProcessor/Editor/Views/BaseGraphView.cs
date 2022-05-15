@@ -252,7 +252,7 @@ namespace GraphProcessor
                 node.createdWithinGroup = unserializedGroups.Any(g => g.innerNodeGUIDs.Contains(sourceGUID));
                 node.OnNodeCreated();
                 //And move a bit the new node
-                node.position.position += new Vector2(20, 20);
+                node.initialPosition = new Rect(node.position.position + new Vector2(20, 20), node.initialPosition.size);
 
                 var newNodeView = AddNode(node);
 
@@ -1241,14 +1241,14 @@ namespace GraphProcessor
             Type conversionNodeType = ConversionNodeAdapter.GetConversionNode(outputPort.portData.displayType, inputPort.portData.displayType);
             if (conversionNodeType != null)
             {
-                var nodePosition = (inputPort.owner.position.center + outputPort.owner.position.center) / 2.0f;
+                var nodePosition = (inputPort.owner.View.GetRect().center + outputPort.owner.View.GetRect().center) / 2.0f;
                 BaseNode converterNode = BaseNode.CreateFromType(conversionNodeType, nodePosition);
                 IConversionNode conversion = (IConversionNode)converterNode;
                 var converterView = AddNode(converterNode);
 
                 // set nodes center position to be in the middle of the input/output ports
-                converterNode.position.center = nodePosition - new Vector2(converterNode.position.width / 2.0f, 0);
-                converterView.SetPosition(converterNode.position);
+                converterNode.initialPosition.center = nodePosition - new Vector2(converterNode.initialPosition.width / 2.0f, 0);
+                converterNode.View.SetRect(converterNode.initialPosition);
 
 
                 var conversionInputName = conversion.GetConversionInput();

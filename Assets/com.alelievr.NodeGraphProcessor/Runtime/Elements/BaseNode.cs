@@ -71,6 +71,7 @@ namespace GraphProcessor
 
         //Node view datas
         public Rect position;
+        public Rect initialPosition;
 
         /// TODO  MY STUFF
         public ViewDelegates View { get; set; }

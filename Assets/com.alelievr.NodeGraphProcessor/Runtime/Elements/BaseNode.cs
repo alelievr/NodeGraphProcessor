@@ -230,7 +230,7 @@ namespace GraphProcessor
 			Type baseType = GetType();
 			while (true)
 			{
-				methods = baseType.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance);
+				methods = baseType.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
 				foreach (var method in methods)
 				{
 					var typeBehaviors = method.GetCustomAttributes<CustomPortTypeBehavior>().ToArray();

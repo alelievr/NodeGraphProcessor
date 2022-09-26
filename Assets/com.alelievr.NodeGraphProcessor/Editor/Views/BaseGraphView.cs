@@ -133,7 +133,15 @@ namespace GraphProcessor
 
 		public SerializedObject		serializedGraph { get; private set; }
 
-		Dictionary<Type, (Type nodeType, MethodInfo initalizeNodeFromObject)> nodeTypePerCreateAssetType = new Dictionary<Type, (Type, MethodInfo)>();
+		SortedDictionary<Type, (Type nodeType, MethodInfo initalizeNodeFromObject)> nodeTypePerCreateAssetType = new SortedDictionary<Type, (Type, MethodInfo)>(
+			// Sort by order of inheritances, so that the descendant type is prioritized over the ascendant type.
+			// Otherwise, sort by name.
+			Comparer<Type>.Create((Type x, Type y) => {
+				if (x.IsSubclassOf(y)) return -1;
+				else if (y.IsSubclassOf(x)) return 1;
+				else return x.FullName.CompareTo(y.FullName);
+			})
+		);
 
 		public BaseGraphView(EditorWindow window)
 		{

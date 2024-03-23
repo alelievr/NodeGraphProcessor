@@ -109,7 +109,7 @@ namespace GraphProcessor
 
 			if (name != null)
 				portName = name;
-			visualClass = "Port_" + portType.Name;
+			visualClass = GetVisualClass();
 			tooltip = portData.tooltip;
 		}
 
@@ -152,7 +152,7 @@ namespace GraphProcessor
 			{
 				base.portType = data.displayType;
 				portType = data.displayType;
-				visualClass = "Port_" + portType.Name;
+				visualClass = GetVisualClass();
 			}
 			if (!String.IsNullOrEmpty(data.displayName))
 				base.portName = data.displayName;
@@ -169,6 +169,14 @@ namespace GraphProcessor
 			}).ExecuteLater(50); // Hummm
 
 			UpdatePortSize();
+		}
+		
+		private string GetVisualClass()
+		{
+			// if portType is a list, "Port_List_ElementType"
+			if (portType.IsGenericType && portType.GetGenericTypeDefinition() == typeof(List<>))
+				return "Port_List_" + portType.GetGenericArguments()[0].Name;
+			return "Port_" + portType.Name;
 		}
 
 		public List< EdgeView >	GetEdges()

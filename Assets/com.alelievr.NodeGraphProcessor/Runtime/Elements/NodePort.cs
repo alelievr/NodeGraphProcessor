@@ -143,19 +143,19 @@ namespace GraphProcessor
 			if (!edges.Contains(edge))
 				edges.Add(edge);
 
-			if (edge.inputNode == owner)
+			if (edge._inputNode == owner)
 			{
-				if (edge.outputPort.customPortIOMethod != null)
+				if (edge._outputPort.customPortIOMethod != null)
 					edgeWithRemoteCustomIO.Add(edge);
 			}
 			else
 			{
-				if (edge.inputPort.customPortIOMethod != null)
+				if (edge._inputPort.customPortIOMethod != null)
 					edgeWithRemoteCustomIO.Add(edge);
 			}
 
 			//if we have a custom io implementation, we don't need to genereate the defaut one
-			if (edge.inputPort.customPortIOMethod != null || edge.outputPort.customPortIOMethod != null)
+			if (edge._inputPort.customPortIOMethod != null || edge._outputPort.customPortIOMethod != null)
 				return ;
 
 			PushDataDelegate edgeDelegate = CreatePushDataDelegateForEdge(edge);
@@ -169,15 +169,15 @@ namespace GraphProcessor
 			try
 			{
 				//Creation of the delegate to move the data from the input node to the output node:
-				FieldInfo inputField = edge.inputNode.GetType().GetField(edge.inputFieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-				FieldInfo outputField = edge.outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+				FieldInfo inputField = edge._inputNode.GetType().GetField(edge.inputFieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+				FieldInfo outputField = edge._outputNode.GetType().GetField(edge.outputFieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 				Type inType, outType;
 
 #if DEBUG_LAMBDA
 				return new PushDataDelegate(() => {
 					var outValue = outputField.GetValue(edge.outputNode);
-					inType = edge.inputPort.portData.displayType ?? inputField.FieldType;
-					outType = edge.outputPort.portData.displayType ?? outputField.FieldType;
+					inType = edge._inputPort.portData.displayType ?? inputField.FieldType;
+					outType = edge._outputPort.portData.displayType ?? outputField.FieldType;
 					Debug.Log($"Push: {inType}({outValue}) -> {outType} | {owner.name}");
 
 					object convertedValue = outValue;
@@ -188,7 +188,7 @@ namespace GraphProcessor
 						convertedValue = convertionMethod.Invoke(null, new object[]{ outValue });
 					}
 
-					inputField.SetValue(edge.inputNode, convertedValue);
+					inputField.SetValue(edge._inputNode, convertedValue);
 				});
 #endif
 
@@ -196,16 +196,19 @@ namespace GraphProcessor
 #if UNITY_EDITOR
 				if (!BaseGraph.TypesAreConnectable(inputField.FieldType, outputField.FieldType))
 				{
-					Debug.LogError("Can't convert from " + inputField.FieldType + " to " + outputField.FieldType + ", you must specify a custom port function (i.e CustomPortInput or CustomPortOutput) for non-implicit convertions");
+					var errorMessage = $"Can't convert from <{edge._inputNode.name}:{inputField.FieldType.Name}> to " +
+						$"<{edge._outputNode.name} : {outputField.FieldType.Name}>, you must specify a custom port function " +
+						$"(i.e CustomPortInput or CustomPortOutput) for non-implicit conversions";
+					Debug.LogError(errorMessage);
 					return null;
 				}
 #endif
 
-				Expression inputParamField = Expression.Field(Expression.Constant(edge.inputNode), inputField);
-				Expression outputParamField = Expression.Field(Expression.Constant(edge.outputNode), outputField);
+				Expression inputParamField = Expression.Field(Expression.Constant(edge._inputNode), inputField);
+				Expression outputParamField = Expression.Field(Expression.Constant(edge._outputNode), outputField);
 
-				inType = edge.inputPort.portData.displayType ?? inputField.FieldType;
-				outType = edge.outputPort.portData.displayType ?? outputField.FieldType;
+				inType = edge._inputPort.portData.displayType ?? inputField.FieldType;
+				outType = edge._outputPort.portData.displayType ?? outputField.FieldType;
 
 				// If there is a user defined convertion function, then we call it
 				if (TypeAdapter.AreAssignable(outType, inType))
@@ -350,8 +353,8 @@ namespace GraphProcessor
 		/// <param name="edge"></param>
 		public void Add(SerializableEdge edge)
 		{
-			string portFieldName = (edge.inputNode == node) ? edge.inputFieldName : edge.outputFieldName;
-			string portIdentifier = (edge.inputNode == node) ? edge.inputPortIdentifier : edge.outputPortIdentifier;
+			string portFieldName = (edge._inputNode == node) ? edge.inputFieldName : edge.outputFieldName;
+			string portIdentifier = (edge._inputNode == node) ? edge.inputPortIdentifier : edge.outputPortIdentifier;
 
 			// Force empty string to null since portIdentifier is a serialized value
 			if (String.IsNullOrEmpty(portIdentifier))

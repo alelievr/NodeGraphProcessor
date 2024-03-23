@@ -51,7 +51,7 @@ namespace GraphProcessor
 				return;
 			}
 
-			output = parameter.value;
+			output = parameter.Value;
 		}
 
 		void OnParamChanged(ExposedParameter modifiedParam)
@@ -71,7 +71,7 @@ namespace GraphProcessor
 				{
 					identifier = "output",
 					displayName = "Value",
-					displayType = (parameter == null) ? typeof(object) : parameter.GetValueType(),
+					displayType = (parameter == null) ? typeof(object) : parameter.ValueType,
 					acceptMultipleEdges = true
 				};
 			}
@@ -86,7 +86,7 @@ namespace GraphProcessor
 				{
 					identifier = "input",
 					displayName = "Value",
-					displayType = (parameter == null) ? typeof(object) : parameter.GetValueType(),
+					displayType = (parameter == null) ? typeof(object) : parameter.ValueType,
 				};
 			}
 		}
@@ -105,7 +105,7 @@ namespace GraphProcessor
 			}
 
 			if (accessor == ParameterAccessor.Get)
-				output = parameter.value;
+				output = parameter.Value;
 			else
 				graph.UpdateExposedParameter(parameter.guid, input);
 		}

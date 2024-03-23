@@ -167,9 +167,9 @@ namespace GraphProcessor
 			AddButton("Center", graphView.ResetPositionAndZoom);
 
 			bool processorVisible = graphView.GetPinnedElementStatus< ProcessorView >() != Status.Hidden;
-			showProcessor = AddToggle("Show Processor", processorVisible, (v) => graphView.ToggleView< ProcessorView>());
+			showProcessor = AddToggle("Show Processor", processorVisible, (v) => graphView.ToggleView<ProcessorView, PinnedElement>());
 			bool exposedParamsVisible = graphView.GetPinnedElementStatus< ExposedParameterView >() != Status.Hidden;
-			showParameters = AddToggle("Show Parameters", exposedParamsVisible, (v) => graphView.ToggleView< ExposedParameterView>());
+			showParameters = AddToggle("Show Parameters", exposedParamsVisible, (v) => graphView.ToggleView<ExposedParameterView, PinnedElement>());
 
 			AddButton("Show In Project", () => EditorGUIUtility.PingObject(graphView.graph), false);
 		}

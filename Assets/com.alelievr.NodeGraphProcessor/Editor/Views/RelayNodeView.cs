@@ -121,7 +121,7 @@ public class RelayNodeView : BaseNodeView
 					var input = outputEdge.input as PortView;
 					var output = inputEdge.output as PortView;
 
-					owner.Connect(input, output);
+					Owner.Connect(input, output);
 				}
 			}
 		}).ExecuteLater(1);

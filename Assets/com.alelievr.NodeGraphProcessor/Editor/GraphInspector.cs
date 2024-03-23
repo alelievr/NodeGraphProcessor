@@ -7,6 +7,7 @@ using System.Reflection;
 
 namespace GraphProcessor
 {
+    [CustomEditor(typeof(BaseGraph))]
     public class GraphInspector : Editor
     {
         protected VisualElement root;
@@ -60,7 +61,7 @@ namespace GraphProcessor
                     continue;
 
                 var field = exposedParameterFactory.GetParameterValueField(param, (newValue) => {
-                    param.value = newValue;
+                    param.Value = newValue;
                     serializedObject.ApplyModifiedProperties();
                     graph.NotifyExposedParameterValueChanged(param);
                 });

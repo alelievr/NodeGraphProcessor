@@ -1,82 +1,82 @@
-using UnityEditor.Experimental.GraphView;
-using UnityEngine.UIElements;
-using UnityEditor;
-using UnityEngine;
 using System;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace GraphProcessor
 {
-	public abstract class PinnedElementView : GraphElement
-	{
-		protected PinnedElement	pinnedElement;
-		protected VisualElement	root;
-		protected VisualElement	content;
-		protected VisualElement	header;
+    public abstract class PinnedElementView : GraphElement
+    {
+        #region Fields
+        private static readonly string pinnedElementStyle = "GraphProcessorStyles/PinnedElementView";
+        private static readonly string pinnedElementTree = "GraphProcessorElements/PinnedElement";
+        protected PinnedElement _pinnedElement;
+        protected VisualElement _root;
+        protected VisualElement _content;
+        protected VisualElement _header;
 
-		protected event Action	onResized;
+        private readonly VisualElement _main;
+        private readonly Label _titleLabel;
+        private bool _scrollable;
+        private readonly ScrollView _scrollView;
+        #endregion
 
-		VisualElement			main;
-		Label					titleLabel;
-		bool					_scrollable;
-		ScrollView				scrollView;
-
-        static readonly string	pinnedElementStyle = "GraphProcessorStyles/PinnedElementView";
-        static readonly string	pinnedElementTree = "GraphProcessorElements/PinnedElement";
-
+        #region Properties
         public override string title
         {
-            get { return titleLabel.text; }
-            set { titleLabel.text = value; }
+            get => _titleLabel.text;
+            set => _titleLabel.text = value;
         }
 
         protected bool scrollable
         {
-            get
-            {
-                return _scrollable;
-            }
+            get => _scrollable;
             set
             {
                 if (_scrollable == value)
+                {
                     return;
+                }
 
                 _scrollable = value;
 
                 style.position = Position.Absolute;
                 if (_scrollable)
                 {
-                    content.RemoveFromHierarchy();
-                    root.Add(scrollView);
-                    scrollView.Add(content);
+                    _content.RemoveFromHierarchy();
+                    _root.Add(_scrollView);
+                    _scrollView.Add(_content);
                     AddToClassList("scrollable");
                 }
                 else
                 {
-					scrollView.RemoveFromHierarchy();
-					content.RemoveFromHierarchy();
-					root.Add(content);
+                    _scrollView.RemoveFromHierarchy();
+                    _content.RemoveFromHierarchy();
+                    _root.Add(_content);
                     RemoveFromClassList("scrollable");
                 }
             }
         }
+        #endregion
 
-		public PinnedElementView()
-		{
+        #region Constructors
+        public PinnedElementView()
+        {
             var tpl = Resources.Load<VisualTreeAsset>(pinnedElementTree);
             styleSheets.Add(Resources.Load<StyleSheet>(pinnedElementStyle));
 
-            main = tpl.CloneTree();
-            main.AddToClassList("mainContainer");
-			scrollView = new ScrollView(ScrollViewMode.VerticalAndHorizontal);
+            _main = tpl.CloneTree();
+            _main.AddToClassList("mainContainer");
+            _scrollView = new ScrollView(ScrollViewMode.VerticalAndHorizontal);
 
-            root = main.Q("content");
+            _root = _main.Q("content");
 
-            header = main.Q("header");
+            _header = _main.Q("header");
 
-            titleLabel = main.Q<Label>(name: "titleLabel");
-            content = main.Q<VisualElement>(name: "contentContainer");
+            _titleLabel = _main.Q<Label>("titleLabel");
+            _content = _main.Q<VisualElement>("contentContainer");
 
-            hierarchy.Add(main);
+            hierarchy.Add(_main);
 
             capabilities |= Capabilities.Movable | Capabilities.Resizable;
             style.overflow = Overflow.Hidden;
@@ -90,43 +90,53 @@ namespace GraphProcessor
 
             hierarchy.Add(new Resizer(() => onResized?.Invoke()));
 
-            RegisterCallback<DragUpdatedEvent>(e =>
+            RegisterCallback<DragUpdatedEvent>(
+                e =>
+                {
+                    e.StopPropagation();
+                });
+
+            title = "PinnedElementView";
+        }
+        #endregion
+
+        #region Methods
+        protected event Action onResized;
+
+        public void InitializeGraphView(PinnedElement pinnedElement, BaseGraphView graphView)
+        {
+            _pinnedElement = pinnedElement;
+
+            SetPosition(pinnedElement.position);
+
+            onResized += () =>
             {
-                e.StopPropagation();
-            });
+                pinnedElement.position.size = layout.size;
+            };
 
-			title = "PinnedElementView";
-		}
+            RegisterCallback<MouseUpEvent>(
+                e =>
+                {
+                    pinnedElement.position.position = layout.position;
+                });
 
-		public void InitializeGraphView(PinnedElement pinnedElement, BaseGraphView graphView)
-		{
-			this.pinnedElement = pinnedElement;
-			SetPosition(pinnedElement.position);
+            Initialize(graphView);
+        }
 
-			onResized += () => {
-				pinnedElement.position.size = layout.size;
-			};
+        public void ResetPosition()
+        {
+            _pinnedElement.position = new Rect(_pinnedElement.DefaultPosition, _pinnedElement.DefaultSize);
+            SetPosition(_pinnedElement.position);
+        }
 
-			RegisterCallback<MouseUpEvent>(e => {
-				pinnedElement.position.position = layout.position;
-			});
+        protected abstract void Initialize(BaseGraphView graphView);
 
-			Initialize(graphView);
-		}
+        ~PinnedElementView()
+        {
+            Destroy();
+        }
 
-		public void ResetPosition()
-		{
-			pinnedElement.position = new Rect(Vector2.zero, PinnedElement.defaultSize);
-			SetPosition(pinnedElement.position);
-		}
-
-		protected abstract void Initialize(BaseGraphView graphView);
-
-		~PinnedElementView()
-		{
-			Destroy();
-		}
-
-		protected virtual void Destroy() {}
-	}
+        protected virtual void Destroy() { }
+        #endregion
+    }
 }

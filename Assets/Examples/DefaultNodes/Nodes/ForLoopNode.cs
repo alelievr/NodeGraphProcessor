@@ -30,13 +30,13 @@ public class ForLoopNode : ConditionalNode
 	{
 		// Return all the nodes connected to the executes port
 		return outputPorts.FirstOrDefault(n => n.fieldName == nameof(loopBody))
-			.GetEdges().Select(e => e.inputNode as ConditionalNode);
+			.GetEdges().Select(e => e._inputNode as ConditionalNode);
 	}
 
 	public IEnumerable< ConditionalNode >	GetExecutedNodesLoopCompleted()
 	{
 		// Return all the nodes connected to the executes port
 		return outputPorts.FirstOrDefault(n => n.fieldName == nameof(loopCompleted))
-			.GetEdges().Select(e => e.inputNode as ConditionalNode);
+			.GetEdges().Select(e => e._inputNode as ConditionalNode);
 	}
 }

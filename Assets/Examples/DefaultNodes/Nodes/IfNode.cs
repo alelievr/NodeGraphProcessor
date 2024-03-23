@@ -17,6 +17,9 @@ public class IfNode : ConditionalNode
 	[Output(name = "False")]
 	public ConditionalLink	@false;
 
+	[Output(name = "Executed")]
+	public ConditionalLink executeAfter;
+	
 	[Setting("Compare Function")]
 	public CompareFunction		compareOperator;
 
@@ -26,8 +29,8 @@ public class IfNode : ConditionalNode
 	{
 		string fieldName = condition ? nameof(@true) : nameof(@false);
 
-		// Return all the nodes connected to either the true or false node
+		// Return all the nodes connected to either the true or @false node
 		return outputPorts.FirstOrDefault(n => n.fieldName == fieldName)
-			.GetEdges().Select(e => e.inputNode as ConditionalNode);
+			.GetEdges().Select(e => e._inputNode as ConditionalNode);
 	}
 }

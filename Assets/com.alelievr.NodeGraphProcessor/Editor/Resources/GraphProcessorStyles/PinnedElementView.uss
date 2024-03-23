@@ -16,7 +16,7 @@
     position: absolute;
 }
 
-.pinnedElement:selected {
+.pinnedElement:checked {
     border-color: #44C0FF;
 }
 

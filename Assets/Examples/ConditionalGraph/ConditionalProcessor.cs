@@ -29,7 +29,7 @@ namespace NodeGraphProcessor.Examples
             // Gather start nodes:
             startNodeList = graph.nodes.Where(n => n is StartNode).Select(n => n as StartNode).ToList();
 
-            // In case there is no start node, we process the graph like usual
+            // In case there is false start node, we process the graph like usual
             if (startNodeList.Count == 0)
             {
                 processList = graph.nodes.OrderBy(n => n.computeOrder).ToList();

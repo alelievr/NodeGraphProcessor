@@ -14,30 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedNodes: []
   nodes:
-  - id: 0
-  - id: 1
-  - id: 2
-  - id: 3
-  - id: 4
-  - id: 5
-  - id: 6
-  - id: 7
-  - id: 8
-  - id: 9
-  - id: 10
-  - id: 11
-  - id: 12
-  - id: 13
-  - id: 14
-  - id: 15
-  - id: 16
-  - id: 17
-  - id: 18
-  - id: 19
-  - id: 20
-  - id: 21
-  - id: 22
-  - id: 23
+  - rid: 0
+  - rid: 1
+  - rid: 2
+  - rid: 3
+  - rid: 4
+  - rid: 5
+  - rid: 6
+  - rid: 7
+  - rid: 8
+  - rid: 9
+  - rid: 10
+  - rid: 11
+  - rid: 12
+  - rid: 13
+  - rid: 14
+  - rid: 15
+  - rid: 16
+  - rid: 17
+  - rid: 18
+  - rid: 19
+  - rid: 20
+  - rid: 21
+  - rid: 22
+  - rid: 23
   edges:
   - GUID: 04cee6c7-b233-40e1-b41a-31f6093f1482
     owner: {fileID: 11400000}
@@ -165,7 +165,7 @@ MonoBehaviour:
     size: {x: 300, y: 100}
     innerNodeGUIDs: []
   stackNodes:
-  - id: 24
+  - rid: 24
   pinnedElements:
   - position:
       serializedVersion: 2
@@ -208,7 +208,7 @@ MonoBehaviour:
       serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor.Editor,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   exposedParameters:
-  - id: 25
+  - rid: 25
   serializedParameterList:
   - guid: 
     name: 
@@ -219,7 +219,7 @@ MonoBehaviour:
       serializedValue: 
     input: 1
     settings:
-      id: 26
+      rid: -2
   - guid: 
     name: 
     type: 
@@ -229,7 +229,7 @@ MonoBehaviour:
       serializedValue: 
     input: 1
     settings:
-      id: 26
+      rid: -2
   - guid: 
     name: 
     type: 
@@ -239,7 +239,7 @@ MonoBehaviour:
       serializedValue: 
     input: 1
     settings:
-      id: 26
+      rid: -2
   - guid: 
     name: 
     type: 
@@ -249,7 +249,7 @@ MonoBehaviour:
       serializedValue: 
     input: 1
     settings:
-      id: 26
+      rid: -2
   - guid: 
     name: 
     type: 
@@ -259,7 +259,7 @@ MonoBehaviour:
       serializedValue: 
     input: 1
     settings:
-      id: 26
+      rid: -2
   - guid: 
     name: 
     type: 
@@ -269,7 +269,7 @@ MonoBehaviour:
       serializedValue: 
     input: 1
     settings:
-      id: 26
+      rid: -2
   - guid: 
     name: 
     type: 
@@ -279,7 +279,7 @@ MonoBehaviour:
       serializedValue: 
     input: 1
     settings:
-      id: 26
+      rid: -2
   - guid: 
     name: 
     type: 
@@ -289,7 +289,7 @@ MonoBehaviour:
       serializedValue: 
     input: 1
     settings:
-      id: 26
+      rid: -2
   - guid: 
     name: 
     type: 
@@ -299,7 +299,7 @@ MonoBehaviour:
       serializedValue: 
     input: 1
     settings:
-      id: 26
+      rid: -2
   stickyNotes:
   - position:
       serializedVersion: 2
@@ -318,11 +318,14 @@ MonoBehaviour:
     title: New Sticky Note
     content: Write your text here
   nodeInspectorReference: {fileID: 0}
-  position: {x: 781, y: -9.999998, z: 0}
-  scale: {x: 0.7561437, y: 0.7561437, z: 1}
+  position: {x: 335, y: -579, z: 0}
+  scale: {x: 1.3225, y: 1.3225, z: 1}
   references:
-    version: 1
-    00000000:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 0
       type: {class: ColorNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -338,7 +341,7 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         color: {r: 1, g: 0, b: 0.25098038, a: 1}
-    00000001:
+    - rid: 1
       type: {class: FloatNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -355,7 +358,7 @@ MonoBehaviour:
         nodeLock: 0
         output: 10
         input: 10
-    00000002:
+    - rid: 2
       type: {class: MultiAddNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -371,7 +374,7 @@ MonoBehaviour:
         debug: 1
         nodeLock: 0
         output: 10
-    00000003:
+    - rid: 3
       type: {class: SubNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -389,7 +392,7 @@ MonoBehaviour:
         inputA: 0
         inputB: 140
         output: -140
-    00000004:
+    - rid: 4
       type: {class: PrintNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -404,7 +407,7 @@ MonoBehaviour:
         expanded: 0
         debug: 1
         nodeLock: 0
-    00000005:
+    - rid: 5
       type: {class: PrintNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -419,7 +422,7 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-    00000006:
+    - rid: 6
       type: {class: PrefabNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -436,7 +439,7 @@ MonoBehaviour:
         nodeLock: 0
         output: {fileID: 1636575971871760, guid: f78111bdbdeaf6644806fc49fcaf1d30,
           type: 3}
-    00000007:
+    - rid: 7
       type: {class: FloatNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -453,7 +456,7 @@ MonoBehaviour:
         nodeLock: 0
         output: 140
         input: 140
-    00000008:
+    - rid: 8
       type: {class: TextNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -469,7 +472,7 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         output: Hello World
-    00000009:
+    - rid: 9
       type: {class: PrintNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -484,7 +487,7 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-    0000000A:
+    - rid: 10
       type: {class: FloatNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -501,7 +504,7 @@ MonoBehaviour:
         nodeLock: 0
         output: 140
         input: 140
-    0000000B:
+    - rid: 11
       type: {class: SettingsNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -519,7 +522,7 @@ MonoBehaviour:
         setting: 0
         input: 0
         output: 0
-    0000000C:
+    - rid: 12
       type: {class: PrintNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -534,7 +537,7 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-    0000000D:
+    - rid: 13
       type: {class: FloatNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -551,7 +554,7 @@ MonoBehaviour:
         nodeLock: 0
         output: 0
         input: 0
-    0000000E:
+    - rid: 14
       type: {class: CustomPortData, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -567,7 +570,7 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         output: 0
-    0000000F:
+    - rid: 15
       type: {class: PrintNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -582,7 +585,7 @@ MonoBehaviour:
         expanded: 0
         debug: 0
         nodeLock: 0
-    00000010:
+    - rid: 16
       type: {class: PortConnectionTests, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -598,7 +601,7 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         padding: 0
-    00000011:
+    - rid: 17
       type: {class: PortConnectionTests, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -614,7 +617,7 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         padding: 0
-    00000012:
+    - rid: 18
       type: {class: DrawerFieldTestNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -650,7 +653,7 @@ MonoBehaviour:
         layerMask:
           serializedVersion: 2
           m_Bits: 0
-    00000013:
+    - rid: 19
       type: {class: InspectorNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -669,7 +672,7 @@ MonoBehaviour:
         output: 0
         additionalSettings: 0
         additionalParam: 
-    00000014:
+    - rid: 20
       type: {class: DrawerFieldTestNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -705,7 +708,7 @@ MonoBehaviour:
         layerMask:
           serializedVersion: 2
           m_Bits: 0
-    00000015:
+    - rid: 21
       type: {class: FloatNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -722,7 +725,7 @@ MonoBehaviour:
         nodeLock: 0
         output: 42
         input: 42
-    00000016:
+    - rid: 22
       type: {class: ColorNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -738,7 +741,7 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         color: {r: 0.47539377, g: 0, b: 1, a: 0}
-    00000017:
+    - rid: 23
       type: {class: MultiAddNode, ns: , asm: Assembly-CSharp}
       data:
         nodeCustomName: 
@@ -754,7 +757,7 @@ MonoBehaviour:
         debug: 0
         nodeLock: 0
         output: 0
-    00000018:
+    - rid: 24
       type: {class: BaseStackNode, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
       data:
         position: {x: 914.0975, y: 6.5799994}
@@ -765,7 +768,7 @@ MonoBehaviour:
         - ffd2cf4b-87c3-42a6-9822-04bae7a5700b
         - 42eb43b8-ac7e-4f38-b49b-26ba1bc42732
         - e99da4fb-6a11-4b19-8594-f37f55d96114
-    00000019:
+    - rid: 25
       type: {class: FloatParameter, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
       data:
         guid: eb80df62-f248-4ec9-afd4-f9ed08bfaa16
@@ -777,11 +780,9 @@ MonoBehaviour:
           serializedValue: 
         input: 1
         settings:
-          id: 27
+          rid: 27
         val: 0
-    0000001A:
-      type: {class: , ns: , asm: }
-    0000001B:
+    - rid: 27
       type: {class: FloatParameter/FloatSettings, ns: GraphProcessor, asm: com.alelievr.NodeGraphProcessor.Runtime}
       data:
         isHidden: 0

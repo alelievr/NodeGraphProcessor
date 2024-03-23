@@ -30,7 +30,7 @@
 #contents #top .true #connector, #contents #top .true #connector #cap,
 #contents #top .false #connector, #contents #top .false #connector #cap,
 #contents #top .loopBody #connector, #contents #top .loopBody #connector #cap,
-#contents #top .loopCompleted #connector, #contents #top .loopCompleted #connector #cap {
+#contents #top .loopCompleted #connector, #contents #top .loopCompleted #connector #cap{
     border-radius: 0px;
 }
 
@@ -205,10 +205,6 @@ ParameterNodeView #controls EnumField > VisualElement > VisualElement {
     opacity: 0.6;
 }
 
-.node:checked > #input-container {
-    opacity: 1;
-}
-
 #input-container > .port-input-element IntegerInput,
 #input-container > .port-input-element FloatInput,
 #input-container > .port-input-element TextInput {
@@ -228,12 +224,12 @@ ParameterNodeView #controls EnumField > VisualElement > VisualElement {
 
 #TopPortContainer
 {
-    margin-bottom: -1px;
+    margin-bottom: 0;
 }
 
 #BottomPortContainer
 {
-    margin-top: -1px;
+    margin-top: 0;
 }
 
 #title-button-container
@@ -242,7 +238,7 @@ ParameterNodeView #controls EnumField > VisualElement > VisualElement {
     align-content: center;
 }
 
-#collapse-button:
+#collapse-button
 {
     width: 16px;
     height: 16px;

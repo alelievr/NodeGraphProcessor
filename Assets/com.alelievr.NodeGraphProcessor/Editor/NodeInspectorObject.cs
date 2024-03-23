@@ -74,7 +74,7 @@ namespace GraphProcessor
         /// <summary>Previously selected object by the inspector</summary>
         public Object previouslySelectedObject;
         /// <summary>List of currently selected nodes</summary>
-        public HashSet<BaseNodeView> selectedNodes { get; private set; } = new HashSet<BaseNodeView>();
+        public HashSet<BaseNodeView> selectedNodes { get; private set; } = new();
 
         /// <summary>Triggered when the selection is updated</summary>
         public event Action nodeSelectionUpdated;

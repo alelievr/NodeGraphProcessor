@@ -4,6 +4,7 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using System;
 using System.Collections.Generic;
+using Object = UnityEngine.Object;
 
 namespace GraphProcessor
 {
@@ -56,15 +57,15 @@ namespace GraphProcessor
             VisualElement view = new VisualElement();
             view.Add(field);
 
-            oldParameterValues[parameter] = parameter.value;
+            oldParameterValues[parameter] = parameter.Value;
             view.Add(new IMGUIContainer(() =>
             {
                 if (oldParameterValues.TryGetValue(parameter, out var value))
                 {
-                    if (parameter.value != null && !parameter.value.Equals(value))
-                        valueChangedCallback(parameter.value);
+                    if (parameter.Value != null && !parameter.Value.Equals(value))
+                        valueChangedCallback(parameter.Value);
                 }
-                oldParameterValues[parameter] = parameter.value;
+                oldParameterValues[parameter] = parameter.Value;
             }));
 
 			// Disallow picking scene objects when the graph is not linked to a scene
@@ -116,7 +117,7 @@ namespace GraphProcessor
 
         public void Dispose()
         {
-            GameObject.DestroyImmediate(exposedParameterObject);
+            Object.DestroyImmediate(exposedParameterObject);
         }
     }
 }

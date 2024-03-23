@@ -20,8 +20,7 @@ namespace GraphProcessor
 
         protected VisualElement CreateValProperty(SerializedProperty property, string displayName = null)
         {
-            if (displayName == null)
-                displayName = GetNameProperty(property).stringValue;
+            displayName ??= GetNameProperty(property).stringValue;
 
             var p = new PropertyField(GetValProperty(property), displayName);
 
@@ -36,7 +35,7 @@ namespace GraphProcessor
         protected SerializedProperty GetValProperty(SerializedProperty property) => property.FindPropertyRelative("val");
         protected SerializedProperty GetNameProperty(SerializedProperty property) => property.FindPropertyRelative(nameof(ExposedParameter.name));
 
-        protected void ApplyModifiedProperties(SerializedProperty property)
+        protected virtual void ApplyModifiedProperties(SerializedProperty property)
         {
             property.serializedObject.ApplyModifiedProperties();
             property.serializedObject.Update();

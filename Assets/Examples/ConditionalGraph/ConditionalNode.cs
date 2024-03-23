@@ -42,7 +42,7 @@ namespace NodeGraphProcessor.Examples
 		{
 			// Return all the nodes connected to the executes port
 			return outputPorts.FirstOrDefault(n => n.fieldName == nameof(executes))
-				.GetEdges().Select(e => e.inputNode as ConditionalNode);
+				.GetEdges().Select(e => e._inputNode as ConditionalNode);
 		}
 	}
 	
@@ -66,7 +66,7 @@ namespace NodeGraphProcessor.Examples
 		public IEnumerable< ConditionalNode > GetExecuteAfterNodes()
 		{
 			return outputPorts.FirstOrDefault(n => n.fieldName == nameof(executeAfter))
-			                  .GetEdges().Select(e => e.inputNode as ConditionalNode);
+			                  .GetEdges().Select(e => e._inputNode as ConditionalNode);
 		}
 	}
 }

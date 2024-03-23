@@ -24,7 +24,7 @@ namespace GraphProcessor
 
 			Button	b = new Button(OnPlay) { name = "ActionButton", text = "Play !" };
 
-			content.Add(b);
+			_content.Add(b);
 		}
 
 		void OnPlay()

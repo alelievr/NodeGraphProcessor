@@ -1,87 +1,89 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace GraphProcessor
 {
-	[System.Serializable]
-	public class SerializableEdge : ISerializationCallbackReceiver
-	{
-		public string	GUID;
+    [Serializable]
+    public class SerializableEdge : ISerializationCallbackReceiver
+    {
+        #region Fields
+        public string GUID;
 
-		[SerializeField]
-		BaseGraph		owner;
+        [SerializeField] private BaseGraph _owner;
+        [SerializeField] private string _inputNodeGUID;
+        [SerializeField] private string _outputNodeGUID;
+        [NonSerialized] public BaseNode _inputNode;
+        [NonSerialized] public NodePort _inputPort;
+        [NonSerialized] public NodePort _outputPort;
 
-		[SerializeField]
-		string			inputNodeGUID;
-		[SerializeField]
-		string			outputNodeGUID;
+        //temporary object used to send port to port data when a custom input/output function is used.
+        [NonSerialized]
+        public object passThroughBuffer;
 
-		[System.NonSerialized]
-		public BaseNode	inputNode;
+        [NonSerialized]
+        public BaseNode _outputNode;
 
-		[System.NonSerialized]
-		public NodePort	inputPort;
-		[System.NonSerialized]
-		public NodePort outputPort;
+        public string inputFieldName;
+        public string outputFieldName;
 
-		//temporary object used to send port to port data when a custom input/output function is used.
-		[System.NonSerialized]
-		public object	passThroughBuffer;
+        // Use to store the id of the field that generate multiple ports
+        public string inputPortIdentifier;
+        public string outputPortIdentifier;
+        #endregion
 
-		[System.NonSerialized]
-		public BaseNode	outputNode;
+        #region ISerializationCallbackReceiver Members
+        public void OnBeforeSerialize()
+        {
+            if (_outputNode == null || _inputNode == null)
+            {
+                return;
+            }
 
-		public string	inputFieldName;
-		public string	outputFieldName;
+            _outputNodeGUID = _outputNode.GUID;
+            _inputNodeGUID = _inputNode.GUID;
+        }
 
-		// Use to store the id of the field that generate multiple ports
-		public string	inputPortIdentifier;
-		public string	outputPortIdentifier;
+        public void OnAfterDeserialize() { }
+        #endregion
 
-		public SerializableEdge() {}
+        #region Methods
+        public static SerializableEdge CreateNewEdge(BaseGraph graph, NodePort inputPort, NodePort outputPort)
+        {
+            var edge = new SerializableEdge();
 
-		public static SerializableEdge CreateNewEdge(BaseGraph graph, NodePort inputPort, NodePort outputPort)
-		{
-			SerializableEdge	edge = new SerializableEdge();
+            edge._owner = graph;
+            edge.GUID = Guid.NewGuid().ToString();
+            edge._inputNode = inputPort.owner;
+            edge.inputFieldName = inputPort.fieldName;
+            edge._outputNode = outputPort.owner;
+            edge.outputFieldName = outputPort.fieldName;
+            edge._inputPort = inputPort;
+            edge._outputPort = outputPort;
+            edge.inputPortIdentifier = inputPort.portData.identifier;
+            edge.outputPortIdentifier = outputPort.portData.identifier;
 
-			edge.owner = graph;
-			edge.GUID = System.Guid.NewGuid().ToString();
-			edge.inputNode = inputPort.owner;
-			edge.inputFieldName = inputPort.fieldName;
-			edge.outputNode = outputPort.owner;
-			edge.outputFieldName = outputPort.fieldName;
-			edge.inputPort = inputPort;
-			edge.outputPort = outputPort;
-			edge.inputPortIdentifier = inputPort.portData.identifier;
-			edge.outputPortIdentifier = outputPort.portData.identifier;
+            return edge;
+        }
 
-			return edge;
-		}
+        //here our _owner have been deserialized
+        public void Deserialize(BaseGraph owner)
+        {
+            _owner = owner;
+            if (!owner.nodesPerGUID.ContainsKey(_outputNodeGUID) || !owner.nodesPerGUID.ContainsKey(_inputNodeGUID))
+            {
+                return;
+            }
 
-		public void OnBeforeSerialize()
-		{
-			if (outputNode == null || inputNode == null)
-				return;
+            _outputNode = owner.nodesPerGUID[_outputNodeGUID];
+            _inputNode = owner.nodesPerGUID[_inputNodeGUID];
+            _inputPort = _inputNode.GetPort(inputFieldName, inputPortIdentifier);
+            _outputPort = _outputNode.GetPort(outputFieldName, outputPortIdentifier);
+        }
 
-			outputNodeGUID = outputNode.GUID;
-			inputNodeGUID = inputNode.GUID;
-		}
-
-		public void OnAfterDeserialize() {}
-
-		//here our owner have been deserialized
-		public void Deserialize()
-		{
-			if (!owner.nodesPerGUID.ContainsKey(outputNodeGUID) || !owner.nodesPerGUID.ContainsKey(inputNodeGUID))
-				return ;
-
-			outputNode = owner.nodesPerGUID[outputNodeGUID];
-			inputNode = owner.nodesPerGUID[inputNodeGUID];
-			inputPort = inputNode.GetPort(inputFieldName, inputPortIdentifier);
-			outputPort = outputNode.GetPort(outputFieldName, outputPortIdentifier);
-		}
-
-		public override string ToString() => $"{outputNode.name}:{outputPort.fieldName} -> {inputNode.name}:{inputPort.fieldName}";
-	}
+        public override string ToString()
+        {
+            return $"{_outputNode.name}:{_outputPort.fieldName} -> {_inputNode.name}:{_inputPort.fieldName}";
+        }
+        #endregion
+    }
 }

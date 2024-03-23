@@ -12,7 +12,7 @@ namespace GraphProcessor
 
 		readonly string				edgeStyle = "GraphProcessorStyles/EdgeView";
 
-		protected BaseGraphView		owner => ((input ?? output) as PortView).owner.owner;
+		protected BaseGraphView		owner => ((input ?? output) as PortView).owner.Owner;
 
 		public EdgeView() : base()
 		{

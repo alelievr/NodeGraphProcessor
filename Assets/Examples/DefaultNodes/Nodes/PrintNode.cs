@@ -9,7 +9,8 @@ public class PrintNode : BaseNode
 {
 	[Input]
 	public object	obj;
-
+	[Output(name = "True")]
+	public ConditionalLink	@true;
 	public override string name => "Print";
 }
 

@@ -1101,7 +1101,7 @@ namespace GraphProcessor
 			groupViews.Clear();
 		}
 
-		public bool CanConnectEdge(EdgeView e, bool autoDisconnectInputs = true)
+		public virtual bool CanConnectEdge(EdgeView e, bool autoDisconnectInputs = true)
 		{
 			if (e.input == null || e.output == null)
 				return false;

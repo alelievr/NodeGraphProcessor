@@ -159,6 +159,8 @@ namespace GraphProcessor
 			createNodeMenu = ScriptableObject.CreateInstance< CreateNodeMenuWindow >();
 			createNodeMenu.Initialize(this, window);
 
+			InitGrid();
+
 			this.StretchToParentSize();
 		}
 
@@ -685,6 +687,16 @@ namespace GraphProcessor
 		#endregion
 
 		#region Initialization
+
+		void InitGrid()
+		{
+			var bgGrid = new GridView(contentViewContainer)
+			{
+				name = "GridView",
+			};
+			this.Add(bgGrid);
+			bgGrid.PlaceBehind(contentViewContainer);
+		}
 
 		void ReloadView()
 		{

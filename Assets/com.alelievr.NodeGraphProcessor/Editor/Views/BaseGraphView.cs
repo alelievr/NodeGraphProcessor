@@ -693,6 +693,7 @@ namespace GraphProcessor
 			var bgGrid = new GridView(contentViewContainer)
 			{
 				name = "GridView",
+				pickingMode = PickingMode.Ignore,
 			};
 			this.Add(bgGrid);
 			bgGrid.PlaceBehind(contentViewContainer);

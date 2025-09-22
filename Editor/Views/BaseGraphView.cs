@@ -114,7 +114,6 @@ namespace GraphProcessor
 		/// <summary>
 		/// Object to handle nodes that shows their UI in the inspector.
 		/// </summary>
-		[SerializeField]
 		protected NodeInspectorObject		nodeInspector
 		{
 			get

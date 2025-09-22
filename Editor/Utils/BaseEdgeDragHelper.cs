@@ -98,11 +98,10 @@ namespace GraphProcessor
 
             graphView = null;
         }
-
-        public override bool HandleMouseDown(MouseDownEvent evt)
+        public override bool HandleMouseDown(MouseDownEvent evt) => HandleMouseDownEvent(evt.mousePosition);
+        
+        bool HandleMouseDownEvent(Vector2 mousePosition)
         {
-            Vector2 mousePosition = evt.mousePosition;
-
             if ((draggedPort == null) || (edgeCandidate == null))
             {
                 return false;
@@ -195,10 +194,12 @@ namespace GraphProcessor
         }
 
         Vector2 lastMousePos;
-        public override void HandleMouseMove(MouseMoveEvent evt)
+
+        public override void HandleMouseMove(MouseMoveEvent evt) =>
+            HandleMouseMoveEvent((VisualElement)evt.target, evt.mousePosition, evt.localMousePosition);
+        void HandleMouseMoveEvent(VisualElement ve, Vector2 mousePosition, Vector2 localMousePosition)
         {
-            var ve = (VisualElement)evt.target;
-            Vector2 gvMousePos = ve.ChangeCoordinatesTo(graphView.contentContainer, evt.localMousePosition);
+            Vector2 gvMousePos = ve.ChangeCoordinatesTo(graphView.contentContainer, localMousePosition);
             panDiff = GetEffectivePanSpeed(gvMousePos);
 
             if (panDiff != Vector3.zero)
@@ -206,8 +207,7 @@ namespace GraphProcessor
             else
                 panSchedule.Pause();
 
-            Vector2 mousePosition = evt.mousePosition;
-            lastMousePos =  evt.mousePosition;
+            lastMousePos =  mousePosition;
 
             edgeCandidate.candidatePosition = mousePosition;
 
@@ -277,11 +277,11 @@ namespace GraphProcessor
             wasPanned = true;
         }
 
-        public override void HandleMouseUp(MouseUpEvent evt)
+        public override void HandleMouseUp(MouseUpEvent evt) => HandleMouseUpEvent(evt.mousePosition);
+        
+        void HandleMouseUpEvent(Vector2 mousePosition)
         {
             bool didConnect = false;
-
-            Vector2 mousePosition = evt.mousePosition;
 
             // Reset the highlights.
             graphView.ports.ForEach((p) => {
@@ -358,6 +358,14 @@ namespace GraphProcessor
             compatiblePorts.Clear();
             Reset(didConnect);
         }
+
+#if UNITY_6000_0_58_OR_NEWER
+        public override bool HandlePointerDown(PointerDownEvent evt) => HandleMouseDownEvent(evt.position);
+
+        public override void HandlePointerMove(PointerMoveEvent evt) => HandleMouseMoveEvent((VisualElement)evt.target, evt.position, evt.localPosition);
+
+        public override void HandlePointerUp(PointerUpEvent evt) => HandleMouseUpEvent(evt.position);
+#endif
 
         Rect GetPortBounds(BaseNodeView nodeView, int index, List<PortView> portList)
         {

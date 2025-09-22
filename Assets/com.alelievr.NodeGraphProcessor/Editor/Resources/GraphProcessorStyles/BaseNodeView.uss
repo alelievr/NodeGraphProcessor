@@ -242,7 +242,7 @@ ParameterNodeView #controls EnumField > VisualElement > VisualElement {
     align-content: center;
 }
 
-#collapse-button:
+#collapse-button
 {
     width: 16px;
     height: 16px;

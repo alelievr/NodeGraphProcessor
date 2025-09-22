@@ -1,0 +1,221 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31390c44c9f3a3d40b424bf6821999a2, type: 3}
+  m_Name: CycleTest
+  m_EditorClassIdentifier: 
+  serializedNodes: []
+  nodes:
+  - id: 0
+  - id: 1
+  - id: 2
+  - id: 3
+  - id: 4
+  - id: 5
+  - id: 6
+  edges:
+  - GUID: 2bb2c320-a55d-4b23-841e-b8aba69b2e11
+    owner: {fileID: 11400000}
+    inputNodeGUID: 21f662be-bf13-42f9-ad9b-31b04ea42fe2
+    outputNodeGUID: 1739adca-36aa-463c-9c68-91e09886a730
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: d7473e20-01c0-4810-9c95-5a3a2634225c
+    owner: {fileID: 11400000}
+    inputNodeGUID: 1739adca-36aa-463c-9c68-91e09886a730
+    outputNodeGUID: 2f089938-d30d-4bd9-9857-de6a5801e62b
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 65b56170-a8f9-4bf5-b2b9-5d38e9f5711f
+    owner: {fileID: 11400000}
+    inputNodeGUID: 2f089938-d30d-4bd9-9857-de6a5801e62b
+    outputNodeGUID: 21f662be-bf13-42f9-ad9b-31b04ea42fe2
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 9067cb08-095a-4f31-8bc0-77789d68414d
+    owner: {fileID: 11400000}
+    inputNodeGUID: 99c74fae-5055-4e73-a5b0-d3fe92433345
+    outputNodeGUID: 26ee6fe3-fb0f-4db4-a564-72696588cca4
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 6a277b46-ebc2-4b91-aba2-e41fb76fffd4
+    owner: {fileID: 11400000}
+    inputNodeGUID: 89fc8a9b-018b-4db5-b97c-4f10c0b45545
+    outputNodeGUID: 99c74fae-5055-4e73-a5b0-d3fe92433345
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  - GUID: 9cda34ab-e25f-4e40-987b-28f16f36c227
+    owner: {fileID: 11400000}
+    inputNodeGUID: 0f0a50d4-cae8-48ae-ae48-f8c15420b14a
+    outputNodeGUID: 89fc8a9b-018b-4db5-b97c-4f10c0b45545
+    inputFieldName: input
+    outputFieldName: output
+    inputPortIdentifier: 
+    outputPortIdentifier: 
+  groups: []
+  stackNodes: []
+  pinnedElements:
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 58
+      width: 150
+      height: 200
+    opened: 0
+    editorType:
+      serializedType: GraphProcessor.ExposedParameterView, com.alelievr.NodeGraphProcessor.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - position:
+      serializedVersion: 2
+      x: 0
+      y: 460
+      width: 150
+      height: 200
+    opened: 1
+    editorType:
+      serializedType: GraphProcessor.ProcessorView, com.alelievr.NodeGraphProcessor.Editor,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  exposedParameters: []
+  serializedParameterList: []
+  stickyNotes: []
+  position: {x: 65, y: 64, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  references:
+    version: 1
+    00000000:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: 
+        GUID: 2f089938-d30d-4bd9-9857-de6a5801e62b
+        computeOrder: -2
+        position:
+          serializedVersion: 2
+          x: 237
+          y: 148
+          width: 105
+          height: 101
+        expanded: 0
+        debug: 1
+        nodeLock: 0
+        output: 0
+        input: 0
+    00000001:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: 
+        GUID: 21f662be-bf13-42f9-ad9b-31b04ea42fe2
+        computeOrder: -2
+        position:
+          serializedVersion: 2
+          x: 588
+          y: 249
+          width: 118
+          height: 114
+        expanded: 0
+        debug: 1
+        nodeLock: 0
+        output: 0
+        input: 0
+    00000002:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: 
+        GUID: 1739adca-36aa-463c-9c68-91e09886a730
+        computeOrder: -2
+        position:
+          serializedVersion: 2
+          x: 357
+          y: 438
+          width: 105
+          height: 101
+        expanded: 0
+        debug: 1
+        nodeLock: 0
+        output: 0
+        input: 0
+    00000003:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: 
+        GUID: 26ee6fe3-fb0f-4db4-a564-72696588cca4
+        computeOrder: 0
+        position:
+          serializedVersion: 2
+          x: 585
+          y: 445
+          width: 113
+          height: 114
+        expanded: 0
+        debug: 1
+        nodeLock: 0
+        output: 0
+        input: 0
+    00000004:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: 
+        GUID: 99c74fae-5055-4e73-a5b0-d3fe92433345
+        computeOrder: 1
+        position:
+          serializedVersion: 2
+          x: 759
+          y: 371
+          width: 113
+          height: 114
+        expanded: 0
+        debug: 1
+        nodeLock: 0
+        output: 0
+        input: 0
+    00000005:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: 
+        GUID: 89fc8a9b-018b-4db5-b97c-4f10c0b45545
+        computeOrder: 2
+        position:
+          serializedVersion: 2
+          x: 906
+          y: 357
+          width: 105
+          height: 101
+        expanded: 0
+        debug: 1
+        nodeLock: 0
+        output: 0
+        input: 0
+    00000006:
+      type: {class: FloatNode, ns: , asm: Assembly-CSharp}
+      data:
+        nodeCustomName: 
+        GUID: 0f0a50d4-cae8-48ae-ae48-f8c15420b14a
+        computeOrder: 3
+        position:
+          serializedVersion: 2
+          x: 1084
+          y: 386
+          width: 100
+          height: 100
+        expanded: 0
+        debug: 1
+        nodeLock: 0
+        output: 0
+        input: 0

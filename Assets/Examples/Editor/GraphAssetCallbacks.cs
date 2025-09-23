@@ -9,7 +9,7 @@ using System.IO;
 public class GraphAssetCallbacks
 {
 	[MenuItem("Assets/Create/GraphProcessor", false, 10)]
-	public static void CreateGraphPorcessor()
+	public static void CreateGraphProcessor()
 	{
 		var graph = ScriptableObject.CreateInstance< BaseGraph >();
 		ProjectWindowUtil.CreateAsset(graph, "GraphProcessor.asset");

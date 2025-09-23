@@ -69,12 +69,12 @@ namespace GraphProcessor
 			return null;
         }
 
-		protected static void CreateDefaultNodeCSharpScritpt()
+		protected static void CreateDefaultNodeCSharpScript()
 		{
 			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(nodeTemplatePath, nodeBaseName);
 		}
 
-		protected static void CreateDefaultNodeViewCSharpScritpt()
+		protected static void CreateDefaultNodeViewCSharpScript()
 		{
 			ProjectWindowUtil.CreateScriptAssetFromTemplateFile(nodeViewTemplatePath, nodeViewBaseName);
 		}
